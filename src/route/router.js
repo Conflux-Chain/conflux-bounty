@@ -133,6 +133,7 @@ function Router() {
                 {...{
                   ...args,
                   submissionId: query.submissionId,
+                  from: query.from,
                 }}
               />
             );

@@ -163,7 +163,7 @@ class EditSolution extends Component {
             className={cx('materialize-textarea', {
               invalid: editSolution.descriptionErrMsg,
             })}
-            placeholder={i18nTxt('Describe your submission…')}
+            placeholder={i18nTxt('* Describe your submission…')}
           />
           {editSolution.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editSolution.descriptionErrMsg)}></span>}
 
@@ -229,7 +229,7 @@ class EditSolution extends Component {
                         id: `milestone-step-title-${index}`,
                         value: milest.title,
                         errMsg: i18nTxt(milest.titleErr),
-                        label: i18nTxt('Title'),
+                        label: i18nTxt('* Title'),
                         onChange: e => {
                           updateEditMileStone(
                             {
@@ -246,7 +246,7 @@ class EditSolution extends Component {
                         id: `milestone-step-desc${index}`,
                         value: milest.description,
                         errMsg: i18nTxt(milest.descriptionErr),
-                        label: i18nTxt('Specify details'),
+                        label: i18nTxt('* Specify details'),
                         onChange: e => {
                           updateEditMileStone(
                             {
@@ -263,7 +263,7 @@ class EditSolution extends Component {
                         id: `milestone-step-duration${index}`,
                         value: milest.duration,
                         errMsg: i18nTxt(milest.durationErr),
-                        label: i18nTxt('Expected days'),
+                        label: i18nTxt('* Expected days'),
                         placeHolder: i18nTxt('days'),
                         onChange: e => {
                           updateEditMileStone(
@@ -352,7 +352,7 @@ class EditSolution extends Component {
               errMsg: i18nTxt(editSolution.contactMessageErr),
               id: 'solution-contact',
               value: editSolution.contactMessage,
-              label: i18nTxt('Your preferred social network'),
+              label: i18nTxt('* Your preferred social network'),
               placeHolder: '',
               onChange: e => {
                 updateEdit({

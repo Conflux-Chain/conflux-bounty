@@ -141,6 +141,7 @@ export default {
   'Edit Bounty': '编辑赏金任务',
   Subject: '正文',
   Title: '标题',
+  '* Title': '* 标题',
   'Please describe the item you would like to create/improve, expected results, timeline, acceptance criterias, etc. To make the approval process easier, please clearly describe your Bounty':
     '描述赏金任务的具体内容，期望结果，时间节奏，验收标准等信息。为了提高审核通过的概率，请尽可能详细描述',
   None: '无',
@@ -152,6 +153,7 @@ export default {
     '描述期望的赏金奖励、分配方案或者其他信息（选填项，仅管理员可见）',
   'Conflux team can reach to you via': '管理员可以通过下列方式联系您',
   'Your preferred social network': '您的手机号、微信号或者邮箱',
+  '* Your preferred social network': '* 您的手机号、微信号或者邮箱',
   'I accept bounty': '同意 Conflux Bounty',
   Terms: '条款',
   and: '与',
@@ -225,13 +227,13 @@ export default {
   'Send Submission': '提交方案',
   'Edit Submission': '编辑方案',
   'Submission is ': '方案状态 ',
-  'Describe your submission…': '描述您的方案…',
+  '* Describe your submission…': '* 描述您的方案…',
   EXAMPLE: '举例',
   'ADD STEP': '增加步骤',
   'Send your advice on the Bounty …': '描述您对该赏金任务的建议（仅管理员可见）',
 
-  'Specify details': '请分步描述每个阶段的关键成果物',
-  'Expected days': '预计完成天数',
+  '* Specify details': '* 请分步描述每个阶段的关键成果物',
+  '* Expected days': '* 预计完成天数',
   'Remove this step': '移除该步骤',
   Congrats: '恭喜',
   'You’ve successfully sent a submission!': '您已经成功提交1个方案！',
@@ -365,4 +367,5 @@ export default {
   'Withdrawal Submitted': '提现请求已经提交',
   'You can check the details at below link': '您可以通过以下链接查看详细信息',
   'Hi,': '您好，',
+  'BACK TO CURRENT BOUNTY': '返回当前赏金任务',
 };
