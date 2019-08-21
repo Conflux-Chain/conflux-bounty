@@ -1,0 +1,32 @@
+# github action doc
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#example-scheduling-workflows-using-cron-syntax
+name: Run lint test and build
+
+on:
+  push:
+    branches: '*'
+  pull_request:
+    paths: '*'
+  schedule:
+    - cron: '0 10 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: yarn lint, test and build
+      run: |
+        yarn
+        yarn lint
+        yarn test
+        yarn build
