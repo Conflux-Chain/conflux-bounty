@@ -1,0 +1,126 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import * as actions from './action';
+import * as s from './commonStyle';
+import BackHeadDiv from '../../components/BackHeadDiv';
+import { BOUNTY_STATUS_ENUM } from '../../constants';
+import { fmtToDay, getStatus, auth, commonPropTypes, i18nTxt } from '../../utils';
+// import * as s2 from './commonStyle';
+class MyBounty extends Component {
+  constructor(...args) {
+    super(...args);
+    const { getMyBounty, myBounty, history, resetMy } = this.props;
+    if (!auth.loggedIn()) {
+      history.push('/signin');
+      return;
+    }
+
+    const getdata = () => {
+      getMyBounty(1);
+    };
+
+    if (history.action === 'PUSH') {
+      resetMy();
+      getdata();
+    } else if (myBounty.total === 0) {
+      getdata();
+    }
+    document.title = i18nTxt('My Bounties');
+  }
+
+  render() {
+    const { myBounty, getMyBounty, history } = this.props;
+    return (
+      <React.Fragment>
+        <BackHeadDiv onClick={() => history.push('/user-info')}>
+          <Link to="/user-info">{i18nTxt('My Account')}</Link>
+        </BackHeadDiv>
+        <s.MyBounSolunDiv>
+          <h1>{i18nTxt('My Bounties')}</h1>
+          <div className="my-bounty-list">
+            {myBounty.list.map(v => {
+              let rejectTips;
+              let rejectColor = {};
+              if (v.status === BOUNTY_STATUS_ENUM.PENDING) {
+                rejectTips = (
+                  <div className="reject-tips">
+                    <i className="material-icons dp48">info</i>
+                    <span className="reject-content">{v.redoMessage}</span>
+                    <Link to={`/edit-bounty?bountyId=${v.id}`}>
+                      <span>{i18nTxt('EDIT BOUNTY')}</span>
+                      <i className="material-icons dp48">chevron_right</i>
+                    </Link>
+                  </div>
+                );
+                rejectColor = {
+                  color: '#E76A25',
+                };
+              }
+
+              return (
+                <div className="my-bounty-item clearfix">
+                  <div className="item-head">
+                    <h5>{v.title}</h5>
+                    <Link className="item-link" to={`/view-bounty?bountyId=${v.id}`}>
+                      <span>{i18nTxt('VIEW MORE')}</span>
+                      <i className="material-icons dp48">chevron_right</i>
+                    </Link>
+                  </div>
+                  <div className="item-content">
+                    <span className="item-gray">{fmtToDay(v.updatedAt || v.createdAt)}</span>
+                    <span className="item-gray">{i18nTxt('status')}:</span>
+                    <span className="item-status" style={rejectColor}>
+                      {getStatus(v.status)}
+                    </span>
+                  </div>
+                  {rejectTips}
+                </div>
+              );
+            })}
+          </div>
+          <div className="show-more">
+            <button
+              onClick={() => {
+                if (myBounty.list.length < myBounty.total) {
+                  const nextPage = myBounty.page + 1;
+                  getMyBounty(nextPage);
+                }
+              }}
+              style={{
+                visibility: myBounty.total > myBounty.list.length ? 'visible' : 'hidden',
+              }}
+              className="btn waves-effect waves-light default"
+              type="button"
+            >
+              {i18nTxt('SHOW MORE')}
+            </button>
+          </div>
+        </s.MyBounSolunDiv>
+      </React.Fragment>
+    );
+  }
+}
+
+MyBounty.propTypes = {
+  myBounty: PropTypes.objectOf({
+    total: PropTypes.number,
+  }).isRequired,
+  // updateMy: PropTypes.func.isRequired,
+  getMyBounty: PropTypes.func.isRequired,
+  history: commonPropTypes.history.isRequired,
+  resetMy: PropTypes.func.isRequired,
+};
+
+function mapStateToProps(state) {
+  const { myBounty } = state.bounty;
+  return {
+    myBounty,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  actions
+)(MyBounty);

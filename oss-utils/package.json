@@ -1,0 +1,14 @@
+{
+  "name": "oss-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "./pack.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ali-oss": "^6.1.1"
+  }
+}
