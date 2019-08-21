@@ -1,0 +1,29 @@
+dist: bionic
+language: node_js
+node_js:
+  - 10
+  - 12
+
+cache: yarn
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - yarn
+  - yarn test
+
+after_script:
+  - ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $TRAVIS_TEST_RESULT
+
+notifications:
+  email:
+    # try use the default recipients
+    # recipients:
+    #   - yuqi@conflux-chain.org
+    #   - wenzhe@conflux-chain.org
+    #   - yuxiao@conflux-chain.org
+    on_success: change
+    on_failure: always
