@@ -47,6 +47,9 @@
     "trailingComma": "es5",
     "proseWrap": "always"
   },
+  "resolutions": {
+    "lodash.merge": "^4.6.2"
+  },
   "dependencies": {
     "@sentry/browser": "^5.5.0",
     "ali-oss": "^6.1.1",
