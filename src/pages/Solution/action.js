@@ -212,7 +212,7 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
           timeout: 3000,
         });
         setTimeout(() => {
-          history.push(`/create-submission-success?submissionId=${body.result.id}`);
+          history.push(`/create-submission-success?bountyId=${query.bountyId}&submissionId=${body.result.id}`);
         }, 600);
       });
     } else if (pageType === 'edit') {

@@ -85,6 +85,11 @@ const Wrapper = styled(StyledWrapper)`
       cursor: default;
     }
   }
+  .more-icon {
+    vertical-align: middle;
+    font-size: 14px;
+    color: rgb(216, 221, 223);
+  }
   .subject {
     font-weight: 500;
     margin-bottom: 20px;
@@ -194,15 +199,17 @@ class ViewSolution extends Component {
   render() {
     const { props } = this;
     const { history } = this.props;
-    const { sendLike, viewSolution, submissionId } = props;
+    const { sendLike, viewSolution, submissionId, from } = props;
 
     let curIndex = -1;
     let listDiv;
     if (viewSolution.solutionList.length > 1) {
-      listDiv = viewSolution.solutionList.map((solution, index) => {
+      listDiv = [];
+      viewSolution.solutionList.forEach((solution, index) => {
         if (solution.id === submissionId) {
           curIndex = index;
-          return <i className="solution-dot solution-dot-active"></i>;
+          listDiv.push(<i className="solution-dot solution-dot-active" data-solutionId={solution.id}></i>);
+          return;
         }
 
         const gotoCurSolution = () => {
@@ -211,8 +218,39 @@ class ViewSolution extends Component {
         };
         /* eslint jsx-a11y/no-static-element-interactions: 0 */
         /* eslint jsx-a11y/click-events-have-key-events: 0 */
-        return <i onClick={gotoCurSolution} className="solution-dot"></i>;
+        listDiv.push(<i onClick={gotoCurSolution} className="solution-dot" data-solutionId={solution.id}></i>);
       });
+    }
+
+    const maxShow = 22;
+    if (viewSolution.solutionList.length > maxShow && curIndex !== -1) {
+      const listNew = [<i className="solution-dot solution-dot-active"></i>];
+      let looping = true;
+      let beforeIndex = curIndex - 1;
+      let afterIndex = curIndex + 1;
+      while (looping) {
+        if (beforeIndex > 0) {
+          listNew.unshift(listDiv[beforeIndex]);
+          beforeIndex -= 1;
+        }
+
+        if (afterIndex < viewSolution.solutionList.length - 1) {
+          listNew.push(listDiv[afterIndex]);
+          afterIndex += 1;
+        }
+
+        if (listNew.length >= maxShow) {
+          looping = false;
+        }
+      }
+
+      if (beforeIndex > 0) {
+        listNew.unshift(<i className="more-icon material-icons dp48">more_horiz</i>);
+      }
+      if (afterIndex < viewSolution.solutionList.length - 1) {
+        listNew.push(<i className="more-icon material-icons dp48">more_horiz</i>);
+      }
+      listDiv = listNew;
     }
 
     return (
@@ -253,6 +291,9 @@ class ViewSolution extends Component {
 
           <div className="solution-head-list">
             {renderAny(() => {
+              if (from === 'mysubmission') {
+                return null;
+              }
               if (viewSolution.status === SOLUTION_STATUS_ENUM.PENDING) {
                 return null;
               }
@@ -318,6 +359,9 @@ class ViewSolution extends Component {
             </div>
 
             {renderAny(() => {
+              if (from === 'mysubmission') {
+                return null;
+              }
               if (curIndex === viewSolution.solutionList.length - 1 || curIndex === -1) {
                 return (
                   <img

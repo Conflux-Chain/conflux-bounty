@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 // import * as actions from './action';
 import { StyledWrapper } from '../../globalStyles/common';
 // import * as s from './commonStyle';
-import { i18nTxt } from '../../utils';
+import { i18nTxt, getQuery } from '../../utils';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -35,7 +35,15 @@ const Wrapper = styled(StyledWrapper)`
     display: flex;
     margin-top: 20px;
     align-items: center;
-    justify-content: center;
+    .btn {
+      flex: 1;
+      :hover {
+        text-decoration: none;
+      }
+    }
+    .btn:first-of-type {
+      margin-right: 20px;
+    }
   }
 `;
 
@@ -45,6 +53,7 @@ class BountySuccess extends Component {
     super(...args);
     const { update } = this.props;
     this.update = update;
+    this.query = getQuery();
   }
 
   render() {
@@ -63,7 +72,10 @@ class BountySuccess extends Component {
         <p>{i18nTxt('We are reviewing your submission. Approved bounty will be displayed on the home page.')}</p>
 
         <div className="btns">
-          <Link to="/" className="btn waves-effect waves-light primary" type="button">
+          <Link to={`/view-bounty?bountyId=${this.query.bountyId}`} className="btn waves-effect waves-light primary" type="button">
+            {i18nTxt('BACK TO CURRENT BOUNTY')}
+          </Link>
+          <Link to="/" className="btn default waves-effect waves-light" type="button">
             {i18nTxt('BACK HOME')}
           </Link>
         </div>
