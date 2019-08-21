@@ -1,0 +1,27 @@
+
+/*
+  custom materialize-css variables
+*/
+$fakevar: f;
+
+$secondary-color: #22B2D6;
+
+// $spinner-default-color: yellowgreen;
+$input-focus-color: $fakevar;
+$input-success-color: $fakevar;
+$input-error-color: $fakevar;
+$input-disabled-color: $fakevar;
+
+$link-color: #22B2D6;
+
+%custom-error-message {
+  content: attr(data-error);
+  color: #EC6057;
+}
+
+$dropdown-color: #3B3D3D;
+$dropdown-hover-bg-color:  #D8DDDF;
+
+$radio-empty-color: #BFC5C7;
+
+@import "~materialize-css/sass/materialize.scss"
