@@ -1,5 +1,7 @@
 <h1 align="center">Conflux Bounty</h1>
 
+[![Build Status](https://travis-ci.org/yqrashawn/conflux-bounty.svg?branch=dev)](https://travis-ci.org/yqrashawn/conflux-bounty)
+
 Source code of [Conflux Bounty Site](https://bounty.conflux-chain.org)   
 
 Conflux bounty is the site for community members to contribute to the conflux chain ecosystem, where valuable bits are exchanged and validated.

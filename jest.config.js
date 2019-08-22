@@ -12,6 +12,7 @@ module.exports = {
     '!src/globalStyles/*',
     '!src/*/*/Loadable.{js,jsx}',
   ],
+  coverageReporters: ['lcov', 'text'],
   coverageThreshold: {
     global: {
       // coverage needs to met to pass the test

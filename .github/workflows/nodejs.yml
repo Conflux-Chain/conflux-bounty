@@ -27,6 +27,4 @@ jobs:
     - name: yarn lint, test and build
       run: |
         yarn
-        yarn lint
         yarn test
-        yarn build
