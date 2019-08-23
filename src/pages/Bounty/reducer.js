@@ -53,6 +53,7 @@ const initMyBounty = {
   total: 0,
   page: 1,
   limit: 10,
+  activeTab: 'created',
   // filterBy: 'user_create',
 };
 

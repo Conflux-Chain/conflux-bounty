@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import cx from 'classnames';
 import * as actions from './action';
 import * as s from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
+import * as s2 from '../UserInfo/commonStyle';
 import { fmtToDay, getStatus, auth, commonPropTypes, i18nTxt } from '../../utils';
 // import * as s2 from './commonStyle';
 class MyBounty extends Component {
@@ -17,8 +19,8 @@ class MyBounty extends Component {
       return;
     }
 
-    const getdata = () => {
-      getMyBounty(1);
+    const getdata = async () => {
+      await getMyBounty(1);
     };
 
     if (history.action === 'PUSH') {
@@ -31,7 +33,7 @@ class MyBounty extends Component {
   }
 
   render() {
-    const { myBounty, getMyBounty, history } = this.props;
+    const { myBounty, getMyBounty, history, updateMy } = this.props;
     return (
       <React.Fragment>
         <BackHeadDiv onClick={() => history.push('/user-info')}>
@@ -39,6 +41,38 @@ class MyBounty extends Component {
         </BackHeadDiv>
         <s.MyBounSolunDiv>
           <h1>{i18nTxt('My Bounties')}</h1>
+
+          <s2.TabDiv>
+            <div className="tab-s">
+              <button
+                onClick={() => {
+                  updateMy({
+                    activeTab: 'created',
+                  });
+                }}
+                type="button"
+                className={cx('tab-item', {
+                  'tab-item-active': myBounty.activeTab === 'created',
+                })}
+              >
+                {i18nTxt('My.Created Bounty')}
+              </button>
+              <button
+                onClick={() => {
+                  updateMy({
+                    activeTab: 'joined',
+                  });
+                }}
+                type="button"
+                className={cx('tab-item', {
+                  'tab-item-active': myBounty.activeTab === 'joined',
+                })}
+              >
+                {i18nTxt('My.Involved Bounty')}
+              </button>
+            </div>
+          </s2.TabDiv>
+
           <div className="my-bounty-list">
             {myBounty.list.map(v => {
               let rejectTips;
@@ -107,7 +141,7 @@ MyBounty.propTypes = {
   myBounty: PropTypes.objectOf({
     total: PropTypes.number,
   }).isRequired,
-  // updateMy: PropTypes.func.isRequired,
+  updateMy: PropTypes.func.isRequired,
   getMyBounty: PropTypes.func.isRequired,
   history: commonPropTypes.history.isRequired,
   resetMy: PropTypes.func.isRequired,
