@@ -376,4 +376,6 @@ export default {
   'Nickname contains sensitive words, please re-enter': '昵称包含敏感词，请重新输入',
   'Nickname should only contain letters, digits and underscores': '昵称仅支持英文字母、数字、下划线组合',
   'Nickname should only contain no more than 30 characters': '昵称长度不能超过30个字符',
+  'My.Created Bounty': '我创建的',
+  'My.Involved Bounty': '我领取的',
 };
