@@ -364,31 +364,6 @@ class EditSolution extends Component {
           />
 
           <s.SubmitDiv>
-            <label>
-              <input
-                onChange={() => {
-                  updateEdit({
-                    agreeLicence: !editSolution.agreeLicence,
-                    agreeLicenceErr: '',
-                  });
-                }}
-                type="checkbox"
-                className="filled-in"
-                checked={editSolution.agreeLicence}
-              />
-              <span>
-                {i18nTxt('I accept bounty')}
-
-                <a target="/terms" href="/terms" style={{ marginLeft: 5, marginRight: 5 }}>
-                  {i18nTxt('Terms')}
-                </a>
-                {i18nTxt('and')}
-                <a target="/policy" href="/policy" style={{ marginLeft: 5, marginRight: 5 }}>
-                  {i18nTxt('Policy')}
-                </a>
-                {i18nTxt('of Conflux Bounty')}
-              </span>
-            </label>
             <button
               onClick={() => {
                 doSubmit({ pageType, history });
@@ -399,7 +374,6 @@ class EditSolution extends Component {
               {i18nTxt('SUBMIT')}
             </button>
           </s.SubmitDiv>
-          {editSolution.agreeLicenceErr && <span className="helper-text form-err-msg">{i18nTxt(editSolution.agreeLicenceErr)}</span>}
         </Wrapper>
 
         <ConfirmComp

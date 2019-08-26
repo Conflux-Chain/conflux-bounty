@@ -20,9 +20,6 @@ const initEditState = {
   contactMessage: '',
   contactMessageErr: '',
 
-  agreeLicence: false,
-  agreeLicenceErr: '',
-
   descExampleShow: false,
   privateMsgExampleShow: false,
 

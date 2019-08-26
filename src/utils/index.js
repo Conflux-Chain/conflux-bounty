@@ -96,6 +96,13 @@ export const sendRequest = config => {
           case 503:
             content = 'app.comp.toast.error.3';
             break;
+          case 4004: {
+            const tips = i18nTxt(
+              'The number of Submissions you submit exceeds the maximum number of Submissions that can be submitted by a single user in this Bounty.'
+            );
+            $notice.show({ content: tips, type: 'message-error-light', timeout: 7000 });
+            return;
+          }
           default:
             content = 'server error';
         }
@@ -279,8 +286,8 @@ export const uploadFileOss = (key, file) => {
     .catch(e => {
       console.log(e);
       notice.show({
-        type: 'message-error',
-        content: 'message-error',
+        type: 'message-error-light',
+        content: e.message || 'upload failed',
         timeout: 3000,
       });
     })
@@ -308,7 +315,7 @@ export const auth = {
         if (auth.expireShow === false) {
           auth.expireShow = true;
           notice.show({
-            type: 'message-important',
+            type: 'message-error-light',
             content: i18nTxt('login expired, please sign in again'),
             timeout: 3000,
           });
@@ -557,7 +564,7 @@ export function timeSince(date) {
 export function checkFileSize(size) {
   if (size > 50 * 1024 * 1024) {
     notice.show({
-      type: 'message-notice',
+      type: 'message-error-light',
       content: i18n('file shold not larger than 50M'),
       timeout: 3000,
     });
