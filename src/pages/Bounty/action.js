@@ -244,6 +244,23 @@ export const getMyBounty = reqPage => (dispatch, getState) => {
   });
 };
 
+export const getMyJoinedBounty = reqPage => (dispatch, getState) => {
+  const { myBounty } = getState().bounty;
+  return reqMyBounty({
+    page: reqPage,
+    limit: myBounty.joinedLimit,
+    filterBy: 'user_create_submission',
+  }).then(body => {
+    dispatch(
+      updateMy({
+        joinedPage: reqPage,
+        joinedlist: myBounty.joinedlist.concat(body.result.list),
+        joinedTotal: body.result.total,
+      })
+    );
+  });
+};
+
 // view bounty
 export const UPDATE_VIEW = 'bounty-view/UPDATE_VIEW';
 export const RESET_VIEW = 'bounty-view/RESET_VIEW';
