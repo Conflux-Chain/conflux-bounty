@@ -368,4 +368,6 @@ export default {
   'You can check the details at below link': '您可以通过以下链接查看详细信息',
   'Hi,': '您好，',
   'BACK TO CURRENT BOUNTY': '返回当前赏金任务',
+  'The number of Submissions you submit exceeds the maximum number of Submissions that can be submitted by a single user in this Bounty.':
+    '您提交的方案数量超过该赏金任务中单个用户的可提交方案数量上限。',
 };

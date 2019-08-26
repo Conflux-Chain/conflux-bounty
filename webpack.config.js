@@ -74,6 +74,11 @@ const cdnModules = [
     var: 'ReactRedux',
     path: 'dist/react-redux.min.js',
   },
+  {
+    name: 'intl',
+    var: 'Intl',
+    path: 'dist/Intl.min.js',
+  },
 ];
 function cpFile(inFilePath, outFilePath) {
   return new Promise((resolve, reject) => {

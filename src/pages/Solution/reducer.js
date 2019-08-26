@@ -25,9 +25,6 @@ const initEditState = {
   attachmentList: [],
   attachmentListCopy: [],
 
-  agreeLicence: false,
-  agreeLicenceErr: '',
-
   milestoneList: [
     // {
     //   title: '',

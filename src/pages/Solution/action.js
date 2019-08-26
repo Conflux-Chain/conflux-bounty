@@ -41,7 +41,7 @@ export function updateEditMileStone(d, index) {
 export const getBounty = bountyId => (dispatch, getState) => {
   if (!bountyId) {
     utils.notice.show({
-      type: 'message-error',
+      type: 'message-error-light',
       content: utils.i18nTxt('please provide bountyId'),
       timeout: 100 * 1000,
     });
@@ -125,7 +125,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
   const errs = {
     descriptionErrMsg: '',
     contactMessageErr: '',
-    agreeLicenceErr: '',
   };
 
   const pairs = {
@@ -141,11 +140,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       errs[pairs[key]] = ERR_MSG.NOT_BLANK;
     }
   });
-
-  if (isEmpty(editSolution.agreeLicence)) {
-    valid = false;
-    errs.agreeLicenceErr = ERR_MSG.AGREE_LICENCE;
-  }
 
   const milestoneList = editSolution.milestoneList.map(v => {
     const milest = { ...v };
@@ -219,7 +213,7 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       if (editSolution.status === SOLUTION_STATUS_ENUM.REVIEWING) {
         // todo other status
         utils.notice.show({
-          type: 'message-utils.notice',
+          type: 'message-error-light',
           content: utils.i18nTxt('submission is already reviewing'),
           timeout: 3000,
         });
@@ -482,7 +476,7 @@ export const getMileStone = () => dispatch => {
   const { submissionId } = utils.getQuery();
   if (!submissionId) {
     utils.notice.show({
-      type: 'message-error',
+      type: 'message-error-light',
       content: utils.i18nTxt('please provide submissionId'),
       timeout: 100 * 1000,
     });
