@@ -14,7 +14,7 @@ import imgMySolutions from '../../assets/iconfont/my-solutions.svg';
 import imgMyLikes from '../../assets/iconfont/my-likes.svg';
 import imgInviteFriends from '../../assets/iconfont/invite-friends.svg';
 import imgSettings from '../../assets/iconfont/settings.svg';
-import imgDefaultAvatar from '../../assets/images/default_avatar.svg';
+import imgDefaultAvatar from '../../assets/iconfont/default-avatar.svg';
 
 import { i18nTxt, auth, commonPropTypes, encodeImgKey, genImgUrlFromName, getMd5, uploadFileOss } from '../../utils';
 import { reqUserUpdate, reqLogout } from '../../utils/api';

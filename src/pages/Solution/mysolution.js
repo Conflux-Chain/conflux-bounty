@@ -103,7 +103,7 @@ class MySolution extends Component {
                 <div className="my-bounty-item clearfix">
                   <div className="item-head">
                     <h5>{v.title}</h5>
-                    <Link className="item-link" to={`/view-submission?submissionId=${v.id}`}>
+                    <Link className="item-link" to={`/view-submission?submissionId=${v.id}&from=mysubmission`}>
                       <span>{i18nTxt('VIEW MORE')}</span>
                       <i className="material-icons dp48">chevron_right</i>
                     </Link>

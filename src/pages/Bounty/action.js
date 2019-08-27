@@ -37,7 +37,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
     l2ErrMsg: '',
     descriptionErrMsg: '',
     contactMessageErr: '',
-    agreeLicenceErr: '',
   };
 
   const isEmpty = val => {
@@ -66,11 +65,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       errs[pairs[key]] = ERR_MSG.NOT_BLANK;
     }
   });
-
-  if (isEmpty(editBounty.agreeLicence)) {
-    valid = false;
-    errs.agreeLicenceErr = ERR_MSG.AGREE_LICENCE;
-  }
 
   if (editBounty.contactMessage.length > 200) {
     valid = false;
@@ -115,7 +109,7 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       if (editBounty.status === BOUNTY_STATUS_ENUM.REVIEWING) {
         // todo other status
         utils.notice.show({
-          type: 'message-notice',
+          type: 'message-error-light',
           content: utils.i18nTxt('bounty is reviewing'),
           timeout: 3000,
         });
@@ -195,7 +189,7 @@ export const getBounty = () => dispatch => {
   const query = utils.getQuery();
   if (!query.bountyId) {
     utils.notice.show({
-      type: 'message-error',
+      type: 'message-error-light',
       content: utils.i18nTxt('please provide bountyId'),
       timeout: 100 * 1000,
     });
@@ -270,7 +264,7 @@ export const getBountyView = () => dispatch => {
   const query = utils.getQuery();
   if (!query.bountyId) {
     utils.notice.show({
-      type: 'message-error',
+      type: 'message-error-light',
       content: utils.i18nTxt('please provide bountyId'),
       timeout: 100 * 1000,
     });
@@ -292,7 +286,7 @@ export const getLike = () => dispatch => {
   const query = utils.getQuery();
   if (!query.bountyId) {
     utils.notice.show({
-      type: 'message-error',
+      type: 'message-error-light',
       content: utils.i18nTxt('please provide bountyId'),
       timeout: 100 * 1000,
     });
@@ -316,7 +310,7 @@ export const getLike = () => dispatch => {
 export const sendLike = type => dispatch => {
   if (utils.auth.loggedIn() === false) {
     utils.notice.show({
-      type: 'message-notice',
+      type: 'message-error-light',
       content: utils.i18nTxt('please login first'),
       timeout: 3 * 1000,
     });

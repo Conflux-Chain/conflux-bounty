@@ -163,7 +163,7 @@ class EditSolution extends Component {
             className={cx('materialize-textarea', {
               invalid: editSolution.descriptionErrMsg,
             })}
-            placeholder={i18nTxt('Describe your submission…')}
+            placeholder={i18nTxt('* Describe your submission…')}
           />
           {editSolution.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editSolution.descriptionErrMsg)}></span>}
 
@@ -229,7 +229,7 @@ class EditSolution extends Component {
                         id: `milestone-step-title-${index}`,
                         value: milest.title,
                         errMsg: i18nTxt(milest.titleErr),
-                        label: i18nTxt('Title'),
+                        label: i18nTxt('* Title'),
                         onChange: e => {
                           updateEditMileStone(
                             {
@@ -246,7 +246,7 @@ class EditSolution extends Component {
                         id: `milestone-step-desc${index}`,
                         value: milest.description,
                         errMsg: i18nTxt(milest.descriptionErr),
-                        label: i18nTxt('Specify details'),
+                        label: i18nTxt('* Specify details'),
                         onChange: e => {
                           updateEditMileStone(
                             {
@@ -263,7 +263,7 @@ class EditSolution extends Component {
                         id: `milestone-step-duration${index}`,
                         value: milest.duration,
                         errMsg: i18nTxt(milest.durationErr),
-                        label: i18nTxt('Expected days'),
+                        label: i18nTxt('* Expected days'),
                         placeHolder: i18nTxt('days'),
                         onChange: e => {
                           updateEditMileStone(
@@ -352,7 +352,7 @@ class EditSolution extends Component {
               errMsg: i18nTxt(editSolution.contactMessageErr),
               id: 'solution-contact',
               value: editSolution.contactMessage,
-              label: i18nTxt('Your preferred social network'),
+              label: i18nTxt('* Your preferred social network'),
               placeHolder: '',
               onChange: e => {
                 updateEdit({
@@ -364,31 +364,6 @@ class EditSolution extends Component {
           />
 
           <s.SubmitDiv>
-            <label>
-              <input
-                onChange={() => {
-                  updateEdit({
-                    agreeLicence: !editSolution.agreeLicence,
-                    agreeLicenceErr: '',
-                  });
-                }}
-                type="checkbox"
-                className="filled-in"
-                checked={editSolution.agreeLicence}
-              />
-              <span>
-                {i18nTxt('I accept bounty')}
-
-                <a target="/terms" href="/terms" style={{ marginLeft: 5, marginRight: 5 }}>
-                  {i18nTxt('Terms')}
-                </a>
-                {i18nTxt('and')}
-                <a target="/policy" href="/policy" style={{ marginLeft: 5, marginRight: 5 }}>
-                  {i18nTxt('Policy')}
-                </a>
-                {i18nTxt('of Conflux Bounty')}
-              </span>
-            </label>
             <button
               onClick={() => {
                 doSubmit({ pageType, history });
@@ -399,7 +374,6 @@ class EditSolution extends Component {
               {i18nTxt('SUBMIT')}
             </button>
           </s.SubmitDiv>
-          {editSolution.agreeLicenceErr && <span className="helper-text form-err-msg">{i18nTxt(editSolution.agreeLicenceErr)}</span>}
         </Wrapper>
 
         <ConfirmComp
