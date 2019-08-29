@@ -10,8 +10,9 @@ export default {
   ONGOING: '进行中',
   FINISHED: '已完成',
   Category: '一级分类',
+  '* Category': '* 一级分类',
   Subcategory: '二级分类',
-  SubCategory: '二级分类',
+  '* Subcategory': '* 二级分类',
   All: '全部',
   Technology: '技术',
   Tech: '技术',
@@ -142,15 +143,15 @@ export default {
   Subject: '正文',
   Title: '标题',
   '* Title': '* 标题',
-  'Please describe the item you would like to create/improve, expected results, timeline, acceptance criterias, etc. To make the approval process easier, please clearly describe your Bounty':
-    '描述赏金任务的具体内容，期望结果，时间节奏，验收标准等信息。为了提高审核通过的概率，请尽可能详细描述',
+  '* Please describe the item you would like to create/improve, expected results, timeline, acceptance criterias, etc. To make the approval process easier, please clearly describe your Bounty':
+    '* 描述赏金任务的具体内容，期望结果，时间节奏，验收标准等信息。为了提高审核通过的概率，请尽可能详细描述',
   None: '无',
 
   Attachments: '附件',
   Example: '举例',
   'Private message': '私信',
-  'Describe bounty rewards, distribution and other private messages solely to conflux team (Optional)…':
-    '描述期望的赏金奖励、分配方案或者其他信息（选填项，仅管理员可见）',
+  '* Describe bounty rewards, distribution and other private messages solely to conflux team (Optional)…':
+    '* 描述期望的赏金奖励、分配方案或者其他信息（选填项，仅管理员可见）',
   'Conflux team can reach to you via': '管理员可以通过下列方式联系您',
   'Your preferred social network': '您的手机号、微信号或者邮箱',
   '* Your preferred social network': '* 您的手机号、微信号或者邮箱',
