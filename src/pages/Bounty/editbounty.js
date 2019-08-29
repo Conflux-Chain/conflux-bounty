@@ -134,7 +134,7 @@ class EditBounty extends Component {
               errMsg: i18nTxt(editState.titleErrMsg),
               id: 'bounty-title',
               value: editState.title,
-              label: i18nTxt('Title'),
+              label: i18nTxt('* Title'),
               placeHolder: '',
               onChange: e => {
                 updateEdit({
@@ -149,7 +149,7 @@ class EditBounty extends Component {
           <div className="category-wrap-select">
             <Select
               {...{
-                label: i18nTxt('Category'),
+                label: i18nTxt('* Category'),
                 onSelect: v => {
                   updateEdit({
                     categoryL1Id: v.value,
@@ -167,7 +167,7 @@ class EditBounty extends Component {
           <div className="category-wrap-select">
             <Select
               {...{
-                label: i18nTxt('Subcategory'),
+                label: i18nTxt('* Subcategory'),
                 onSelect: v => {
                   updateEdit({
                     categoryL2Id: v.value,
@@ -188,7 +188,7 @@ class EditBounty extends Component {
           value={editState.description}
           className={`materialize-textarea ${editState.descriptionErrMsg ? 'invalid' : ''}`}
           placeholder={i18nTxt(
-            'Please describe the item you would like to create/improve, expected results, timeline, acceptance criterias, etc. To make the approval process easier, please clearly describe your Bounty'
+            '* Please describe the item you would like to create/improve, expected results, timeline, acceptance criterias, etc. To make the approval process easier, please clearly describe your Bounty'
           )}
           onChange={e => {
             updateEdit({
@@ -247,7 +247,7 @@ class EditBounty extends Component {
 
         <textarea
           className={`materialize-textarea ${editState.privateMessageErr ? 'invalid' : ''}`}
-          placeholder={i18nTxt('Describe bounty rewards, distribution and other private messages solely to conflux team (Optional)…')}
+          placeholder={i18nTxt('* Describe bounty rewards, distribution and other private messages solely to conflux team (Optional)…')}
           value={editState.privateMessage}
           onChange={e => {
             updateEdit({
