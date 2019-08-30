@@ -263,6 +263,7 @@ export const getSolution = () => dispatch => {
         }),
       })
     );
+    utils.resizeTextArea();
     return body;
   });
 };
