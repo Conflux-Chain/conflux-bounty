@@ -5,6 +5,7 @@ import uuidv1 from 'uuid/v1';
 import decode from 'jwt-decode';
 import qs from 'querystring';
 import moment from 'moment';
+import M from 'materialize-css';
 import React from 'react';
 import BMF from './bmf';
 
@@ -633,4 +634,10 @@ export function downLink(url, title) {
       {title}
     </a>
   );
+}
+
+export function resizeTextArea() {
+  document.querySelectorAll('.materialize-textarea ').forEach(elem => {
+    M.textareaAutoResize(elem);
+  });
 }
