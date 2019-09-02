@@ -15,7 +15,7 @@ pipeline {
 
   stages {
     stage('test') {
-      agent {label 'bounty-frontend-test-machine'}
+      agent {label 'bounty-backend-test-machine'}
       steps {
         script {
           sh (label: 'pre-build', script: "yarn")
@@ -35,7 +35,7 @@ pipeline {
               branch 'jenkins-pipeline'
             }
           }
-          agent {label 'bounty-frontend-test-machine'}
+          agent {label 'bounty-backend-test-machine'}
           steps {
             script {
               sh (label: 'pre-build', script: "yarn")
