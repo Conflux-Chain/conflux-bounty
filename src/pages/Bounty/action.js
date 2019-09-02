@@ -208,6 +208,7 @@ export const getBounty = () => dispatch => {
         }),
       })
     );
+    utils.resizeTextArea();
   });
 };
 

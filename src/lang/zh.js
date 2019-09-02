@@ -173,7 +173,7 @@ export default {
   'Edit bounty success': '编辑赏金任务成功',
   'Good job!': '恭喜！',
   'You’ve created a new bounty!': '您已经成功创建1个赏金任务!',
-  'Bounty edit submited': '赏金任务已提交审核',
+  'Bounty edit submited!': '赏金任务已提交审核!',
   'We are reviewing your submission.': '我们将尽快审核您的赏金任务。',
   'Approved bounty will be displayed on the home page.': '通过审核的赏金任务会展示在首页赏金任务列表中。',
   'Create Another Bounty': '创建另一个赏金任务',
