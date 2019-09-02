@@ -222,7 +222,7 @@ module.exports = {
           REWARD_STATUS_ENUM: appConst.REWARD.STATUS,
           WITHDRAWAL_STATUS_ENUM: appConst.WITHDRAWAL.STATUS,
         },
-        ALI_OSS_KEYS: JSON.parse(process.env.ALI_OSS_KEYS || '{}'),
+        ALI_OSS_KEYS: JSON.parse(process.env.JENKINS_ALI_OSS_KEYS || '{}'),
         /* eg:
 export ALI_OSS_KEYS=$(cat <<EOF
 {
