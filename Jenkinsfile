@@ -64,8 +64,8 @@ sudo cp -r dist /www/bounty/web/
             script {
               sh (label: 'pre-build', script: "yarn")
             }
-            withCredentials([string(credentialsId: 'ali-oss-key-prod', variable: 'ALI_OSS_KEYS')]) {
-              sh (label: 'build', script: "JENKINS_ALI_OSS_KEYS='$ALI_OSS_KEYS' yarn build")
+            withCredentials([file(credentialsId: 'ali-oss-prod-key', variable: 'ALI_OSS_PROD_KEY')]) {
+              sh (label: 'build', script: 'JENKINS_ALI_OSS_KEYS=$(cat $ALI_OSS_PROD_KEY) yarn build')
             }
             script {
               sh (label: 'move to nginx www', script: """
@@ -88,8 +88,8 @@ sudo cp -r dist /www/bounty/web/staging/
             script {
               sh (label: 'pre-build', script: "yarn")
             }
-            withCredentials([string(credentialsId: 'ali-oss-key-prod', variable: 'ALI_OSS_KEYS')]) {
-              sh (label: 'build', script: "JENKINS_ALI_OSS_KEYS='$ALI_OSS_KEYS' yarn build")
+            withCredentials([file(credentialsId: 'ali-oss-prod-key', variable: 'ALI_OSS_PROD_KEY')]) {
+              sh (label: 'build', script: 'JENKINS_ALI_OSS_KEYS=$(cat $ALI_OSS_PROD_KEY) yarn build')
             }
             script {
               sh (label: 'move to nginx www', script: """
