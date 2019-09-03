@@ -502,11 +502,15 @@ class Home extends Component {
             <div className="bounty-list-header">
               <div className="bounty-sort">
                 <button type="button" className="bounty-sort-item" onClick={() => this.onChangeSort('fansCoin')}>
-                  <span>{i18nTxt('Sort by Bounty')}</span>
+                  <span>{i18nTxt('Sort by Bounty Rewards')}</span>
                   <img src={sortImg} className="sorticon" alt="sorticon" />
                 </button>
                 <button type="button" className="bounty-sort-item" onClick={() => this.onChangeSort('time')}>
                   <span>{i18nTxt('Sort by Date')}</span>
+                  <img src={sortImg} className="sorticon" alt="sorticon" />
+                </button>
+                <button type="button" className="bounty-sort-item" onClick={() => this.onChangeSort('account')}>
+                  <span>{i18nTxt('Sort by Participants')}</span>
                   <img src={sortImg} className="sorticon" alt="sorticon" />
                 </button>
               </div>
