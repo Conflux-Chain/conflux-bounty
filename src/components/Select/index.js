@@ -77,6 +77,7 @@ class Select extends Component {
             label,
             placeHolder: '',
             errMsg,
+            type: 'button',
           }}
         />
         <ul

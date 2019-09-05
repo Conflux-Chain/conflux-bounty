@@ -111,6 +111,8 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 44px;
     padding-left: 12px;
     padding-right: 12px;
+    font-weight: bold;
+    align-item: center;
   }
 
   .trans-line {
@@ -198,8 +200,8 @@ class ViewSolution extends Component {
 
   render() {
     const { props } = this;
-    const { history } = this.props;
-    const { sendLike, viewSolution, submissionId, from } = props;
+    const { history, renderReward } = this.props;
+    const { sendLike, viewSolution, submissionId, from, headDiv } = props;
 
     let curIndex = -1;
     let listDiv;
@@ -253,11 +255,15 @@ class ViewSolution extends Component {
       listDiv = listNew;
     }
 
+    const hDiv = headDiv || (
+      <BackHeadDiv onClick={() => history.push(`/view-bounty?bountyId=${viewSolution.bountyId}`)}>
+        <span>{viewSolution.bounty && viewSolution.bounty.title}</span>
+      </BackHeadDiv>
+    );
+
     return (
       <React.Fragment>
-        <BackHeadDiv onClick={() => history.push(`/view-bounty?bountyId=${viewSolution.bountyId}`)}>
-          <span>{viewSolution.bounty && viewSolution.bounty.title}</span>
-        </BackHeadDiv>
+        {hDiv}
         <Wrapper>
           <div className="head">
             <h1>{i18nTxt('Submissions')}</h1>
@@ -271,7 +277,8 @@ class ViewSolution extends Component {
                   }}
                 >
                   <i className={cx('material-icons dp48', { like: viewSolution.isLike })}>grade</i>
-                  <span>{i18nTxt('Like')}</span>
+                  {viewSolution.likeNumber > 0 ? <span>{viewSolution.likeNumber}</span> : null}
+                  <span>{viewSolution.likeNumber > 1 ? i18nTxt('Likes') : i18nTxt('Like')}</span>
                 </button>
                 <button
                   type="button"
@@ -288,6 +295,8 @@ class ViewSolution extends Component {
               </s.LikeAndShare>
             </div>
           </div>
+
+          {renderReward()}
 
           <div className="solution-head-list">
             {renderAny(() => {
@@ -338,10 +347,20 @@ class ViewSolution extends Component {
                 if (viewSolution.status === SOLUTION_STATUS_ENUM.FINISHED && viewSolution.bounty.status === BOUNTY_STATUS_ENUM.FINISHED) {
                   return (
                     <span className="solution-user">
-                      <div> {viewSolution.user.nickname}</div>
+                      <div
+                        style={{
+                          fontWeight: 500,
+                          textAlign: 'left',
+                          color: '#171D1F',
+                          marginBottom: 5,
+                        }}
+                      >
+                        {' '}
+                        {viewSolution.user.nickname}
+                      </div>
                       <div className="solution-user-cfx">
                         <span>+{get(viewSolution, ['reward', 'fansCoin'], 0)}</span>
-                        <span style={{ fontSize: 16, marginLeft: 10 }}>FC</span>
+                        <span style={{ fontSize: 16, marginLeft: 3 }}>FC</span>
                       </div>
                     </span>
                   );
@@ -536,6 +555,11 @@ ViewSolution.propTypes = {
   common: PropTypes.objectOf({
     lang: PropTypes.string,
   }).isRequired,
+  renderReward: PropTypes.func,
+};
+
+ViewSolution.defaultProps = {
+  renderReward: () => {},
 };
 
 function mapStateToProps(state) {
