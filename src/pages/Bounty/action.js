@@ -36,7 +36,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
     l1ErrMsg: '',
     l2ErrMsg: '',
     descriptionErrMsg: '',
-    contactMessageErr: '',
   };
 
   const isEmpty = val => {
@@ -54,8 +53,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
     categoryL1Id: 'l1ErrMsg',
     categoryL2Id: 'l2ErrMsg',
     description: 'descriptionErrMsg',
-    contactMessage: 'contactMessageErr',
-    // agreeLicence: 'agreeLicenceErr',
   };
 
   let valid = true;
@@ -65,11 +62,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       errs[pairs[key]] = ERR_MSG.NOT_BLANK;
     }
   });
-
-  if (editBounty.contactMessage.length > 200) {
-    valid = false;
-    errs.contactMessageErr = ERR_MSG.NO_LARGE_THAN_200;
-  }
 
   dispatch(
     updateEdit({
@@ -85,7 +77,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       categoryId: editBounty.categoryL2Id,
       description: editBounty.description,
       privateMessage: editBounty.privateMessage,
-      contactMessage: editBounty.contactMessage,
     };
     if (!baseParam.privateMessage) {
       delete baseParam.privateMessage;
@@ -291,6 +282,7 @@ export const getBountyView = () => dispatch => {
   return dispatch(reqBountyQuery({ bountyId: query.bountyId })).then(body => {
     dispatch(
       updateView({
+        likeNumber: body.result.likeNumber || 0,
         cat1Name: get(body, 'result.categoryList.0.name'),
         cat2Name: get(body, 'result.categoryList.1.name'),
         ...body.result,
@@ -325,7 +317,7 @@ export const getLike = () => dispatch => {
   });
 };
 
-export const sendLike = type => dispatch => {
+export const sendLike = type => (dispatch, getState) => {
   if (utils.auth.loggedIn() === false) {
     utils.notice.show({
       type: 'message-error-light',
@@ -341,9 +333,11 @@ export const sendLike = type => dispatch => {
     type,
   }).then(body => {
     if (body.result.bountyId) {
+      const { viewBounty } = getState().bounty;
       dispatch(
         updateView({
           isLike: type === 'add',
+          likeNumber: type === 'add' ? viewBounty.likeNumber + 1 : viewBounty.likeNumber - 1,
         })
       );
     }

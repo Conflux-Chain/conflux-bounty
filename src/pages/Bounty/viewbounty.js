@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -9,12 +9,13 @@ import * as actions from './action';
 import { StyledWrapper, flexCenterMiddle } from '../../globalStyles/common';
 import * as s from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
-import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink } from '../../utils';
+import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink, renderAny } from '../../utils';
 import { getCategory } from '../../utils/api';
 import { updateShare } from '../../components/Share/action';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
+import ViewSolution from '../Solution/viewsolution';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -115,6 +116,24 @@ const Wrapper = styled(StyledWrapper)`
       margin: 0;
     }
   }
+  .comment-input-wrap {
+    display: flex;
+    border: 1px solid #BFC5C7;
+    border-radius: 4px;
+    margin-left: 12px;
+    flex: 1;
+    input {
+      border: none;
+      border-right: 1px solid #BFC5C7;
+      margin-bottom: 0;
+    }
+    button {
+      width: 100px;
+      font-size: 14px;
+      padding-left: 10px;
+      padding-right: 10px
+    }
+  }
   .img-wrap {
     width: 44px;
     height: 44px;
@@ -147,6 +166,32 @@ const Wrapper = styled(StyledWrapper)`
   .load-more-solution {
     margin-top: 20px;
     text-align: center;
+  }
+`;
+
+const RewardDiv = styled.div`
+  background: #4a9e81;
+  text-align: center;
+  display: block;
+  padding-bottom: 6px;
+  color: #fff;
+  border-radius: 2px;
+  margin-top: 20px;
+  font-weight: 600;
+
+  .line1 {
+    padding-top: 10px;
+    font-size: 14px;
+    line-height: 14px;
+    margin-bottom: 8px;
+  }
+  .line2 {
+    font-size: 16px;
+    .fcBig {
+      font-size: 24px;
+      line-height: 24px;
+      margin-right: 3px;
+    }
   }
 `;
 
@@ -183,6 +228,46 @@ class ViewBounty extends Component {
         <BackHeadDiv onClick={() => history.push('/')}>
           <Link to="/">{i18nTxt('Bounties')}</Link>
         </BackHeadDiv>
+
+        {renderAny(() => {
+          if (viewBounty.status === BOUNTY_STATUS_ENUM.FINISHED) {
+            const { rewardSubmissionList } = viewBounty;
+            if (rewardSubmissionList && rewardSubmissionList.length > 0) {
+              let maxFcSubmission = rewardSubmissionList[0];
+              rewardSubmissionList.forEach(v => {
+                if (v.reward) {
+                  if (v.reward.fansCoin > maxFcSubmission.reward.fansCoin) {
+                    maxFcSubmission = v;
+                  }
+                }
+              });
+              if (maxFcSubmission.reward) {
+                const renderReward = () => {
+                  return (
+                    <RewardDiv>
+                      <div className="line1">{i18nTxt('Total Bounty Reward')}</div>
+                      <div className="line2">
+                        <span className="fcBig">{viewBounty.totalRewardFansCoin}</span>
+                        <span>FC</span>
+                      </div>
+                    </RewardDiv>
+                  );
+                };
+
+                return (
+                  <ViewSolution
+                    renderReward={renderReward}
+                    headDiv={<Fragment></Fragment>}
+                    history={history}
+                    submissionId={maxFcSubmission.id}
+                  />
+                );
+              }
+            }
+          }
+          return null;
+        })}
+
         <Wrapper>
           <h1>{viewBounty.title}</h1>
           <div className="bounty-status">
@@ -271,7 +356,8 @@ class ViewBounty extends Component {
                 }}
               >
                 <i className={cx('material-icons dp48', { like: viewBounty.isLike })}>grade</i>
-                <span>{i18nTxt('Like')}</span>
+                {viewBounty.likeNumber > 0 ? <span>{viewBounty.likeNumber}</span> : null}
+                <span>{viewBounty.likeNumber > 1 ? i18nTxt('Likes') : i18nTxt('Like')}</span>
               </button>
               <button
                 type="button"
@@ -319,18 +405,21 @@ class ViewBounty extends Component {
               // }}
             >
               <PhotoImg imgSrc={user.photoUrl || UserBack} />
-              <textarea
-                className="materialize-textarea"
-                placeholder={i18nTxt('Leave comments …')}
-                value={viewBounty.commentText}
-                onChange={e => {
-                  updateView({
-                    commentText: e.target.value,
-                  });
-                }}
-                style={{ marginLeft: 12 }}
-                onKeyDown={e => {
-                  if (e.which === 13 && e.shiftKey === false) {
+              <div className="comment-input-wrap">
+                <input
+                  placeholder={i18nTxt('Leave comments …')}
+                  value={viewBounty.commentText}
+                  onChange={e => {
+                    updateView({
+                      commentText: e.target.value,
+                    });
+                  }}
+                  style={{ marginLeft: 12 }}
+                />
+                <button
+                  type="button"
+                  className="btn btnTextPrimary"
+                  onClick={() => {
                     if (!user.id) {
                       notice.show({
                         type: 'message-notice',
@@ -340,11 +429,11 @@ class ViewBounty extends Component {
                       return;
                     }
                     sendComment();
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }
-                }}
-              />
+                  }}
+                >
+                  {i18nTxt('viewbounty.COMMENT')}
+                </button>
+              </div>
             </div>
 
             <div style={{ marginTop: 20 }}>

@@ -366,6 +366,7 @@ export const getSolutionView = submissionId => (dispatch, getState) => {
         milestoneList: body.result.milestoneList.sort((a, b) => a.step - b.step),
         // fansCoin: body.result.fansCoin,
         reward: body.result.reward,
+        likeNumber: body.result.likeNumber,
       })
     );
 
@@ -407,7 +408,7 @@ export const freshSubmissionDesc = ({ submissionId, language }) => dispatch => {
   });
 };
 
-export const sendLike = (submissionId, type) => dispatch => {
+export const sendLike = (submissionId, type) => (dispatch, getState) => {
   if (utils.auth.loggedIn() === false) {
     utils.notice.show({
       type: 'message-notice',
@@ -421,9 +422,11 @@ export const sendLike = (submissionId, type) => dispatch => {
     type,
   }).then(body => {
     if (body.result.submissionId) {
+      const { viewSolution } = getState().solution;
       dispatch(
         updateView({
           isLike: type === 'add',
+          likeNumber: type === 'add' ? viewSolution.likeNumber + 1 : viewSolution.likeNumber - 1,
         })
       );
     }

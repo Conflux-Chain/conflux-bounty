@@ -72,9 +72,24 @@ class EditBounty extends Component {
     }
     if (pageType === 'edit') {
       getBounty();
-      document.title = i18nTxt('Edit Bounty');
+    }
+  }
+
+  componentDidMount() {
+    const { head, pageType } = this.props;
+    const updateHead = () => {
+      if (pageType === 'edit') {
+        document.title = i18nTxt('Edit Bounty');
+      } else {
+        document.title = i18nTxt('Create A New Bounty');
+      }
+    };
+    if (head.accountPromise) {
+      head.accountPromise.then(() => {
+        updateHead();
+      });
     } else {
-      document.title = i18nTxt('Create A New Bounty');
+      updateHead();
     }
   }
 
@@ -247,7 +262,9 @@ class EditBounty extends Component {
 
         <textarea
           className={`materialize-textarea ${editState.privateMessageErr ? 'invalid' : ''}`}
-          placeholder={i18nTxt('* Describe bounty rewards, distribution and other private messages solely to conflux team (Optional)…')}
+          placeholder={i18nTxt(
+            '* Describe bounty rewards, distribution solely to conflux team. And Your preferred social network account we can contact (Optional)…'
+          )}
           value={editState.privateMessage}
           onChange={e => {
             updateEdit({
@@ -272,24 +289,6 @@ class EditBounty extends Component {
             </s.ExampleDiv>
           </div>
         </div>
-
-        <div className="subject">{i18nTxt('Conflux team can reach to you via')}:</div>
-
-        <Input
-          {...{
-            errMsg: editState.contactMessageErr,
-            id: 'bounty-contact',
-            value: editState.contactMessage,
-            label: i18nTxt('Your preferred social network'),
-            placeHolder: '',
-            onChange: e => {
-              updateEdit({
-                contactMessage: e.target.value,
-                contactMessageErr: '',
-              });
-            },
-          }}
-        />
 
         <s.SubmitDiv>
           <button
@@ -339,7 +338,16 @@ class EditBounty extends Component {
             </button>
           }
           show={editState.privateMsgExampleShow}
-          content={i18n('bounty.faq.private')}
+          content={
+            <pre
+              style={{
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-all',
+              }}
+            >
+              {i18n('bounty.faq.private')}
+            </pre>
+          }
           title={i18nTxt('Private Message Example')}
           wrapStyle={{
             width: '400px',
@@ -371,6 +379,11 @@ EditBounty.propTypes = {
   clearEdit: PropTypes.func.isRequired,
   getBounty: PropTypes.func.isRequired,
   history: commonPropTypes.history.isRequired,
+  head: PropTypes.objectOf({
+    accountPromise: PropTypes.objectOf({
+      then: PropTypes.func.isRequired,
+    }),
+  }).isRequired,
 };
 
 function mapStateToProps(state) {
@@ -378,6 +391,7 @@ function mapStateToProps(state) {
     categoryL1List: state.common.categoryL1List,
     categoryMap: state.common.categoryMap,
     editState: state.bounty.editBounty,
+    head: state.head,
   };
 }
 

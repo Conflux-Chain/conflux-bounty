@@ -93,11 +93,11 @@ export const ExampleDiv = styled.div`
 
 export const SubmitDiv = styled.div`
   margin-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  overflow: auto;
   .btn {
     line-height: 40px;
+    float: right;
+    min-width: 80px;
   }
   > label {
     margin-top: 9px;

@@ -151,8 +151,8 @@ export default {
   Attachments: '附件',
   Example: '举例',
   'Private message': '私信',
-  '* Describe bounty rewards, distribution and other private messages solely to conflux team (Optional)…':
-    '* 描述期望的赏金奖励、分配方案或者其他信息（选填项，仅管理员可见）',
+  '* Describe bounty rewards, distribution solely to conflux team. And Your preferred social network account we can contact (Optional)…':
+    '* 描述期望的赏金奖励、分配方案, 以及您的有效联系方式或者其他信息（选填项，仅管理员可见）',
   'Conflux team can reach to you via': '管理员可以通过下列方式联系您',
   'Your preferred social network': '您的手机号、微信号或者邮箱',
   '* Your preferred social network': '* 您的手机号、微信号或者邮箱',
@@ -202,9 +202,11 @@ export default {
   Bounties: '赏金任务列表',
   Bounty: '赏金任务',
   Like: '喜欢',
+  Likes: '喜欢',
   Share: '分享',
   'Send my Submission': '提交方案',
   Comments: '评论',
+  'viewbounty.COMMENT': '发送',
   'Leave comments …': '发表评论…',
   'person win 1 bounty': '人胜出',
   'please login first': '请先登录',
@@ -335,7 +337,8 @@ export default {
     return import('./bounty.faq_zh.md');
   },
 
-  'bounty.faq.private': '建议：最多20个人能领取，每拉一个人（注册并完成至少一个任务）可获得10FC奖励，每个账号硬顶120FC（后期可调整）。',
+  'bounty.faq.private':
+    '建议：最多20个人能领取，每拉一个人（注册并完成至少一个任务）可获得10FC奖励，每个账号硬顶120FC（后期可调整）。\n微信账号: xxxxxx',
   'Private Message Example': '私信举例',
   'submission.example': '通过微博宣传吸引粉丝注册Conflux Bounty，预计可以产生1000名新注册用户。',
   'Submission Example': '方案举例',
@@ -379,4 +382,5 @@ export default {
   'Nickname should only contain no more than 30 characters': '昵称长度不能超过30个字符',
   'My.Created Bounty': '我创建的',
   'My.Involved Bounty': '我领取的',
+  'Total Bounty Reward': '总发放奖金',
 };
