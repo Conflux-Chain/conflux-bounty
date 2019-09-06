@@ -119,9 +119,18 @@ const Container = styled.div`
         &.open {
           color: #f0453a;
         }
-        .bounty-user {
+      }
+      .bounty-user {
+        font-size: 16px;
+        line-height: 16px;
+        display: flex;
+        > img {
+          margin-right: 4px;
+        }
+        > span {
           font-size: 16px;
           line-height: 16px;
+          color: #171d1f;
         }
       }
     }
@@ -129,7 +138,7 @@ const Container = styled.div`
 `;
 
 function HomeBounty(props) {
-  const { type, title, fansCoin, user, id, onClick } = props;
+  const { type, title, fansCoin, user, id, onClick, count, status } = props;
 
   if (type === 'create') {
     return (
@@ -156,10 +165,10 @@ function HomeBounty(props) {
           </span>
           <span className="bounty-user">
             <img src={team} alt="team" />
-            <span></span>
+            <span>{`${count} ${i18nTxt('Participants')}`}</span>
           </span>
         </span>
-        <BountyStatus status="Open" />
+        <BountyStatus status={status} />
       </div>
     </Container>
   );
@@ -171,8 +180,8 @@ HomeBounty.propTypes = {
   title: PropTypes.string.isRequired,
   fansCoin: PropTypes.number.isRequired,
   user: PropTypes.string.isRequired,
-  // count: PropTypes.number.isRequired,
-  // status: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

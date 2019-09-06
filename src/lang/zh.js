@@ -192,6 +192,7 @@ export default {
   Auditing: '验收中',
   'Final Auditing': '审批中',
   Expired: '已过期',
+  Participants: '人参与',
 
   'please provide bountyId': '没有bountyId',
   'View Bounty': '查看Bounty',

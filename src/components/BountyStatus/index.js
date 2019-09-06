@@ -49,6 +49,7 @@ const Container = styled.div`
       line-height: 12px;
       transform: translateX(-50%);
       top: 4px;
+      white-space: nowrap;
       &.bold {
         font-weight: 700;
       }
@@ -73,7 +74,7 @@ function BountyStatus(props) {
           }
           return (
             <div className="status-item">
-              <div className="status-point"></div>
+              <div className={classnames('status-point', { bold: status === item })}></div>
             </div>
           );
         })}
