@@ -5,6 +5,15 @@ import PropTypes from 'prop-types';
 const Basic = styled.span`
   vertical-align: middle;
   position: relative;
+  display: inline-block;
+  &:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 0px;
+    width: 100%;
+    height: 200%;
+  }
 
   .arrow {
     width: 8px;
@@ -47,6 +56,16 @@ const ToolTips = {
       transform: translateY(-30%) rotate(-90deg);
     }
     .tooltip-panel {
+      transform: translateY(-100%);
+    }
+  `,
+  downWithSpan: styled(Basic)`
+    .arrow {
+      bottom: 8px;
+      transform: translateY(100%) rotate(-90deg);
+    }
+    .tooltip-panel {
+      top: -10px;
       transform: translateY(-100%);
     }
   `,

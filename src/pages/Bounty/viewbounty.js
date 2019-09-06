@@ -16,6 +16,8 @@ import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
 import ViewSolution from '../Solution/viewsolution';
+import sortImg from '../../assets/iconfont/sort.svg';
+import Tooltip from '../../components/Tooltip';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -65,6 +67,42 @@ const Wrapper = styled(StyledWrapper)`
     white-space: pre-wrap;
     word-break: break-all;
   }
+  .submission-sort-wrap {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: -5px;
+  }
+  .submission-sort-item {
+    color: #8E9394;
+    cursor: pointer;
+    > span, > img {
+      vertical-align: middle;
+    }
+    > img {
+      margin-left: 5px;
+      height: 14px;
+    }
+    margin-right: 5px;
+  }
+  .solution-item-star {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    > i {
+      font-size: 17px;
+      margin-right: 2px;
+    }
+  }
+  .solution-item-desc {
+    padding-left: 8px;
+    color: #595F61;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    padding-right: 20px;
+  }
+
   .solution-list {
     margin-top: 12px;
   }
@@ -73,7 +111,7 @@ const Wrapper = styled(StyledWrapper)`
     height: 54px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    color: #8E9394;
     > a {
       color: #22b2d6;
       > i {
@@ -82,6 +120,31 @@ const Wrapper = styled(StyledWrapper)`
         vertical-align: text-bottom;
       }
     }
+  }
+  .solution-item-left {
+    > span {
+      vertical-align: middle;
+      color: #595F61;
+    }
+    .withimg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  .solution-item-descwrap {
+    flex: 1;
+    margin-left: 10px;
+    margin-right: 18px;
+    line-height: 20px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+   :hover {
+      background: #EBEDED;
+      border-radius: 4px;
+   }
+   > span {
+     width: 100%;
+   }
   }
   .solution-item:last-of-type {
     border-bottom: 1px solid #ebeded;
@@ -314,6 +377,17 @@ class ViewBounty extends Component {
           </s.H2>
 
           <div className="solution-list">
+            <div className="submission-sort-wrap">
+              <button type="button" className="submission-sort-item">
+                <span>{i18nTxt('Sort by Time')}</span>
+                <img src={sortImg} className="sorticon" alt="sorticon" />
+              </button>
+              <button type="button" className="submission-sort-item">
+                <span>{i18nTxt('Sort by Likes')}</span>
+                <img src={sortImg} className="sorticon" alt="sorticon" />
+              </button>
+            </div>
+
             {viewBounty.solutionList.map(solution => {
               return (
                 <div className="solution-item">
@@ -321,8 +395,20 @@ class ViewBounty extends Component {
                     <PhotoImg imgSrc={solution.user.photoUrl || UserBack} />
                     <span style={{ marginLeft: 10 }}>{solution.user.nickname}</span>
                   </div>
+
+                  <div className="solution-item-star">
+                    <i className={cx('material-icons dp48')}>grade</i>
+                    <span>{solution.likeNumber}</span>
+                  </div>
+
+                  <div className="solution-item-descwrap">
+                    <Tooltip direction="downWithSpan" tipSpan={<div className="solution-item-desc">{solution.description}</div>}>
+                      <div>{solution.description}</div>
+                    </Tooltip>
+                  </div>
+
                   <Link to={`/view-submission?submissionId=${solution.id}`}>
-                    <span>{i18nTxt('View more')}</span>
+                    <span>{i18nTxt('VIEW MORE')}</span>
                     <i className="material-icons dp48">chevron_right</i>
                   </Link>
                 </div>
