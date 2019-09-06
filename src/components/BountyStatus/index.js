@@ -23,7 +23,10 @@ const Container = styled.div`
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background-color: #171d1f;
+        background-color: #fff;
+        &.open {
+          background-color: #171d1f;
+        }
         &.bold {
           width: 8px;
           height: 8px;
@@ -32,7 +35,10 @@ const Container = styled.div`
       .status-line {
         width: 70px;
         height: 0px;
-        border: 1px solid #171d1f;
+        &.open {
+          border: 1px solid #171d1f;
+        }
+        border: 1px solid #fff;
       }
     }
   }
@@ -67,14 +73,14 @@ function BountyStatus(props) {
           if (index !== statusItems.length - 1) {
             return (
               <div className="status-item">
-                <div className={classnames('status-point', { bold: status === item })}></div>
-                <div className="status-line"></div>
+                <div className={classnames('status-point', { bold: status === item, open: status === 'Open' })}></div>
+                <div className={classnames('status-line', { open: status === 'Open' })}></div>
               </div>
             );
           }
           return (
             <div className="status-item">
-              <div className={classnames('status-point', { bold: status === item })}></div>
+              <div className={classnames('status-point', { bold: status === item, open: status === 'Open' })}></div>
             </div>
           );
         })}

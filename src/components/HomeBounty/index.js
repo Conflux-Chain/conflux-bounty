@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import logo from '../../assets/iconfont/bounty-logo.svg';
 import add from '../../assets/iconfont/bounty-add.svg';
 import team from '../../assets/iconfont/bounty-team.svg';
+import teamOpen from '../../assets/iconfont/bounty-team-open.svg';
 import BountyStatus from '../BountyStatus';
 import { toThousands, i18nTxt } from '../../utils';
 
@@ -130,7 +131,6 @@ const Container = styled.div`
         > span {
           font-size: 16px;
           line-height: 16px;
-          color: #171d1f;
         }
       }
     }
@@ -164,7 +164,7 @@ function HomeBounty(props) {
             {' FC'}
           </span>
           <span className="bounty-user">
-            <img src={team} alt="team" />
+            <img src={type === 'open' ? teamOpen : team} alt="team" />
             <span>{`${count} ${i18nTxt('Participants')}`}</span>
           </span>
         </span>
