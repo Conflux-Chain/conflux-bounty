@@ -16,7 +16,7 @@ export default {
     'Suggestion: Up to 20 people can receive, each person (registered and completed at least one task) can receive 10FC award, each account hard top 120FC (later adjustable) \nTelegram: xxxxx',
   'submission.example':
     'By attracting fans to sign up for Conflux Bounty through microblog publicity, it is expected to generate 1,000 new registered users.',
-  'My.Created Bounty': 'Created Bounty',
-  'My.Involved Bounty': 'Involved Bounty',
+  'My.Created Bounty': 'My Creation',
+  'My.Involved Bounty': 'My Participation',
   'viewbounty.COMMENT': 'COMMENT',
 };
