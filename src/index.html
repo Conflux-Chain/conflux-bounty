@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script>
+      window.CDN_PUBLIC_URL = '';
+      if (navigator.language.indexOf('zh') === 0) {
+        window.CDN_PUBLIC_URL = '<%= htmlWebpackPlugin.options.CDN_PUBLIC_URL %>';
+      }
+      function loadJs(url) {
+          const script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = url;
+          document.body.appendChild(script);
+      }
+    </script>
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Conflux Bounty</title>
@@ -9,7 +22,12 @@
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" type="image/png" href="logo-icon.png" />
     <% htmlWebpackPlugin.files.css.forEach((str) => { %>
-    <link href="<%= str %>" rel="stylesheet"></head>
+      <script>
+        (function() {
+          var linkRel = CDN_PUBLIC_URL + "<%= str %>";
+          document.write('<link href="' + linkRel + '" rel="stylesheet" />');
+        })();
+      </script>
     <% }); %>
   </head>
   <body ontouchstart="">
@@ -19,7 +37,9 @@
     <% if (str.indexOf('cdn.jsdelivr.net') !== -1) { %>
     <script src="<%= str %>" async onload="window.onVendorLoad && window.onVendorLoad()"></script>
     <% } else { %>
-    <script src="<%= str %>"></script>
+    <script>
+      loadJs(window.CDN_PUBLIC_URL + "<%= str %> ");
+    </script>
     <% }  %>
   <% }) %>
 
