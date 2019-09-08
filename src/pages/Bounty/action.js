@@ -29,6 +29,8 @@ export function clearEdit(d) {
   };
 }
 
+let lockSubmit = false;
+
 export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
   const { editBounty } = getState().bounty;
   const errs = {
@@ -82,6 +84,10 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       delete baseParam.privateMessage;
     }
     if (pageType === 'create') {
+      if (lockSubmit) {
+        return;
+      }
+      lockSubmit = true;
       const param = {
         ...baseParam,
         attachmentList: editBounty.attachmentList,
@@ -93,9 +99,14 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
           timeout: 3000,
         });
         setTimeout(() => {
+          lockSubmit = false;
           history.push(`/create-bounty-success?bountyId=${body.result.id}`);
         }, 600);
+      })
+      .catch(() => {
+        lockSubmit = false;
       });
+
     } else if (pageType === 'edit') {
       if (editBounty.status === BOUNTY_STATUS_ENUM.REVIEWING) {
         // todo other status
