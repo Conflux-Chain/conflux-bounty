@@ -192,6 +192,7 @@ export default {
   Auditing: '验收中',
   'Final Auditing': '审批中',
   Expired: '已过期',
+  Participants: '人参与',
 
   'please provide bountyId': '没有bountyId',
   'View Bounty': '查看Bounty',
@@ -371,4 +372,5 @@ export default {
   'BACK TO CURRENT BOUNTY': '返回当前赏金任务',
   'The number of Submissions you submit exceeds the maximum number of Submissions that can be submitted by a single user in this Bounty.':
     '您提交的方案数量超过该赏金任务中单个用户的可提交方案数量上限。',
+  'Remember me': '记住账号',
 };
