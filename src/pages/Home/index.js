@@ -251,6 +251,50 @@ SamplePrevArrow.defaultProps = {
   onClick: () => {},
 };
 
+function getType(status) {
+  let result = 'open';
+  switch (status) {
+    case 'OPEN':
+      result = 'open';
+      break;
+    case 'ONGOING':
+    case 'HAND_IN':
+    case 'AUDITING':
+      result = 'ongoing';
+      break;
+    case 'FINISHED':
+      result = 'finished';
+      break;
+    default:
+      result = 'open';
+  }
+  return result;
+}
+
+function getStatus(status) {
+  let result = 'Open';
+  switch (status) {
+    case 'OPEN':
+      result = 'Open';
+      break;
+    case 'ONGOING':
+      result = 'Ongoing';
+      break;
+    case 'HAND_IN':
+      result = 'Auditing';
+      break;
+    case 'AUDITING':
+      result = 'Final Auditing';
+      break;
+    case 'FINISHED':
+      result = 'Finished';
+      break;
+    default:
+      result = 'Open';
+  }
+  return result;
+}
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -321,28 +365,6 @@ class Home extends Component {
     history.push(`/view-bounty?bountyId=${id}`);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getType(status) {
-    let result = 'open';
-    switch (status) {
-      case 'OPEN':
-        result = 'open';
-        break;
-      case 'ONGOING':
-      case 'HAND_IN':
-      case 'AUDITING':
-        result = 'ongoing';
-        break;
-      case 'FINISHED':
-        result = 'finished';
-        break;
-      default:
-        result = 'open';
-    }
-    return result;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
   getBlankNum() {
     const { homeState } = this.props;
     const { bountyList, tag } = homeState;
@@ -426,7 +448,9 @@ class Home extends Component {
                   <HomeBounty
                     id={item.id}
                     key={item.id}
-                    type={this.getType(item.status)}
+                    type={getType(item.status)}
+                    status={getStatus(item.status)}
+                    count={item.submissionAccountNumber}
                     title={item.title}
                     user={item.user.nickname}
                     fansCoin={item.fansCoin}
@@ -442,7 +466,9 @@ class Home extends Component {
                   <HomeBounty
                     id={item.id}
                     key={item.id}
-                    type={this.getType(item.status)}
+                    type={getType(item.status)}
+                    status={getStatus(item.status)}
+                    count={item.submissionAccountNumber}
                     title={item.title}
                     user={item.user.nickname}
                     fansCoin={item.fansCoin}
@@ -522,7 +548,9 @@ class Home extends Component {
                 <HomeBounty
                   id={item.id}
                   key={item.id}
-                  type={this.getType(item.status)}
+                  type={getType(item.status)}
+                  status={getStatus(item.status)}
+                  count={item.submissionAccountNumber}
                   title={item.title}
                   user={item.user.nickname}
                   fansCoin={item.fansCoin}
