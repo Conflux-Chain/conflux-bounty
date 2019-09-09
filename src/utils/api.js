@@ -365,3 +365,18 @@ export const reqCreateNote = param => {
     body: param,
   }).then(res => res.body);
 };
+
+export const reqGetCheckInInfo = param => {
+  return sendRequest({
+    url: '/account/checkin/info',
+    body: param,
+  }).then(res => res.body);
+};
+
+export const reqSubmitCheckIn = param => {
+  return sendRequest({
+    url: '/account/checkin',
+    body: param,
+  }).then(res => res.body);
+};
+// 'api/account/checkin/info'

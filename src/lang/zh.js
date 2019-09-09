@@ -391,4 +391,11 @@ export default {
   'You can add additional contents to your submission.': '你可以在这里添加更多的方案内容',
   'Tell us what to be added to your submission...': '请输入方案添加内容',
   ADD: '添加',
+  'Check in is already disabled by admin': '签到功能已经关闭',
+  'Check in is fulled': '今日签到人数已满',
+  'You have already checked in today': '您今天已经签到过了',
+  'CHECK IN': '签到',
+  'Checked in': '已签到',
+  'Updates in': '下次更新在',
+  'You have checked in successfully.': '您今天已经成功签到',
 };
