@@ -380,4 +380,9 @@ export default {
   'Total Bounty Reward': '总发放奖金',
   'Sort by Time': '按创建时间排序',
   'Sort by Likes': '按点赞数量排序',
+  'Added Contents': '补充信息',
+  'Add additional contents': '补充信息内容',
+  'You can add additional contents to your submission.': '你可以在这里添加更多的方案内容',
+  'Tell us what to be added to your submission...': '请输入方案添加内容',
+  ADD: '添加',
 };
