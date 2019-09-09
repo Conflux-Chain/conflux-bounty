@@ -253,8 +253,9 @@ class ViewSolution extends Component {
     const { updateView, viewSolution, submitNote, user } = this.props;
     const { showEditNoteMsg } = viewSolution;
 
+    const inStatus = viewSolution.bounty.status === 'OPEN' || viewSolution.bounty.status === 'ONGOING';
     let AddSDiv;
-    if (user.id === viewSolution.user.id) {
+    if (user.id === viewSolution.user.id && inStatus) {
       AddSDiv = (
         <AddNoticeDiv>
           <span>{i18nTxt('You can add additional contents to your submission.')}</span>
@@ -277,6 +278,12 @@ class ViewSolution extends Component {
         showEditNoteMsg: false,
       });
     };
+
+    // const rejectReason = <div style={{ width: 600, margin: '0 auto', marginBottom: 40 }}>
+    //   <Message type="message-important-light">
+    //     qweqweqeqe
+    //   </Message>
+    // </div>
 
     const editNoteMsgDiv = (
       <ModalComp show onEsc={closeNotePanel}>
@@ -311,6 +318,7 @@ class ViewSolution extends Component {
 
     return (
       <Fragment>
+        {/* {rejectReason} */}
         {AddSDiv}
         {showEditNoteMsg && editNoteMsgDiv}
       </Fragment>
