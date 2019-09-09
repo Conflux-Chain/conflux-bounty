@@ -31,6 +31,7 @@ const initEditState = {
   attachmentListOrigin: [],
 
   redoMessage: '',
+  sortType: '',
 };
 
 function editBounty(state = initEditState, action) {

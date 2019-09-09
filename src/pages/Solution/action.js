@@ -129,7 +129,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
 
   const pairs = {
     description: 'descriptionErrMsg',
-    contactMessage: 'contactMessageErr',
     // agreeLicence: 'agreeLicenceErr',
   };
 
@@ -186,7 +185,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       bountyId: query.bountyId,
       description: editSolution.description,
       privateMessage: editSolution.privateMessage,
-      contactMessage: editSolution.contactMessage,
       milestoneList: milestoneList.map(v => {
         return {
           ...v,

@@ -378,11 +378,29 @@ class ViewBounty extends Component {
 
           <div className="solution-list">
             <div className="submission-sort-wrap">
-              <button type="button" className="submission-sort-item">
+              <button
+                onClick={() => {
+                  updateView({
+                    sortType: '',
+                  });
+                  getSolutionList(1);
+                }}
+                type="button"
+                className="submission-sort-item"
+              >
                 <span>{i18nTxt('Sort by Time')}</span>
                 <img src={sortImg} className="sorticon" alt="sorticon" />
               </button>
-              <button type="button" className="submission-sort-item">
+              <button
+                onClick={() => {
+                  updateView({
+                    sortType: 'like_desc',
+                  });
+                  getSolutionList(1);
+                }}
+                type="button"
+                className="submission-sort-item"
+              >
                 <span>{i18nTxt('Sort by Likes')}</span>
                 <img src={sortImg} className="sorticon" alt="sorticon" />
               </button>
