@@ -92,21 +92,21 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
         ...baseParam,
         attachmentList: editBounty.attachmentList,
       };
-      reqBountyCreate(param).then(body => {
-        utils.notice.show({
-          type: 'message-success',
-          content: utils.i18nTxt('create success'),
-          timeout: 3000,
-        });
-        setTimeout(() => {
+      reqBountyCreate(param)
+        .then(body => {
+          utils.notice.show({
+            type: 'message-success',
+            content: utils.i18nTxt('create success'),
+            timeout: 3000,
+          });
+          setTimeout(() => {
+            lockSubmit = false;
+            history.push(`/create-bounty-success?bountyId=${body.result.id}`);
+          }, 600);
+        })
+        .catch(() => {
           lockSubmit = false;
-          history.push(`/create-bounty-success?bountyId=${body.result.id}`);
-        }, 600);
-      })
-      .catch(() => {
-        lockSubmit = false;
-      });
-
+        });
     } else if (pageType === 'edit') {
       if (editBounty.status === BOUNTY_STATUS_ENUM.REVIEWING) {
         // todo other status
@@ -453,11 +453,18 @@ export const getSolutionList = page => (dispatch, getState) => {
       bountyId,
       page,
       limit: viewBounty.solutionPageLimit,
+      sort: viewBounty.sortType,
     })
   ).then(body => {
+    let solutionList;
+    if (page === 1) {
+      solutionList = body.result.list || [];
+    } else {
+      solutionList = viewBounty.solutionList.concat(body.result.list || []);
+    }
     dispatch(
       updateView({
-        solutionList: viewBounty.solutionList.concat(body.result.list || []),
+        solutionList,
         solutionTotal: body.result.total,
         solutionPage: page,
       })

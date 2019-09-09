@@ -233,7 +233,8 @@ export default {
   '* Describe your submission…': '* 描述您的方案…',
   EXAMPLE: '举例',
   'ADD STEP': '增加步骤',
-  'Send your advice on the Bounty …': '描述您对该赏金任务的建议（仅管理员可见）',
+  'Send your advice on the Bounty. And Your preferred social network account we can contact (For Admin only, Optional)…':
+    '描述您对该赏金任务的建议, 以及您的有效联系方式或者其他信息（选填项，仅管理员可见）',
 
   '* Specify details': '* 请分步描述每个阶段的关键成果物',
   '* Expected days': '* 预计完成天数',
@@ -377,4 +378,6 @@ export default {
   'My.Created Bounty': '我创建的',
   'My.Involved Bounty': '我领取的',
   'Total Bounty Reward': '总发放奖金',
+  'Sort by Time': '按创建时间排序',
+  'Sort by Likes': '按点赞数量排序',
 };
