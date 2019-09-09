@@ -18,12 +18,13 @@ import SignInVia from '../../components/SignInVia';
 class SignIn extends Component {
   constructor(...args) {
     super(...args);
-    const { email = '', history } = this.props;
+    const { email = localStorage.getItem('BOUNTY_USER_EMAIL'), history } = this.props;
 
     if (auth.loggedIn()) {
       history.replace('/');
     }
     this.state = {
+      rememberUsernameChecked: !!localStorage.getItem('BOUNTY_USER_EMAIL'),
       inputsValue: {
         email,
         password: '',
@@ -58,6 +59,7 @@ class SignIn extends Component {
   onSigninClick = async () => {
     const {
       inputsValue: { email, password },
+      rememberUsernameChecked,
     } = this.state;
 
     const {
@@ -78,6 +80,10 @@ class SignIn extends Component {
     }
 
     auth.setToken(result.accessToken);
+
+    if (rememberUsernameChecked) localStorage.setItem('BOUNTY_USER_EMAIL', email);
+    else localStorage.removeItem('BOUNTY_USER_EMAIL');
+
     const { history, dispatch } = this.props;
     dispatch(getAccount());
     history.push('/user-info');
@@ -85,6 +91,7 @@ class SignIn extends Component {
 
   render() {
     const {
+      rememberUsernameChecked,
       inputsValue: { email, password },
     } = this.state;
     return (
@@ -120,6 +127,17 @@ class SignIn extends Component {
                 />
               </div>
               <div className="btn-wrap-signup">
+                <label className="remember-me">
+                  <input
+                    type="checkbox"
+                    className="filled-in"
+                    checked={rememberUsernameChecked}
+                    onChange={e => {
+                      this.setState({ rememberUsernameChecked: e.target.checked });
+                    }}
+                  />
+                  <span> {i18nTxt('Remember me')}</span>
+                </label>
                 <button className="btn waves-effect waves-light primary" type="button" onClick={this.onSigninClick}>
                   {i18nTxt('SIGN IN')}
                 </button>
@@ -200,5 +218,14 @@ const Wrapper = styled(StyledWrapper)`
     justify-content: space-between;
     margin-top: 20px;
     width: 100%;
+  }
+  .remember-me {
+    margin-bottom: 9px;
+    align-self: self-start;
+    .span {
+      font-size: 14px;
+      line-height: 14px;
+      color: #595f61;
+    }
   }
 `;
