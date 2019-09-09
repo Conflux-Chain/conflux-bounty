@@ -358,3 +358,10 @@ export const reqCreateOrder = param => {
     body: param,
   }).then(res => res.body);
 };
+
+export const reqCreateNote = param => {
+  return sendRequest({
+    url: '/submission/note/create',
+    body: param,
+  }).then(res => res.body);
+};

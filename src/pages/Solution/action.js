@@ -11,6 +11,7 @@ import {
   reqCheckLike,
   reqUpdateMileStone,
   reqSolutionList,
+  reqCreateNote,
 } from '../../utils/api';
 
 export const UPDATE_EDIT = 'solution-edit/UPDATE';
@@ -365,6 +366,7 @@ export const getSolutionView = submissionId => (dispatch, getState) => {
         // fansCoin: body.result.fansCoin,
         reward: body.result.reward,
         likeNumber: body.result.likeNumber,
+        note: body.result.note,
       })
     );
 
@@ -588,4 +590,21 @@ export const submitMileStone = ({ milestoneId }) => (dispatch, getState) => {
       }
     });
   }
+};
+
+// reqCreateNote
+export const submitNote = () => (dispatch, getState) => {
+  const { viewSolution } = getState().solution;
+  const { submissionId } = utils.getQuery();
+
+  reqCreateNote({
+    submissionId,
+    description: viewSolution.addNoteTxt,
+  }).then(() => {
+    utils.notice.show({
+      type: 'message-success',
+      content: utils.i18nTxt('create success'),
+      timeout: 3000,
+    });
+  });
 };

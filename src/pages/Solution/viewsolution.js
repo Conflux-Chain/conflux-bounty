@@ -21,6 +21,7 @@ import { updateShare } from '../../components/Share/action';
 
 import { SOLUTION_STATUS_ENUM, MILESTONE_STATUS_ENUM, BOUNTY_STATUS_ENUM } from '../../constants';
 import dashedback from '../../assets/iconfont/background-dashed.svg';
+import ModalComp from '../../components/Modal';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -168,6 +169,56 @@ const Wrapper = styled(StyledWrapper)`
   }
 `;
 
+const AddNoticeDiv = styled.div`
+  width: 100%;
+  height: 60px;
+  background: #3b3d3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -40px;
+  margin-bottom: 40px;
+  > span {
+    color: #fff;
+    margin-right: 20px;
+  }
+`;
+
+const EditNotePanel = styled.div`
+  background: #fff;
+  box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 20px;
+  width: 400px;
+  position: relative;
+  h5 {
+    padding-top: 6px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 20px;
+    color: #171d1f;
+    padding-bottom: 20px;
+  }
+  textarea {
+    height: 200px;
+    margin-bottom: 20px;
+  }
+  > .btn {
+    width: 100%;
+  }
+  > .close {
+    position: absolute;
+    color: #8e9394;
+    font-weight: 500;
+    top: 23px;
+    right: 10px;
+    font-style: normal;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+  }
+`;
+
 // eslint-disable-next-line react/prefer-stateless-function
 class ViewSolution extends Component {
   constructor(...args) {
@@ -198,6 +249,74 @@ class ViewSolution extends Component {
       language: common.lang,
     });
   };
+
+  renderAddNote() {
+    const { updateView, viewSolution, submitNote, user } = this.props;
+    const { showEditNoteMsg } = viewSolution;
+
+    let AddSDiv;
+    if (user.id === viewSolution.user.id) {
+      AddSDiv = (
+        <AddNoticeDiv>
+          <span>{i18nTxt('You can add additional contents to your submission.')}</span>
+          <button
+            className="btn waves-effect waves-light primary"
+            type="button"
+            onClick={() => {
+              updateView({
+                showEditNoteMsg: true,
+              });
+            }}
+          >
+            {i18nTxt('ADD')}
+          </button>
+        </AddNoticeDiv>
+      );
+    }
+    const closeNotePanel = () => {
+      updateView({
+        showEditNoteMsg: false,
+      });
+    };
+
+    const editNoteMsgDiv = (
+      <ModalComp show onEsc={closeNotePanel}>
+        <EditNotePanel>
+          <button className="material-icons close" onClick={closeNotePanel} type="button">
+            close
+          </button>
+          <h5>{i18nTxt('Add additional contents')}</h5>
+          <div>
+            <textarea
+              className={cx('materialize-textarea')}
+              onChange={e => {
+                updateView({
+                  addNoteTxt: e.target.value,
+                });
+              }}
+              placeholder={i18nTxt('Tell us what to be added to your submission...')}
+            ></textarea>
+          </div>
+          <button
+            className="btn waves-effect waves-light primary"
+            type="button"
+            onClick={() => {
+              submitNote();
+            }}
+          >
+            {i18nTxt('SUBMIT')}
+          </button>
+        </EditNotePanel>
+      </ModalComp>
+    );
+
+    return (
+      <Fragment>
+        {AddSDiv}
+        {showEditNoteMsg && editNoteMsgDiv}
+      </Fragment>
+    );
+  }
 
   render() {
     const { props } = this;
@@ -264,6 +383,7 @@ class ViewSolution extends Component {
 
     return (
       <React.Fragment>
+        {this.renderAddNote()}
         {hDiv}
         <Wrapper>
           <div className="head">
@@ -449,6 +569,18 @@ class ViewSolution extends Component {
           </div>
 
           {renderAny(() => {
+            if (viewSolution.note && viewSolution.note.status === 'APPROVED') {
+              return (
+                <div>
+                  <div className="subject">{i18nTxt('Added Contents')}:</div>
+                  <div className="solution-detail">{viewSolution.note.description}</div>
+                </div>
+              );
+            }
+            return null;
+          })}
+
+          {renderAny(() => {
             let msgDiv;
             if (viewSolution.bounty.status === BOUNTY_STATUS_ENUM.AUDITING) {
               msgDiv = (
@@ -557,6 +689,15 @@ ViewSolution.propTypes = {
     lang: PropTypes.string,
   }).isRequired,
   renderReward: PropTypes.func,
+  viewSolution: PropTypes.objectOf({
+    user: PropTypes.objectOf({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+  submitNote: PropTypes.string.isRequired,
+  user: PropTypes.objectOf({
+    id: PropTypes.string,
+  }).isRequired,
 };
 
 ViewSolution.defaultProps = {
