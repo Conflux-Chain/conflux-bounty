@@ -122,9 +122,15 @@ const Wrapper = styled(StyledWrapper)`
     }
   }
   .solution-item-left {
+    flex-shrink: 0;
     > span {
       vertical-align: middle;
       color: #595F61;
+      max-width: 50px;
+      display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
     .withimg {
       width: 25px;
@@ -133,8 +139,8 @@ const Wrapper = styled(StyledWrapper)`
   }
   .solution-item-descwrap {
     flex: 1;
+    max-width: 300px;
     margin-left: 10px;
-    margin-right: 18px;
     line-height: 20px;
     padding-top: 3px;
     padding-bottom: 3px;

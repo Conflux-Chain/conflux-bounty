@@ -196,6 +196,7 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
     if (pageType === 'create') {
       const param = {
         ...baseParam,
+        contactMessage: 'a',
         attachmentList: editSolution.attachmentList,
       };
       reqSolutionCreate(param).then(body => {
@@ -606,5 +607,10 @@ export const submitNote = () => (dispatch, getState) => {
       content: utils.i18nTxt('create success'),
       timeout: 3000,
     });
+    dispatch(
+      updateView({
+        showEditNoteMsg: false,
+      })
+    );
   });
 };
