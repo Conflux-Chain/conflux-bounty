@@ -16,26 +16,34 @@ export const checkinEnum = {
   alreadyChecked: 3,
 };
 
+export const startCountDown = () => (dispatch, getState) => {
+  setInterval(() => {
+    const { checkinRemainingTime } = getState().common;
+    dispatch(
+      update({
+        checkinRemainingTime: checkinRemainingTime - 1,
+      })
+    );
+  }, 1000 * 60);
+};
+
 export const getCheckInInfo = () => dispatch => {
   reqGetCheckInInfo().then(body => {
     dispatch(
       update({
         checkinStatus: body.result.status,
-        checkinRemainingTime: body.result.checkinRemainingTime,
+        checkinRemainingTime: body.result.remainingTime,
       })
     );
+
+    if (body.result.status === checkinEnum.alreadyChecked && body.result.remainingTime) {
+      dispatch(startCountDown());
+    }
   });
 };
 
 export const submitCheckIn = () => dispatch => {
   reqSubmitCheckIn().then(body => {
-    // dispatch(update({
-    //   checkinStatus: body.result.status,
-    //   checkinRemainingTime: body.result.remainingTime,
-    //   checkinFansCoin: body.result.fansCoin,
-    // }))
-    // body.result.status = checkinEnum.pass;
-
     const param = {
       checkinStatus: body.result.status,
       checkinRemainingTime: body.result.remainingTime,
@@ -43,7 +51,6 @@ export const submitCheckIn = () => dispatch => {
     };
 
     if (body.result.status === checkinEnum.pass) {
-      param.checkinStatus = checkinEnum.alreadyChecked;
       param.showCheckSuccess = true;
       setTimeout(() => {
         dispatch(
@@ -52,6 +59,7 @@ export const submitCheckIn = () => dispatch => {
           })
         );
       }, 3000);
+      dispatch(getCheckInInfo());
     } else if (body.result.status === checkinEnum.disabled) {
       utils.notice.show({
         type: 'message-important-light',

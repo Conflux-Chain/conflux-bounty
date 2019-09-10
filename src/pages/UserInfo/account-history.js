@@ -175,14 +175,19 @@ class AccountHistory extends Component {
               </tr>
               <tbody>
                 {accountHistory.rewards.list.map(reward => {
+                  let bountyInfo;
+                  if (reward.info) {
+                    bountyInfo = (
+                      <a target="_blank" rel="noopener noreferrer" href={`/view-bounty?bountyId=${reward.info.bountyId}`}>
+                        {reward.info.title}
+                      </a>
+                    );
+                  }
+
                   return (
                     <tr>
                       <td>{moment(reward.updatedAt || reward.createdAt).format('HH:mm MM/DD')}</td>
-                      <td>
-                        <a target="_blank" rel="noopener noreferrer" href={`/view-bounty?bountyId=${reward.info.bountyId}`}>
-                          {reward.info.title}
-                        </a>
-                      </td>
+                      <td>{bountyInfo}</td>
                       <td className="align-right">+{reward.fansCoin} FC</td>
                     </tr>
                   );

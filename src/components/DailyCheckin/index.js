@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -7,7 +8,7 @@ import * as actions from './action';
 import { compose, commonPropTypes, i18nTxt } from '../../utils';
 import CheckIn from '../../assets/iconfont/checkIn.svg';
 
-const DailySignWrap = styled.div`
+const DailyCheckinWrap = styled.div`
   .pos-rightbottom {
     bottom: 170px;
     z-index: 100;
@@ -68,7 +69,7 @@ const DailySignWrap = styled.div`
       color: #ffffff;
       text-align: center;
       font-size: 14px;
-      line-height: 1.2;
+      line-height: 1.3;
     }
   }
 
@@ -122,7 +123,7 @@ const svgOrange = (
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 /* eslint jsx-a11y/alt-text: 0 */
 
-class DailySign extends Component {
+class DailyCheckin extends Component {
   componentDidMount() {
     const { history, common, getCheckInInfo } = this.props;
 
@@ -154,13 +155,22 @@ class DailySign extends Component {
         </div>
       );
     } else if (checkinStatus === actions.checkinEnum.alreadyChecked) {
+      const duration = moment.duration({
+        seconds: common.checkinRemainingTime,
+      });
+
       checkInButton = (
         <div className="btn-checkedin pos-rightbottom">
           <img src={CheckIn} className="checked-line1" />
           <div className="checked-line2">{svgOrange}</div>
           <div className="checked-line3">{i18nTxt('Checked in')}</div>
           <div className="checked-line4">{i18nTxt('Updates in')}</div>
-          <div className="checked-line5">{i18nTxt('23h:55m')}</div>
+          <div className="checked-line5">
+            {i18nTxt('<%= hour %>h:<%= minute %>m', {
+              hour: duration.hours(),
+              minute: duration.minutes(),
+            })}
+          </div>
         </div>
       );
     } else {
@@ -184,15 +194,15 @@ class DailySign extends Component {
     );
 
     return (
-      <DailySignWrap>
+      <DailyCheckinWrap>
         {checkInButton}
         {successPanel}
-      </DailySignWrap>
+      </DailyCheckinWrap>
     );
   }
 }
 
-DailySign.propTypes = {
+DailyCheckin.propTypes = {
   history: commonPropTypes.history.isRequired,
   /* eslint react/forbid-prop-types: 0 */
   common: PropTypes.objectOf({
@@ -201,7 +211,7 @@ DailySign.propTypes = {
   getCheckInInfo: PropTypes.func.isRequired,
   submitCheckIn: PropTypes.func.isRequired,
 };
-DailySign.defaultProps = {};
+DailyCheckin.defaultProps = {};
 
 function mapStateToProps(state) {
   return {
@@ -215,4 +225,4 @@ const enhance = compose(
     actions
   )
 );
-export default enhance(DailySign);
+export default enhance(DailyCheckin);
