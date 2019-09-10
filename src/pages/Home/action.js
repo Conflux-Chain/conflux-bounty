@@ -1,4 +1,4 @@
-import { reqBountyList } from '../../utils/api';
+import { reqBountyList, reqBroadcastList } from '../../utils/api';
 
 export const UPDATE_HOME = 'bounty-home/UPDATE';
 
@@ -47,6 +47,19 @@ export const getPopBountyList = () => dispatch => {
     dispatch(
       update({
         popBountyList: body.result.list,
+      })
+    );
+  });
+};
+
+export const getBroadcastList = () => dispatch => {
+  return reqBroadcastList({
+    page: 1,
+    limit: 10,
+  }).then(body => {
+    dispatch(
+      update({
+        broadcastList: body.result.list,
       })
     );
   });
