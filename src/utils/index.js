@@ -36,6 +36,7 @@ const USER_ERROR = {
   13: 'Invalid invitation code',
   14: 'Please request next invitation code 30 seconds later',
   15: 'You run out of invites',
+  16: 'Invalid nickname, contains sensitive word',
 };
 
 /*

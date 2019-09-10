@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Input from '../Input';
-import { reqCheckDupNickname } from '../../utils/api';
+import { reqValidateNickname } from '../../utils/api';
 import { i18nTxt } from '../../utils';
 
 export default class Nickname extends Component {
@@ -19,12 +19,16 @@ export default class Nickname extends Component {
   onNicknameChangeDebounced = async e => {
     if (e.target.value === '') return;
     const {
-      result: { isDuplicate },
-    } = await reqCheckDupNickname({ nickname: e.target.value });
+      result: { isDuplicate, isInvalid },
+    } = await reqValidateNickname({ nickname: e.target.value });
 
     if (isDuplicate) {
       this.setState({
         nicknameErrMsg: i18nTxt('Seems this nickname is occupied. Try another one'),
+      });
+    } else if (isInvalid) {
+      this.setState({
+        nicknameErrMsg: i18nTxt('Invalid nickname, contains sensitive word'),
       });
     } else {
       this.setState({ nicknameErrMsg: '' });

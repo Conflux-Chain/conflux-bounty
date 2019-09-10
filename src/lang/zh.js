@@ -118,7 +118,7 @@ export default {
   'Invitation code': '邀请码',
   'Invitation URL': '邀请链接',
   'VIEW MORE': '查看更多',
-  'Seems this nickname is occupied. Try another one': '该用户名已被占用',
+  'Seems this nickname is occupied. Try another one': '用户昵称不允许重复，请重新输入',
   'Nickname is empty': '用户名不能为空',
   'Validation failed. Please check your email verification code': '邮箱验证码有误',
   'Duplicate nickname': '用户名已被占用',
@@ -373,4 +373,5 @@ export default {
   'The number of Submissions you submit exceeds the maximum number of Submissions that can be submitted by a single user in this Bounty.':
     '您提交的方案数量超过该赏金任务中单个用户的可提交方案数量上限。',
   'Remember me': '记住账号',
+  'Invalid nickname, contains sensitive word': '用户昵称包含敏感词，请重新输入',
 };
