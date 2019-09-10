@@ -118,10 +118,10 @@ export default {
   'Invitation code': '邀请码',
   'Invitation URL': '邀请链接',
   'VIEW MORE': '查看更多',
-  'Seems this nickname is occupied. Try another one': '该用户名已被占用',
+  'Seems this nickname is occupied. Try another one': '用户昵称不允许重复，请重新输入',
   'Nickname is empty': '用户名不能为空',
   'Validation failed. Please check your email verification code': '邮箱验证码有误',
-  'Duplicate nickname': '用户名已被占用',
+  'User nickname already exists, please re-enter': '用户昵称已存在，请重新输入',
   'Duplicate email': '邮箱已被占用',
   Unauthorized: '登录凭证失效',
   'Invalid password': '密码不合法',
@@ -372,4 +372,7 @@ export default {
   'BACK TO CURRENT BOUNTY': '返回当前赏金任务',
   'The number of Submissions you submit exceeds the maximum number of Submissions that can be submitted by a single user in this Bounty.':
     '您提交的方案数量超过该赏金任务中单个用户的可提交方案数量上限。',
+  'Remember me': '记住账号',
+  'User nickname contains sensitive words, please re-enter': '用户昵称包含敏感词，请重新输入',
+  'User nickname should only contain letters, digits and underscores': '用户昵称仅支持英文字母、数字、下划线组合',
 };

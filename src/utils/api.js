@@ -182,9 +182,9 @@ export const reqUpdateMileStone = param => {
   }).then(res => res.body);
 };
 
-export const reqCheckDupNickname = param => {
+export const reqValidateNickname = param => {
   return sendRequest({
-    url: '/user/searchDuplicateNickname',
+    url: '/user/validateNickname',
     body: param,
   }).then(res => res.body);
 };
