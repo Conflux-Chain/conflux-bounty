@@ -18,6 +18,13 @@ export default class Nickname extends Component {
 
   onNicknameChangeDebounced = async e => {
     if (e.target.value === '') return;
+    if (/\W/.test(e.target.value)) {
+      this.setState({
+        nicknameErrMsg: i18nTxt('User nickname should only contain letters, digits and underscores'),
+      });
+      return;
+    }
+
     const {
       result: { isDuplicate, isInvalid },
     } = await reqValidateNickname({ nickname: e.target.value });
@@ -28,7 +35,7 @@ export default class Nickname extends Component {
       });
     } else if (isInvalid) {
       this.setState({
-        nicknameErrMsg: i18nTxt('Invalid nickname, contains sensitive word'),
+        nicknameErrMsg: i18nTxt('User nickname contains sensitive words, please re-enter'),
       });
     } else {
       this.setState({ nicknameErrMsg: '' });

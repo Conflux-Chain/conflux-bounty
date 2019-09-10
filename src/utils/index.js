@@ -24,7 +24,7 @@ const USER_ERROR = {
   1: 'Invalid third party token',
   2: 'Invalid user id',
   3: 'Duplicate email',
-  4: 'Duplicate nickname',
+  4: 'User nickname already exists, please re-enter',
   5: 'Validation failed. Please check your email verification code',
   6: 'Invalid operation',
   7: 'Invalid password',
@@ -36,7 +36,8 @@ const USER_ERROR = {
   13: 'Invalid invitation code',
   14: 'Please request next invitation code 30 seconds later',
   15: 'You run out of invites',
-  16: 'Invalid nickname, contains sensitive word',
+  16: 'User nickname contains sensitive words, please re-enter',
+  17: 'User nickname should only contain letters, digits and underscores',
 };
 
 /*
