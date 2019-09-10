@@ -196,7 +196,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
     if (pageType === 'create') {
       const param = {
         ...baseParam,
-        contactMessage: 'a',
         attachmentList: editSolution.attachmentList,
       };
       reqSolutionCreate(param).then(body => {
