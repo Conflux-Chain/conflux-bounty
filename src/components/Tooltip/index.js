@@ -69,6 +69,20 @@ const ToolTips = {
       transform: translateY(-100%);
     }
   `,
+
+  topLeft: styled(Basic)`
+    .arrow {
+      bottom: -8px;
+      transform: none;
+      transform: rotate(-90deg);
+      right: 8px;
+    }
+    .tooltip-panel {
+      display: block;
+      right: -10px;
+      bottom: 25px;
+    }
+  `,
 };
 
 class Tooltip extends PureComponent {

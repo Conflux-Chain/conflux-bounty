@@ -190,15 +190,53 @@ a {
     opacity: 1;
     left: 0;
     top: 61px;
-    width: 100%;
+    width: auto;
+    overflow: visible;
     li > span {
       color: #3b3d3d;
       padding-left: 8px;
     }
     li.active {
-      background: #d8dddf;
+      background: #EBEDED;
     }
   }
+
+  &.langSelect {
+    ul {
+      background: #FFFFFF;
+      box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      min-width: 150px;
+      padding-bottom: 11px;
+    }
+    li {
+      min-height: 28px;
+    }
+    li > span {
+      padding: 4px;
+      padding-left: 16px;
+      color: #3B3D3D;
+      font-size: 14px;
+    }
+    .select-ul-label {
+      padding: 14px 16px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #8E9394;
+    }
+  }
+
+  .labelInput {
+    border: 1px solid #C6CCCD;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: auto;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding-left: 18px;
+  }
+
   input {
     caret-color: transparent;
   }

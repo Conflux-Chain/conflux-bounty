@@ -394,4 +394,8 @@ export default {
   'Updates in': '下次更新在',
   'You have checked in successfully.': '您今天已经成功签到',
   '<%= hour %>h:<%= minute %>m': '<%= hour %>小时:<%= minute %>分',
+  'Choose Language': '选择语言',
+  'Choose your preferred': '选择前往',
+  'Country/Region': '国家站/区域站',
+  'head.switchTips': '切换国家站后，将跳至该国家站首页。国家站中包含适合该国家/地区的赏金任务。',
 };
