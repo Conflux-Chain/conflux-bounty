@@ -18,9 +18,15 @@ export default class Nickname extends Component {
 
   onNicknameChangeDebounced = async e => {
     if (e.target.value === '') return;
+    if (e.target.value.length > 30) {
+      this.setState({
+        nicknameErrMsg: i18nTxt('Nickname should only contain no more than 30 characters'),
+      });
+      return;
+    }
     if (/\W/.test(e.target.value)) {
       this.setState({
-        nicknameErrMsg: i18nTxt('User nickname should only contain letters, digits and underscores'),
+        nicknameErrMsg: i18nTxt('Nickname should only contain letters, digits and underscores'),
       });
       return;
     }
@@ -35,7 +41,7 @@ export default class Nickname extends Component {
       });
     } else if (isInvalid) {
       this.setState({
-        nicknameErrMsg: i18nTxt('User nickname contains sensitive words, please re-enter'),
+        nicknameErrMsg: i18nTxt('Nickname contains sensitive words, please re-enter'),
       });
     } else {
       this.setState({ nicknameErrMsg: '' });
