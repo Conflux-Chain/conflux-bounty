@@ -19,4 +19,6 @@ export default {
   'My.Created Bounty': 'My Creation',
   'My.Involved Bounty': 'My Participation',
   'viewbounty.COMMENT': 'COMMENT',
+  'head.switchTips':
+    'After switching the national station, it will jump to the home page of the national station. The National Station contains a reward mission suitable for the country/region. ',
 };

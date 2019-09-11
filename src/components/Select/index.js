@@ -5,6 +5,15 @@ import onClickOutside from 'react-onclickoutside';
 import { compose } from 'redux';
 import Input from '../Input/index';
 
+const selectdIcon = (
+  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+    <path d="M1 5.26923L3.52632 8.5L9 1.5" stroke="#3B3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+/* eslint jsx-a11y/click-events-have-key-events: 0 */
+/* eslint jsx-a11y/no-noninteractive-element-interactions: 0 */
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
 class Select extends Component {
   constructor(...args) {
     super(...args);
@@ -28,7 +37,7 @@ class Select extends Component {
   };
 
   render() {
-    const { options, onSelect, selected = {}, errMsg, label } = this.props;
+    const { options, onSelect, selected = {}, errMsg, label, theme, showSelectedIcon, ulLabel, labelType } = this.props;
     const { showOptions } = this.state;
     let selectedLabel = '';
 
@@ -39,19 +48,15 @@ class Select extends Component {
           showOptions: false,
         });
       };
-      const selectdIcon = (
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-          <path d="M1 5.26923L3.52632 8.5L9 1.5" stroke="#3B3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      );
+
       const isSelected = v.value === selected.value;
       if (isSelected) {
         selectedLabel = v.label;
       }
-      return (
-        /* eslint jsx-a11y/click-events-have-key-events: 0 */
-        /* eslint jsx-a11y/no-noninteractive-element-interactions: 0 */
-        <li key={v.value} onClick={onClick} tabIndex="-1" type="button" className={isSelected ? 'active' : ''}>
+
+      let content;
+      if (showSelectedIcon) {
+        content = (
           <span>
             {isSelected ? selectdIcon : null}
             <span
@@ -62,24 +67,39 @@ class Select extends Component {
               {v.label}
             </span>
           </span>
+        );
+      } else {
+        content = <span>{v.label}</span>;
+      }
+
+      return (
+        <li key={v.value} onClick={onClick} tabIndex="-1" className={isSelected ? 'active' : ''}>
+          {content}
         </li>
       );
     });
 
     return (
-      <div className="select">
-        <Input
-          {...{
-            id: this.id,
-            value: selectedLabel,
-            onChange: () => {},
-            onClick: this.toggleOptions,
-            label,
-            placeHolder: '',
-            errMsg,
-            type: 'button',
-          }}
-        />
+      <div className={`select ${theme}`}>
+        {labelType === 'text' ? (
+          <div className="labelInput" onClick={this.toggleOptions}>
+            {selectedLabel}
+          </div>
+        ) : (
+          <Input
+            {...{
+              id: this.id,
+              value: selectedLabel,
+              onChange: () => {},
+              onClick: this.toggleOptions,
+              label,
+              placeHolder: '',
+              errMsg,
+              type: 'button',
+            }}
+          />
+        )}
+
         <ul
           className="dropdown-content select-dropdown"
           style={{
@@ -87,6 +107,7 @@ class Select extends Component {
             maxHeight: 400,
           }}
         >
+          <div className="select-ul-label">{ulLabel}</div>
           {domList}
         </ul>
         <svg style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
@@ -111,6 +132,10 @@ Select.propTypes = {
     formatMessage: PropTypes.func,
   }),
   errMsg: PropTypes.string,
+  theme: PropTypes.string,
+  showSelectedIcon: PropTypes.bool,
+  ulLabel: PropTypes.element,
+  labelType: PropTypes.string,
 };
 Select.defaultProps = {
   selected: {
@@ -122,6 +147,10 @@ Select.defaultProps = {
     formatMessage: () => {},
   },
   errMsg: '',
+  theme: '',
+  showSelectedIcon: true,
+  ulLabel: null,
+  labelType: 'input',
 };
 
 const enhance = compose(
