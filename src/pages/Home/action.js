@@ -53,10 +53,7 @@ export const getPopBountyList = () => dispatch => {
 };
 
 export const getBroadcastList = () => dispatch => {
-  return reqBroadcastList({
-    page: 1,
-    limit: 10,
-  }).then(body => {
+  return reqBroadcastList().then(body => {
     dispatch(
       update({
         broadcastList: body.result.list,
