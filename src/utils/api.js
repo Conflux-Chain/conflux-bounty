@@ -96,6 +96,12 @@ export const reqBountyList = param => {
   }).then(res => res.body);
 };
 
+export const reqBroadcastList = () => {
+  return sendRequest({
+    url: '/announcement/list',
+  }).then(res => res.body);
+};
+
 export const reqSolutionCreate = param => {
   return sendRequest({
     url: '/submission/create',

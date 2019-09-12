@@ -7,6 +7,7 @@ const initState = {
   sort: 'time_asc',
   bountyList: [],
   popBountyList: [],
+  broadcastList: [],
   total: 0,
 };
 
