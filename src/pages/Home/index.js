@@ -1,3 +1,6 @@
+/* eslint-disable no-script-url */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-no-target-blank */
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -129,6 +132,50 @@ const HoTBounty = styled.div`
       display: flex !important;
       justify-content: center !important;
     } */
+  }
+`;
+const Broadcast = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  height: 44px;
+  display: flex;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  z-index: 10;
+  .broadcast {
+    width: 100%;
+    max-width: 1400px;
+    min-height: 230px;
+    padding: 0;
+    .slick-slide {
+      visibility: hidden;
+    }
+    .slick-slide.slick-current {
+      visibility: visible;
+    }
+    .broadcast-item {
+      z-index: 100;
+      display: flex !important;
+      flex: 1;
+      height: 44px;
+      align-items: center;
+      color: #fff;
+      a {
+        display: flex;
+        flex: 1;
+        height: 16px;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        line-height: 16px;
+        color: #fff;
+        border-right: 1px solid rgba(255, 255, 255, 0.4);
+        text-decoration: none;
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
   }
 `;
 const BountyWall = styled.div`
@@ -383,9 +430,10 @@ class Home extends Component {
   }
 
   reinitData() {
-    const { getCategory: getCategoryData, getBountyList, getPopBountyList } = this.props;
+    const { getCategory: getCategoryData, getBountyList, getPopBountyList, getBroadcastList } = this.props;
     getCategoryData();
     getBountyList({});
+    getBroadcastList();
     getPopBountyList();
   }
 
@@ -415,7 +463,7 @@ class Home extends Component {
 
   render() {
     const { homeState, getMoreBounty, categoryL1List, categoryMap } = this.props;
-    const { tag, category, subCategory, total, bountyList, popBountyList } = homeState;
+    const { tag, category, subCategory, total, bountyList, popBountyList, broadcastList } = homeState;
     let count = 3;
     if (window.innerWidth > 1290) {
       count = 3;
@@ -436,6 +484,27 @@ class Home extends Component {
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />,
     };
+    const broadSettings = {
+      dots: false,
+      infinite: true,
+      fade: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      speed: 2000,
+      autoplaySpeed: 3000,
+      pauseOnHover: true,
+      arrows: false,
+    };
+    // // test data
+    // const broadcastList = [
+    //   { title: 'Breaking News! Conflux Chain Mainnet online', url: 'https://www.baidu.com' },
+    //   { title: 'Conflux Shenzhen Meetup 15 Sep 2019' },
+    //   { title: 'Ginger Beer Sale Starts this Saturday!' },
+    //   { title: 'Ginger Beer Sale Starts this Saturday!', url: 'http://www.google.com' },
+    //   { title: 'Breaking News! Conflux Chain Mainnet online' },
+    //   { title: 'Conflux Shenzhen Meetup 15 Sep 2019' },
+    // ];
     return (
       <Container>
         <div className="homeBg" />
@@ -476,16 +545,51 @@ class Home extends Component {
                     onClick={this.onOpenBounty}
                   />
                 ))}
-                {/* <HomeBounty type="open" title="Animoji" user="Rach" fansCoin={20100} onClick={this.onOpenBounty} />
-                <HomeBounty type="open" title="Animoji" user="Rach" fansCoin={20100} onClick={this.onOpenBounty} />
-                <HomeBounty type="open" title="Animoji" user="Rach" fansCoin={20100} onClick={this.onOpenBounty} />
-                <HomeBounty type="open" title="Animoji" user="Rach" fansCoin={20100} onClick={this.onOpenBounty} /> */}
               </Slider>
             )}
           </div>
         </HoTBounty>
+        {broadcastList.length > 0 && (
+          <Broadcast>
+            <div className="broadcast">
+              <Slider {...broadSettings}>
+                <div className="broadcast-item">
+                  {broadcastList.slice(0, 3).map((item, index) => {
+                    return (
+                      <a key={index} href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'}>
+                        {item.title}
+                      </a>
+                    );
+                  })}
+                </div>
+                {broadcastList.length > 3 && (
+                  <div className="broadcast-item">
+                    {broadcastList.slice(3, 6).map((item, index) => {
+                      return (
+                        <a key={index} href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'}>
+                          {item.title}
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
+                {broadcastList.length > 6 && (
+                  <div className="broadcast-item">
+                    {broadcastList.slice(6, 9).map((item, index) => {
+                      return (
+                        <a key={index} href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'}>
+                          {item.title}
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
+              </Slider>
+            </div>
+          </Broadcast>
+        )}
         <BountyWall>
-          <span className="bounty-wall-title">{i18nTxt('BOUNTY WALL')}</span>
+          {broadcastList.length === 0 && <span className="bounty-wall-title">{i18nTxt('BOUNTY WALL')}</span>}
           <HomeTag
             items={[
               { value: 'open', text: i18nTxt('OPEN') },
@@ -583,6 +687,7 @@ const categoryType = {
 Home.propTypes = {
   getCategory: PropTypes.func.isRequired,
   getBountyList: PropTypes.func.isRequired,
+  getBroadcastList: PropTypes.func.isRequired,
   getPopBountyList: PropTypes.func.isRequired,
   getMoreBounty: PropTypes.func.isRequired,
   update: PropTypes.func.isRequired,
