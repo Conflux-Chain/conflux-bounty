@@ -17,6 +17,7 @@ import homeImg from '../../assets/iconfont/home-back.svg';
 import leftArrow from '../../assets/iconfont/left-arrow.svg';
 import rightArrow from '../../assets/iconfont/right-arrow.svg';
 import { compose, commonPropTypes, i18nTxt } from '../../utils';
+import DailyCheckin from '../../components/DailyCheckin';
 
 const Container = styled.div`
   display: flex;
@@ -672,6 +673,7 @@ class Home extends Component {
             </button>
           )}
         </div>
+        <DailyCheckin />
       </Container>
     );
   }

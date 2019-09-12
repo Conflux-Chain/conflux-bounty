@@ -31,6 +31,7 @@ const initEditState = {
   attachmentListOrigin: [],
 
   redoMessage: '',
+  sortType: '',
 };
 
 function editBounty(state = initEditState, action) {
@@ -53,6 +54,11 @@ const initMyBounty = {
   total: 0,
   page: 1,
   limit: 10,
+  activeTab: 'created',
+  joinedlist: [],
+  joinedTotal: 0,
+  joinedPage: 1,
+  joinedLimit: 10,
   // filterBy: 'user_create',
 };
 
