@@ -40,6 +40,8 @@ const initEditState = {
   bountyTitle: '',
   showExample: false,
   addTranslate: false,
+
+  milestoneLimit: null,
 };
 
 function editSolution(state = initEditState, action) {
