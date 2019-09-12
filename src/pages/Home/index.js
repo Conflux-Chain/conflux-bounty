@@ -462,7 +462,7 @@ class Home extends Component {
 
   render() {
     const { homeState, getMoreBounty, categoryL1List, categoryMap } = this.props;
-    const { tag, category, subCategory, total, bountyList, popBountyList } = homeState;
+    const { tag, category, subCategory, total, bountyList, popBountyList, broadcastList } = homeState;
     let count = 3;
     if (window.innerWidth > 1290) {
       count = 3;
@@ -495,15 +495,15 @@ class Home extends Component {
       pauseOnHover: true,
       arrows: false,
     };
-    // test data
-    const broadcastList = [
-      { title: 'Breaking News! Conflux Chain Mainnet online', url: 'https://www.baidu.com' },
-      { title: 'Conflux Shenzhen Meetup 15 Sep 2019' },
-      { title: 'Ginger Beer Sale Starts this Saturday!' },
-      { title: 'Ginger Beer Sale Starts this Saturday!', url: 'http://www.google.com' },
-      { title: 'Breaking News! Conflux Chain Mainnet online' },
-      { title: 'Conflux Shenzhen Meetup 15 Sep 2019' },
-    ];
+    // // test data
+    // const broadcastList = [
+    //   { title: 'Breaking News! Conflux Chain Mainnet online', url: 'https://www.baidu.com' },
+    //   { title: 'Conflux Shenzhen Meetup 15 Sep 2019' },
+    //   { title: 'Ginger Beer Sale Starts this Saturday!' },
+    //   { title: 'Ginger Beer Sale Starts this Saturday!', url: 'http://www.google.com' },
+    //   { title: 'Breaking News! Conflux Chain Mainnet online' },
+    //   { title: 'Conflux Shenzhen Meetup 15 Sep 2019' },
+    // ];
     return (
       <Container>
         <div className="homeBg" />
