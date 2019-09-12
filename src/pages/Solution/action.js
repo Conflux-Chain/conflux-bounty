@@ -52,14 +52,26 @@ export const getBounty = bountyId => (dispatch, getState) => {
   const { bountyCache } = getState().common;
   let bountyTitlep;
   if (bountyCache[bountyId]) {
-    bountyTitlep = Promise.resolve(bountyCache[bountyId].title);
+    bountyTitlep = Promise.resolve({
+      title: bountyCache[bountyId].title,
+      milestoneLimit: bountyCache[bountyId].milestoneLimit,
+    });
   } else {
     bountyTitlep = dispatch(reqBountyQuery({ bountyId })).then(body => {
-      return body.result.title;
+      return {
+        title: body.result.title,
+        milestoneLimit: body.result.milestoneLimit,
+      };
     });
   }
-  bountyTitlep.then(bountyTitle => {
-    dispatch(updateEdit({ bountyTitle, bountyId }));
+  bountyTitlep.then(v => {
+    dispatch(
+      updateEdit({
+        bountyTitle: v.title,
+        milestoneLimit: v.milestoneLimit,
+        bountyId,
+      })
+    );
   });
 };
 

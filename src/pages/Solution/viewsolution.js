@@ -604,9 +604,7 @@ class ViewSolution extends Component {
 
           {renderAny(() => {
             let noteList = [];
-            if (viewSolution.note) {
-              noteList = [viewSolution.note];
-            } else if (viewSolution.noteList) {
+            if (viewSolution.noteList) {
               // eslint-disable-next-line  prefer-destructuring
               noteList = viewSolution.noteList;
             }
@@ -635,11 +633,16 @@ class ViewSolution extends Component {
                           </p>
                         );
                       }
-                      return (
-                        <p>
-                          <span>{v.description}</span>
-                        </p>
-                      );
+
+                      if (v.status === 'APPROVED') {
+                        return (
+                          <p>
+                            <span>{v.description}</span>
+                          </p>
+                        );
+                      }
+
+                      return null;
                     })}
                   </div>
                 </div>
