@@ -338,31 +338,12 @@ class EditSolution extends Component {
               invalid: editSolution.privateMessageErr,
             })}
             value={editSolution.privateMessage}
-            placeholder={i18nTxt('Send your advice on the Bounty …')}
+            placeholder={i18nTxt(
+              'Send your advice on the Bounty. And Your preferred social network account we can contact (For Admin only, Optional)…'
+            )}
           />
 
           {editSolution.privateMessageErr && <span className="helper-text" data-error={i18nTxt(editSolution.privateMessageErr)}></span>}
-
-          <div className="subject" style={{ marginTop: 10 }}>
-            {i18nTxt('Conflux team can reach to you via')}
-          </div>
-
-          <Input
-            {...{
-              errMsg: i18nTxt(editSolution.contactMessageErr),
-              id: 'solution-contact',
-              value: editSolution.contactMessage,
-              label: i18nTxt('* Your preferred social network'),
-              placeHolder: '',
-              onChange: e => {
-                updateEdit({
-                  contactMessage: e.target.value,
-                  contactMessageErr: '',
-                });
-              },
-            }}
-          />
-
           <s.SubmitDiv>
             <button
               onClick={() => {
