@@ -404,4 +404,8 @@ export default {
   'Choose your preferred': '选择前往',
   'Country/Region': '国家站/区域站',
   'head.switchTips': '切换国家站后，将跳至该国家站首页。国家站中包含适合该国家/地区的赏金任务。',
+  'submission.note.AUDITING': '审核中',
+  'submission.note.DELETED': '已拒绝',
+  'submission.note.APPROVED': ' ',
+  PermissionError: '您没有权限访问页面，请重新登录',
 };

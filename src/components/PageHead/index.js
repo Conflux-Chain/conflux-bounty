@@ -100,7 +100,7 @@ const Wrap = styled.div`
     width: 130px;
     .select .caret {
       top: 10px;
-      right: 2px;
+      right: 10px;
     }
   }
 
@@ -117,6 +117,7 @@ const Wrap = styled.div`
 
   &.home .head-select .labelInput {
     border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
   }
 
   .select-lang-row {

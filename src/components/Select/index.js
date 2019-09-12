@@ -82,7 +82,7 @@ class Select extends Component {
     return (
       <div className={`select ${theme}`}>
         {labelType === 'text' ? (
-          <div className="labelInput" onClick={this.toggleOptions}>
+          <div tabIndex="-1" className="labelInput" onClick={this.toggleOptions}>
             {selectedLabel}
           </div>
         ) : (

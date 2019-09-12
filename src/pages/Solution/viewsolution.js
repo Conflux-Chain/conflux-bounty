@@ -22,6 +22,7 @@ import { updateShare } from '../../components/Share/action';
 import { SOLUTION_STATUS_ENUM, MILESTONE_STATUS_ENUM, BOUNTY_STATUS_ENUM } from '../../constants';
 import dashedback from '../../assets/iconfont/background-dashed.svg';
 import ModalComp from '../../components/Modal';
+import Tooltip from '../../components/Tooltip';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -103,6 +104,31 @@ const Wrapper = styled(StyledWrapper)`
       white-space: pre-wrap;
     }
   }
+  .notemsg-detail {
+    margin-bottom: 30px;
+
+    .notemsg-status-AUDITING {
+      padding: 2px;
+      padding-left: 4px;
+      padding-right: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 20px;
+      border: 1px solid #e76a25;
+      color: #e76a25;
+    }
+    .notemsg-status-DELETED {
+      padding: 2px;
+      padding-left: 4px;
+      padding-right: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 20px;
+      border: 1px solid #ec6057;
+      color: #ec6057;
+    }
+  }
+
   .attachment-line {
     font-size: 14px;
   }
@@ -577,11 +603,45 @@ class ViewSolution extends Component {
           </div>
 
           {renderAny(() => {
-            if (viewSolution.note && viewSolution.note.status === 'APPROVED') {
+            let noteList = [];
+            if (viewSolution.note) {
+              noteList = [viewSolution.note];
+            } else if (viewSolution.noteList) {
+              // eslint-disable-next-line  prefer-destructuring
+              noteList = viewSolution.noteList;
+            }
+
+            if (noteList.length) {
               return (
                 <div>
                   <div className="subject">{i18nTxt('Added Contents')}:</div>
-                  <div className="solution-detail">{viewSolution.note.description}</div>
+                  <div className="notemsg-detail">
+                    {noteList.map(v => {
+                      if (props.user.id === viewSolution.user.id) {
+                        let statusDiv;
+                        if (v.status === 'DELETED') {
+                          statusDiv = (
+                            <Tooltip direction="topRight" tipSpan={<span> {i18nTxt(`submission.note.${v.status}`)}</span>}>
+                              <div>{v.rejectMessage}</div>
+                            </Tooltip>
+                          );
+                        } else {
+                          statusDiv = <span> {i18nTxt(`submission.note.${v.status}`)}</span>;
+                        }
+                        return (
+                          <p>
+                            <span>{v.description}</span>
+                            <div className={`notemsg-status-${v.status}`}>{statusDiv}</div>
+                          </p>
+                        );
+                      }
+                      return (
+                        <p>
+                          <span>{v.description}</span>
+                        </p>
+                      );
+                    })}
+                  </div>
                 </div>
               );
             }

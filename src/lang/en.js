@@ -21,4 +21,8 @@ export default {
   'viewbounty.COMMENT': 'COMMENT',
   'head.switchTips':
     'After switching the national station, it will jump to the home page of the national station. The National Station contains a reward mission suitable for the country/region. ',
+  'submission.note.AUDITING': 'AUDITING',
+  'submission.note.DELETED': 'REJECTED',
+  'submission.note.APPROVED': ' ',
+  PermissionError: 'You do not have permission to access the page, please login again',
 };

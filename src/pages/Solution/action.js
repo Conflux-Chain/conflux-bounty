@@ -367,6 +367,7 @@ export const getSolutionView = submissionId => (dispatch, getState) => {
         reward: body.result.reward,
         likeNumber: body.result.likeNumber,
         note: body.result.note,
+        noteList: body.result.noteList,
       })
     );
 
@@ -611,5 +612,16 @@ export const submitNote = () => (dispatch, getState) => {
         showEditNoteMsg: false,
       })
     );
+
+    reqSolutionQuery({
+      submissionId,
+    }).then(body => {
+      dispatch(
+        updateView({
+          note: body.result.note,
+          noteList: body.result.noteList,
+        })
+      );
+    });
   });
 };

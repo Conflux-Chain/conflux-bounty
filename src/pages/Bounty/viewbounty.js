@@ -426,7 +426,7 @@ class ViewBounty extends Component {
                   </div>
 
                   <div className="solution-item-descwrap">
-                    <Tooltip direction="downWithSpan" tipSpan={<div className="solution-item-desc">{solution.description}</div>}>
+                    <Tooltip direction="topRight" tipSpan={<div className="solution-item-desc">{solution.description}</div>}>
                       <div>{solution.description}</div>
                     </Tooltip>
                   </div>

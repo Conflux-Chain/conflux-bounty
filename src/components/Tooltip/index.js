@@ -59,7 +59,7 @@ const ToolTips = {
       transform: translateY(-100%);
     }
   `,
-  downWithSpan: styled(Basic)`
+  topRight: styled(Basic)`
     .arrow {
       bottom: 8px;
       transform: translateY(100%) rotate(-90deg);
