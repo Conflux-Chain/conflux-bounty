@@ -118,7 +118,7 @@ class Withdraw extends Component {
               },
             }}
           />
-          <div className="withdraw-tips">{i18nTxt('Minimum withdraw amount')} 100 FC</div>
+          <div className="withdraw-tips">{i18nTxt('Minimum withdraw amount')} 50 FC</div>
 
           <Input
             {...{

@@ -408,4 +408,6 @@ export default {
   'submission.note.DELETED': '已拒绝',
   'submission.note.APPROVED': ' ',
   PermissionError: '您没有权限访问页面，请重新登录',
+  Development: '开发',
+  Test: '测试',
 };
