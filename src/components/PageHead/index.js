@@ -275,16 +275,25 @@ class PageHead extends Component {
                 label: '',
                 showSelectedIcon: false,
                 onSelect: v => {
-                  reqUserUpdate({
-                    language: v.value,
-                  }).then(() => {
+                  if (auth.loggedIn()) {
+                    reqUserUpdate({
+                      language: v.value,
+                    }).then(() => {
+                      updateHead({
+                        user: {
+                          ...head.user,
+                          language: v.value,
+                        },
+                      });
+                    });
+                  } else {
                     updateHead({
                       user: {
                         ...head.user,
                         language: v.value,
                       },
                     });
-                  });
+                  }
                 },
                 options: [
                   {
