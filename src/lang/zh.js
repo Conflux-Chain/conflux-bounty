@@ -412,4 +412,5 @@ export default {
   Test: '测试',
   'The Bounty has been offline from its corresponding national station and no longer supports viewing':
     '该Bounty已从对应国家站下线，不再支持查看',
+  'Permanent invitation code': '永久邀请码',
 };
