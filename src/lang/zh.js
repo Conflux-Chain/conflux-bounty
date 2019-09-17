@@ -410,4 +410,6 @@ export default {
   PermissionError: '您没有权限访问页面，请重新登录',
   Development: '开发',
   Test: '测试',
+  'The Bounty has been offline from its corresponding national station and no longer supports viewing':
+    '该Bounty已从对应国家站下线，不再支持查看',
 };

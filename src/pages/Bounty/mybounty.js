@@ -9,6 +9,7 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
 import * as s2 from '../UserInfo/commonStyle';
 import { fmtToDay, getStatus, auth, commonPropTypes, i18nTxt } from '../../utils';
+import Tooltip from '../../components/Tooltip';
 // import * as s2 from './commonStyle';
 class MyBounty extends Component {
   constructor(...args) {
@@ -32,6 +33,16 @@ class MyBounty extends Component {
     }
     document.title = i18nTxt('My Bounties');
   }
+
+  renderWarning = () => {
+    return (
+      <span className="item-warning">
+        <Tooltip direction="topRight" tipSpan={<i className="material-icons dp48">info</i>}>
+          {i18nTxt('The Bounty has been offline from its corresponding national station and no longer supports viewing')}
+        </Tooltip>
+      </span>
+    );
+  };
 
   render() {
     const { myBounty, getMyBounty, getMyJoinedBounty, history, updateMy } = this.props;
@@ -114,6 +125,7 @@ class MyBounty extends Component {
                       <span className="item-status" style={rejectColor}>
                         {getStatus(v.status)}
                       </span>
+                      {v.transDeleted && this.renderWarning()}
                     </div>
                     {rejectTips}
                   </div>
