@@ -165,7 +165,7 @@ export default {
   'Bounty Example': '任务举例',
 
   'Invalid message': '格式不正确',
-  'Message shoule be positive number': '必须输入正整数',
+  'Message shoule be positive number': '必须输入大于0',
   'Message should not be blank': '不能为空',
   'Please check agreement': '协议必须勾选',
 
