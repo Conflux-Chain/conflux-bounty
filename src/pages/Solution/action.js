@@ -164,7 +164,7 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       valid = false;
       milest.descriptionErr = ERR_MSG.NOT_BLANK;
     }
-    if (!REGEX.CHECK_NUMBER.test(milest.duration)) {
+    if (!REGEX.CHECK_FLOAT.test(milest.duration)) {
       valid = false;
       milest.durationErr = ERR_MSG.POSITIVE_NUMBER;
     } else if (milest.duration > 90) {
