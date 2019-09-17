@@ -9,7 +9,9 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
 import * as s2 from '../UserInfo/commonStyle';
 import { fmtToDay, getStatus, auth, commonPropTypes, i18nTxt } from '../../utils';
+import BountyDeletedWarning from '../../components/BountyDeletedWarning';
 // import * as s2 from './commonStyle';
+
 class MyBounty extends Component {
   constructor(...args) {
     super(...args);
@@ -103,7 +105,7 @@ class MyBounty extends Component {
                   <div className="my-bounty-item clearfix">
                     <div className="item-head">
                       <h5>{v.title}</h5>
-                      <Link className="item-link" to={`/view-bounty?bountyId=${v.id}`}>
+                      <Link className={`item-link ${v.transDeleted ? 'disabled' : ''}`} to={`/view-bounty?bountyId=${v.id}`}>
                         <span>{i18nTxt('VIEW MORE')}</span>
                         <i className="material-icons dp48">chevron_right</i>
                       </Link>
@@ -114,6 +116,7 @@ class MyBounty extends Component {
                       <span className="item-status" style={rejectColor}>
                         {getStatus(v.status)}
                       </span>
+                      {v.transDeleted && <BountyDeletedWarning />}
                     </div>
                     {rejectTips}
                   </div>
@@ -168,7 +171,7 @@ class MyBounty extends Component {
                   <div className="my-bounty-item clearfix">
                     <div className="item-head">
                       <h5>{v.title}</h5>
-                      <Link className="item-link" to={`/view-bounty?bountyId=${v.id}`}>
+                      <Link className={`item-link ${v.transDeleted ? 'disabled' : ''}`} to={`/view-bounty?bountyId=${v.id}`}>
                         <span>{i18nTxt('VIEW MORE')}</span>
                         <i className="material-icons dp48">chevron_right</i>
                       </Link>
@@ -179,6 +182,7 @@ class MyBounty extends Component {
                       <span className="item-status" style={rejectColor}>
                         {getStatus(v.status)}
                       </span>
+                      {v.transDeleted && <BountyDeletedWarning />}
                     </div>
                     {rejectTips}
                   </div>

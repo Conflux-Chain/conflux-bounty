@@ -13,6 +13,7 @@ import PhotoImg from '../PhotoImg';
 import Select from '../Select';
 import iconChinaUrl from '../../assets/iconfont/china.svg';
 import Tooltip from '../Tooltip';
+import { reqUserUpdate } from '../../utils/api';
 
 const Wrap = styled.div`
   &.normal {
@@ -225,7 +226,7 @@ class PageHead extends Component {
   };
 
   render() {
-    const { head, location, updateCommon, lang } = this.props;
+    const { head, location, updateCommon, lang, updateHead, history } = this.props;
     const { homeSticky } = this.state;
     let wrapClass;
     if (isPath(location, '/')) {
@@ -274,9 +275,25 @@ class PageHead extends Component {
                 label: '',
                 showSelectedIcon: false,
                 onSelect: v => {
-                  updateCommon({
-                    lang: v.value,
-                  });
+                  if (auth.loggedIn()) {
+                    reqUserUpdate({
+                      language: v.value,
+                    }).then(() => {
+                      updateHead({
+                        user: {
+                          ...head.user,
+                          language: v.value,
+                        },
+                      });
+                    });
+                  } else {
+                    updateHead({
+                      user: {
+                        ...head.user,
+                        language: v.value,
+                      },
+                    });
+                  }
                 },
                 options: [
                   {
@@ -289,7 +306,7 @@ class PageHead extends Component {
                   },
                 ],
                 selected: {
-                  value: lang,
+                  value: head.user.language,
                 },
                 btnSize: 'small',
               }}
@@ -319,6 +336,7 @@ class PageHead extends Component {
                   updateCommon({
                     lang: v.value,
                   });
+                  history.push('/');
                 },
                 options: [
                   {
@@ -362,6 +380,7 @@ PageHead.propTypes = {
   head: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   updateCommon: PropTypes.func.isRequired,
+  updateHead: PropTypes.func.isRequired,
 };
 PageHead.defaultProps = {};
 

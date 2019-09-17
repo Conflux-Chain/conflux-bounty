@@ -169,6 +169,10 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
       vertical-align: middle;
     }
   }
+  .item-link.disabled {
+    cursor: default;
+    pointer-events: none;
+  }
   .item-head {
     display: flex;
     justify-content: space-between;

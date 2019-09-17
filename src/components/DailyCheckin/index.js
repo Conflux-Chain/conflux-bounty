@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from './action';
-import { compose, commonPropTypes, i18nTxt } from '../../utils';
+import { compose, commonPropTypes, i18nTxt, auth } from '../../utils';
 import CheckIn from '../../assets/iconfont/checkIn.svg';
 
 const DailyCheckinWrap = styled.div`
@@ -128,7 +128,9 @@ class DailyCheckin extends Component {
     const { history, common, getCheckInInfo } = this.props;
 
     const getData = () => {
-      getCheckInInfo();
+      if (auth.loggedIn()) {
+        getCheckInInfo();
+      }
     };
     if (history.action === 'PUSH') {
       getData();

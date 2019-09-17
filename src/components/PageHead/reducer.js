@@ -1,7 +1,7 @@
 import { UPDATE_HEAD, UPDATE_UNREAD_MESSAGE_COUNT } from '../../constants';
 
 const initAccountState = {
-  user: { nickname: '', email: '', invitationCode: '', invitationCountV1: undefined, language: undefined },
+  user: { nickname: '', email: '', invitationCode: '', invitationCountV1: undefined, language: navigator.language },
   fansCoin: 0,
   id: '',
   fansCoinLocked: 0,
