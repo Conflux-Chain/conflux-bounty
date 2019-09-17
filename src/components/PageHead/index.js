@@ -226,7 +226,7 @@ class PageHead extends Component {
   };
 
   render() {
-    const { head, location, updateCommon, lang, updateHead } = this.props;
+    const { head, location, updateCommon, lang, updateHead, history } = this.props;
     const { homeSticky } = this.state;
     let wrapClass;
     if (isPath(location, '/')) {
@@ -336,7 +336,7 @@ class PageHead extends Component {
                   updateCommon({
                     lang: v.value,
                   });
-                  window.location.reload();
+                  history.push('/');
                 },
                 options: [
                   {

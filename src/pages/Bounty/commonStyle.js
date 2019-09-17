@@ -169,6 +169,10 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
       vertical-align: middle;
     }
   }
+  .item-link.disabled {
+    cursor: default;
+    pointer-events: none;
+  }
   .item-head {
     display: flex;
     justify-content: space-between;
@@ -199,13 +203,6 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
       color: #8e9394;
       font-size: 14px;
       margin-right: 12px;
-    }
-    .item-warning {
-      margin-left: 10px;
-      i {
-        font-size: 18px;
-        color: rgb(240, 69, 58);
-      }
     }
     .reject-tips {
       margin-top: 8px;
