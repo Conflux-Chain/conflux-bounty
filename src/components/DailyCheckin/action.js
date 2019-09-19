@@ -83,3 +83,11 @@ export const submitCheckIn = () => dispatch => {
     dispatch(update(param));
   });
 };
+
+export const showAlreadyTips = () => () => {
+  utils.notice.show({
+    type: 'message-important-light',
+    content: utils.i18nTxt('You have already checked in today'),
+    timeout: 5000,
+  });
+};

@@ -614,7 +614,7 @@ export function htmlsafe(s) {
 }
 
 export function isImgLike(str) {
-  return str.match(/(\.jpeg|\.jpg|\.png|\.gif)$/);
+  return str.match(/(\.jpeg|\.jpg|\.png|\.gif)$/i);
 }
 
 export function downLink(url, title) {
