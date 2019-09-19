@@ -140,7 +140,7 @@ class DailyCheckin extends Component {
   }
 
   render() {
-    const { common, submitCheckIn } = this.props;
+    const { common, submitCheckIn, showAlreadyTips } = this.props;
     const { checkinStatus, checkinFansCoin } = common;
 
     let checkInButton;
@@ -162,7 +162,7 @@ class DailyCheckin extends Component {
       });
 
       checkInButton = (
-        <div className="btn-checkedin pos-rightbottom">
+        <div className="btn-checkedin pos-rightbottom" onClick={showAlreadyTips}>
           <img src={CheckIn} className="checked-line1" />
           <div className="checked-line2">{svgOrange}</div>
           <div className="checked-line3">{i18nTxt('Checked in')}</div>
@@ -212,6 +212,7 @@ DailyCheckin.propTypes = {
   }).isRequired,
   getCheckInInfo: PropTypes.func.isRequired,
   submitCheckIn: PropTypes.func.isRequired,
+  showAlreadyTips: PropTypes.func.isRequired,
 };
 DailyCheckin.defaultProps = {};
 
