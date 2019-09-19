@@ -53,7 +53,7 @@ module.exports.handler = (eventBuf, ctx, callback) => {
       const saveKey = `${filePrefix}/${md5hex}/${fileName}`;
       const opts = {};
       if (filePrefix === 'bounty') {
-        if (fileName.match(/(\.jpeg|\.JPEG|\.jpg|\.JPG|\.png|\.gif)$/) === false) {
+        if (fileName.match(/(\.jpeg|\.jpg|\.png|\.gif)$/i) === false) {
           opts.headers = {
             'Content-Disposition': `attachment; filename=${encodeURIComponent(fileName)}`,
           };
