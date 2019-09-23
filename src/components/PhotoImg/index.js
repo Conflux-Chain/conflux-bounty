@@ -28,15 +28,26 @@ const ImgDiv = styled.div`
     bottom: 0;
     margin: auto;
   }
+  > .backimg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
 `;
 
 class PhotoImg extends PureComponent {
   render() {
-    const { imgSrc, alt, className } = this.props;
+    const { imgSrc, className } = this.props;
 
     return (
       <ImgDiv className={imgSrc ? `${className} withimg` : className}>
-        <img alt={alt} src={imgSrc} />
+        <div
+          className="backimg"
+          style={{
+            backgroundImage: `url(${imgSrc})`,
+          }}
+        ></div>
       </ImgDiv>
     );
   }
@@ -44,12 +55,10 @@ class PhotoImg extends PureComponent {
 
 PhotoImg.propTypes = {
   imgSrc: PropTypes.string.isRequired,
-  alt: PropTypes.string,
   className: PropTypes.string,
 };
 
 PhotoImg.defaultProps = {
-  alt: '',
   className: '',
 };
 export default PhotoImg;

@@ -72,17 +72,14 @@ const Wrapper = styled(StyledWrapper)`
       }
     }
   }
-  .img-wrap img {
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 100px;
-    display: block;
+  .img-wrap .avatar {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    margin: auto;
+    background-size: cover;
+    background-position: center;
   }
   .img-edit {
     position: absolute;
@@ -189,13 +186,6 @@ const Wrapper = styled(StyledWrapper)`
       color: #f0453a;
     }
   }
-  .avatar {
-    vertical-align: middle;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-  }
-
   .question {
     vertical-align: middle;
     margin-left: 5px;
@@ -271,7 +261,12 @@ class UserInfo extends Component {
         <Wrapper>
           <div className="user">
             <div className={cx('img-wrap', { withimg: head.user.photoUrl })}>
-              <img className="avatar" alt="useravatar" src={head.user.photoUrl || imgDefaultAvatar} />
+              <div
+                className="avatar"
+                style={{
+                  backgroundImage: `url(${imgDefaultAvatar})`,
+                }}
+              />
               <div className="img-edit">
                 <input type="file" className="avatar-uploader" accept="image/jpeg,image/png,image/gif" onChange={this.onAvatarLoad} />
                 {i18nTxt('EDIT')}
