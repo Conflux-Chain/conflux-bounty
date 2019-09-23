@@ -134,7 +134,7 @@ class UpdateProgress extends Component {
                           );
                         }}
                         value={milest.proof}
-                        className="materialize-textarea"
+                        className={`materialize-textarea ${milest.proofErr ? 'invalid' : ''}`}
                         placeholder={i18nTxt('Proof of progress…')}
                       />
 
