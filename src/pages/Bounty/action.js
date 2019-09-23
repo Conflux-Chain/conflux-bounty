@@ -29,6 +29,8 @@ export function clearEdit(d) {
   };
 }
 
+let lockSubmit = false;
+
 export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
   const { editBounty } = getState().bounty;
   const errs = {
@@ -36,7 +38,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
     l1ErrMsg: '',
     l2ErrMsg: '',
     descriptionErrMsg: '',
-    contactMessageErr: '',
   };
 
   const isEmpty = val => {
@@ -54,8 +55,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
     categoryL1Id: 'l1ErrMsg',
     categoryL2Id: 'l2ErrMsg',
     description: 'descriptionErrMsg',
-    contactMessage: 'contactMessageErr',
-    // agreeLicence: 'agreeLicenceErr',
   };
 
   let valid = true;
@@ -65,11 +64,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       errs[pairs[key]] = ERR_MSG.NOT_BLANK;
     }
   });
-
-  if (editBounty.contactMessage.length > 200) {
-    valid = false;
-    errs.contactMessageErr = ERR_MSG.NO_LARGE_THAN_200;
-  }
 
   dispatch(
     updateEdit({
@@ -85,26 +79,34 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       categoryId: editBounty.categoryL2Id,
       description: editBounty.description,
       privateMessage: editBounty.privateMessage,
-      contactMessage: editBounty.contactMessage,
     };
     if (!baseParam.privateMessage) {
       delete baseParam.privateMessage;
     }
     if (pageType === 'create') {
+      if (lockSubmit) {
+        return;
+      }
+      lockSubmit = true;
       const param = {
         ...baseParam,
         attachmentList: editBounty.attachmentList,
       };
-      reqBountyCreate(param).then(body => {
-        utils.notice.show({
-          type: 'message-success',
-          content: utils.i18nTxt('create success'),
-          timeout: 3000,
+      reqBountyCreate(param)
+        .then(body => {
+          utils.notice.show({
+            type: 'message-success',
+            content: utils.i18nTxt('create success'),
+            timeout: 3000,
+          });
+          setTimeout(() => {
+            lockSubmit = false;
+            history.push(`/create-bounty-success?bountyId=${body.result.id}`);
+          }, 600);
+        })
+        .catch(() => {
+          lockSubmit = false;
         });
-        setTimeout(() => {
-          history.push(`/create-bounty-success?bountyId=${body.result.id}`);
-        }, 600);
-      });
     } else if (pageType === 'edit') {
       if (editBounty.status === BOUNTY_STATUS_ENUM.REVIEWING) {
         // todo other status
@@ -245,6 +247,23 @@ export const getMyBounty = reqPage => (dispatch, getState) => {
   });
 };
 
+export const getMyJoinedBounty = reqPage => (dispatch, getState) => {
+  const { myBounty } = getState().bounty;
+  return reqMyBounty({
+    page: reqPage,
+    limit: myBounty.joinedLimit,
+    filterBy: 'user_create_submission',
+  }).then(body => {
+    dispatch(
+      updateMy({
+        joinedPage: reqPage,
+        joinedlist: myBounty.joinedlist.concat(body.result.list),
+        joinedTotal: body.result.total,
+      })
+    );
+  });
+};
+
 // view bounty
 export const UPDATE_VIEW = 'bounty-view/UPDATE_VIEW';
 export const RESET_VIEW = 'bounty-view/RESET_VIEW';
@@ -274,6 +293,7 @@ export const getBountyView = () => dispatch => {
   return dispatch(reqBountyQuery({ bountyId: query.bountyId })).then(body => {
     dispatch(
       updateView({
+        likeNumber: body.result.likeNumber || 0,
         cat1Name: get(body, 'result.categoryList.0.name'),
         cat2Name: get(body, 'result.categoryList.1.name'),
         ...body.result,
@@ -308,7 +328,7 @@ export const getLike = () => dispatch => {
   });
 };
 
-export const sendLike = type => dispatch => {
+export const sendLike = type => (dispatch, getState) => {
   if (utils.auth.loggedIn() === false) {
     utils.notice.show({
       type: 'message-error-light',
@@ -324,9 +344,11 @@ export const sendLike = type => dispatch => {
     type,
   }).then(body => {
     if (body.result.bountyId) {
+      const { viewBounty } = getState().bounty;
       dispatch(
         updateView({
           isLike: type === 'add',
+          likeNumber: type === 'add' ? viewBounty.likeNumber + 1 : viewBounty.likeNumber - 1,
         })
       );
     }
@@ -432,11 +454,18 @@ export const getSolutionList = page => (dispatch, getState) => {
       bountyId,
       page,
       limit: viewBounty.solutionPageLimit,
+      sort: viewBounty.sortType,
     })
   ).then(body => {
+    let solutionList;
+    if (page === 1) {
+      solutionList = body.result.list || [];
+    } else {
+      solutionList = viewBounty.solutionList.concat(body.result.list || []);
+    }
     dispatch(
       updateView({
-        solutionList: viewBounty.solutionList.concat(body.result.list || []),
+        solutionList,
         solutionTotal: body.result.total,
         solutionPage: page,
       })

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ import ConfirmComp from '../../components/Modal/confirm';
 import * as s from '../Bounty/commonStyle';
 import * as s1 from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
-import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, i18n } from '../../utils';
+import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, i18n, renderAny } from '../../utils';
 import { SOLUTION_STATUS_ENUM } from '../../constants';
 
 const Wrapper = styled(StyledWrapper)`
@@ -210,122 +210,133 @@ class EditSolution extends Component {
             </div>
           </div>
 
-          <div className="subject">{i18nTxt('Milestone')}:</div>
+          {renderAny(() => {
+            if (editSolution.milestoneLimit === 0) {
+              return null;
+            }
 
-          <div>
-            {editSolution.milestoneList.map((milest, index) => {
-              return (
-                <s1.MileStoneDiv>
-                  <div className="milestone-step">
-                    <div className="step-box">
-                      {i18nTxt('Step')} {index + 1}
-                    </div>
-                    <div className="step-box-line"></div>
-                  </div>
+            return (
+              <Fragment>
+                <div className="subject">{i18nTxt('Milestone')}:</div>
 
-                  <div className="milestone-right">
-                    <Input
-                      {...{
-                        id: `milestone-step-title-${index}`,
-                        value: milest.title,
-                        errMsg: i18nTxt(milest.titleErr),
-                        label: i18nTxt('* Title'),
-                        onChange: e => {
-                          updateEditMileStone(
-                            {
-                              title: e.target.value,
-                              titleErr: '',
-                            },
-                            index
-                          );
-                        },
-                      }}
-                    />
-                    <Input
-                      {...{
-                        id: `milestone-step-desc${index}`,
-                        value: milest.description,
-                        errMsg: i18nTxt(milest.descriptionErr),
-                        label: i18nTxt('* Specify details'),
-                        onChange: e => {
-                          updateEditMileStone(
-                            {
-                              description: e.target.value,
-                              descriptionErr: '',
-                            },
-                            index
-                          );
-                        },
-                      }}
-                    />
-                    <Input
-                      {...{
-                        id: `milestone-step-duration${index}`,
-                        value: milest.duration,
-                        errMsg: i18nTxt(milest.durationErr),
-                        label: i18nTxt('* Expected days'),
-                        placeHolder: i18nTxt('days'),
-                        onChange: e => {
-                          updateEditMileStone(
-                            {
-                              duration: e.target.value,
-                              durationErr: '',
-                            },
-                            index
-                          );
-                        },
-                      }}
-                    />
-                    <button
-                      style={
+                <div>
+                  {editSolution.milestoneList.map((milest, index) => {
+                    return (
+                      <s1.MileStoneDiv>
+                        <div className="milestone-step">
+                          <div className="step-box">
+                            {i18nTxt('Step')} {index + 1}
+                          </div>
+                          <div className="step-box-line"></div>
+                        </div>
+
+                        <div className="milestone-right">
+                          <Input
+                            {...{
+                              id: `milestone-step-title-${index}`,
+                              value: milest.title,
+                              errMsg: i18nTxt(milest.titleErr),
+                              label: i18nTxt('* Title'),
+                              onChange: e => {
+                                updateEditMileStone(
+                                  {
+                                    title: e.target.value,
+                                    titleErr: '',
+                                  },
+                                  index
+                                );
+                              },
+                            }}
+                          />
+                          <Input
+                            {...{
+                              id: `milestone-step-desc${index}`,
+                              value: milest.description,
+                              errMsg: i18nTxt(milest.descriptionErr),
+                              label: i18nTxt('* Specify details'),
+                              onChange: e => {
+                                updateEditMileStone(
+                                  {
+                                    description: e.target.value,
+                                    descriptionErr: '',
+                                  },
+                                  index
+                                );
+                              },
+                            }}
+                          />
+                          <Input
+                            {...{
+                              id: `milestone-step-duration${index}`,
+                              value: milest.duration,
+                              errMsg: i18nTxt(milest.durationErr),
+                              label: i18nTxt('* Expected days'),
+                              placeHolder: i18nTxt('days'),
+                              onChange: e => {
+                                updateEditMileStone(
+                                  {
+                                    duration: e.target.value,
+                                    durationErr: '',
+                                  },
+                                  index
+                                );
+                              },
+                            }}
+                          />
+                          <button
+                            style={
+                              {
+                                // visibility: index === 0 ? 'hidden' : 'visible',
+                              }
+                            }
+                            type="button"
+                            className="remove-step"
+                            onClick={() => {
+                              const mileStoneCopy = editSolution.milestoneList.slice();
+                              mileStoneCopy.splice(index, 1);
+                              updateEdit({
+                                milestoneList: mileStoneCopy,
+                              });
+                            }}
+                          >
+                            {i18nTxt('Remove this step')}
+                          </button>
+                        </div>
+                      </s1.MileStoneDiv>
+                    );
+                  })}
+                </div>
+
+                <div className="add-step clearfix">
+                  <button
+                    onClick={() => {
+                      const len = editSolution.milestoneList.length;
+                      updateEditMileStone(
                         {
-                          // visibility: index === 0 ? 'hidden' : 'visible',
-                        }
-                      }
-                      type="button"
-                      className="remove-step"
-                      onClick={() => {
-                        const mileStoneCopy = editSolution.milestoneList.slice();
-                        mileStoneCopy.splice(index, 1);
-                        updateEdit({
-                          milestoneList: mileStoneCopy,
-                        });
-                      }}
-                    >
-                      {i18nTxt('Remove this step')}
-                    </button>
-                  </div>
-                </s1.MileStoneDiv>
-              );
-            })}
-          </div>
+                          title: '',
+                          titleErr: '',
 
-          <div className="add-step clearfix">
-            <button
-              onClick={() => {
-                const len = editSolution.milestoneList.length;
-                updateEditMileStone(
-                  {
-                    title: '',
-                    titleErr: '',
+                          description: '',
+                          descriptionErr: '',
 
-                    description: '',
-                    descriptionErr: '',
+                          duration: '',
+                          durationErr: '',
+                        },
+                        len
+                      );
+                    }}
+                    className="btn waves-effect waves-light default"
+                    type="button"
+                  >
+                    <span>{i18nTxt('ADD STEP')}</span>
+                    <i className="material-icons">add</i>
+                  </button>
+                </div>
 
-                    duration: '',
-                    durationErr: '',
-                  },
-                  len
-                );
-              }}
-              className="btn waves-effect waves-light default"
-              type="button"
-            >
-              <span>{i18nTxt('ADD STEP')}</span>
-              <i className="material-icons">add</i>
-            </button>
-          </div>
-          <div className="subject">{i18nTxt('Private message')}:</div>
+                <div className="subject">{i18nTxt('Private message')}:</div>
+              </Fragment>
+            );
+          })}
 
           <textarea
             onChange={e => {
@@ -338,31 +349,12 @@ class EditSolution extends Component {
               invalid: editSolution.privateMessageErr,
             })}
             value={editSolution.privateMessage}
-            placeholder={i18nTxt('Send your advice on the Bounty …')}
+            placeholder={i18nTxt(
+              'Send your advice on the Bounty. And Your preferred social network account we can contact (For Admin only, Optional)…'
+            )}
           />
 
           {editSolution.privateMessageErr && <span className="helper-text" data-error={i18nTxt(editSolution.privateMessageErr)}></span>}
-
-          <div className="subject" style={{ marginTop: 10 }}>
-            {i18nTxt('Conflux team can reach to you via')}
-          </div>
-
-          <Input
-            {...{
-              errMsg: i18nTxt(editSolution.contactMessageErr),
-              id: 'solution-contact',
-              value: editSolution.contactMessage,
-              label: i18nTxt('* Your preferred social network'),
-              placeHolder: '',
-              onChange: e => {
-                updateEdit({
-                  contactMessage: e.target.value,
-                  contactMessageErr: '',
-                });
-              },
-            }}
-          />
-
           <s.SubmitDiv>
             <button
               onClick={() => {

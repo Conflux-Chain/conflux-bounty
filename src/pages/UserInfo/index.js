@@ -218,29 +218,49 @@ class UserInfo extends Component {
 
   onAvatarLoad = async e => {
     if (!e.target.value) return;
+    const { target } = e;
     const curFile = e.target.files[0];
     const fileKey = encodeImgKey(curFile.name);
     const md5Promise = getMd5(curFile);
 
-    uploadFileOss(fileKey, curFile).then(() => {
-      md5Promise
-        .then(md5 => {
-          const url = genImgUrlFromName(curFile.name, md5);
-          return reqUserUpdate({ photoUrl: url });
-        })
-        .then(({ code }) => {
-          if (code !== 0)
-            return notice.show({
-              content: i18nTxt('Upload failed, please try again.'),
-              type: 'message-error',
-              timeout: 3000,
-            });
-          const { getAccount } = this.props;
-          setTimeout(() => {
-            getAccount();
-          }, 1000);
-          return null;
+    uploadFileOss(fileKey, curFile).then(async () => {
+      target.value = '';
+
+      const md5 = await md5Promise;
+      const url = genImgUrlFromName(curFile.name, md5);
+      const { code } = await reqUserUpdate({ photoUrl: url });
+
+      if (code !== 0) {
+        return notice.show({
+          content: i18nTxt('Upload failed, please try again.'),
+          type: 'message-error',
+          timeout: 3000,
         });
+      }
+
+      const { getAccount } = this.props;
+      const getPhoto = () => {
+        return new Promise((resolve, reject) => {
+          const imgTmp = new Image();
+          imgTmp.onload = () => {
+            resolve();
+          };
+          imgTmp.onerror = () => {
+            reject();
+          };
+          imgTmp.src = url;
+        });
+      };
+
+      setTimeout(() => {
+        getPhoto()
+          .catch(getPhoto)
+          .catch(getPhoto)
+          .then(() => {
+            getAccount();
+          });
+      }, 1000);
+      return null;
     });
   };
 

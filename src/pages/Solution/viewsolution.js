@@ -21,6 +21,8 @@ import { updateShare } from '../../components/Share/action';
 
 import { SOLUTION_STATUS_ENUM, MILESTONE_STATUS_ENUM, BOUNTY_STATUS_ENUM } from '../../constants';
 import dashedback from '../../assets/iconfont/background-dashed.svg';
+import ModalComp from '../../components/Modal';
+import Tooltip from '../../components/Tooltip';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -102,6 +104,31 @@ const Wrapper = styled(StyledWrapper)`
       white-space: pre-wrap;
     }
   }
+  .notemsg-detail {
+    margin-bottom: 30px;
+
+    .notemsg-status-AUDITING {
+      padding: 2px;
+      padding-left: 4px;
+      padding-right: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 20px;
+      border: 1px solid #e76a25;
+      color: #e76a25;
+    }
+    .notemsg-status-DELETED {
+      padding: 2px;
+      padding-left: 4px;
+      padding-right: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 20px;
+      border: 1px solid #ec6057;
+      color: #ec6057;
+    }
+  }
+
   .attachment-line {
     font-size: 14px;
   }
@@ -112,6 +139,8 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 44px;
     padding-left: 12px;
     padding-right: 12px;
+    font-weight: bold;
+    align-item: center;
   }
 
   .trans-line {
@@ -166,6 +195,56 @@ const Wrapper = styled(StyledWrapper)`
   }
 `;
 
+const AddNoticeDiv = styled.div`
+  width: 100%;
+  height: 60px;
+  background: #3b3d3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -40px;
+  margin-bottom: 40px;
+  > span {
+    color: #fff;
+    margin-right: 20px;
+  }
+`;
+
+const EditNotePanel = styled.div`
+  background: #fff;
+  box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 20px;
+  width: 400px;
+  position: relative;
+  h5 {
+    padding-top: 6px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 20px;
+    color: #171d1f;
+    padding-bottom: 20px;
+  }
+  textarea {
+    height: 200px;
+    margin-bottom: 20px;
+  }
+  > .btn {
+    width: 100%;
+  }
+  > .close {
+    position: absolute;
+    color: #8e9394;
+    font-weight: 500;
+    top: 23px;
+    right: 10px;
+    font-style: normal;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+  }
+`;
+
 // eslint-disable-next-line react/prefer-stateless-function
 class ViewSolution extends Component {
   constructor(...args) {
@@ -197,10 +276,86 @@ class ViewSolution extends Component {
     });
   };
 
+  renderAddNote() {
+    const { updateView, viewSolution, submitNote, user } = this.props;
+    const { showEditNoteMsg } = viewSolution;
+
+    const inStatus = viewSolution.bounty.status === 'OPEN' || viewSolution.bounty.status === 'ONGOING';
+    let AddSDiv;
+    if (user.id === viewSolution.user.id && inStatus) {
+      AddSDiv = (
+        <AddNoticeDiv>
+          <span>{i18nTxt('You can add additional contents to your submission.')}</span>
+          <button
+            className="btn waves-effect waves-light primary"
+            type="button"
+            onClick={() => {
+              updateView({
+                showEditNoteMsg: true,
+              });
+            }}
+          >
+            {i18nTxt('ADD')}
+          </button>
+        </AddNoticeDiv>
+      );
+    }
+    const closeNotePanel = () => {
+      updateView({
+        showEditNoteMsg: false,
+      });
+    };
+
+    // const rejectReason = <div style={{ width: 600, margin: '0 auto', marginBottom: 40 }}>
+    //   <Message type="message-important-light">
+    //     qweqweqeqe
+    //   </Message>
+    // </div>
+
+    const editNoteMsgDiv = (
+      <ModalComp show onEsc={closeNotePanel}>
+        <EditNotePanel>
+          <button className="material-icons close" onClick={closeNotePanel} type="button">
+            close
+          </button>
+          <h5>{i18nTxt('Add additional contents')}</h5>
+          <div>
+            <textarea
+              className={cx('materialize-textarea')}
+              onChange={e => {
+                updateView({
+                  addNoteTxt: e.target.value,
+                });
+              }}
+              placeholder={i18nTxt('Tell us what to be added to your submission...')}
+            ></textarea>
+          </div>
+          <button
+            className="btn waves-effect waves-light primary"
+            type="button"
+            onClick={() => {
+              submitNote();
+            }}
+          >
+            {i18nTxt('SUBMIT')}
+          </button>
+        </EditNotePanel>
+      </ModalComp>
+    );
+
+    return (
+      <Fragment>
+        {/* {rejectReason} */}
+        {AddSDiv}
+        {showEditNoteMsg && editNoteMsgDiv}
+      </Fragment>
+    );
+  }
+
   render() {
     const { props } = this;
-    const { history } = this.props;
-    const { sendLike, viewSolution, submissionId, from } = props;
+    const { history, renderReward } = this.props;
+    const { sendLike, viewSolution, submissionId, from, headDiv } = props;
 
     let curIndex = -1;
     let listDiv;
@@ -254,11 +409,16 @@ class ViewSolution extends Component {
       listDiv = listNew;
     }
 
+    const hDiv = headDiv || (
+      <BackHeadDiv onClick={() => history.push(`/view-bounty?bountyId=${viewSolution.bountyId}`)}>
+        <span>{viewSolution.bounty && viewSolution.bounty.title}</span>
+      </BackHeadDiv>
+    );
+
     return (
       <React.Fragment>
-        <BackHeadDiv onClick={() => history.push(`/view-bounty?bountyId=${viewSolution.bountyId}`)}>
-          <span>{viewSolution.bounty && viewSolution.bounty.title}</span>
-        </BackHeadDiv>
+        {this.renderAddNote()}
+        {hDiv}
         <Wrapper>
           <div className="head">
             <h1>{i18nTxt('Submissions')}</h1>
@@ -272,7 +432,8 @@ class ViewSolution extends Component {
                   }}
                 >
                   <i className={cx('material-icons dp48', { like: viewSolution.isLike })}>grade</i>
-                  <span>{i18nTxt('Like')}</span>
+                  {viewSolution.likeNumber > 0 ? <span>{viewSolution.likeNumber}</span> : null}
+                  <span>{viewSolution.likeNumber > 1 ? i18nTxt('Likes') : i18nTxt('Like')}</span>
                 </button>
                 <button
                   type="button"
@@ -289,6 +450,8 @@ class ViewSolution extends Component {
               </s.LikeAndShare>
             </div>
           </div>
+
+          {renderReward()}
 
           <div className="solution-head-list">
             {renderAny(() => {
@@ -339,10 +502,20 @@ class ViewSolution extends Component {
                 if (viewSolution.status === SOLUTION_STATUS_ENUM.FINISHED && viewSolution.bounty.status === BOUNTY_STATUS_ENUM.FINISHED) {
                   return (
                     <span className="solution-user">
-                      <div> {viewSolution.user.nickname}</div>
+                      <div
+                        style={{
+                          fontWeight: 500,
+                          textAlign: 'left',
+                          color: '#171D1F',
+                          marginBottom: 5,
+                        }}
+                      >
+                        {' '}
+                        {viewSolution.user.nickname}
+                      </div>
                       <div className="solution-user-cfx">
                         <span>+{get(viewSolution, ['reward', 'fansCoin'], 0)}</span>
-                        <span style={{ fontSize: 16, marginLeft: 10 }}>FC</span>
+                        <span style={{ fontSize: 16, marginLeft: 3 }}>FC</span>
                       </div>
                     </span>
                   );
@@ -428,6 +601,55 @@ class ViewSolution extends Component {
               return null;
             })}
           </div>
+
+          {renderAny(() => {
+            let noteList = [];
+            if (viewSolution.noteList) {
+              // eslint-disable-next-line  prefer-destructuring
+              noteList = viewSolution.noteList;
+            }
+
+            if (noteList.length) {
+              return (
+                <div>
+                  <div className="subject">{i18nTxt('Added Contents')}:</div>
+                  <div className="notemsg-detail">
+                    {noteList.map(v => {
+                      if (props.user.id === viewSolution.user.id) {
+                        let statusDiv;
+                        if (v.status === 'DELETED') {
+                          statusDiv = (
+                            <Tooltip direction="topRight" tipSpan={<span> {i18nTxt(`submission.note.${v.status}`)}</span>}>
+                              <div>{v.rejectMessage}</div>
+                            </Tooltip>
+                          );
+                        } else {
+                          statusDiv = <span> {i18nTxt(`submission.note.${v.status}`)}</span>;
+                        }
+                        return (
+                          <p>
+                            <span>{v.description}</span>
+                            <div className={`notemsg-status-${v.status}`}>{statusDiv}</div>
+                          </p>
+                        );
+                      }
+
+                      if (v.status === 'APPROVED') {
+                        return (
+                          <p>
+                            <span>{v.description}</span>
+                          </p>
+                        );
+                      }
+
+                      return null;
+                    })}
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })}
 
           {renderAny(() => {
             let msgDiv;
@@ -537,6 +759,20 @@ ViewSolution.propTypes = {
   common: PropTypes.objectOf({
     lang: PropTypes.string,
   }).isRequired,
+  renderReward: PropTypes.func,
+  viewSolution: PropTypes.objectOf({
+    user: PropTypes.objectOf({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+  submitNote: PropTypes.string.isRequired,
+  user: PropTypes.objectOf({
+    id: PropTypes.string,
+  }).isRequired,
+};
+
+ViewSolution.defaultProps = {
+  renderReward: () => {},
 };
 
 function mapStateToProps(state) {

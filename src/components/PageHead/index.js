@@ -8,9 +8,12 @@ import * as actions from './action';
 import headImg from '../../assets/iconfont/conflux-head-logo.svg';
 import homeImg from '../../assets/iconfont/conflux-home-logo.svg';
 import UserBack from '../../assets/iconfont/user-back.svg';
-import { i18n, compose, commonPropTypes, auth, isPath } from '../../utils';
+import { i18n, compose, commonPropTypes, auth, isPath, i18nTxt } from '../../utils';
 import PhotoImg from '../PhotoImg';
 import Select from '../Select';
+import iconChinaUrl from '../../assets/iconfont/china.svg';
+import Tooltip from '../Tooltip';
+import { reqUserUpdate } from '../../utils/api';
 
 const Wrap = styled.div`
   &.normal {
@@ -94,13 +97,14 @@ const Wrap = styled.div`
     text-decoration: none;
   }
   .head-select {
-    width: 88px;
     margin-left: 10px;
+    width: 130px;
     .select .caret {
       top: 10px;
-      right: 2px;
+      right: 10px;
     }
   }
+
   .head-select .input-field {
     margin-top: 0;
     margin-bottom: 0;
@@ -109,6 +113,32 @@ const Wrap = styled.div`
       height: 44px;
       margin: 0;
       text-indent: 10px;
+    }
+  }
+
+  &.home .head-select .labelInput {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+  }
+
+  .select-lang-row {
+    > i {
+      margin-right: 7px;
+      vertical-align: sub;
+      width: 20px;
+      display: inline-block;
+      height: 16px;
+      text-align: center;
+    }
+    > span {
+      vertical-align: middle;
+      font-size: 14px;
+    }
+    .icon-china {
+      background-image: url(${iconChinaUrl});
+    }
+    .icon-global {
+      color: #8e9394;
     }
   }
 `;
@@ -196,7 +226,7 @@ class PageHead extends Component {
   };
 
   render() {
-    const { head, location, updateCommon, lang } = this.props;
+    const { head, location, updateCommon, lang, updateHead, history } = this.props;
     const { homeSticky } = this.state;
     let wrapClass;
     if (isPath(location, '/')) {
@@ -239,11 +269,31 @@ class PageHead extends Component {
           <div className="head-select">
             <Select
               {...{
+                theme: 'langSelect',
+                labelType: 'text',
+                ulLabel: <div>{i18nTxt('Choose Language')}</div>,
                 label: '',
+                showSelectedIcon: false,
                 onSelect: v => {
-                  updateCommon({
-                    lang: v.value,
-                  });
+                  if (auth.loggedIn()) {
+                    reqUserUpdate({
+                      language: v.value,
+                    }).then(() => {
+                      updateHead({
+                        user: {
+                          ...head.user,
+                          language: v.value,
+                        },
+                      });
+                    });
+                  } else {
+                    updateHead({
+                      user: {
+                        ...head.user,
+                        language: v.value,
+                      },
+                    });
+                  }
                 },
                 options: [
                   {
@@ -256,8 +306,62 @@ class PageHead extends Component {
                   },
                 ],
                 selected: {
+                  value: head.user.language,
+                },
+                btnSize: 'small',
+              }}
+            />
+          </div>
+
+          <div className="head-select">
+            <Select
+              {...{
+                theme: 'langSelect',
+                labelType: 'text',
+                ulLabel: (
+                  <div>
+                    <span style={{ whiteSpace: 'nowrap' }}>
+                      {i18nTxt('Choose your preferred')}
+                      <br />
+                      {i18nTxt('Country/Region')}
+                    </span>
+                    <Tooltip direction="topLeft" tipSpan={<i className="question" style={{ marginLeft: 5 }}></i>}>
+                      <div>{i18nTxt('head.switchTips')}</div>
+                    </Tooltip>
+                  </div>
+                ),
+                label: '',
+                showSelectedIcon: false,
+                onSelect: v => {
+                  updateCommon({
+                    lang: v.value,
+                  });
+                  history.push('/');
+                },
+                options: [
+                  {
+                    label: (
+                      <div className="select-lang-row">
+                        <i className="icon-global"></i>
+                        <span>Global</span>
+                      </div>
+                    ),
+                    value: 'en',
+                  },
+                  {
+                    label: (
+                      <div className="select-lang-row">
+                        <i className="icon-china"></i>
+                        <span>中国</span>
+                      </div>
+                    ),
+                    value: 'zh-CN',
+                  },
+                ],
+                selected: {
                   value: lang,
                 },
+                btnSize: 'small',
               }}
             />
           </div>
@@ -276,6 +380,7 @@ PageHead.propTypes = {
   head: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   updateCommon: PropTypes.func.isRequired,
+  updateHead: PropTypes.func.isRequired,
 };
 PageHead.defaultProps = {};
 

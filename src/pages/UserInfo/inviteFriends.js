@@ -104,6 +104,28 @@ class InviteFriends extends PureComponent {
       </div>
     ));
 
+    const permanentInfos = [
+      { label: `${i18nTxt('Invitation code')}:`, text: user.invitationCode },
+      { label: `${i18nTxt('Invitation URL')}:`, text: `${window.location.origin}/invitation/${user.invitationCode}` },
+    ].map(info => (
+      <div className="info">
+        <label>{info.label}</label>
+        <div className="content">
+          <span className="text">{info.text}</span>
+          <a
+            href="/"
+            onClick={e => {
+              e.preventDefault();
+              copyToClipboard(info.text);
+              notice.show({ content: i18nTxt('Copied'), type: 'message-success', timeout: 3000 });
+            }}
+          >
+            {i18nTxt('COPY')}
+          </a>
+        </div>
+      </div>
+    ));
+
     return (
       <React.Fragment>
         <BackHeadDiv onClick={() => history.push('/user-info')}>
@@ -136,6 +158,10 @@ class InviteFriends extends PureComponent {
                 {i18nTxt('BUY MORE CODES')}
               </button>
             </div>
+          </div>
+          <div style={{ display: user.noInvitationLimit ? 'block' : 'none', marginBottom: '20px' }}>
+            <span className="level2-title">{i18nTxt('Permanent invitation code')}:</span>
+            <section className="infos">{permanentInfos}</section>
           </div>
           <div className="generate">
             <button className="btn primary" type="button" onClick={this.getInvitationCode}>
@@ -185,6 +211,13 @@ export default connect(mapStateToProps)(InviteFriends);
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
+  .level2-title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 16px;
+    color: #171d1f;
+  }
   .title {
     display: flex;
     justify-content: space-between;

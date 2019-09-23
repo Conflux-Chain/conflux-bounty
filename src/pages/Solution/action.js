@@ -11,6 +11,7 @@ import {
   reqCheckLike,
   reqUpdateMileStone,
   reqSolutionList,
+  reqCreateNote,
 } from '../../utils/api';
 
 export const UPDATE_EDIT = 'solution-edit/UPDATE';
@@ -51,14 +52,26 @@ export const getBounty = bountyId => (dispatch, getState) => {
   const { bountyCache } = getState().common;
   let bountyTitlep;
   if (bountyCache[bountyId]) {
-    bountyTitlep = Promise.resolve(bountyCache[bountyId].title);
+    bountyTitlep = Promise.resolve({
+      title: bountyCache[bountyId].title,
+      milestoneLimit: bountyCache[bountyId].milestoneLimit,
+    });
   } else {
     bountyTitlep = dispatch(reqBountyQuery({ bountyId })).then(body => {
-      return body.result.title;
+      return {
+        title: body.result.title,
+        milestoneLimit: body.result.milestoneLimit,
+      };
     });
   }
-  bountyTitlep.then(bountyTitle => {
-    dispatch(updateEdit({ bountyTitle, bountyId }));
+  bountyTitlep.then(v => {
+    dispatch(
+      updateEdit({
+        bountyTitle: v.title,
+        milestoneLimit: v.milestoneLimit,
+        bountyId,
+      })
+    );
   });
 };
 
@@ -129,7 +142,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
 
   const pairs = {
     description: 'descriptionErrMsg',
-    contactMessage: 'contactMessageErr',
     // agreeLicence: 'agreeLicenceErr',
   };
 
@@ -152,7 +164,7 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       valid = false;
       milest.descriptionErr = ERR_MSG.NOT_BLANK;
     }
-    if (!REGEX.CHECK_NUMBER.test(milest.duration)) {
+    if (!REGEX.CHECK_FLOAT.test(milest.duration)) {
       valid = false;
       milest.durationErr = ERR_MSG.POSITIVE_NUMBER;
     } else if (milest.duration > 90) {
@@ -186,7 +198,6 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       bountyId: query.bountyId,
       description: editSolution.description,
       privateMessage: editSolution.privateMessage,
-      contactMessage: editSolution.contactMessage,
       milestoneList: milestoneList.map(v => {
         return {
           ...v,
@@ -366,6 +377,9 @@ export const getSolutionView = submissionId => (dispatch, getState) => {
         milestoneList: body.result.milestoneList.sort((a, b) => a.step - b.step),
         // fansCoin: body.result.fansCoin,
         reward: body.result.reward,
+        likeNumber: body.result.likeNumber,
+        note: body.result.note,
+        noteList: body.result.noteList,
       })
     );
 
@@ -407,7 +421,7 @@ export const freshSubmissionDesc = ({ submissionId, language }) => dispatch => {
   });
 };
 
-export const sendLike = (submissionId, type) => dispatch => {
+export const sendLike = (submissionId, type) => (dispatch, getState) => {
   if (utils.auth.loggedIn() === false) {
     utils.notice.show({
       type: 'message-notice',
@@ -421,9 +435,11 @@ export const sendLike = (submissionId, type) => dispatch => {
     type,
   }).then(body => {
     if (body.result.submissionId) {
+      const { viewSolution } = getState().solution;
       dispatch(
         updateView({
           isLike: type === 'add',
+          likeNumber: type === 'add' ? viewSolution.likeNumber + 1 : viewSolution.likeNumber - 1,
         })
       );
     }
@@ -587,4 +603,37 @@ export const submitMileStone = ({ milestoneId }) => (dispatch, getState) => {
       }
     });
   }
+};
+
+// reqCreateNote
+export const submitNote = () => (dispatch, getState) => {
+  const { viewSolution } = getState().solution;
+  const { submissionId } = utils.getQuery();
+
+  reqCreateNote({
+    submissionId,
+    description: viewSolution.addNoteTxt,
+  }).then(() => {
+    utils.notice.show({
+      type: 'message-success',
+      content: utils.i18nTxt('create success'),
+      timeout: 3000,
+    });
+    dispatch(
+      updateView({
+        showEditNoteMsg: false,
+      })
+    );
+
+    reqSolutionQuery({
+      submissionId,
+    }).then(body => {
+      dispatch(
+        updateView({
+          note: body.result.note,
+          noteList: body.result.noteList,
+        })
+      );
+    });
+  });
 };

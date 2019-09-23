@@ -122,6 +122,12 @@ export const sendRequest = config => {
         if (!config.manualNotice && result.body.result && result.body.result.errorCode !== undefined) {
           const errMsg = i18nTxt(USER_ERROR[result.body.result.errorCode]);
           $notice.show({ content: errMsg, type: 'message-error', timeout: 3000 });
+        } else {
+          let errContent = 'internal server error';
+          if (result.body.code === 499) {
+            errContent = i18nTxt('PermissionError');
+          }
+          $notice.show({ content: errContent, type: 'message-error', timeout: 3000 });
         }
       }
     })
@@ -608,7 +614,7 @@ export function htmlsafe(s) {
 }
 
 export function isImgLike(str) {
-  return str.match(/(\.jpeg|\.jpg|\.png|\.gif)$/);
+  return str.match(/(\.jpeg|\.jpg|\.png|\.gif)$/i);
 }
 
 export function downLink(url, title) {
