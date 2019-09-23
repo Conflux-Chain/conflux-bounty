@@ -555,7 +555,12 @@ class Home extends Component {
                 <div className="broadcast-item">
                   {broadcastList.slice(0, 3).map((item, index) => {
                     return (
-                      <a key={index} href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'}>
+                      <a
+                        key={index}
+                        href={item.url ? item.url : 'Javascript: void(0)'}
+                        style={{ cursor: item.url ? 'pointer' : 'auto' }}
+                        target={item.url ? '_blank' : '_self'}
+                      >
                         {item.title}
                       </a>
                     );
@@ -565,7 +570,12 @@ class Home extends Component {
                   <div className="broadcast-item">
                     {broadcastList.slice(3, 6).map((item, index) => {
                       return (
-                        <a key={index} href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'}>
+                        <a
+                          key={index}
+                          href={item.url ? item.url : 'Javascript: void(0)'}
+                          style={{ cursor: item.url ? 'pointer' : 'auto' }}
+                          target={item.url ? '_blank' : '_self'}
+                        >
                           {item.title}
                         </a>
                       );
@@ -576,7 +586,12 @@ class Home extends Component {
                   <div className="broadcast-item">
                     {broadcastList.slice(6, 9).map((item, index) => {
                       return (
-                        <a key={index} href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'}>
+                        <a
+                          key={index}
+                          href={item.url ? item.url : 'Javascript: void(0)'}
+                          style={{ cursor: item.url ? 'pointer' : 'auto' }}
+                          target={item.url ? '_blank' : '_self'}
+                        >
                           {item.title}
                         </a>
                       );
