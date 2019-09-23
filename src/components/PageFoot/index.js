@@ -26,6 +26,7 @@ const Wrap = styled.div`
   padding: 40px 0 20px;
   justify-content: space-between;
   overflow: hidden;
+  z-index: 99999;
   &.home {
     margin-top: 0px;
   }
@@ -33,9 +34,11 @@ const Wrap = styled.div`
     width: 1200px;
     display: flex;
     justify-content: space-between;
+    position: absolute;
   }
   .foot-portal {
     display: flex;
+    margin-top: 48px;
     a {
       color: #fff;
       opacity: 0.8;
@@ -58,11 +61,12 @@ const Wrap = styled.div`
     }
     .wechat {
       position: relative;
+      z-index: 9999;
       .wechat-code {
         display: none;
         position: absolute;
-        top: -10px;
-        left: 32px;
+        bottom: 72px;
+        left: -45px;
       }
       &:hover {
         .wechat-code {
