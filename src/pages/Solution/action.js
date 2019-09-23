@@ -94,9 +94,10 @@ export const uploadFile = e => (dispatch, getState) => {
       const { editSolution } = getState().solution;
       const attachmentListCopy = editSolution.attachmentList.slice();
 
+      const imgUrl = utils.genUrlFromName(curFile.name, md5);
       attachmentListCopy.push({
         title: curFile.name,
-        url: utils.genUrlFromName(curFile.name, md5),
+        url: imgUrl,
         size: curFile.size,
         info: {
           md5,
@@ -113,7 +114,10 @@ export const uploadFile = e => (dispatch, getState) => {
         );
       };
       if (utils.isImgLike(curFile.name)) {
-        setTimeout(upAttach, 1000);
+        // setTimeout(upAttach, 1000);
+        utils.fetchPic(imgUrl).then(() => {
+          upAttach();
+        });
       } else {
         upAttach();
       }
@@ -132,6 +136,7 @@ const isEmpty = val => {
   return false;
 };
 
+let lockSubmit = false;
 export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
   const { editSolution } = getState().solution;
   const query = utils.getQuery();
@@ -206,20 +211,31 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
       }),
     };
     if (pageType === 'create') {
+      if (lockSubmit) {
+        return;
+      }
+      lockSubmit = true;
+
       const param = {
         ...baseParam,
         attachmentList: editSolution.attachmentList,
       };
-      reqSolutionCreate(param).then(body => {
-        utils.notice.show({
-          type: 'message-success',
-          content: utils.i18nTxt('create success'),
-          timeout: 3000,
-        });
-        setTimeout(() => {
-          history.push(`/create-submission-success?bountyId=${query.bountyId}&submissionId=${body.result.id}`);
-        }, 600);
-      });
+      reqSolutionCreate(param).then(
+        body => {
+          utils.notice.show({
+            type: 'message-success',
+            content: utils.i18nTxt('create success'),
+            timeout: 3000,
+          });
+          lockSubmit = false;
+          setTimeout(() => {
+            history.push(`/create-submission-success?bountyId=${query.bountyId}&submissionId=${body.result.id}`);
+          }, 600);
+        },
+        () => {
+          lockSubmit = false;
+        }
+      );
     } else if (pageType === 'edit') {
       if (editSolution.status === SOLUTION_STATUS_ENUM.REVIEWING) {
         // todo other status
@@ -529,9 +545,10 @@ export const uploadFileMileStone = (e, index) => (dispatch, getState) => {
       const { editMileStone } = getState().solution;
       const attachmentListCopy = (editMileStone.list[index].attachmentList || []).slice();
 
+      const imgUrl = utils.genUrlFromName(curFile.name, md5);
       attachmentListCopy.push({
         title: curFile.name,
-        url: utils.genUrlFromName(curFile.name, md5),
+        url: imgUrl,
         size: curFile.size,
         info: {
           md5,
@@ -551,7 +568,9 @@ export const uploadFileMileStone = (e, index) => (dispatch, getState) => {
         );
       };
       if (utils.isImgLike(curFile.name)) {
-        setTimeout(upAttach, 1000);
+        utils.fetchPic(imgUrl).then(() => {
+          upAttach();
+        });
       } else {
         upAttach();
       }
@@ -573,7 +592,7 @@ export const submitMileStone = ({ milestoneId }) => (dispatch, getState) => {
       curMilest = milest;
       if (isEmpty(milest.proof)) {
         valid = false;
-        milest.titleErr = ERR_MSG.NOT_BLANK;
+        milest.proofErr = ERR_MSG.NOT_BLANK;
       }
     }
     return milest;
