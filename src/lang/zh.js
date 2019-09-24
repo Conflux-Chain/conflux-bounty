@@ -11,7 +11,7 @@ export default {
   FINISHED: '已完成',
   Category: '一级分类',
   '* Category': '* 一级分类',
-  Subcategory: '二级分类',
+  SubCategory: '二级分类',
   '* Subcategory': '* 二级分类',
   All: '全部',
   Technology: '技术',
