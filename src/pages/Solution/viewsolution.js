@@ -269,10 +269,10 @@ class ViewSolution extends Component {
   };
 
   transSubmission = () => {
-    const { freshSubmissionDesc, submissionId, common } = this.props;
+    const { freshSubmissionDesc, submissionId, user } = this.props;
     freshSubmissionDesc({
       submissionId,
-      language: common.lang,
+      language: user.language,
     });
   };
 
@@ -756,9 +756,6 @@ ViewSolution.propTypes = {
   resetView: PropTypes.func.isRequired,
   freshSubmissionDesc: PropTypes.func.isRequired,
   updateView: PropTypes.func.isRequired,
-  common: PropTypes.objectOf({
-    lang: PropTypes.string,
-  }).isRequired,
   renderReward: PropTypes.func,
   viewSolution: PropTypes.objectOf({
     user: PropTypes.objectOf({
@@ -777,7 +774,6 @@ ViewSolution.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    common: state.common,
     user: state.head.user,
     viewSolution: state.solution.viewSolution,
   };
