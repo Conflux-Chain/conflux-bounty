@@ -8,12 +8,14 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { StyledWrapper } from '../../globalStyles/common';
 import Input from '../../components/Input';
 import { sendRequest, auth, i18nTxt } from '../../utils';
 import { notice } from '../../components/Message/notice';
 import { getAccount } from '../../components/PageHead/action';
 import SignInVia from '../../components/SignInVia';
+import { recaptchaKey } from '../../constants';
 
 class SignIn extends Component {
   constructor(...args) {
@@ -28,6 +30,7 @@ class SignIn extends Component {
       inputsValue: {
         email,
         password: '',
+        recaptchaVal: '',
       },
     };
   }
@@ -58,7 +61,7 @@ class SignIn extends Component {
 
   onSigninClick = async () => {
     const {
-      inputsValue: { email, password },
+      inputsValue: { email, password, recaptchaVal },
       rememberUsernameChecked,
     } = this.state;
 
@@ -66,7 +69,7 @@ class SignIn extends Component {
       body: { code, result },
     } = await sendRequest({
       url: '/user/login',
-      body: { email, password },
+      body: { email, password, recaptchaVal },
       manualNotice: true,
     });
 
@@ -125,6 +128,16 @@ class SignIn extends Component {
                     }
                   }}
                 />
+                <div className="recaptcha-wrap">
+                  <ReCAPTCHA
+                    sitekey={recaptchaKey}
+                    onChange={val => {
+                      const { inputsValue } = this.state;
+                      this.setState({ inputsValue: { ...inputsValue, recaptchaVal: val } });
+                    }}
+                  />
+                  <i className="extend-icon"></i>
+                </div>
               </div>
               <div className="btn-wrap-signup">
                 <label className="remember-me">
@@ -226,6 +239,22 @@ const Wrapper = styled(StyledWrapper)`
       font-size: 14px;
       line-height: 14px;
       color: #595f61;
+    }
+  }
+  .recaptcha-wrap {
+    position: relative;
+    margin-top: 15px;
+
+    .extend-icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: calc(100% - 2px);
+      width: 50%;
+      border: 1px solid #d3d3d3;
+      border-left: none;
+      background: #f9f9f9;
+      pointer-events: none;
     }
   }
 `;
