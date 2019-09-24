@@ -418,4 +418,8 @@ export default {
   'Up to <%=restrictNumber%> submission per participant. ': '单用户最多提交<%=restrictNumber%>个方案:',
   yes: '是',
   no: '否',
+  'invalid recaptcha secret': 'recaptcha 密钥不正确',
+  'invalid recaptcha response parameter': 'recaptcha 返回结果参数不正确',
+  'invalid recaptcha request': '验证吗异常',
+  'recaptcha check timeout, please reload page': '验证吗交易超时，请刷新页面',
 };
