@@ -19,7 +19,7 @@ import Password from '../../components/Password';
 import InvitationCode from '../../components/InvitationCode';
 import { notice } from '../../components/Message/notice';
 import SignInVia from '../../components/SignInVia';
-import { RecaptchaWrapDiv } from '../SignIn';
+import { RecaptchaWrapDiv, getRecaptchaErr } from '../SignIn';
 import { recaptchaKey } from '../../constants';
 
 const RecaptchaWrapDiv1 = styled(RecaptchaWrapDiv)`
@@ -89,7 +89,7 @@ class SignUp extends Component {
     if (userId) {
       const {
         code,
-        result: { accessToken },
+        result: { accessToken, recaptcha },
       } = await reqUserSignup({
         email,
         emailVerificationCode: emailCode,
@@ -103,6 +103,13 @@ class SignUp extends Component {
         recaptchaVal,
       });
       if (code !== 0) {
+        if (recaptcha && recaptcha.success !== true) {
+          notice.show({
+            content: getRecaptchaErr(recaptcha['error-codes']),
+            type: 'message-error',
+            timeout: 3000,
+          });
+        }
         return;
       }
       if (accessToken) {
@@ -111,7 +118,7 @@ class SignUp extends Component {
     } else {
       const {
         code,
-        result: { accessToken },
+        result: { accessToken, recaptcha },
       } = await reqUserSignup({
         email,
         emailVerificationCode: emailCode,
@@ -122,6 +129,13 @@ class SignUp extends Component {
         recaptchaVal,
       });
       if (code !== 0) {
+        if (recaptcha && recaptcha.success !== true) {
+          notice.show({
+            content: getRecaptchaErr(recaptcha['error-codes']),
+            type: 'message-error',
+            timeout: 3000,
+          });
+        }
         return;
       }
 
