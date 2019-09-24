@@ -19,7 +19,7 @@ import Password from '../../components/Password';
 import InvitationCode from '../../components/InvitationCode';
 import { notice } from '../../components/Message/notice';
 import SignInVia from '../../components/SignInVia';
-import { RecaptchaWrapDiv } from '../SignIn';
+import { RecaptchaWrapDiv, getRecaptchaErr } from '../SignIn';
 import { recaptchaKey } from '../../constants';
 
 const RecaptchaWrapDiv1 = styled(RecaptchaWrapDiv)`
