@@ -350,7 +350,7 @@ class Home extends Component {
     super(props);
     this.state = {
       sortType: 'time',
-      sortOrder: true,
+      sortOrder: false,
     };
     this.onChangeTag = this.onChangeTag.bind(this);
     this.onChangeCategory = this.onChangeCategory.bind(this);
