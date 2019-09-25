@@ -396,7 +396,7 @@ class ViewBounty extends Component {
           </div>
           <s.H2>{i18nTxt('Description')}:</s.H2>
           <pre className="desc" dangerouslySetInnerHTML={{ __html: htmlsafe(viewBounty.description) }}></pre>
-          <s.H2>{i18nTxt('Attachments')}:</s.H2>
+          {viewBounty.attachmentList.length && <s.H2>{i18nTxt('Attachments')}:</s.H2>}
 
           <div style={{ marginTop: 12 }}>
             <s.AttachmentDiv>
