@@ -603,52 +603,63 @@ class ViewSolution extends Component {
           </div>
 
           {renderAny(() => {
-            let noteList = [];
-            if (viewSolution.noteList) {
-              // eslint-disable-next-line  prefer-destructuring
-              noteList = viewSolution.noteList;
-            }
-
-            if (noteList.length) {
-              return (
-                <div>
-                  <div className="subject">{i18nTxt('Added Contents')}:</div>
-                  <div className="notemsg-detail">
-                    {noteList.map(v => {
-                      if (props.user.id === viewSolution.user.id) {
-                        let statusDiv;
-                        if (v.status === 'DELETED') {
-                          statusDiv = (
-                            <Tooltip direction="topRight" tipSpan={<span> {i18nTxt(`submission.note.${v.status}`)}</span>}>
-                              <div>{v.rejectMessage}</div>
-                            </Tooltip>
+            const renderNote = noteList => {
+              if (noteList.length) {
+                return (
+                  <div>
+                    <div className="subject">{i18nTxt('Added Contents')}:</div>
+                    <div className="notemsg-detail">
+                      {noteList.map(v => {
+                        if (props.user.id === viewSolution.user.id) {
+                          let statusDiv;
+                          if (v.status === 'DELETED') {
+                            statusDiv = (
+                              <Tooltip direction="topRight" tipSpan={<span> {i18nTxt(`submission.note.${v.status}`)}</span>}>
+                                <div>{v.rejectMessage}</div>
+                              </Tooltip>
+                            );
+                          } else {
+                            statusDiv = <span> {i18nTxt(`submission.note.${v.status}`)}</span>;
+                          }
+                          return (
+                            <p>
+                              <span>{v.description}</span>
+                              <div className={`notemsg-status-${v.status}`}>{statusDiv}</div>
+                            </p>
                           );
-                        } else {
-                          statusDiv = <span> {i18nTxt(`submission.note.${v.status}`)}</span>;
                         }
-                        return (
-                          <p>
-                            <span>{v.description}</span>
-                            <div className={`notemsg-status-${v.status}`}>{statusDiv}</div>
-                          </p>
-                        );
-                      }
 
-                      if (v.status === 'APPROVED') {
-                        return (
-                          <p>
-                            <span>{v.description}</span>
-                          </p>
-                        );
-                      }
+                        if (v.status === 'APPROVED') {
+                          return (
+                            <p>
+                              <span>{v.description}</span>
+                            </p>
+                          );
+                        }
 
-                      return null;
-                    })}
+                        return null;
+                      })}
+                    </div>
                   </div>
-                </div>
+                );
+              }
+              return null;
+            };
+
+            if (viewSolution.addTranslate) {
+              return (
+                <Fragment>
+                  {renderNote(viewSolution.noteListTranslated || [])}
+                  <div className="translate-sep">
+                    <span>{i18nTxt('Translate')}: </span>
+                    <i></i>
+                  </div>
+                  {renderNote(viewSolution.noteListTranslated || [])}
+                </Fragment>
               );
             }
-            return null;
+
+            return renderNote(viewSolution.noteList || []);
           })}
 
           {renderAny(() => {
@@ -683,65 +694,74 @@ class ViewSolution extends Component {
             return null;
           })}
 
-          <div className="subject">{i18nTxt('Milestone')}:</div>
+          {renderAny(() => {
+            if (viewSolution.bounty.milestoneLimit === 0) {
+              return null;
+            }
 
-          <div className="miltstone-wrap">
-            {renderAny(() => {
-              return viewSolution.milestoneList.map((milest, index) => {
-                let approveDiv;
-                if (
-                  milest.status === MILESTONE_STATUS_ENUM.ONGOING ||
-                  milest.status === MILESTONE_STATUS_ENUM.AUDITING ||
-                  milest.status === MILESTONE_STATUS_ENUM.FINISHED
-                ) {
-                  approveDiv = (
-                    <s1.StatusTagDiv className={milest.status} style={{ marginTop: 20 }}>
-                      {getStatusMileStone(milest.status)}
-                    </s1.StatusTagDiv>
-                  );
-                }
-                const attachList = milest.attachmentList || [];
+            return (
+              <Fragment>
+                <div className="subject">{i18nTxt('Milestone')}:</div>
+                <div className="miltstone-wrap">
+                  {renderAny(() => {
+                    return viewSolution.milestoneList.map((milest, index) => {
+                      let approveDiv;
+                      if (
+                        milest.status === MILESTONE_STATUS_ENUM.ONGOING ||
+                        milest.status === MILESTONE_STATUS_ENUM.AUDITING ||
+                        milest.status === MILESTONE_STATUS_ENUM.FINISHED
+                      ) {
+                        approveDiv = (
+                          <s1.StatusTagDiv className={milest.status} style={{ marginTop: 20 }}>
+                            {getStatusMileStone(milest.status)}
+                          </s1.StatusTagDiv>
+                        );
+                      }
+                      const attachList = milest.attachmentList || [];
 
-                return (
-                  <s1.MileStoneProgress>
-                    <div className="milestone-step">{s1.stepBoxLine(milest.status, index, viewSolution.milestoneList.length)}</div>
+                      return (
+                        <s1.MileStoneProgress>
+                          <div className="milestone-step">{s1.stepBoxLine(milest.status, index, viewSolution.milestoneList.length)}</div>
 
-                    <div className="milestone-right">
-                      <div className="duration">
-                        {milest.duration} {milest.duration > 1 ? i18nTxt('days') : i18nTxt('day')}
-                      </div>
-                      <h5>{milest.title}</h5>
-                      <p dangerouslySetInnerHTML={{ __html: htmlsafe(milest.description) }}></p>
-                      <p>{milest.proof}</p>
-                      <s.AttachmentDiv>
-                        {attachList.map(v => {
-                          return <div className="attachment-line">{downLink(v.url, v.title)}</div>;
-                        })}
-                      </s.AttachmentDiv>
-                      {renderAny(() => {
-                        if (viewSolution.addTranslate) {
-                          const milestTrans = viewSolution.milestoneListTraqnslated[index];
-                          return (
-                            <Fragment>
-                              <div className="translate-sep">
-                                <span>{i18nTxt('Translate')}: </span>
-                                <i></i>
-                              </div>
-                              <h5>{milestTrans.title}</h5>
-                              <p dangerouslySetInnerHTML={{ __html: htmlsafe(milestTrans.description) }}></p>
-                              <p>{milestTrans.proof}</p>
-                            </Fragment>
-                          );
-                        }
-                        return null;
-                      })}
-                      {approveDiv}
-                    </div>
-                  </s1.MileStoneProgress>
-                );
-              });
-            })}
-          </div>
+                          <div className="milestone-right">
+                            <div className="duration">
+                              {milest.duration} {milest.duration > 1 ? i18nTxt('days') : i18nTxt('day')}
+                            </div>
+                            <h5>{milest.title}</h5>
+                            <p dangerouslySetInnerHTML={{ __html: htmlsafe(milest.description) }}></p>
+                            <p>{milest.proof}</p>
+                            <s.AttachmentDiv>
+                              {attachList.map(v => {
+                                return <div className="attachment-line">{downLink(v.url, v.title)}</div>;
+                              })}
+                            </s.AttachmentDiv>
+                            {renderAny(() => {
+                              if (viewSolution.addTranslate) {
+                                const milestTrans = viewSolution.milestoneListTraqnslated[index];
+                                return (
+                                  <Fragment>
+                                    <div className="translate-sep">
+                                      <span>{i18nTxt('Translate')}: </span>
+                                      <i></i>
+                                    </div>
+                                    <h5>{milestTrans.title}</h5>
+                                    <p dangerouslySetInnerHTML={{ __html: htmlsafe(milestTrans.description) }}></p>
+                                    <p>{milestTrans.proof}</p>
+                                  </Fragment>
+                                );
+                              }
+                              return null;
+                            })}
+                            {approveDiv}
+                          </div>
+                        </s1.MileStoneProgress>
+                      );
+                    });
+                  })}
+                </div>
+              </Fragment>
+            );
+          })}
         </Wrapper>
       </React.Fragment>
     );

@@ -58,6 +58,23 @@ const Wrapper = styled(StyledWrapper)`
     font-size: 14px;
     line-height: 20px;
     color: #595f61;
+    text-indent: 10px;
+    &:before {
+      content: '-';
+      width: 10px;
+    }
+  }
+  .reward-info-line {
+    margin-bottom: 10px;
+    text-indent: 10px;
+    color: #595f61;
+    &:first-of-type {
+      margin-top: 10px;
+    }
+    &:before {
+      content: '-';
+      width: 10px;
+    }
   }
   .desc {
     margin-top: 12px;
@@ -366,6 +383,17 @@ class ViewBounty extends Component {
               __html: htmlsafe(viewBounty.rewardMessage),
             }}
           ></div>
+          <div>
+            {viewBounty.autoFinish && (
+              <div className="reward-info-line">{i18nTxt('Allocate rewards right after the submission’s been finished.')}</div>
+            )}
+            <div className="reward-info-line">
+              {i18nTxt('Up to <%=restrictNumber%> submission per participant. ', {
+                restrictNumber: viewBounty.restrictNumber === null ? '不限' : viewBounty.restrictNumber,
+              })}
+            </div>
+            {viewBounty.milestoneLimit !== 0 && <div className="reward-info-line">{i18nTxt('Submission have Milestones.')}</div>}
+          </div>
           <s.H2>{i18nTxt('Description')}:</s.H2>
           <pre className="desc" dangerouslySetInnerHTML={{ __html: htmlsafe(viewBounty.description) }}></pre>
           <s.H2>{i18nTxt('Attachments')}:</s.H2>
