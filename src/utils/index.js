@@ -66,9 +66,15 @@ export const updateDispatch = fn => {
 export const sendRequest = config => {
   const reqType = config.type || 'POST';
   // eslint-disable-next-line no-use-before-define
+  const urlQuery = getQuery();
+  let siteLang = localStorage.getItem('SITE_LANG') || 'en';
+  if (urlQuery.language) {
+    siteLang = urlQuery.language;
+  }
+  // eslint-disable-next-line no-use-before-define
   const accessToken = auth.getToken();
   const reqPromise = superagent(reqType, `/api${config.url}`)
-    .set({ ...config.headers, authorization: accessToken, 'X-SITE-LANG': localStorage.getItem('SITE_LANG') || 'en' })
+    .set({ ...config.headers, authorization: accessToken, 'X-SITE-LANG': siteLang })
     .query(config.query)
     .send(config.body)
     .responseType(config.responseType || 'json');
