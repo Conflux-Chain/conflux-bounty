@@ -169,7 +169,7 @@ class DailyCheckin extends Component {
           <div className="checked-line4">{i18nTxt('Updates in')}</div>
           <div className="checked-line5">
             {i18nTxt('<%= hour %>h:<%= minute %>m', {
-              hour: duration.hours(),
+              hour: parseInt(duration.asHours(), 10),
               minute: duration.minutes(),
             })}
           </div>
