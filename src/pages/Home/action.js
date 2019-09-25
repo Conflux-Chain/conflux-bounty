@@ -42,7 +42,7 @@ export const getBountyList = ({ category: categoryP, subCategory: subCategoryP, 
 export const getPopBountyList = () => dispatch => {
   return reqBountyList({
     filterBy: 'select',
-    sort: 'time_asc',
+    sort: 'time_desc',
   }).then(body => {
     dispatch(
       update({
