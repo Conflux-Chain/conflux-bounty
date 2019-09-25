@@ -494,7 +494,7 @@ class Home extends Component {
       slidesToScroll: 1,
       autoplay: true,
       speed: 2000,
-      autoplaySpeed: 3000,
+      autoplaySpeed: 5000,
       pauseOnHover: true,
       arrows: false,
     };
