@@ -83,7 +83,9 @@ const HoTBounty = styled.div`
       align-items: center;
       justify-content: center;
     }
-    .wrap-open {
+    .wrap-open,
+    .wrap-finished,
+    .wrap-ongoing {
       margin: 0 auto;
     }
     button {
