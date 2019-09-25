@@ -20,7 +20,7 @@ export default {
   'My.Involved Bounty': 'My Participation',
   'viewbounty.COMMENT': 'COMMENT',
   'head.switchTips':
-    'After switching the national station, it will jump to the home page of the national station. The National Station contains a reward mission suitable for the country/region. ',
+    'After switching the national station, it will jump to the home page of the national station. The National Station contains a reward mission suitable for the country/region',
   'submission.note.AUDITING': 'AUDITING',
   'submission.note.DELETED': 'REJECTED',
   'submission.note.APPROVED': ' ',

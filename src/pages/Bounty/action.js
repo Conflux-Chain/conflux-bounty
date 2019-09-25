@@ -159,9 +159,10 @@ export const uploadFile = e => (dispatch, getState) => {
       const { editBounty } = getState().bounty;
       const attachmentListCopy = editBounty.attachmentList.slice();
 
+      const imgUrl = utils.genUrlFromName(curFile.name, md5);
       attachmentListCopy.push({
         title: curFile.name,
-        url: utils.genUrlFromName(curFile.name, md5),
+        url: imgUrl,
         size: curFile.size,
         info: {
           md5,
@@ -178,7 +179,9 @@ export const uploadFile = e => (dispatch, getState) => {
         );
       };
       if (utils.isImgLike(curFile.name)) {
-        setTimeout(upAttach, 1000);
+        utils.fetchPic(imgUrl).then(() => {
+          upAttach();
+        });
       } else {
         upAttach();
       }
@@ -383,6 +386,7 @@ export const sendComment = () => (dispatch, getState) => {
     description: viewBounty.commentText,
   }).then(body => {
     const comment = {
+      description: viewBounty.commentText,
       ...body.result,
       user,
     };

@@ -379,7 +379,7 @@ export const auth = {
     dispatch({
       type: UPDATE_HEAD,
       payload: {
-        user: { nickname: '', email: '', invitationCode: '' },
+        user: { nickname: '', email: '', invitationCode: '', language: navigator.language },
         fansCoin: 0,
         id: '',
         fansCoinLocked: 0,
@@ -650,3 +650,46 @@ export function resizeTextArea() {
     M.textareaAutoResize(elem);
   });
 }
+
+const loadImg = imgSrc => {
+  return new Promise((resolve, reject) => {
+    const imgTmp = new Image();
+    imgTmp.onload = () => {
+      resolve();
+    };
+    imgTmp.onerror = () => {
+      reject();
+    };
+    imgTmp.src = imgSrc;
+  });
+};
+
+const wait = time => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, time || 1000);
+  });
+};
+
+export const fetchPic = imgSrc => {
+  dispatch({
+    type: 'PAGE_LOADING+',
+    payload: {},
+  });
+  return wait(1000)
+    .then(() => loadImg(imgSrc))
+    .catch(() => {
+      return wait(1000).then(() => loadImg(imgSrc));
+    })
+    .catch(() => {
+      return wait(1000).then(() => loadImg(imgSrc));
+    })
+    .catch(() => {})
+    .then(() => {
+      dispatch({
+        type: 'PAGE_LOADING-',
+        payload: {},
+      });
+    });
+};
