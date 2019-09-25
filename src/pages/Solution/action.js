@@ -432,6 +432,7 @@ export const freshSubmissionDesc = ({ submissionId, language }) => dispatch => {
         addTranslate: true,
         descriptionTranslated: body.result.description,
         milestoneListTraqnslated: body.result.milestoneList,
+        noteListTranslated: body.result.noteList,
       })
     );
   });

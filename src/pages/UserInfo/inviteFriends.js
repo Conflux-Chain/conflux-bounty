@@ -97,6 +97,9 @@ class InviteFriends extends PureComponent {
               copyToClipboard(info.text);
               notice.show({ content: i18nTxt('Copied'), type: 'message-success', timeout: 3000 });
             }}
+            style={{
+              whiteSpace: 'nowrap',
+            }}
           >
             {i18nTxt('COPY')}
           </a>
@@ -118,6 +121,9 @@ class InviteFriends extends PureComponent {
               e.preventDefault();
               copyToClipboard(info.text);
               notice.show({ content: i18nTxt('Copied'), type: 'message-success', timeout: 3000 });
+            }}
+            style={{
+              whiteSpace: 'nowrap',
             }}
           >
             {i18nTxt('COPY')}
