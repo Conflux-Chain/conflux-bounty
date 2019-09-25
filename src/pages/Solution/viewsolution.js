@@ -647,18 +647,20 @@ class ViewSolution extends Component {
             };
 
             if (viewSolution.addTranslate) {
-              return (
-                <Fragment>
-                  {renderNote(viewSolution.noteListTranslated || [])}
-                  <div className="translate-sep">
-                    <span>{i18nTxt('Translate')}: </span>
-                    <i></i>
-                  </div>
-                  {renderNote(viewSolution.noteListTranslated || [])}
-                </Fragment>
-              );
+              if (viewSolution.noteListTranslated && viewSolution.noteListTranslated.length > 0) {
+                return (
+                  <Fragment>
+                    {renderNote(viewSolution.noteListTranslated || [])}
+                    <div className="translate-sep">
+                      <span>{i18nTxt('Translate')}: </span>
+                      <i></i>
+                    </div>
+                    {renderNote(viewSolution.noteListTranslated || [])}
+                  </Fragment>
+                );
+              }
+              return null;
             }
-
             return renderNote(viewSolution.noteList || []);
           })}
 
@@ -767,7 +769,6 @@ class ViewSolution extends Component {
     );
   }
 }
-
 ViewSolution.propTypes = {
   history: commonPropTypes.history.isRequired,
   getSolutionView: PropTypes.func.isRequired,

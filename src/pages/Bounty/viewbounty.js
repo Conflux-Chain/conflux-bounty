@@ -389,14 +389,14 @@ class ViewBounty extends Component {
             )}
             <div className="reward-info-line">
               {i18nTxt('Up to <%=restrictNumber%> submission per participant. ', {
-                restrictNumber: viewBounty.restrictNumber === null ? '不限' : viewBounty.restrictNumber,
+                restrictNumber: viewBounty.restrictNumber === null ? '无限' : viewBounty.restrictNumber,
               })}
             </div>
             {viewBounty.milestoneLimit !== 0 && <div className="reward-info-line">{i18nTxt('Submission have Milestones.')}</div>}
           </div>
           <s.H2>{i18nTxt('Description')}:</s.H2>
           <pre className="desc" dangerouslySetInnerHTML={{ __html: htmlsafe(viewBounty.description) }}></pre>
-          <s.H2>{i18nTxt('Attachments')}:</s.H2>
+          {viewBounty.attachmentList.length && <s.H2>{i18nTxt('Attachments')}:</s.H2>}
 
           <div style={{ marginTop: 12 }}>
             <s.AttachmentDiv>
