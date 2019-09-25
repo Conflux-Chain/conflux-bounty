@@ -389,7 +389,7 @@ class ViewBounty extends Component {
             )}
             <div className="reward-info-line">
               {i18nTxt('Up to <%=restrictNumber%> submission per participant. ', {
-                restrictNumber: viewBounty.restrictNumber === null ? '不限' : viewBounty.restrictNumber,
+                restrictNumber: viewBounty.restrictNumber === null ? '无限' : viewBounty.restrictNumber,
               })}
             </div>
             {viewBounty.milestoneLimit !== 0 && <div className="reward-info-line">{i18nTxt('Submission have Milestones.')}</div>}
