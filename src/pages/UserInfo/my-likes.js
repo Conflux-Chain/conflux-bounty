@@ -265,7 +265,10 @@ class MyLikes extends Component {
                         </button>
                       </td>
                       <td className="align-right">
-                        <Link to={`/view-bounty?bountyId=${bounty.id}`} className={`arrow-link ${bounty.transDeleted ? 'disabled' : ''}`}>
+                        <Link
+                          to={`/view-bounty?bountyId=${bounty.id}&language=${bounty.createdSiteLang}`}
+                          className={`arrow-link ${bounty.transDeleted ? 'disabled' : ''}`}
+                        >
                           <span>{i18nTxt('VIEW MORE')}</span>
                           <i className="material-icons dp48">chevron_right</i>
                         </Link>
