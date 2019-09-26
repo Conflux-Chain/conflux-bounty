@@ -332,7 +332,7 @@ class ViewBounty extends Component {
                 const renderReward = () => {
                   return (
                     <RewardDiv>
-                      <div className="line1">{i18nTxt('Total Bounty Reward')}</div>
+                      <div className="line1">{i18nTxt('Total Allocated Bounty Reward')}</div>
                       <div className="line2">
                         <span className="fcBig">{viewBounty.totalRewardFansCoin}</span>
                         <span>FC</span>
