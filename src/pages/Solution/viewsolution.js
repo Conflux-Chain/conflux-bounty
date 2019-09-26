@@ -787,10 +787,6 @@ ViewSolution.propTypes = {
   user: PropTypes.objectOf({
     id: PropTypes.string,
   }).isRequired,
-  updateShare: PropTypes.func.isRequired,
-  sendLike: PropTypes.func.isRequired,
-  from: PropTypes.string.isRequired,
-  headDiv: PropTypes.func.isRequired,
 };
 
 ViewSolution.defaultProps = {

@@ -3684,6 +3684,13 @@ enhanced-resolve@^4.1.0:
     memory-fs "^0.4.0"
     tapable "^1.0.0"
 
+enquire-js@^0.1.2:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/enquire-js/-/enquire-js-0.1.3.tgz#1fd799daaf6c6ae96208179218f3deee4e566e42"
+  integrity sha512-GMV9ZLOU7v84DmtlcFT7uRk5w2nQe/LZ7wvN7wq5O7uor5eU7L7LVT7IVirYZuaT3dRE41JM3uWZRTP9OCRnJg==
+  dependencies:
+    enquire.js "^2.1.6"
+
 enquire.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.npm.taobao.org/enquire.js/download/enquire.js-2.1.6.tgz#3e8780c9b8b835084c3f60e166dbc3c2a3c89814"
