@@ -183,6 +183,11 @@ class AccountHistory extends Component {
                         target="_blank"
                         rel="noopener noreferrer"
                         href={`/view-bounty?bountyId=${reward.info.bountyId}&language=${reward.createdSiteLang}`}
+                        onClick={e => {
+                          if (reward.transDeleted) {
+                            e.preventDefault();
+                          }
+                        }}
                       >
                         {reward.info.title}
                         {reward.transDeleted && <BountyDeletedWarning />}
