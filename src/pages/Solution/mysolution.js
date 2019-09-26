@@ -118,7 +118,7 @@ class MySolution extends Component {
                     <h5>{v.title}</h5>
                     <Link
                       className={`item-link ${v.transDeleted ? 'disabled' : ''}`}
-                      to={`/view-submission?submissionId=${v.id}&from=mysubmission`}
+                      to={`/view-submission?submissionId=${v.id}&from=mysubmission&language=${v.createdSiteLang}`}
                       onClick={e => {
                         if (v.transDeleted) {
                           e.preventDefault();
