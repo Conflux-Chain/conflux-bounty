@@ -67,7 +67,8 @@ module.exports = merge(commom, {
     },
     proxy: {
       '/api': {
-        target: process.env.BOUNTY_BACKEND_ENDPOINT || 'http://localhost:7001',
+        target: process.env.BOUNTY_BACKEND_ENDPOINT || 'http://bountytest.conflux-chain.org',
+        // target: process.env.BOUNTY_BACKEND_ENDPOINT || 'http://localhost:7001',
         changeOrigin: true,
         secure: false,
         // target: 'http://bountytest.conflux-chain.org',

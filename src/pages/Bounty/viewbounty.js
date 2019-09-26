@@ -638,6 +638,7 @@ ViewBounty.propTypes = {
     id: PropTypes.string,
   }).isRequired,
   history: commonPropTypes.history.isRequired,
+  updateShare: func.isRequired,
 };
 
 function mapStateToProps(state) {

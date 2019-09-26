@@ -1,4 +1,4 @@
-import { UPDATE_COMMON, UPDATE_BOUNTY_CACHE, UPDATE_SOLUTION_LIST_CACHE } from '../constants';
+import { UPDATE_COMMON, UPDATE_BOUNTY_CACHE, UPDATE_SOLUTION_LIST_CACHE, UPDATE_ISMOBILE } from '../constants';
 
 const initState = {
   lang: 'zh-CN',
@@ -13,9 +13,16 @@ const initState = {
   checkinRemainingTime: null,
   checkinFansCoin: null,
   showCheckSuccess: false,
+  isMobile: false,
 };
 
 export default (state = initState, action) => {
+  if (action.type === UPDATE_ISMOBILE) {
+    return {
+      ...state,
+      ...action.payload,
+    };
+  }
   if (action.type === UPDATE_COMMON) {
     return {
       ...state,

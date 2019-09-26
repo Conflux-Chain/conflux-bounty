@@ -12,6 +12,7 @@ import Router from './route/router';
 import { ToastComp } from './components/Toast';
 import { NoticeComp } from './components/Message/notice';
 import { PageLoading } from './components/PageLoading';
+import IsMobile from './components/IsMobile';
 
 // styles
 import './globalStyles/material-design.scss';
@@ -65,15 +66,17 @@ class App extends PureComponent {
       <IntlProvider locale={lang} messages={messages[lang]}>
         <BrowserRouter>
           <I18nText />
-          <PageWrapper id="page-wrapper">
-            <div className="page-holder">
-              <PageHead />
-              <div className="page-content">
-                <Router />
+          <IsMobile>
+            <PageWrapper id="page-wrapper">
+              <div className="page-holder">
+                <PageHead />
+                <div className="page-content">
+                  <Router />
+                </div>
+                <PageFoot />
               </div>
-              <PageFoot />
-            </div>
-          </PageWrapper>
+            </PageWrapper>
+          </IsMobile>
           <ToastComp />
           <NoticeComp />
           <PageLoading />

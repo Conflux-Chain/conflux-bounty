@@ -57,6 +57,7 @@
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "echarts": "^4.2.1",
+    "enquire-js": "^0.1.2",
     "history": "^4.9.0",
     "html-loader": "^0.5.5",
     "icon-font-loader": "^2.0.3",
