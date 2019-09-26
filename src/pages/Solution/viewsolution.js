@@ -6,7 +6,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import * as actions from './action';
-import { commonPropTypes, renderAny, getStatusMileStone, htmlsafe, i18nTxt, downLink } from '../../utils';
+import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink } from '../../utils';
 import { StyledWrapper } from '../../globalStyles/common';
 // import Input from '../../components/Input';
 import Message from '../../components/Message';
@@ -585,7 +585,7 @@ class ViewSolution extends Component {
           <div className="subject">{i18nTxt('Details of submission')}:</div>
 
           <div className="solution-detail">
-            <pre dangerouslySetInnerHTML={{ __html: htmlsafe(viewSolution.description) }}></pre>
+            <pre>{viewSolution.description}</pre>
             {renderAny(() => {
               if (viewSolution.addTranslate) {
                 return (
@@ -594,7 +594,7 @@ class ViewSolution extends Component {
                       <span>{i18nTxt('Translate')}: </span>
                       <i></i>
                     </div>
-                    <pre dangerouslySetInnerHTML={{ __html: htmlsafe(viewSolution.descriptionTranslated) }}></pre>
+                    <pre>{viewSolution.description}</pre>
                   </Fragment>
                 );
               }
@@ -647,18 +647,20 @@ class ViewSolution extends Component {
             };
 
             if (viewSolution.addTranslate) {
-              return (
-                <Fragment>
-                  {renderNote(viewSolution.noteListTranslated || [])}
-                  <div className="translate-sep">
-                    <span>{i18nTxt('Translate')}: </span>
-                    <i></i>
-                  </div>
-                  {renderNote(viewSolution.noteListTranslated || [])}
-                </Fragment>
-              );
+              if (viewSolution.noteListTranslated && viewSolution.noteListTranslated.length > 0) {
+                return (
+                  <Fragment>
+                    {renderNote(viewSolution.noteListTranslated || [])}
+                    <div className="translate-sep">
+                      <span>{i18nTxt('Translate')}: </span>
+                      <i></i>
+                    </div>
+                    {renderNote(viewSolution.noteListTranslated || [])}
+                  </Fragment>
+                );
+              }
+              return null;
             }
-
             return renderNote(viewSolution.noteList || []);
           })}
 
@@ -728,7 +730,7 @@ class ViewSolution extends Component {
                               {milest.duration} {milest.duration > 1 ? i18nTxt('days') : i18nTxt('day')}
                             </div>
                             <h5>{milest.title}</h5>
-                            <p dangerouslySetInnerHTML={{ __html: htmlsafe(milest.description) }}></p>
+                            <p>{milest.description}</p>
                             <p>{milest.proof}</p>
                             <s.AttachmentDiv>
                               {attachList.map(v => {
@@ -745,7 +747,7 @@ class ViewSolution extends Component {
                                       <i></i>
                                     </div>
                                     <h5>{milestTrans.title}</h5>
-                                    <p dangerouslySetInnerHTML={{ __html: htmlsafe(milestTrans.description) }}></p>
+                                    <p>{milestTrans.description}</p>
                                     <p>{milestTrans.proof}</p>
                                   </Fragment>
                                 );
@@ -767,7 +769,6 @@ class ViewSolution extends Component {
     );
   }
 }
-
 ViewSolution.propTypes = {
   history: commonPropTypes.history.isRequired,
   getSolutionView: PropTypes.func.isRequired,

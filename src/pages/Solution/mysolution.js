@@ -86,7 +86,19 @@ class MySolution extends Component {
                 updateDiv = (
                   <div className="clearfix">
                     <div className="update-progress">
-                      <Link to={`/update-progress?submissionId=${v.id}`} className="btn waves-effect waves-light default" type="button">
+                      <Link
+                        style={{
+                          opacity: !v.transDeleted ? '0.6' : 1,
+                        }}
+                        onClick={e => {
+                          if (v.transDeleted) {
+                            e.preventDefault();
+                          }
+                        }}
+                        to={`/update-progress?submissionId=${v.id}`}
+                        className="btn waves-effect waves-light default"
+                        type="button"
+                      >
                         {i18nTxt('Update Progress')}
                       </Link>
                       <div className="step-progress-info">
@@ -106,7 +118,12 @@ class MySolution extends Component {
                     <h5>{v.title}</h5>
                     <Link
                       className={`item-link ${v.transDeleted ? 'disabled' : ''}`}
-                      to={`/view-submission?submissionId=${v.id}&from=mysubmission`}
+                      to={`/view-submission?submissionId=${v.id}&from=mysubmission&language=${v.createdSiteLang}`}
+                      onClick={e => {
+                        if (v.transDeleted) {
+                          e.preventDefault();
+                        }
+                      }}
                     >
                       <span>{i18nTxt('VIEW MORE')}</span>
                       <i className="material-icons dp48">chevron_right</i>

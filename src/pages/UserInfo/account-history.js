@@ -10,6 +10,7 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import * as s2 from './commonStyle';
 import noResult from '../../assets/images/icon-no-results.png';
 import { auth, commonPropTypes, getStatus, i18nTxt } from '../../utils';
+import BountyDeletedWarning from '../../components/BountyDeletedWarning';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -178,8 +179,18 @@ class AccountHistory extends Component {
                   let bountyInfo;
                   if (reward.info) {
                     bountyInfo = (
-                      <a target="_blank" rel="noopener noreferrer" href={`/view-bounty?bountyId=${reward.info.bountyId}`}>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`/view-bounty?bountyId=${reward.info.bountyId}&language=${reward.createdSiteLang}`}
+                        onClick={e => {
+                          if (reward.transDeleted) {
+                            e.preventDefault();
+                          }
+                        }}
+                      >
                         {reward.info.title}
+                        {reward.transDeleted && <BountyDeletedWarning />}
                       </a>
                     );
                   } else if (reward.belongType === 'Checkin') {

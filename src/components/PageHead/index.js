@@ -8,7 +8,7 @@ import * as actions from './action';
 import headImg from '../../assets/iconfont/conflux-head-logo.svg';
 import homeImg from '../../assets/iconfont/conflux-home-logo.svg';
 import UserBack from '../../assets/iconfont/user-back.svg';
-import { i18n, compose, commonPropTypes, auth, isPath, i18nTxt } from '../../utils';
+import { i18n, compose, commonPropTypes, auth, isPath, i18nTxt, getDefaultLang } from '../../utils';
 import PhotoImg from '../PhotoImg';
 import Select from '../Select';
 import iconChinaUrl from '../../assets/iconfont/china.svg';
@@ -153,7 +153,7 @@ class PageHead extends Component {
 
     // navigator.language to google translationg compatible language code
     // eg. zh -> zh-CN, en-US -> en
-    let lang = localStorage.getItem('SITE_LANG') || navigator.language;
+    let lang = localStorage.getItem('SITE_LANG') || getDefaultLang();
     if (lang.startsWith('zh')) {
       lang = 'zh-CN';
     }
