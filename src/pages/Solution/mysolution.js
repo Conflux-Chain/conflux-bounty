@@ -119,6 +119,11 @@ class MySolution extends Component {
                     <Link
                       className={`item-link ${v.transDeleted ? 'disabled' : ''}`}
                       to={`/view-submission?submissionId=${v.id}&from=mysubmission`}
+                      onClick={e => {
+                        if (v.transDeleted) {
+                          e.preventDefault();
+                        }
+                      }}
                     >
                       <span>{i18nTxt('VIEW MORE')}</span>
                       <i className="material-icons dp48">chevron_right</i>

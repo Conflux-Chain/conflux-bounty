@@ -268,6 +268,11 @@ class MyLikes extends Component {
                         <Link
                           to={`/view-bounty?bountyId=${bounty.id}&language=${bounty.createdSiteLang}`}
                           className={`arrow-link ${bounty.transDeleted ? 'disabled' : ''}`}
+                          onClick={e => {
+                            if (bounty.transDeleted) {
+                              e.preventDefault();
+                            }
+                          }}
                         >
                           <span>{i18nTxt('VIEW MORE')}</span>
                           <i className="material-icons dp48">chevron_right</i>
@@ -345,6 +350,11 @@ class MyLikes extends Component {
                         <Link
                           to={`/view-submission?submissionId=${solution.id}`}
                           className={`arrow-link ${solution.transDeleted ? 'disabled' : ''}`}
+                          onClick={e => {
+                            if (solution.transDeleted) {
+                              e.preventDefault();
+                            }
+                          }}
                         >
                           <span>{i18nTxt('VIEW MORE')}</span>
                           <i className="material-icons dp48">chevron_right</i>
