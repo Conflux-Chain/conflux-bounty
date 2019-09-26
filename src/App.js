@@ -48,7 +48,7 @@ const PageWrapper = styled.div`
   bottom: 0px;
   overflow: auto;
   .page-holder {
-    min-width: 600px;
+    min-width: ${props => (props.isMobile ? '320px' : '600px')};
     min-height: 100%;
     display: flex;
     flex-direction: column;
@@ -60,14 +60,14 @@ const PageWrapper = styled.div`
 `;
 class App extends PureComponent {
   render() {
-    const { lang } = this.props;
+    const { lang, isMobile } = this.props;
 
     return (
       <IntlProvider locale={lang} messages={messages[lang]}>
         <BrowserRouter>
           <I18nText />
           <IsMobile>
-            <PageWrapper id="page-wrapper">
+            <PageWrapper isMobile={isMobile} id="page-wrapper">
               <div className="page-holder">
                 <PageHead />
                 <div className="page-content">
@@ -90,11 +90,13 @@ class App extends PureComponent {
 
 App.propTypes = {
   lang: PropTypes.string.isRequired,
+  isMobile: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     lang: state.head.user.language,
+    isMobile: state.common.isMobile,
   };
 }
 export default connect(mapStateToProps)(App);
