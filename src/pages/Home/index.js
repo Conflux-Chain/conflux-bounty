@@ -12,7 +12,7 @@ import { getCategory } from '../../utils/api';
 import HomeTag from '../../components/HomeTag';
 import HomeCategory from '../../components/HomeCategory';
 import HomeBounty from '../../components/HomeBounty';
-import sortImg from '../../assets/iconfont/sort.svg';
+import SortIndicator from '../../components/SortIndicator';
 import homeImg from '../../assets/iconfont/home-back.svg';
 import leftArrow from '../../assets/iconfont/left-arrow.svg';
 import rightArrow from '../../assets/iconfont/right-arrow.svg';
@@ -240,19 +240,6 @@ const BountyList = styled.div`
     .bounty-sort {
       display: flex;
       align-items: center;
-      .bounty-sort-item {
-        display: flex;
-        align-items: center;
-        margin-right: 20px;
-        padding: 0;
-        cursor: pointer;
-        span {
-          display: inline-block;
-          margin-right: 8px;
-          color: #8e9394;
-          font-size: 14px;
-        }
-      }
     }
   }
   .bounty-list-content {
@@ -465,6 +452,7 @@ class Home extends Component {
 
   render() {
     const { homeState, getMoreBounty, categoryL1List, categoryMap } = this.props;
+    const { sortType, sortOrder } = this.state;
     const { tag, category, subCategory, total, bountyList, popBountyList, broadcastList } = homeState;
     let count = 3;
     if (window.innerWidth > 1290) {
@@ -649,18 +637,23 @@ class Home extends Component {
           <BountyList>
             <div className="bounty-list-header">
               <div className="bounty-sort">
-                <button type="button" className="bounty-sort-item" onClick={() => this.onChangeSort('fansCoin')}>
-                  <span>{i18nTxt('Sort by Bounty Rewards')}</span>
-                  <img src={sortImg} className="sorticon" alt="sorticon" />
-                </button>
-                <button type="button" className="bounty-sort-item" onClick={() => this.onChangeSort('time')}>
-                  <span>{i18nTxt('Sort by Date')}</span>
-                  <img src={sortImg} className="sorticon" alt="sorticon" />
-                </button>
-                <button type="button" className="bounty-sort-item" onClick={() => this.onChangeSort('account')}>
-                  <span>{i18nTxt('Sort by Participants')}</span>
-                  <img src={sortImg} className="sorticon" alt="sorticon" />
-                </button>
+                <SortIndicator
+                  highlight={sortType === 'fansCoin'}
+                  order={sortOrder ? 'asc' : 'desc'}
+                  onClick={() => this.onChangeSort('fansCoin')}
+                >
+                  {i18nTxt('Sort by Bounty Rewards')}
+                </SortIndicator>
+                <SortIndicator highlight={sortType === 'time'} order={sortOrder ? 'asc' : 'desc'} onClick={() => this.onChangeSort('time')}>
+                  {i18nTxt('Sort by Date')}
+                </SortIndicator>
+                <SortIndicator
+                  highlight={sortType === 'account'}
+                  order={sortOrder ? 'asc' : 'desc'}
+                  onClick={() => this.onChangeSort('account')}
+                >
+                  {i18nTxt('Sort by Participants')}
+                </SortIndicator>
               </div>
               <span>{i18nTxt('Found <%=total%> Results', { total })}</span>
             </div>
