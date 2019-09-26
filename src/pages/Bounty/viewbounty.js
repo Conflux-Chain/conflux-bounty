@@ -140,6 +140,7 @@ const Wrapper = styled(StyledWrapper)`
   }
   .solution-item-left {
     flex-shrink: 0;
+    width: 85px;
     > span {
       vertical-align: middle;
       color: #595F61;
@@ -396,7 +397,7 @@ class ViewBounty extends Component {
           </div>
           <s.H2>{i18nTxt('Description')}:</s.H2>
           <pre className="desc" dangerouslySetInnerHTML={{ __html: htmlsafe(viewBounty.description) }}></pre>
-          {viewBounty.attachmentList.length && <s.H2>{i18nTxt('Attachments')}:</s.H2>}
+          {viewBounty.attachmentList.length > 0 && <s.H2>{i18nTxt('Attachments')}:</s.H2>}
 
           <div style={{ marginTop: 12 }}>
             <s.AttachmentDiv>
@@ -445,7 +446,9 @@ class ViewBounty extends Component {
                 <div className="solution-item">
                   <div className="solution-item-left">
                     <PhotoImg imgSrc={solution.user.photoUrl || UserBack} />
-                    <span style={{ marginLeft: 10 }}>{solution.user.nickname}</span>
+                    <span style={{ marginLeft: 10 }} title={solution.user.nickname}>
+                      {solution.user.nickname}
+                    </span>
                   </div>
 
                   <div className="solution-item-star">
