@@ -86,7 +86,19 @@ class MySolution extends Component {
                 updateDiv = (
                   <div className="clearfix">
                     <div className="update-progress">
-                      <Link to={`/update-progress?submissionId=${v.id}`} className="btn waves-effect waves-light default" type="button">
+                      <Link
+                        style={{
+                          opacity: !v.transDeleted ? '0.6' : 1,
+                        }}
+                        onClick={e => {
+                          if (v.transDeleted) {
+                            e.preventDefault();
+                          }
+                        }}
+                        to={`/update-progress?submissionId=${v.id}`}
+                        className="btn waves-effect waves-light default"
+                        type="button"
+                      >
                         {i18nTxt('Update Progress')}
                       </Link>
                       <div className="step-progress-info">
