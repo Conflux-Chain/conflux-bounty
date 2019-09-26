@@ -383,7 +383,7 @@ export default {
   'Nickname should only contain no more than 30 characters': '昵称长度不能超过30个字符',
   'My.Created Bounty': '我创建的',
   'My.Involved Bounty': '我领取的',
-  'Total Bounty Reward': '总发放奖金',
+  'Total Allocated Bounty Reward': '总发放奖金',
   'Sort by Time': '按创建时间排序',
   'Sort by Likes': '按点赞数量排序',
   'Added Contents': '补充信息',
