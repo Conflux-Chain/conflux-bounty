@@ -317,6 +317,13 @@ export const uploadFileOss = (key, file) => {
   return reqFile;
 };
 
+export const getDefaultLang = () => {
+  if (navigator.language.indexOf('zh') === 0) {
+    return 'zh-CN';
+  }
+  return 'en';
+};
+
 export const auth = {
   loggedIn() {
     // Checks if there is a saved token and it's still valid
@@ -385,7 +392,7 @@ export const auth = {
     dispatch({
       type: UPDATE_HEAD,
       payload: {
-        user: { nickname: '', email: '', invitationCode: '', language: navigator.language },
+        user: { nickname: '', email: '', invitationCode: '', language: getDefaultLang() },
         fansCoin: 0,
         id: '',
         fansCoinLocked: 0,
