@@ -615,6 +615,7 @@ const sanitizeCfg = {
   allowedAttributes: {
     div: ['style'],
     img: ['style', 'src'],
+    a: ['href', 'target'],
   },
   allowedStyles: {
     div: allowStyles,

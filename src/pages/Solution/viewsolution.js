@@ -594,7 +594,7 @@ class ViewSolution extends Component {
                       <span>{i18nTxt('Translate')}: </span>
                       <i></i>
                     </div>
-                    <pre>{viewSolution.description}</pre>
+                    <pre>{viewSolution.descriptionTranslated}</pre>
                   </Fragment>
                 );
               }
