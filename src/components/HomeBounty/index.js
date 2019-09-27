@@ -96,8 +96,7 @@ const Container = styled.div`
       display: -webkit-box;
       text-align: left;
       max-width: 341px;
-      margin-bottom: 8px;
-      height: 68px;
+      margin-bottom: 20px;
     }
     .bounty-creator {
       font-size: 16px;
@@ -111,7 +110,10 @@ const Container = styled.div`
       align-items: center;
       margin: 16px 0;
       .bounty-coin {
-        font-weight: normal;
+        display: flex;
+        align-items: baseline;
+      }
+      .bounty-coin-num {
         font-size: 24px;
         line-height: 24px;
         font-weight: 800;
@@ -120,6 +122,11 @@ const Container = styled.div`
         &.open {
           color: #f0453a;
         }
+      }
+      .bounty-upto {
+        font-size: 16px;
+        line-height: 16px;
+        margin-right: 4px;
       }
       .bounty-user {
         font-size: 16px;
@@ -159,9 +166,12 @@ function HomeBounty(props) {
         </span>
 
         <span className="bounty-detail">
-          <span className={classnames('bounty-coin', { open: type === 'open' })}>
-            {toThousands(fansCoin)}
-            {' FC'}
+          <span className="bounty-coin">
+            <span className="bounty-upto">{i18nTxt('Up to')}</span>
+            <span className={classnames('bounty-coin-num', { open: type === 'open' })}>
+              <span>{toThousands(fansCoin)}</span>
+              {' FC'}
+            </span>
           </span>
           <span className="bounty-user">
             <img src={type === 'open' ? teamOpen : team} alt="team" />
