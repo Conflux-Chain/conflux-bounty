@@ -58,6 +58,23 @@ const Wrapper = styled(StyledWrapper)`
     font-size: 14px;
     line-height: 20px;
     color: #595f61;
+    text-indent: 10px;
+    &:before {
+      content: '-';
+      width: 10px;
+    }
+  }
+  .reward-info-line {
+    margin-bottom: 10px;
+    text-indent: 10px;
+    color: #595f61;
+    &:first-of-type {
+      margin-top: 10px;
+    }
+    &:before {
+      content: '-';
+      width: 10px;
+    }
   }
   .desc {
     margin-top: 12px;
@@ -123,6 +140,7 @@ const Wrapper = styled(StyledWrapper)`
   }
   .solution-item-left {
     flex-shrink: 0;
+    width: 85px;
     > span {
       vertical-align: middle;
       color: #595F61;
@@ -314,7 +332,7 @@ class ViewBounty extends Component {
                 const renderReward = () => {
                   return (
                     <RewardDiv>
-                      <div className="line1">{i18nTxt('Total Bounty Reward')}</div>
+                      <div className="line1">{i18nTxt('Total Allocated Bounty Reward')}</div>
                       <div className="line2">
                         <span className="fcBig">{viewBounty.totalRewardFansCoin}</span>
                         <span>FC</span>
@@ -366,9 +384,20 @@ class ViewBounty extends Component {
               __html: htmlsafe(viewBounty.rewardMessage),
             }}
           ></div>
+          <div>
+            {viewBounty.autoFinish && (
+              <div className="reward-info-line">{i18nTxt('Allocate rewards right after the submission’s been finished.')}</div>
+            )}
+            <div className="reward-info-line">
+              {i18nTxt('Up to <%=restrictNumber%> submission per participant. ', {
+                restrictNumber: viewBounty.restrictNumber === null ? '无限' : viewBounty.restrictNumber,
+              })}
+            </div>
+            {viewBounty.milestoneLimit !== 0 && <div className="reward-info-line">{i18nTxt('Submission have Milestones.')}</div>}
+          </div>
           <s.H2>{i18nTxt('Description')}:</s.H2>
           <pre className="desc" dangerouslySetInnerHTML={{ __html: htmlsafe(viewBounty.description) }}></pre>
-          <s.H2>{i18nTxt('Attachments')}:</s.H2>
+          {viewBounty.attachmentList.length > 0 && <s.H2>{i18nTxt('Attachments')}:</s.H2>}
 
           <div style={{ marginTop: 12 }}>
             <s.AttachmentDiv>
@@ -417,7 +446,9 @@ class ViewBounty extends Component {
                 <div className="solution-item">
                   <div className="solution-item-left">
                     <PhotoImg imgSrc={solution.user.photoUrl || UserBack} />
-                    <span style={{ marginLeft: 10 }}>{solution.user.nickname}</span>
+                    <span style={{ marginLeft: 10 }} title={solution.user.nickname}>
+                      {solution.user.nickname}
+                    </span>
                   </div>
 
                   <div className="solution-item-star">

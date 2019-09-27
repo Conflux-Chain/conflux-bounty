@@ -105,7 +105,15 @@ class MyBounty extends Component {
                   <div className="my-bounty-item clearfix">
                     <div className="item-head">
                       <h5>{v.title}</h5>
-                      <Link className={`item-link ${v.transDeleted ? 'disabled' : ''}`} to={`/view-bounty?bountyId=${v.id}`}>
+                      <Link
+                        className={`item-link ${v.transDeleted ? 'disabled' : ''}`}
+                        to={`/view-bounty?bountyId=${v.id}&language=${v.createdSiteLang}`}
+                        onClick={e => {
+                          if (v.transDeleted) {
+                            e.preventDefault();
+                          }
+                        }}
+                      >
                         <span>{i18nTxt('VIEW MORE')}</span>
                         <i className="material-icons dp48">chevron_right</i>
                       </Link>
@@ -171,7 +179,15 @@ class MyBounty extends Component {
                   <div className="my-bounty-item clearfix">
                     <div className="item-head">
                       <h5>{v.title}</h5>
-                      <Link className={`item-link ${v.transDeleted ? 'disabled' : ''}`} to={`/view-bounty?bountyId=${v.id}`}>
+                      <Link
+                        onClick={e => {
+                          if (v.transDeleted) {
+                            e.preventDefault();
+                          }
+                        }}
+                        className={`item-link ${v.transDeleted ? 'disabled' : ''}`}
+                        to={`/view-bounty?bountyId=${v.id}&language=${v.createdSiteLang}`}
+                      >
                         <span>{i18nTxt('VIEW MORE')}</span>
                         <i className="material-icons dp48">chevron_right</i>
                       </Link>

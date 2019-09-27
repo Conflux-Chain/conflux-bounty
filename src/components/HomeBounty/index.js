@@ -86,8 +86,8 @@ const Container = styled.div`
     }
     .bounty-title {
       font-weight: 700;
-      font-size: 28px;
-      line-height: 34px;
+      font-size: 24px;
+      line-height: 28px;
       word-wrap: break-word;
       overflow: hidden;
       text-overflow: ellipsis;

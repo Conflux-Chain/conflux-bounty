@@ -66,9 +66,15 @@ export const updateDispatch = fn => {
 export const sendRequest = config => {
   const reqType = config.type || 'POST';
   // eslint-disable-next-line no-use-before-define
+  const urlQuery = getQuery();
+  let siteLang = localStorage.getItem('SITE_LANG') || 'en';
+  if (urlQuery.language) {
+    siteLang = urlQuery.language;
+  }
+  // eslint-disable-next-line no-use-before-define
   const accessToken = auth.getToken();
   const reqPromise = superagent(reqType, `/api${config.url}`)
-    .set({ ...config.headers, authorization: accessToken, 'X-SITE-LANG': localStorage.getItem('SITE_LANG') || 'en' })
+    .set({ ...config.headers, authorization: accessToken, 'X-SITE-LANG': siteLang })
     .query(config.query)
     .send(config.body)
     .responseType(config.responseType || 'json');
@@ -122,7 +128,7 @@ export const sendRequest = config => {
         if (!config.manualNotice && result.body.result && result.body.result.errorCode !== undefined) {
           const errMsg = i18nTxt(USER_ERROR[result.body.result.errorCode]);
           $notice.show({ content: errMsg, type: 'message-error', timeout: 3000 });
-        } else {
+        } else if (config.manualNotice !== true) {
           let errContent = 'internal server error';
           if (result.body.code === 499) {
             errContent = i18nTxt('PermissionError');
@@ -311,6 +317,13 @@ export const uploadFileOss = (key, file) => {
   return reqFile;
 };
 
+export const getDefaultLang = () => {
+  if (navigator.language.indexOf('zh') === 0) {
+    return 'zh-CN';
+  }
+  return 'en';
+};
+
 export const auth = {
   loggedIn() {
     // Checks if there is a saved token and it's still valid
@@ -379,7 +392,7 @@ export const auth = {
     dispatch({
       type: UPDATE_HEAD,
       payload: {
-        user: { nickname: '', email: '', invitationCode: '', language: navigator.language },
+        user: { nickname: '', email: '', invitationCode: '', language: getDefaultLang() },
         fansCoin: 0,
         id: '',
         fansCoinLocked: 0,

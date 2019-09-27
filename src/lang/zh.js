@@ -196,7 +196,7 @@ export default {
   Participants: '人参与',
 
   'please provide bountyId': '没有bountyId',
-  'View Bounty': '查看Bounty',
+  'View Bounty': '赏金任务',
   'bounty is reviewing': 'bounty 已经审核中',
 
   Bounties: '赏金任务列表',
@@ -291,8 +291,8 @@ export default {
 
   'Bounty Rewards': '赏金奖励',
   WITHDRAW: '提现',
-  'Available (FC)': '可用余额',
-  'Locked (FC)': '冻结余额',
+  'Available (FC)': '可用余额 (FC)',
+  'Locked (FC)': '冻结余额 (FC)',
   HISTORY: '历史记录',
   'Withdrawal are processed 12PM CST every Tuesday': '每周二中午12点统一为上一周所有提币请求打币',
   'My Bounties': '我的赏金任务',
@@ -383,7 +383,7 @@ export default {
   'Nickname should only contain no more than 30 characters': '昵称长度不能超过30个字符',
   'My.Created Bounty': '我创建的',
   'My.Involved Bounty': '我领取的',
-  'Total Bounty Reward': '总发放奖金',
+  'Total Allocated Bounty Reward': '总发放奖金',
   'Sort by Time': '按创建时间排序',
   'Sort by Likes': '按点赞数量排序',
   'Added Contents': '补充信息',
@@ -413,4 +413,9 @@ export default {
   'The Bounty has been offline from its corresponding national station and no longer supports viewing':
     '该Bounty已从对应国家站下线，不再支持查看',
   'Permanent invitation code': '永久邀请码',
+  'Allocate rewards right after the submission’s been finished.': '在方案完成时立即分配奖金',
+  'Submission have Milestones.': '方案有里程碑',
+  'Up to <%=restrictNumber%> submission per participant. ': '单用户最多提交<%=restrictNumber%>个方案:',
+  yes: '是',
+  no: '否',
 };

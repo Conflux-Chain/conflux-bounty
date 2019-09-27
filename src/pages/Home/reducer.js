@@ -4,7 +4,7 @@ const initState = {
   tag: 'open',
   category: null,
   subCategory: null,
-  sort: 'time_asc',
+  sort: 'time_desc',
   bountyList: [],
   popBountyList: [],
   broadcastList: [],
