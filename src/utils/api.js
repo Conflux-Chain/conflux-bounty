@@ -96,6 +96,12 @@ export const reqBountyList = param => {
   }).then(res => res.body);
 };
 
+export const reqBroadcastList = () => {
+  return sendRequest({
+    url: '/announcement/list',
+  }).then(res => res.body);
+};
+
 export const reqSolutionCreate = param => {
   return sendRequest({
     url: '/submission/create',
@@ -175,9 +181,9 @@ export const reqUpdateMileStone = param => {
   }).then(res => res.body);
 };
 
-export const reqCheckDupNickname = param => {
+export const reqValidateNickname = param => {
   return sendRequest({
-    url: '/user/searchDuplicateNickname',
+    url: '/user/validateNickname',
     body: param,
   }).then(res => res.body);
 };
@@ -358,3 +364,25 @@ export const reqCreateOrder = param => {
     body: param,
   }).then(res => res.body);
 };
+
+export const reqCreateNote = param => {
+  return sendRequest({
+    url: '/submission/note/create',
+    body: param,
+  }).then(res => res.body);
+};
+
+export const reqGetCheckInInfo = param => {
+  return sendRequest({
+    url: '/account/checkin/info',
+    body: param,
+  }).then(res => res.body);
+};
+
+export const reqSubmitCheckIn = param => {
+  return sendRequest({
+    url: '/account/checkin',
+    body: param,
+  }).then(res => res.body);
+};
+// 'api/account/checkin/info'

@@ -72,17 +72,14 @@ const Wrapper = styled(StyledWrapper)`
       }
     }
   }
-  .img-wrap img {
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 100px;
-    display: block;
+  .img-wrap .avatar {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    margin: auto;
+    background-size: cover;
+    background-position: center;
   }
   .img-edit {
     position: absolute;
@@ -189,13 +186,6 @@ const Wrapper = styled(StyledWrapper)`
       color: #f0453a;
     }
   }
-  .avatar {
-    vertical-align: middle;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-  }
-
   .question {
     vertical-align: middle;
     margin-left: 5px;
@@ -218,29 +208,49 @@ class UserInfo extends Component {
 
   onAvatarLoad = async e => {
     if (!e.target.value) return;
+    const { target } = e;
     const curFile = e.target.files[0];
     const fileKey = encodeImgKey(curFile.name);
     const md5Promise = getMd5(curFile);
 
-    uploadFileOss(fileKey, curFile).then(() => {
-      md5Promise
-        .then(md5 => {
-          const url = genImgUrlFromName(curFile.name, md5);
-          return reqUserUpdate({ photoUrl: url });
-        })
-        .then(({ code }) => {
-          if (code !== 0)
-            return notice.show({
-              content: i18nTxt('Upload failed, please try again.'),
-              type: 'message-error',
-              timeout: 3000,
-            });
-          const { getAccount } = this.props;
-          setTimeout(() => {
-            getAccount();
-          }, 1000);
-          return null;
+    uploadFileOss(fileKey, curFile).then(async () => {
+      target.value = '';
+
+      const md5 = await md5Promise;
+      const url = genImgUrlFromName(curFile.name, md5);
+      const { code } = await reqUserUpdate({ photoUrl: url });
+
+      if (code !== 0) {
+        return notice.show({
+          content: i18nTxt('Upload failed, please try again.'),
+          type: 'message-error',
+          timeout: 3000,
         });
+      }
+
+      const { getAccount } = this.props;
+      const getPhoto = () => {
+        return new Promise((resolve, reject) => {
+          const imgTmp = new Image();
+          imgTmp.onload = () => {
+            resolve();
+          };
+          imgTmp.onerror = () => {
+            reject();
+          };
+          imgTmp.src = url;
+        });
+      };
+
+      setTimeout(() => {
+        getPhoto()
+          .catch(getPhoto)
+          .catch(getPhoto)
+          .then(() => {
+            getAccount();
+          });
+      }, 1000);
+      return null;
     });
   };
 
@@ -251,7 +261,12 @@ class UserInfo extends Component {
         <Wrapper>
           <div className="user">
             <div className={cx('img-wrap', { withimg: head.user.photoUrl })}>
-              <img className="avatar" alt="useravatar" src={head.user.photoUrl || imgDefaultAvatar} />
+              <div
+                className="avatar"
+                style={{
+                  backgroundImage: `url(${head.user.photoUrl || imgDefaultAvatar})`,
+                }}
+              />
               <div className="img-edit">
                 <input type="file" className="avatar-uploader" accept="image/jpeg,image/png,image/gif" onChange={this.onAvatarLoad} />
                 {i18nTxt('EDIT')}

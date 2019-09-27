@@ -10,6 +10,7 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import * as s2 from './commonStyle';
 import Modal from '../../components/Modal';
 import { fmtToDay, auth, commonPropTypes, getStatus, i18nTxt } from '../../utils';
+import BountyDeletedWarning from '../../components/BountyDeletedWarning';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -71,6 +72,10 @@ const Wrapper = styled(StyledWrapper)`
       > i {
         vertical-align: middle;
       }
+    }
+    .arrow-link.disabled {
+      cursor: default;
+      pointer-events: none;
     }
   }
   .like-subm-from {
@@ -251,6 +256,7 @@ class MyLikes extends Component {
                         <div className="like-sub">
                           <span style={{ color: '#666' }}>{fmtToDay(bounty.updatedAt || bounty.createdAt)}</span>
                           <span className="like-state">{getStatus(bounty.status)}</span>
+                          {bounty.transDeleted && <BountyDeletedWarning />}
                         </div>
                       </td>
                       <td className="align-right">
@@ -259,7 +265,15 @@ class MyLikes extends Component {
                         </button>
                       </td>
                       <td className="align-right">
-                        <Link to={`/view-bounty?bountyId=${bounty.id}`} className="arrow-link">
+                        <Link
+                          to={`/view-bounty?bountyId=${bounty.id}&language=${bounty.createdSiteLang}`}
+                          className={`arrow-link ${bounty.transDeleted ? 'disabled' : ''}`}
+                          onClick={e => {
+                            if (bounty.transDeleted) {
+                              e.preventDefault();
+                            }
+                          }}
+                        >
                           <span>{i18nTxt('VIEW MORE')}</span>
                           <i className="material-icons dp48">chevron_right</i>
                         </Link>
@@ -324,6 +338,7 @@ class MyLikes extends Component {
                           <span className="like-subm-from">
                             {i18nTxt('Submission from')} {solution.user.nickname}
                           </span>
+                          {solution.transDeleted && <BountyDeletedWarning />}
                         </div>
                       </td>
                       <td className="align-right">
@@ -332,7 +347,15 @@ class MyLikes extends Component {
                         </button>
                       </td>
                       <td className="align-right">
-                        <Link to={`/view-submission?submissionId=${solution.id}`} className="arrow-link">
+                        <Link
+                          to={`/view-submission?submissionId=${solution.id}`}
+                          className={`arrow-link ${solution.transDeleted ? 'disabled' : ''}`}
+                          onClick={e => {
+                            if (solution.transDeleted) {
+                              e.preventDefault();
+                            }
+                          }}
+                        >
                           <span>{i18nTxt('VIEW MORE')}</span>
                           <i className="material-icons dp48">chevron_right</i>
                         </Link>

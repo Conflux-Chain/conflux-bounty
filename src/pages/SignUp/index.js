@@ -74,9 +74,12 @@ class SignUp extends Component {
       termsCheckboxChecked,
     } = this.state;
     if (this.anyInputsHasError() || !termsCheckboxChecked) return;
-    const { lang } = this.props;
+    const { lang, history } = this.props;
     if (userId) {
-      const { code } = await reqUserSignup({
+      const {
+        code,
+        result: { accessToken },
+      } = await reqUserSignup({
         email,
         emailVerificationCode: emailCode,
         nickname,
@@ -88,15 +91,16 @@ class SignUp extends Component {
         language: lang,
       });
       if (code !== 0) {
-        // notice.show({
-        //   content: 'Validation failed, please check your inputs.',
-        //   type: 'message-error',
-        //   timeout: 3000,
-        // });
         return;
       }
+      if (accessToken) {
+        auth.setToken(accessToken);
+      }
     } else {
-      const { code } = await reqUserSignup({
+      const {
+        code,
+        result: { accessToken },
+      } = await reqUserSignup({
         email,
         emailVerificationCode: emailCode,
         nickname,
@@ -105,16 +109,14 @@ class SignUp extends Component {
         language: lang,
       });
       if (code !== 0) {
-        // notice.show({
-        //   content: 'Validation failed, please check your inputs.',
-        //   type: 'message-error',
-        //   timeout: 3000,
-        // });
         return;
+      }
+
+      if (accessToken) {
+        auth.setToken(accessToken);
       }
     }
 
-    const { history } = this.props;
     history.push('/signin', { signupSuccess: true });
   };
 

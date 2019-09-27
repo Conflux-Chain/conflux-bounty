@@ -3,20 +3,23 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styled from 'styled-components';
 import logo from '../../assets/iconfont/bounty-logo.svg';
-import ongoing from '../../assets/iconfont/bounty-ongoing.svg';
-import finished from '../../assets/iconfont/bounty-finished.svg';
 import add from '../../assets/iconfont/bounty-add.svg';
+import team from '../../assets/iconfont/bounty-team.svg';
+import teamOpen from '../../assets/iconfont/bounty-team-open.svg';
+import BountyStatus from '../BountyStatus';
 import { toThousands, i18nTxt } from '../../utils';
 
 const Container = styled.div`
   width: 373px;
   height: 200px;
   margin: 0 20px;
-  border-radius: 12px;
+  padding: 16px;
+  padding-bottom: 0px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 28px;
+  margin-bottom: 40px;
   cursor: pointer;
   &.wrap-open {
     background: linear-gradient(118.2deg, #ffe501 0%, #fac801 100%);
@@ -63,8 +66,8 @@ const Container = styled.div`
   position: relative;
   .bounty-logo {
     position: absolute;
-    left: 100px;
-    top: 30px;
+    right: 0;
+    top: 40px;
     opacity: 0.5;
     &.open {
       opacity: 1;
@@ -72,11 +75,12 @@ const Container = styled.div`
   }
   .bounty-content {
     display: flex;
+    width: 100%;
+    height: 100%;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     color: #fff;
     z-index: 10;
-    padding: 0 20px;
     &.open {
       color: #171d1f;
     }
@@ -90,17 +94,29 @@ const Container = styled.div`
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       display: -webkit-box;
-      text-align: center;
-      max-width: 343px;
+      text-align: left;
+      max-width: 341px;
+      height: 56px;
+      margin-bottom: 20px;
     }
-    .bounty-coin {
-      font-weight: normal;
-      font-size: 20px;
-      line-height: 24px;
-      margin: 8px 0;
-      font-variant: small-caps;
-      .bounty-value {
-        font-style: italic;
+    .bounty-creator {
+      font-size: 16px;
+      line-height: 16px;
+      opacity: 0.8;
+    }
+    .bounty-detail {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 16px 0;
+      .bounty-coin {
+        display: flex;
+        align-items: center;
+      }
+      .bounty-coin-num {
+        font-size: 24px;
+        line-height: 24px;
         font-weight: 800;
         font-size: 24px;
         line-height: 24px;
@@ -108,44 +124,30 @@ const Container = styled.div`
           color: #f0453a;
         }
       }
-    }
-    .bounty-user {
-      font-size: 16px;
-      line-height: 16px;
-      .bounty-username {
-        font-weight: 700;
+      .bounty-upto {
+        font-size: 16px;
+        line-height: 16px;
+        margin-right: 4px;
       }
-    }
-  }
-  .bounty-button {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 16px;
-    height: 40px;
-    color: #fff;
-    right: 0;
-    bottom: 0;
-    border-top-left-radius: 4px;
-    border-bottom-right-radius: 12px;
-    &.open {
-      background: linear-gradient(113.05deg, #69c4db -4.72%, #5499dd 100%);
-    }
-    &.ongoing {
-      background: linear-gradient(123.38deg, #69c4db 3.07%, #5499dd 100%);
-    }
-    &.finished {
-      background: linear-gradient(123.02deg, #69c4db 0.83%, #5499dd 100%);
-    }
-    .button-icon {
-      margin-right: 8px;
+      .bounty-user {
+        font-size: 16px;
+        line-height: 16px;
+        display: flex;
+        align-items: flex-end;
+        > img {
+          margin-right: 4px;
+        }
+        > span {
+          font-size: 16px;
+          line-height: 16px;
+        }
+      }
     }
   }
 `;
 
 function HomeBounty(props) {
-  const { type, title, fansCoin, user, id, onClick } = props;
+  const { type, title, fansCoin, user, id, onClick, count, status } = props;
 
   if (type === 'create') {
     return (
@@ -161,29 +163,25 @@ function HomeBounty(props) {
       <img src={logo} className={classnames('bounty-logo', { open: type === 'open' })} alt="logo" />
       <div className={classnames('bounty-content', { open: type === 'open' })}>
         <span className="bounty-title">{title}</span>
-        <span className="bounty-coin">
-          {type === 'open' && i18nTxt('UP TO ')}
-          <span className={classnames('bounty-value', { open: type === 'open' })}>{toThousands(fansCoin)}</span>
-          {' FC'}
+        <span className="bounty-creator">
+          {i18nTxt('home.from')}&nbsp;{user}
         </span>
-        <span className="bounty-user">
-          {i18nTxt('home.from')}&nbsp;
-          <span className="bounty-username">{user}</span>
+
+        <span className="bounty-detail">
+          <span className="bounty-coin">
+            <span className="bounty-upto">{i18nTxt('Up to')}</span>
+            <span className={classnames('bounty-coin-num', { open: type === 'open' })}>
+              <span>{toThousands(fansCoin)}</span>
+              {' FC'}
+            </span>
+          </span>
+          <span className="bounty-user">
+            <img src={type === 'open' ? teamOpen : team} alt="team" />
+            <span>{`${count} ${i18nTxt('Participants')}`}</span>
+          </span>
         </span>
+        <BountyStatus status={status} />
       </div>
-      {type === 'open' && <div className="bounty-button open">{i18nTxt('CLAIM IT')}</div>}
-      {type === 'ongoing' && (
-        <div className="bounty-button ongoing">
-          <img src={ongoing} className="button-icon" alt="ongoing" />
-          {i18nTxt('VIEW PROGRESS')}
-        </div>
-      )}
-      {type === 'finished' && (
-        <div className="bounty-button finished">
-          <img src={finished} className="button-icon" alt="finished" />
-          {i18nTxt('SEE RESULTS')}
-        </div>
-      )}
     </Container>
   );
 }
@@ -194,6 +192,8 @@ HomeBounty.propTypes = {
   title: PropTypes.string.isRequired,
   fansCoin: PropTypes.number.isRequired,
   user: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

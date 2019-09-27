@@ -8,6 +8,11 @@ const initState = {
 
   bountyCache: {},
   solutionListCache: {},
+
+  checkinStatus: null,
+  checkinRemainingTime: null,
+  checkinFansCoin: null,
+  showCheckSuccess: false,
 };
 
 export default (state = initState, action) => {

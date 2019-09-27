@@ -20,7 +20,7 @@ class ResetPassword extends Component {
   state = { email: '', password: '', emailCode: '' };
 
   componentDidMount() {
-    document.title = 'Reset Password';
+    document.title = i18nTxt('Reset Password');
   }
 
   onEmailChange = async e => {
@@ -64,7 +64,7 @@ class ResetPassword extends Component {
         <Wrapper>
           <div className="signup">
             <form className="form-wrap">
-              <span className="title"> {i18nTxt('Reset password')}</span>
+              <span className="title"> {i18nTxt('RESET PASSWORD')}</span>
               <div className="inputs-wrap">
                 <Email
                   checkIsRegistered
@@ -75,7 +75,7 @@ class ResetPassword extends Component {
                 />
                 <Password
                   hasRepeat
-                  labels={['New Password', 'Confirm New Password']}
+                  labels={[i18nTxt('New Password'), i18nTxt('Confirm New Password')]}
                   onChange={this.onPasswordChange}
                   ref={ref => {
                     this.passwordRef = ref;

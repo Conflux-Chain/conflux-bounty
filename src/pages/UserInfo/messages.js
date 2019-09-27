@@ -196,22 +196,18 @@ class Messages extends Component {
                 {messages.map((message, idx) => {
                   const { id, createdAt, isRead } = message;
                   const { bountyTitle } = message.info;
-                  const fontFaceScaleFactor = 1;
                   const template = getMessageTemplate(message, lang);
                   const firstPartStr = template.substring(0, template.indexOf('{{')) + bountyTitle;
                   const lastPartStr = template.substring(template.indexOf('}}') + 2, template.length - 1);
-                  const startWidth = `${(firstPartStr.length - bountyTitle.length + 3) * fontFaceScaleFactor}ch`;
-                  const endWidth = `${lastPartStr.length * fontFaceScaleFactor}ch`;
 
                   const Wrapper = styled.div`
+                    display: flex;
                     #firstPart-${idx} {
-                      max-width: calc(100% - ${endWidth});
-                      min-width: ${bountyTitle.length > 10 ? startWidth : 'unset'};
                       text-overflow: ellipsis;
                       padding-right: 1ch;
                     }
                     #lastPart-${idx} {
-                      max-width: calc(100% - ${startWidth});
+                      flex-shrink: 0;
                       direction: rtl;
                     }
                   `;
@@ -282,6 +278,9 @@ const Wrapper = styled(StyledWrapper)`
     font-weight: 500;
   }
   .table-wrap {
+    > table {
+      table-layout: fixed;
+    }
     .show-more {
       text-align: center;
       margin-top: 40px;
@@ -307,6 +306,7 @@ const Wrapper = styled(StyledWrapper)`
     }
     .time {
       text-align: right;
+      width: 100px;
     }
     td {
       padding: 19px 0 18px 0;

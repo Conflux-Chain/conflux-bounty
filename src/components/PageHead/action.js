@@ -1,8 +1,26 @@
-import { reqAccountQuery, reqMessageCount } from '../../utils/api';
+import { reqAccountQuery, reqMessageCount, reqUserUpdate } from '../../utils/api';
 import { UPDATE_HEAD, UPDATE_UNREAD_MESSAGE_COUNT, UPDATE_COMMON } from '../../constants';
 
+export { reqUserUpdate };
+
+export const updateHead = d => ({
+  type: UPDATE_HEAD,
+  payload: d,
+});
+
 export const getAccount = () => dispatch => {
-  return reqAccountQuery().then(body => {
+  const accountQueryPromise = reqAccountQuery();
+  const accountPromise = accountQueryPromise.then(v => {
+    return v.result;
+  });
+  dispatch({
+    type: UPDATE_HEAD,
+    payload: {
+      accountPromise,
+    },
+  });
+
+  return accountQueryPromise.then(body => {
     dispatch({
       type: UPDATE_HEAD,
       payload: {

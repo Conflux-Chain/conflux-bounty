@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -9,12 +9,15 @@ import * as actions from './action';
 import { StyledWrapper, flexCenterMiddle } from '../../globalStyles/common';
 import * as s from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
-import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink } from '../../utils';
+import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink, renderAny } from '../../utils';
 import { getCategory } from '../../utils/api';
 import { updateShare } from '../../components/Share/action';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
+import ViewSolution from '../Solution/viewsolution';
+import sortImg from '../../assets/iconfont/sort.svg';
+import Tooltip from '../../components/Tooltip';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -55,6 +58,23 @@ const Wrapper = styled(StyledWrapper)`
     font-size: 14px;
     line-height: 20px;
     color: #595f61;
+    text-indent: 10px;
+    &:before {
+      content: '-';
+      width: 10px;
+    }
+  }
+  .reward-info-line {
+    margin-bottom: 10px;
+    text-indent: 10px;
+    color: #595f61;
+    &:first-of-type {
+      margin-top: 10px;
+    }
+    &:before {
+      content: '-';
+      width: 10px;
+    }
   }
   .desc {
     margin-top: 12px;
@@ -64,6 +84,42 @@ const Wrapper = styled(StyledWrapper)`
     white-space: pre-wrap;
     word-break: break-all;
   }
+  .submission-sort-wrap {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: -5px;
+  }
+  .submission-sort-item {
+    color: #8E9394;
+    cursor: pointer;
+    > span, > img {
+      vertical-align: middle;
+    }
+    > img {
+      margin-left: 5px;
+      height: 14px;
+    }
+    margin-right: 5px;
+  }
+  .solution-item-star {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    > i {
+      font-size: 17px;
+      margin-right: 2px;
+    }
+  }
+  .solution-item-desc {
+    padding-left: 8px;
+    color: #595F61;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    padding-right: 20px;
+  }
+
   .solution-list {
     margin-top: 12px;
   }
@@ -72,7 +128,7 @@ const Wrapper = styled(StyledWrapper)`
     height: 54px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    color: #8E9394;
     > a {
       color: #22b2d6;
       > i {
@@ -81,6 +137,38 @@ const Wrapper = styled(StyledWrapper)`
         vertical-align: text-bottom;
       }
     }
+  }
+  .solution-item-left {
+    flex-shrink: 0;
+    width: 85px;
+    > span {
+      vertical-align: middle;
+      color: #595F61;
+      max-width: 50px;
+      display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .withimg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  .solution-item-descwrap {
+    flex: 1;
+    max-width: 300px;
+    margin-left: 10px;
+    line-height: 20px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+   :hover {
+      background: #EBEDED;
+      border-radius: 4px;
+   }
+   > span {
+     width: 100%;
+   }
   }
   .solution-item:last-of-type {
     border-bottom: 1px solid #ebeded;
@@ -113,6 +201,24 @@ const Wrapper = styled(StyledWrapper)`
       padding-top: 12px;
       padding-bottom: 12px;
       margin: 0;
+    }
+  }
+  .comment-input-wrap {
+    display: flex;
+    border: 1px solid #BFC5C7;
+    border-radius: 4px;
+    margin-left: 12px;
+    flex: 1;
+    input {
+      border: none;
+      border-right: 1px solid #BFC5C7;
+      margin-bottom: 0;
+    }
+    button {
+      width: 100px;
+      font-size: 14px;
+      padding-left: 10px;
+      padding-right: 10px
     }
   }
   .img-wrap {
@@ -150,6 +256,32 @@ const Wrapper = styled(StyledWrapper)`
   }
 `;
 
+const RewardDiv = styled.div`
+  background: #4a9e81;
+  text-align: center;
+  display: block;
+  padding-bottom: 6px;
+  color: #fff;
+  border-radius: 2px;
+  margin-top: 20px;
+  font-weight: 600;
+
+  .line1 {
+    padding-top: 10px;
+    font-size: 14px;
+    line-height: 14px;
+    margin-bottom: 8px;
+  }
+  .line2 {
+    font-size: 16px;
+    .fcBig {
+      font-size: 24px;
+      line-height: 24px;
+      margin-right: 3px;
+    }
+  }
+`;
+
 // eslint-disable-next-line react/prefer-stateless-function
 class ViewBounty extends Component {
   constructor(...args) {
@@ -183,6 +315,46 @@ class ViewBounty extends Component {
         <BackHeadDiv onClick={() => history.push('/')}>
           <Link to="/">{i18nTxt('Bounties')}</Link>
         </BackHeadDiv>
+
+        {renderAny(() => {
+          if (viewBounty.status === BOUNTY_STATUS_ENUM.FINISHED) {
+            const { rewardSubmissionList } = viewBounty;
+            if (rewardSubmissionList && rewardSubmissionList.length > 0) {
+              let maxFcSubmission = rewardSubmissionList[0];
+              rewardSubmissionList.forEach(v => {
+                if (v.reward) {
+                  if (v.reward.fansCoin > maxFcSubmission.reward.fansCoin) {
+                    maxFcSubmission = v;
+                  }
+                }
+              });
+              if (maxFcSubmission.reward) {
+                const renderReward = () => {
+                  return (
+                    <RewardDiv>
+                      <div className="line1">{i18nTxt('Total Allocated Bounty Reward')}</div>
+                      <div className="line2">
+                        <span className="fcBig">{viewBounty.totalRewardFansCoin}</span>
+                        <span>FC</span>
+                      </div>
+                    </RewardDiv>
+                  );
+                };
+
+                return (
+                  <ViewSolution
+                    renderReward={renderReward}
+                    headDiv={<Fragment></Fragment>}
+                    history={history}
+                    submissionId={maxFcSubmission.id}
+                  />
+                );
+              }
+            }
+          }
+          return null;
+        })}
+
         <Wrapper>
           <h1>{viewBounty.title}</h1>
           <div className="bounty-status">
@@ -212,9 +384,20 @@ class ViewBounty extends Component {
               __html: htmlsafe(viewBounty.rewardMessage),
             }}
           ></div>
+          <div>
+            {viewBounty.autoFinish && (
+              <div className="reward-info-line">{i18nTxt('Allocate rewards right after the submission’s been finished.')}</div>
+            )}
+            <div className="reward-info-line">
+              {i18nTxt('Up to <%=restrictNumber%> submission per participant. ', {
+                restrictNumber: viewBounty.restrictNumber === null ? '无限' : viewBounty.restrictNumber,
+              })}
+            </div>
+            {viewBounty.milestoneLimit !== 0 && <div className="reward-info-line">{i18nTxt('Submission have Milestones.')}</div>}
+          </div>
           <s.H2>{i18nTxt('Description')}:</s.H2>
           <pre className="desc" dangerouslySetInnerHTML={{ __html: htmlsafe(viewBounty.description) }}></pre>
-          <s.H2>{i18nTxt('Attachments')}:</s.H2>
+          {viewBounty.attachmentList.length > 0 && <s.H2>{i18nTxt('Attachments')}:</s.H2>}
 
           <div style={{ marginTop: 12 }}>
             <s.AttachmentDiv>
@@ -229,15 +412,58 @@ class ViewBounty extends Component {
           </s.H2>
 
           <div className="solution-list">
+            <div className="submission-sort-wrap">
+              <button
+                onClick={() => {
+                  updateView({
+                    sortType: '',
+                  });
+                  getSolutionList(1);
+                }}
+                type="button"
+                className="submission-sort-item"
+              >
+                <span>{i18nTxt('Sort by Time')}</span>
+                <img src={sortImg} className="sorticon" alt="sorticon" />
+              </button>
+              <button
+                onClick={() => {
+                  updateView({
+                    sortType: 'like_desc',
+                  });
+                  getSolutionList(1);
+                }}
+                type="button"
+                className="submission-sort-item"
+              >
+                <span>{i18nTxt('Sort by Likes')}</span>
+                <img src={sortImg} className="sorticon" alt="sorticon" />
+              </button>
+            </div>
+
             {viewBounty.solutionList.map(solution => {
               return (
                 <div className="solution-item">
                   <div className="solution-item-left">
                     <PhotoImg imgSrc={solution.user.photoUrl || UserBack} />
-                    <span style={{ marginLeft: 10 }}>{solution.user.nickname}</span>
+                    <span style={{ marginLeft: 10 }} title={solution.user.nickname}>
+                      {solution.user.nickname}
+                    </span>
                   </div>
+
+                  <div className="solution-item-star">
+                    <i className={cx('material-icons dp48')}>grade</i>
+                    <span>{solution.likeNumber}</span>
+                  </div>
+
+                  <div className="solution-item-descwrap">
+                    <Tooltip direction="topRight" tipSpan={<div className="solution-item-desc">{solution.description}</div>}>
+                      <div>{solution.description}</div>
+                    </Tooltip>
+                  </div>
+
                   <Link to={`/view-submission?submissionId=${solution.id}`}>
-                    <span>{i18nTxt('View more')}</span>
+                    <span>{i18nTxt('VIEW MORE')}</span>
                     <i className="material-icons dp48">chevron_right</i>
                   </Link>
                 </div>
@@ -271,7 +497,8 @@ class ViewBounty extends Component {
                 }}
               >
                 <i className={cx('material-icons dp48', { like: viewBounty.isLike })}>grade</i>
-                <span>{i18nTxt('Like')}</span>
+                {viewBounty.likeNumber > 0 ? <span>{viewBounty.likeNumber}</span> : null}
+                <span>{viewBounty.likeNumber > 1 ? i18nTxt('Likes') : i18nTxt('Like')}</span>
               </button>
               <button
                 type="button"
@@ -319,18 +546,21 @@ class ViewBounty extends Component {
               // }}
             >
               <PhotoImg imgSrc={user.photoUrl || UserBack} />
-              <textarea
-                className="materialize-textarea"
-                placeholder={i18nTxt('Leave comments …')}
-                value={viewBounty.commentText}
-                onChange={e => {
-                  updateView({
-                    commentText: e.target.value,
-                  });
-                }}
-                style={{ marginLeft: 12 }}
-                onKeyDown={e => {
-                  if (e.which === 13 && e.shiftKey === false) {
+              <div className="comment-input-wrap">
+                <input
+                  placeholder={i18nTxt('Leave comments …')}
+                  value={viewBounty.commentText}
+                  onChange={e => {
+                    updateView({
+                      commentText: e.target.value,
+                    });
+                  }}
+                  style={{ marginLeft: 12 }}
+                />
+                <button
+                  type="button"
+                  className="btn btnTextPrimary"
+                  onClick={() => {
                     if (!user.id) {
                       notice.show({
                         type: 'message-notice',
@@ -340,11 +570,11 @@ class ViewBounty extends Component {
                       return;
                     }
                     sendComment();
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }
-                }}
-              />
+                  }}
+                >
+                  {i18nTxt('viewbounty.COMMENT')}
+                </button>
+              </div>
             </div>
 
             <div style={{ marginTop: 20 }}>

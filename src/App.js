@@ -91,7 +91,7 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    lang: state.head.user.language || state.common.lang,
+    lang: state.head.user.language,
   };
 }
 export default connect(mapStateToProps)(App);

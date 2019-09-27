@@ -8,6 +8,7 @@ import * as s from '../Bounty/commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import { SOLUTION_STATUS_ENUM } from '../../constants';
 import { fmtToDay, getStatus, auth, commonPropTypes, i18nTxt } from '../../utils';
+import BountyDeletedWarning from '../../components/BountyDeletedWarning';
 
 const MyBounSolunDiv = styled(s.MyBounSolunDiv)`
   .update-progress {
@@ -85,7 +86,19 @@ class MySolution extends Component {
                 updateDiv = (
                   <div className="clearfix">
                     <div className="update-progress">
-                      <Link to={`/update-progress?submissionId=${v.id}`} className="btn waves-effect waves-light default" type="button">
+                      <Link
+                        style={{
+                          opacity: !v.transDeleted ? '0.6' : 1,
+                        }}
+                        onClick={e => {
+                          if (v.transDeleted) {
+                            e.preventDefault();
+                          }
+                        }}
+                        to={`/update-progress?submissionId=${v.id}`}
+                        className="btn waves-effect waves-light default"
+                        type="button"
+                      >
                         {i18nTxt('Update Progress')}
                       </Link>
                       <div className="step-progress-info">
@@ -103,7 +116,15 @@ class MySolution extends Component {
                 <div className="my-bounty-item clearfix">
                   <div className="item-head">
                     <h5>{v.title}</h5>
-                    <Link className="item-link" to={`/view-submission?submissionId=${v.id}&from=mysubmission`}>
+                    <Link
+                      className={`item-link ${v.transDeleted ? 'disabled' : ''}`}
+                      to={`/view-submission?submissionId=${v.id}&from=mysubmission&language=${v.createdSiteLang}`}
+                      onClick={e => {
+                        if (v.transDeleted) {
+                          e.preventDefault();
+                        }
+                      }}
+                    >
                       <span>{i18nTxt('VIEW MORE')}</span>
                       <i className="material-icons dp48">chevron_right</i>
                     </Link>
@@ -114,6 +135,7 @@ class MySolution extends Component {
                     <span className="item-status" style={rejectColor}>
                       {getStatus(v.status)}
                     </span>
+                    {v.transDeleted && <BountyDeletedWarning />}
                   </div>
                   {updateDiv}
                   {rejectTips}

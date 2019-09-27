@@ -40,6 +40,8 @@ const initEditState = {
   bountyTitle: '',
   showExample: false,
   addTranslate: false,
+
+  milestoneLimit: null,
 };
 
 function editSolution(state = initEditState, action) {
@@ -102,6 +104,7 @@ const initViewSolution = {
   milestoneList: [],
   reward: {},
   user: { nickname: '', email: '', invitationCode: '', photoUrl: null },
+  showEditNoteMsg: false,
 };
 
 function viewSolution(state = initViewSolution, action) {

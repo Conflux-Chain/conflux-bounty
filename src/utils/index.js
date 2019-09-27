@@ -24,7 +24,7 @@ const USER_ERROR = {
   1: 'Invalid third party token',
   2: 'Invalid user id',
   3: 'Duplicate email',
-  4: 'Duplicate nickname',
+  4: 'Nickname already exists, please re-enter',
   5: 'Validation failed. Please check your email verification code',
   6: 'Invalid operation',
   7: 'Invalid password',
@@ -36,6 +36,9 @@ const USER_ERROR = {
   13: 'Invalid invitation code',
   14: 'Please request next invitation code 30 seconds later',
   15: 'You run out of invites',
+  16: 'Nickname contains sensitive words, please re-enter',
+  17: 'Nickname should only contain letters, digits and underscores',
+  18: 'Nickname should only contain no more than 30 characters',
 };
 
 /*
@@ -63,9 +66,15 @@ export const updateDispatch = fn => {
 export const sendRequest = config => {
   const reqType = config.type || 'POST';
   // eslint-disable-next-line no-use-before-define
+  const urlQuery = getQuery();
+  let siteLang = localStorage.getItem('SITE_LANG') || 'en';
+  if (urlQuery.language) {
+    siteLang = urlQuery.language;
+  }
+  // eslint-disable-next-line no-use-before-define
   const accessToken = auth.getToken();
   const reqPromise = superagent(reqType, `/api${config.url}`)
-    .set({ ...config.headers, authorization: accessToken, 'X-SITE-LANG': localStorage.getItem('SITE_LANG') || 'en' })
+    .set({ ...config.headers, authorization: accessToken, 'X-SITE-LANG': siteLang })
     .query(config.query)
     .send(config.body)
     .responseType(config.responseType || 'json');
@@ -119,6 +128,12 @@ export const sendRequest = config => {
         if (!config.manualNotice && result.body.result && result.body.result.errorCode !== undefined) {
           const errMsg = i18nTxt(USER_ERROR[result.body.result.errorCode]);
           $notice.show({ content: errMsg, type: 'message-error', timeout: 3000 });
+        } else if (config.manualNotice !== true) {
+          let errContent = 'internal server error';
+          if (result.body.code === 499) {
+            errContent = i18nTxt('PermissionError');
+          }
+          $notice.show({ content: errContent, type: 'message-error', timeout: 3000 });
         }
       }
     })
@@ -302,6 +317,13 @@ export const uploadFileOss = (key, file) => {
   return reqFile;
 };
 
+export const getDefaultLang = () => {
+  if (navigator.language.indexOf('zh') === 0) {
+    return 'zh-CN';
+  }
+  return 'en';
+};
+
 export const auth = {
   loggedIn() {
     // Checks if there is a saved token and it's still valid
@@ -370,7 +392,7 @@ export const auth = {
     dispatch({
       type: UPDATE_HEAD,
       payload: {
-        user: { nickname: '', email: '', invitationCode: '' },
+        user: { nickname: '', email: '', invitationCode: '', language: getDefaultLang() },
         fansCoin: 0,
         id: '',
         fansCoinLocked: 0,
@@ -593,6 +615,7 @@ const sanitizeCfg = {
   allowedAttributes: {
     div: ['style'],
     img: ['style', 'src'],
+    a: ['href', 'target'],
   },
   allowedStyles: {
     div: allowStyles,
@@ -605,7 +628,7 @@ export function htmlsafe(s) {
 }
 
 export function isImgLike(str) {
-  return str.match(/(\.jpeg|\.jpg|\.png|\.gif)$/);
+  return str.match(/(\.jpeg|\.jpg|\.png|\.gif)$/i);
 }
 
 export function downLink(url, title) {
@@ -641,3 +664,46 @@ export function resizeTextArea() {
     M.textareaAutoResize(elem);
   });
 }
+
+const loadImg = imgSrc => {
+  return new Promise((resolve, reject) => {
+    const imgTmp = new Image();
+    imgTmp.onload = () => {
+      resolve();
+    };
+    imgTmp.onerror = () => {
+      reject();
+    };
+    imgTmp.src = imgSrc;
+  });
+};
+
+const wait = time => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, time || 1000);
+  });
+};
+
+export const fetchPic = imgSrc => {
+  dispatch({
+    type: 'PAGE_LOADING+',
+    payload: {},
+  });
+  return wait(1000)
+    .then(() => loadImg(imgSrc))
+    .catch(() => {
+      return wait(1000).then(() => loadImg(imgSrc));
+    })
+    .catch(() => {
+      return wait(1000).then(() => loadImg(imgSrc));
+    })
+    .catch(() => {})
+    .then(() => {
+      dispatch({
+        type: 'PAGE_LOADING-',
+        payload: {},
+      });
+    });
+};
