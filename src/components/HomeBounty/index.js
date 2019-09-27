@@ -96,6 +96,7 @@ const Container = styled.div`
       display: -webkit-box;
       text-align: left;
       max-width: 341px;
+      height: 56px;
       margin-bottom: 20px;
     }
     .bounty-creator {
@@ -107,11 +108,11 @@ const Container = styled.div`
       display: flex;
       width: 100%;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
       margin: 16px 0;
       .bounty-coin {
         display: flex;
-        align-items: baseline;
+        align-items: center;
       }
       .bounty-coin-num {
         font-size: 24px;
@@ -132,6 +133,7 @@ const Container = styled.div`
         font-size: 16px;
         line-height: 16px;
         display: flex;
+        align-items: flex-end;
         > img {
           margin-right: 4px;
         }
