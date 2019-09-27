@@ -96,8 +96,7 @@ const Container = styled.div`
       display: -webkit-box;
       text-align: left;
       max-width: 341px;
-      margin-bottom: 8px;
-      height: 68px;
+      margin-bottom: 20px;
     }
     .bounty-creator {
       font-size: 16px;
