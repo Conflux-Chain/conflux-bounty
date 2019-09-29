@@ -477,7 +477,9 @@ class ViewSolution extends Component {
               return (
                 <Link
                   onClick={() => {
-                    setTimeout(this.getInitData);
+                    if (insideBounty !== true) {
+                      setTimeout(this.getInitData);
+                    }
                   }}
                   style={{
                     display: 'flex',
@@ -553,7 +555,9 @@ class ViewSolution extends Component {
               return (
                 <Link
                   onClick={() => {
-                    setTimeout(this.getInitData);
+                    if (insideBounty !== true) {
+                      setTimeout(this.getInitData);
+                    }
                   }}
                   style={{
                     display: 'flex',
