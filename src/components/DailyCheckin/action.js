@@ -14,6 +14,7 @@ export const checkinEnum = {
   disabled: 1,
   overMaxNum: 2,
   alreadyChecked: 3,
+  recaptchaErr: 4,
 };
 
 export const startCountDown = () => (dispatch, getState) => {
@@ -78,6 +79,12 @@ export const submitCheckIn = recaptchaVal => dispatch => {
       utils.notice.show({
         type: 'message-important-light',
         content: utils.i18nTxt('You have already checked in today'),
+        timeout: 5000,
+      });
+    } else if (body.result.status === checkinEnum.recaptchaErr) {
+      utils.notice.show({
+        type: 'message-important-light',
+        content: utils.getRecaptchaErr(body.result.recaptcha['error-codes']),
         timeout: 5000,
       });
     }

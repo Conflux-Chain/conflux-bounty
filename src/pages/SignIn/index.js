@@ -11,28 +11,11 @@ import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { StyledWrapper } from '../../globalStyles/common';
 import Input from '../../components/Input';
-import { sendRequest, auth, i18nTxt } from '../../utils';
+import { sendRequest, auth, i18nTxt, getRecaptchaErr } from '../../utils';
 import { notice } from '../../components/Message/notice';
 import { getAccount } from '../../components/PageHead/action';
 import SignInVia from '../../components/SignInVia';
 import { recaptchaKey } from '../../constants';
-
-export const getRecaptchaErr = (errCodes = []) => {
-  const reContains = a => {
-    return errCodes.indexOf(a) !== -1;
-  };
-  let noticeMsg = '';
-  if (reContains('missing-input-secret') || reContains('invalid-input-secret')) {
-    noticeMsg = i18nTxt('invalid recaptcha secret');
-  } else if (reContains('missing-input-response') || reContains('invalid-input-response')) {
-    noticeMsg = i18nTxt('invalid recaptcha secret');
-  } else if (reContains('timeout-or-duplicate')) {
-    noticeMsg = i18nTxt('recaptcha check timeout, please reload page');
-  } else if (reContains('bad-request')) {
-    noticeMsg = i18nTxt('invalid recaptcha request');
-  }
-  return noticeMsg;
-};
 
 class SignIn extends Component {
   constructor(...args) {
@@ -92,7 +75,7 @@ class SignIn extends Component {
     });
 
     if (code !== 0) {
-      if (result.recaptcha.success !== true) {
+      if (result.recaptcha && result.recaptcha.success !== true) {
         notice.show({
           content: getRecaptchaErr(result.recaptcha['error-codes']),
           type: 'message-error',
