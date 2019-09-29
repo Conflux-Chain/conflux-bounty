@@ -8,12 +8,31 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { StyledWrapper } from '../../globalStyles/common';
 import Input from '../../components/Input';
 import { sendRequest, auth, i18nTxt } from '../../utils';
 import { notice } from '../../components/Message/notice';
 import { getAccount } from '../../components/PageHead/action';
 import SignInVia from '../../components/SignInVia';
+import { recaptchaKey } from '../../constants';
+
+export const getRecaptchaErr = (errCodes = []) => {
+  const reContains = a => {
+    return errCodes.indexOf(a) !== -1;
+  };
+  let noticeMsg = '';
+  if (reContains('missing-input-secret') || reContains('invalid-input-secret')) {
+    noticeMsg = i18nTxt('invalid recaptcha secret');
+  } else if (reContains('missing-input-response') || reContains('invalid-input-response')) {
+    noticeMsg = i18nTxt('invalid recaptcha secret');
+  } else if (reContains('timeout-or-duplicate')) {
+    noticeMsg = i18nTxt('recaptcha check timeout, please reload page');
+  } else if (reContains('bad-request')) {
+    noticeMsg = i18nTxt('invalid recaptcha request');
+  }
+  return noticeMsg;
+};
 
 class SignIn extends Component {
   constructor(...args) {
@@ -28,7 +47,9 @@ class SignIn extends Component {
       inputsValue: {
         email,
         password: '',
+        recaptchaVal: '',
       },
+      showHalfExtend: false,
     };
   }
 
@@ -58,7 +79,7 @@ class SignIn extends Component {
 
   onSigninClick = async () => {
     const {
-      inputsValue: { email, password },
+      inputsValue: { email, password, recaptchaVal },
       rememberUsernameChecked,
     } = this.state;
 
@@ -66,16 +87,24 @@ class SignIn extends Component {
       body: { code, result },
     } = await sendRequest({
       url: '/user/login',
-      body: { email, password },
+      body: { email, password, recaptchaVal },
       manualNotice: true,
     });
 
     if (code !== 0) {
-      notice.show({
-        content: i18nTxt('Login failed. Check your username or password.'),
-        type: 'message-error',
-        timeout: 3000,
-      });
+      if (result.recaptcha.success !== true) {
+        notice.show({
+          content: getRecaptchaErr(result.recaptcha['error-codes']),
+          type: 'message-error',
+          timeout: 3000,
+        });
+      } else {
+        notice.show({
+          content: i18nTxt('Login failed. Check your username or password.'),
+          type: 'message-error',
+          timeout: 3000,
+        });
+      }
       return;
     }
 
@@ -93,6 +122,7 @@ class SignIn extends Component {
     const {
       rememberUsernameChecked,
       inputsValue: { email, password },
+      showHalfExtend,
     } = this.state;
     return (
       <Fragment>
@@ -125,6 +155,23 @@ class SignIn extends Component {
                     }
                   }}
                 />
+                <RecaptchaWrapDiv>
+                  <ReCAPTCHA
+                    sitekey={recaptchaKey}
+                    onChange={val => {
+                      const { inputsValue } = this.state;
+                      this.setState({ inputsValue: { ...inputsValue, recaptchaVal: val } });
+                    }}
+                    asyncScriptOnLoad={() => {
+                      setTimeout(() => {
+                        this.setState({
+                          showHalfExtend: true,
+                        });
+                      }, 400);
+                    }}
+                  />
+                  <i className={showHalfExtend ? 'extend-icon-full' : 'extend-icon-default'}></i>
+                </RecaptchaWrapDiv>
               </div>
               <div className="btn-wrap-signup">
                 <label className="remember-me">
@@ -228,4 +275,33 @@ const Wrapper = styled(StyledWrapper)`
       color: #595f61;
     }
   }
+`;
+
+export const RecaptchaWrapDiv = styled.div`
+  position: relative;
+  margin-top: 15px;
+  .extend-icon-full {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: calc(100% - 2px);
+    width: 50%;
+    border: 1px solid #d3d3d3;
+    border-left: none;
+    background: #f9f9f9;
+    pointer-events: none;
+    border-radius: 3px;
+  }
+  .extend-icon-default {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: calc(100% - 2px);
+    width: 100%;
+    border: 1px solid #d3d3d3;
+    background: #f9f9f9;
+    pointer-events: none;
+    border-radius: 3px;
+  }
+  display: none;
 `;

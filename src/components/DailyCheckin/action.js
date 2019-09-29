@@ -42,8 +42,10 @@ export const getCheckInInfo = () => dispatch => {
   });
 };
 
-export const submitCheckIn = () => dispatch => {
-  reqSubmitCheckIn().then(body => {
+export const submitCheckIn = recaptchaVal => dispatch => {
+  reqSubmitCheckIn({
+    recaptchaVal,
+  }).then(body => {
     const param = {
       checkinStatus: body.result.status,
       checkinRemainingTime: body.result.remainingTime,
