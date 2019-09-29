@@ -264,7 +264,7 @@ class UserInfo extends Component {
               <div
                 className="avatar"
                 style={{
-                  backgroundImage: `url(${head.user.photoUrl || imgDefaultAvatar})`,
+                  backgroundImage: `url("${head.user.photoUrl || imgDefaultAvatar})"`,
                 }}
               />
               <div className="img-edit">

@@ -347,6 +347,7 @@ class ViewBounty extends Component {
                     headDiv={<Fragment></Fragment>}
                     history={history}
                     submissionId={maxFcSubmission.id}
+                    insideBounty
                   />
                 );
               }
