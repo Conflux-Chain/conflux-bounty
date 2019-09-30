@@ -5,7 +5,8 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   font-size: 20px;
   line-height: 20px;
-  width: 590px;
+  max-width: 590px;
+  width: 100%;
   margin: 0 auto;
   background: linear-gradient(102.15deg, #ebeded 0%, #dee0e0 100%);
   border-top-left-radius: 12px;

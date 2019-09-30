@@ -12,6 +12,7 @@ import ConfirmComp from '../../components/Modal/confirm';
 import { getCategory } from '../../utils/api';
 import { i18nTxt, auth, commonPropTypes, getStatus, downLink, i18n } from '../../utils/index';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
+import media from '../../globalStyles/media';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -46,6 +47,58 @@ const Wrapper = styled(StyledWrapper)`
   .status-tips {
     margin-bottom: 40px;
   }
+  .example-wrapper {
+    float: right;
+  }
+  .attachments-wrapper {
+    float: left;
+    margin-bottom: 30px;
+  }
+
+  ${media.mobile`
+    padding: 12px;
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 40px
+    }
+    .subject {
+      font-size: 16px;
+    }
+    .input-field {
+      margin-top: 12px;
+    }
+    .input-field > input:not(.browser-default) {
+      height: 44px;
+      font-size: 14px;
+      margin-bottom: 0;
+      padding: 0;
+    }
+    .input-field > label {
+      transform: translateY(12px);
+      font-size: 14px;
+    }
+    .select .caret {
+      top: 10px;
+    }
+    .category-wrap-select:first-child {
+      margin-right: 8px;
+    }
+    .materialize-textarea {
+      margin-top: 6px;
+      font-size: 14px;
+      padding: 8px;
+      color: #8E9394;
+    }
+    .example-wrapper {
+      margin-top: 7px;
+    }
+    .btn-submit {
+      width: 100%;
+      margin-top: 10px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  `}
 `;
 
 function fmtLabel(item) {
@@ -215,7 +268,7 @@ class EditBounty extends Component {
         {editState.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editState.descriptionErrMsg)}></span>}
 
         <div className="clearfix">
-          <div style={{ float: 'left', marginBottom: 20 }}>
+          <div className="attachments-wrapper">
             <s.AttachmentDiv>
               {editState.attachmentList.map(v => {
                 const removeFile = () => {
@@ -238,12 +291,12 @@ class EditBounty extends Component {
               <label className="add-attachment" htmlFor="bounty-add-attachment">
                 <i className="material-icons">add</i>
                 <span>{i18nTxt('Attachments')}</span>
-                <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
+                <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
               </label>
             </s.AttachmentDiv>
           </div>
 
-          <div style={{ float: 'right' }}>
+          <div className="example-wrapper">
             <s.ExampleDiv
               role="button"
               onClick={() => {
@@ -295,7 +348,7 @@ class EditBounty extends Component {
             onClick={() => {
               doSubmit({ pageType, history });
             }}
-            className="btn waves-effect waves-light primary"
+            className="btn waves-effect waves-light primary btn-submit"
             type="button"
           >
             {i18nTxt('SUBMIT')}
