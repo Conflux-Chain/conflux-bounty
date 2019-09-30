@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Modal from './index';
+import media from '../../globalStyles/media';
 
 const Confirm = styled.div`
   padding: 20px;
@@ -47,6 +48,19 @@ const Confirm = styled.div`
     margin-left: 20px;
     color: #22b2d6;
   }
+
+  ${media.mobile`
+    padding: 0;
+    > div {
+      width: 100% !important;
+    }
+    .p {
+      margin-bottom: 12px;
+    }
+    .confirm-actions > button {
+      font-size: 14px;
+    }
+  `}
 `;
 
 class ConfirmComp extends PureComponent {

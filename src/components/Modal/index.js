@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import media from '../../globalStyles/media';
 
 const Overlay = styled.div`
   z-index: 199;
@@ -24,6 +25,11 @@ const ModalWrapper = styled.div`
   max-height: 90vh;
   max-width: 90vw;
   transform: translate(-50%, -50%) !important;
+
+  ${media.mobile`
+    min-width: 100%;
+    padding: 12px;
+  `}
 `;
 
 class ModalComp extends PureComponent {

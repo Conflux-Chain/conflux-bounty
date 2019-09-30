@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { StyledWrapper } from '../../globalStyles/common';
 // import * as s from './commonStyle';
 import { i18nTxt, getQuery } from '../../utils';
+import media from '../../globalStyles/media';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -45,6 +46,43 @@ const Wrapper = styled(StyledWrapper)`
       margin-right: 20px;
     }
   }
+
+  ${media.mobile`
+    padding: 12px;
+    box-shadow: none;
+    .success-icon {
+      font-size: 60px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 24px;
+      line-height: 28px;
+    }
+    > p {
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .btns {
+      padding: 0 25px;
+      margin-bottom: 28px;
+      justify-content: center;
+      .btn {
+        font-size: 14px;
+        line-height: 14px;
+        height: 32px;
+        flex: none;
+        padding: 9px 8px;
+        white-space: nowrap;
+      }
+      .btn:first-of-type {
+        display: none;
+      }
+      .btn:last-of-type {
+        background: linear-gradient(100.39deg, #69C4DB -9.79%, #5499DD 100%);
+        color: #FFFFFF;
+      }
+    }
+  `}
 `;
 
 // eslint-disable-next-line react/prefer-stateless-function
