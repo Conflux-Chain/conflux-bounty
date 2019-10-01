@@ -107,10 +107,8 @@ const Backdrop = styled.div`
   top: 0;
   background: rgba(0, 0, 0, 0.2);
 
-  ${props =>
-    props.show &&
-    `
-    ${media.mobile`display: block;`}
+  ${media.mobile`
+    ${props => props.show && `display: block;`}
     `}
 `;
 
@@ -163,7 +161,7 @@ class Picker extends Component {
 
     return (
       <React.Fragment>
-        {show ? <Backdrop onClick={toggleOptions} /> : null}
+        <Backdrop onClick={toggleOptions} show={show} />
 
         <PickerWrapper show={show}>
           <div className="button-wrapper">
