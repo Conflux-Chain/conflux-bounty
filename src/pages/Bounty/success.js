@@ -75,12 +75,6 @@ const Wrapper = styled(StyledWrapper)`
       }
       .btn:first-of-type {
         margin-right: 12px;
-        color: #595F61;
-        background: #FFFFFF;
-      }
-      .btn:last-of-type {
-        background: linear-gradient(100.39deg, #69C4DB -9.79%, #5499DD 100%);
-        color: #FFFFFF;
       }
     }
   `}

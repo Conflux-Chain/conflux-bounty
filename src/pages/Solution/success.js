@@ -75,11 +75,7 @@ const Wrapper = styled(StyledWrapper)`
         white-space: nowrap;
       }
       .btn:first-of-type {
-        display: none;
-      }
-      .btn:last-of-type {
-        background: linear-gradient(100.39deg, #69C4DB -9.79%, #5499DD 100%);
-        color: #FFFFFF;
+        margin-right: 12px;
       }
     }
   `}
