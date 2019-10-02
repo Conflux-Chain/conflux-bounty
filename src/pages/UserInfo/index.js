@@ -25,39 +25,6 @@ const Wrapper = styled(StyledWrapper)`
   .user {
     position: relative;
   }
-  .iconmail {
-    text-decoration: none;
-    position: absolute;
-    font-size: 24px;
-    line-height: 24px;
-    top: 0px;
-    right: 0px;
-    cursor: pointer;
-    color: #595f61;
-  }
-  .iconmail-dot {
-    cursor: pointer;
-    position: absolute;
-    top: -16px;
-    right: -12px;
-    width: 24px;
-    height: 24px;
-    color: #fff;
-    background: #f0453a;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 16px;
-    ${flexCenterMiddle}
-  }
-  .img-edit {
-    position: absolute;
-    bottom: 0px;
-    background: rgba(0, 0, 0, 0.3);
-    width: 100%;
-    text-align: center;
-    color: #fff;
-    cursor: pointer;
-  }
   .img-wrap {
     vertical-align: middle;
     width: 120px;
@@ -90,18 +57,14 @@ const Wrapper = styled(StyledWrapper)`
     background-size: cover;
     background-position: center;
   }
-  .user-info {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .user-name {
-    font-size: 24px;
-    line-height: 24px;
-  }
-  .user-email {
-    font-size: 14px;
-    line-height: 14px;
-    margin-top: 8px;
+  .img-edit {
+    position: absolute;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
   }
   .withdraw-wrap {
     display: flex;
@@ -192,6 +155,99 @@ const Wrapper = styled(StyledWrapper)`
   }
 `;
 
+const IconMail = styled.div`
+  .iconmail {
+    text-decoration: none;
+    position: absolute;
+    font-size: 24px;
+    line-height: 24px;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    color: #595f61;
+  }
+  .iconmail-dot {
+    cursor: pointer;
+    position: absolute;
+    top: -16px;
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    color: #fff;
+    background: #f0453a;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 16px;
+    ${flexCenterMiddle}
+  }
+`;
+
+function MessagesCountButton(props) {
+  const { messageCount = 0 } = props;
+  return (
+    <IconMail>
+      <Link to="/messages">
+        <span className="iconmail"></span>
+        {messageCount ? (
+          <div
+            className="iconmail-dot"
+            style={{
+              fontSize: messageCount > 99 ? 13 : 16,
+            }}
+          >
+            {messageCount > 99 ? (
+              <span>
+                99<span style={{ marginLeft: -1, fontSize: 10, verticalAlign: 'top' }}>+</span>
+              </span>
+            ) : (
+              messageCount
+            )}
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </Link>
+    </IconMail>
+  );
+}
+
+MessagesCountButton.propTypes = {
+  messageCount: PropTypes.number.isRequired,
+};
+
+const UserTextInfoStyle = styled.div`
+  display: inline-block;
+  vertical-align: middle;
+  .user-name {
+    font-size: 24px;
+    line-height: 24px;
+  }
+  .user-email {
+    font-size: 14px;
+    line-height: 14px;
+    margin-top: 8px;
+  }
+`;
+
+function UserTextInfo(props) {
+  const {
+    user: { nickname, email },
+  } = props;
+  return (
+    <UserTextInfoStyle>
+      <div className="user-name">{nickname}</div>
+      <div className="user-email">{email}</div>
+    </UserTextInfoStyle>
+  );
+}
+
+UserTextInfo.propTypes = {
+  user: PropTypes.objectOf({
+    nickname: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 // eslint-disable-next-line react/prefer-stateless-function
 class UserInfo extends Component {
   constructor(...args) {
@@ -273,32 +329,9 @@ class UserInfo extends Component {
               </div>
             </div>
 
-            <div className="user-info">
-              <div className="user-name">{head.user.nickname}</div>
-              <div className="user-email">{head.user.email}</div>
-            </div>
+            <UserTextInfo user={head.user} />
 
-            <Link to="/messages">
-              <span className="iconmail"></span>
-              {head.messageCount ? (
-                <div
-                  className="iconmail-dot"
-                  style={{
-                    fontSize: head.messageCount > 99 ? 13 : 16,
-                  }}
-                >
-                  {head.messageCount > 99 ? (
-                    <span>
-                      99<span style={{ marginLeft: -1, fontSize: 10, verticalAlign: 'top' }}>+</span>
-                    </span>
-                  ) : (
-                    head.messageCount
-                  )}
-                </div>
-              ) : (
-                <div></div>
-              )}
-            </Link>
+            <MessagesCountButton messageCount={head.messageCount} />
           </div>
 
           <div className="withdraw-wrap">
