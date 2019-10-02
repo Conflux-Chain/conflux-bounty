@@ -20,4 +20,8 @@ const media = Object.keys(sizes).reduce((acc, label) => {
   return acc;
 }, {});
 
+export const isMobile = () => {
+  return window.screen.width <= variable.breakpoint.mobile;
+};
+
 export default media;

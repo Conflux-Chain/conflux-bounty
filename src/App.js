@@ -20,6 +20,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 // import * as utils from './utils';
+import { media } from './globalStyles/common';
 import MaterialHook from './components/MaterialHook';
 import PageHead from './components/PageHead';
 import PageFoot from './components/PageFoot';

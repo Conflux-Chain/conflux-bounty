@@ -32,6 +32,10 @@ const Wrap = styled.div`
     top: 0;
     background: #fff;
     z-index: 100;
+    ${media.mobile`
+margin-bottom: 0;
+height: 56px;
+`}
   }
 
   .head-select {
