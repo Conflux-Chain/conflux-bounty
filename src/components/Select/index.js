@@ -122,7 +122,13 @@ class Select extends Component {
           />
         )}
 
-        <Picker show={showOptions} options={options} onSelect={onSelect} toggleOptions={this.toggleOptions}></Picker>
+        <Picker
+          show={showOptions}
+          options={options}
+          onSelect={onSelect}
+          toggleOptions={this.toggleOptions}
+          selected={selected.value}
+        ></Picker>
 
         <svg style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
           <path d="M7 10l5 5 5-5z" />

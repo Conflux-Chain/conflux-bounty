@@ -120,6 +120,24 @@ class Picker extends Component {
     this.domList = [];
   }
 
+  componentDidUpdate() {
+    const { show, selected } = this.props;
+    if (show && selected) {
+      const childOptions = Array.from(this.listRef.childNodes).filter(c => {
+        return c.tagName === 'LI';
+      });
+      // find element with selected value
+      const option = childOptions.find(o => o.getAttribute('value') === selected);
+
+      // scroll into view the previous element
+      const prevIndex = parseInt(option.getAttribute('index'), 10) - 1;
+      const target = childOptions.find(o => parseInt(o.getAttribute('index'), 10) === prevIndex);
+      if (target) {
+        target.scrollIntoView();
+      }
+    }
+  }
+
   toggleOptions = () => {
     const { showOptions } = this.state;
     this.setState({
@@ -129,9 +147,9 @@ class Picker extends Component {
 
   onClick = () => {
     const { options, onSelect, toggleOptions } = this.props;
-    const { top: topBound, bottom: bottomBound } = this.listRef && this.listRef.current.getBoundingClientRect();
+    const { top: topBound, bottom: bottomBound } = this.listRef && this.listRef.getBoundingClientRect();
 
-    const childOptions = Array.from(this.listRef.current.childNodes).filter(c => {
+    const childOptions = Array.from(this.listRef.childNodes).filter(c => {
       return c.tagName === 'LI';
     });
 
@@ -153,7 +171,7 @@ class Picker extends Component {
 
     const domList = options.map((o, i) => {
       return (
-        <li key={o.value} tabIndex="-1" index={i}>
+        <li key={o.value} tabIndex="-1" index={i} value={o.value}>
           <span>{o.label}</span>
         </li>
       );
@@ -163,25 +181,31 @@ class Picker extends Component {
       <React.Fragment>
         <Backdrop onClick={toggleOptions} show={show} />
 
-        <PickerWrapper show={show}>
-          <div className="button-wrapper">
-            <button className="btn-flat left" type="button" onClick={toggleOptions}>
-              {i18nTxt('CANCEL')}
-            </button>
-            <button className="btn-flat right" type="button" onClick={this.onClick}>
-              {i18nTxt('CONFIRM')}
-            </button>
-          </div>
+        {show ? (
+          <PickerWrapper show={show}>
+            <div className="button-wrapper">
+              <button className="btn-flat left" type="button" onClick={toggleOptions}>
+                {i18nTxt('CANCEL')}
+              </button>
+              <button className="btn-flat right" type="button" onClick={this.onClick}>
+                {i18nTxt('CONFIRM')}
+              </button>
+            </div>
 
-          <List ref={this.listRef}>
-            <hr className="top"></hr>
-            <hr className="bottom"></hr>
+            <List
+              ref={el => {
+                this.listRef = el;
+              }}
+            >
+              <hr className="top"></hr>
+              <hr className="bottom"></hr>
 
-            <li className="empty" filler></li>
-            {domList}
-            <li className="empty" filler></li>
-          </List>
-        </PickerWrapper>
+              <li className="empty" filler></li>
+              {domList}
+              <li className="empty" filler></li>
+            </List>
+          </PickerWrapper>
+        ) : null}
       </React.Fragment>
     );
   }
@@ -196,6 +220,10 @@ Picker.propTypes = {
   options: PropTypes.arrayOf(typeOpt).isRequired,
   onSelect: PropTypes.func.isRequired,
   toggleOptions: PropTypes.func.isRequired,
+  selected: PropTypes.string,
+};
+Picker.defaultProps = {
+  selected: '',
 };
 
 export default Picker;
