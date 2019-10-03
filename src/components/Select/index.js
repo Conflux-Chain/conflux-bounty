@@ -130,11 +130,6 @@ class Select extends Component {
           selected={selected.value}
         ></Picker>
 
-        <svg style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
-          <path d="M7 10l5 5 5-5z" />
-          <path d="M0 0h24v24H0z" fill="none" />
-        </svg>
-
         <Dropdown className="dropdown-content select-dropdown" showOptions={showOptions}>
           <div className="select-ul-label">{ulLabel}</div>
           {domList}
