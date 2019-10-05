@@ -418,4 +418,5 @@ export default {
   'Up to <%=restrictNumber%> submission per participant. ': '单用户最多提交<%=restrictNumber%>个方案:',
   yes: '是',
   no: '否',
+  'Choose Country/Region': '选择国家站',
 };

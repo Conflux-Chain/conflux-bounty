@@ -47,7 +47,7 @@ const PageWrapper = styled.div`
   bottom: 0px;
   overflow: auto;
   .page-holder {
-    min-width: 600px;
+    min-width: auto;
     min-height: 100%;
     display: flex;
     flex-direction: column;
