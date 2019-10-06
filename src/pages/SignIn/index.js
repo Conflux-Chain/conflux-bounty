@@ -14,6 +14,7 @@ import { sendRequest, auth, i18nTxt } from '../../utils';
 import { notice } from '../../components/Message/notice';
 import { getAccount } from '../../components/PageHead/action';
 import SignInVia from '../../components/SignInVia';
+import media from '../../globalStyles/media';
 
 class SignIn extends Component {
   constructor(...args) {
@@ -174,13 +175,25 @@ export default connect()(SignIn);
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
+  ${media.mobile`
+    padding: 20px 12px;
+  `}
   .title {
     font-size: 32px;
     line-height: 32px;
+    font-weight: 600;
+    ${media.mobile`
+      font-size: 24px;
+      line-height: 24px;
+    `}
   }
   .form-wrap {
     text-align: center;
     margin: 0 80px;
+    ${media.mobile`
+      margin: 0;
+      text-align: left;
+    `}
   }
   .signup-input {
     height: 56px;
@@ -195,20 +208,12 @@ const Wrapper = styled(StyledWrapper)`
     display: flex;
     flex-direction: column;
   }
-  .reset-password-link {
-    text-decoration: none;
-    cursor: pointer;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 16px;
-    text-transform: uppercase;
-  }
+  .reset-password-link,
   .signup-link {
     text-decoration: none;
     cursor: pointer;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 16px;
     line-height: 16px;
     text-transform: uppercase;

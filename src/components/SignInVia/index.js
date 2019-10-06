@@ -2,11 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import imgGoogle from '../../assets/iconfont/google-logo.svg';
 import { i18nTxt } from '../../utils';
+import media from '../../globalStyles/media';
 // import imgWechat from '../../assets/iconfont/wechat-logo.svg';
 
 const Wrapper = styled.div`
   .signin-via-wrap {
     margin-top: 38px;
+    ${media.mobile`
+      text-align: center;
+    `}
   }
   .signin-via-text {
     font-size: 14px;
