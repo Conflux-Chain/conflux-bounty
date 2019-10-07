@@ -686,54 +686,25 @@ class Home extends Component {
         <HoTBounty>
           <span className="hot-bounty-title">{i18nTxt('HOTTEST BOUNTIES')}</span>
           <div className="hot-slider">
-            {false ? (
-              <div className="hot-wall-items">
-                {popBountyList.map(item => (
-                  <HomeBounty
-                    id={item.id}
-                    key={item.id}
-                    type={getType(item.status)}
-                    status={getStatus(item.status)}
-                    count={item.submissionAccountNumber}
-                    title={item.title}
-                    user={item.user.nickname}
-                    fansCoin={item.fansCoin}
-                    onClick={this.onOpenBounty}
-                  />
-                ))}
-                {/* <HomeBounty type="open" title="Animoji" user="Rach" fansCoin={20100} onClick={this.onOpenBounty} />
-                <HomeBounty type="open" title="Animoji" user="Rach" fansCoin={20100} onClick={this.onOpenBounty} /> */}
-              </div>
-            ) : (
-              <Slider {...settings}>
-                {popBountyList.map(item => {
-                  return (
-                    <div>
-                      <div
-                        style={
-                          {
-                            // marginLeft: 10,
-                            // marginRight: 10
-                          }
-                        }
-                      >
-                        <HomeBounty
-                          id={item.id}
-                          key={item.id}
-                          type={getType(item.status)}
-                          status={getStatus(item.status)}
-                          count={item.submissionAccountNumber}
-                          title={item.title}
-                          user={item.user.nickname}
-                          fansCoin={item.fansCoin}
-                          onClick={this.onOpenBounty}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </Slider>
-            )}
+            <Slider {...settings}>
+              {popBountyList.map(item => {
+                return (
+                  <div>
+                    <HomeBounty
+                      id={item.id}
+                      key={item.id}
+                      type={getType(item.status)}
+                      status={getStatus(item.status)}
+                      count={item.submissionAccountNumber}
+                      title={item.title}
+                      user={item.user.nickname}
+                      fansCoin={item.fansCoin}
+                      onClick={this.onOpenBounty}
+                    />
+                  </div>
+                );
+              })}
+            </Slider>
           </div>
         </HoTBounty>
         {broadcastList.length > 0 && (

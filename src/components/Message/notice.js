@@ -10,7 +10,7 @@ const Wrap = styled.div`
   transform: translateX(-50%);
   z-index: 1000;
   ${media.pad`
-    top: 66px;
+    top: 37px;
   `}
 `;
 const MessageWrap = styled.div`
