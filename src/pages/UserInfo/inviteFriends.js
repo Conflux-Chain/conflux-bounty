@@ -237,6 +237,7 @@ const Wrapper = styled(StyledWrapper)`
     ${media.mobile`
       flex-direction: column;
       align-items: flex-start;
+      margin-bottom: 12px;
     `}
     h1 {
       margin: 0;
