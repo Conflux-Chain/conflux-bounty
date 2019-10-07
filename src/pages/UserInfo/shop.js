@@ -15,6 +15,8 @@ import { reqCreateOrder } from '../../utils/api';
 import Password from '../../components/Password';
 import EmailCode from '../../components/EmailCode';
 import Modal from '../../components/Modal';
+import media from '../../globalStyles/media';
+import close from '../../assets/iconfont/modal-close.svg';
 
 /* eslint-disable func-names */
 function ConfirmPurchaseModal({ onConfirm, userEmail, onClose }) {
@@ -28,7 +30,7 @@ function ConfirmPurchaseModal({ onConfirm, userEmail, onClose }) {
         <div>
           <h4>{i18nTxt('Confirm Payment')}</h4>
           <button type="button" aria-label="Close" className="close" onClick={onClose}>
-            ⤫
+            <img src={close} alt="close" />
           </button>
           <p className="noting">{i18nTxt('Please enter your password and E-mail code to confirm this payment')}.</p>
           <Password
@@ -236,7 +238,8 @@ export default function Shop({ history }) {
         <section className="products-list">{listUI}</section>
         <section className="total">
           <p>
-            {i18nTxt('Total price')}: {total} FC
+            <span>{i18nTxt('Total price')}: </span>
+            <span>{total} FC</span>
           </p>
           <button
             type="button"
@@ -259,6 +262,9 @@ Shop.propTypes = {
 
 const Confirm = styled.div`
   padding: 26px 20px 20px 20px;
+  ${media.mobile`
+    padding: 0;
+  `}
   h4 {
     font-weight: 500;
     font-size: 20px;
@@ -275,6 +281,11 @@ const Confirm = styled.div`
     flex-direction: column;
     justify-content: space-between;
     box-shadow: rgba(0, 0, 0, 0.12) 2px 4px 20px;
+    ${media.mobile`
+      border-radius: 12px 12px 0 0;
+      box-shadow: none;
+      padding: 24px 12px 20px 12px;
+    `}
   }
   .noting {
     margin-bottom: 20px;
@@ -283,19 +294,13 @@ const Confirm = styled.div`
   }
   .close {
     cursor: pointer;
-    border: 0;
-    background: transparent;
-    font-size: 21px;
     position: absolute;
-    right: 40px;
+    right: 30px;
     top: 40px;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    text-shadow: 0 1px 0 #fff;
-    filter: alpha(opacity=20);
-    opacity: 0.2;
-    text-decoration: none;
+    ${media.mobile`
+      right: 10px;
+      top: 15px;
+    `}
 
     &:hover {
       opacity: 1;
@@ -308,11 +313,18 @@ const Confirm = styled.div`
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
+  ${media.mobile`
+    padding: 20px 12px;
+  `}
   h1 {
     margin: 0;
     font-size: 32px;
     line-height: 32px;
     font-weight: 500;
+    ${media.mobile`
+      font-size: 24px;
+      line-height: 24px;
+    `}
   }
   .products-list {
     display: flex;
@@ -346,10 +358,21 @@ const Wrapper = styled(StyledWrapper)`
         display: flex;
         justify-content: space-between;
         align-items: center;
-
+        ${media.mobile`
+          flex-direction: column;
+          align-items: flex-start;
+        `}
         .controls {
           display: flex;
           justify-content: flex-start;
+          ${media.mobile`
+            margin-bottom: 12px;
+            width: 100%;
+            justify-content: space-between;
+            button:last-child {
+              margin-right: 0;
+            }
+          `}
           * {
             margin-right: 8px;
           }
@@ -361,12 +384,18 @@ const Wrapper = styled(StyledWrapper)`
           }
           .input-field {
             margin: 0 8px 0 0;
+            ${media.mobile`
+              width: 100%;
+            `}
             input {
               text-indent: unset;
               text-align: center;
               width: 56px;
               height: 44px;
               margin: 0;
+              ${media.mobile`
+                width: 100%;
+              `}
             }
           }
         }
@@ -384,6 +413,16 @@ const Wrapper = styled(StyledWrapper)`
     text-align: center;
     button {
       width: 100%;
+    }
+    p {
+      margin: 0;
+      font-size: 20px;
+      line-height: 20px;
+      margin-bottom: 20px;
+      ${media.mobile`
+        display: flex;
+        justify-content: space-between;
+      `}
     }
   }
 `;

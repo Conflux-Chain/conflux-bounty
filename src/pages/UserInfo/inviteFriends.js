@@ -14,6 +14,7 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { i18nTxt, copyToClipboard, commonPropTypes } from '../../utils';
 import { reqInvitationCode, reqInvitationLimit, reqGoodsList } from '../../utils/api';
 import Tooltip from '../../components/Tooltip';
+import media from '../../globalStyles/media';
 
 // eslint-disable-next-line react/prefer-stateless-function
 /* eslint jsx-a11y/label-has-for: 0 */
@@ -141,6 +142,7 @@ class InviteFriends extends PureComponent {
           <div className="title">
             <h1>{i18nTxt('Invite Friends')}</h1>
             <div
+              className="purchase-wrap"
               onMouseEnter={() => {
                 if (purchaseDisabled) this.setState({ buyCodeToolTipVisible: true });
               }}
@@ -217,6 +219,9 @@ export default connect(mapStateToProps)(InviteFriends);
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
+  ${media.mobile`
+    padding: 20px 12px;
+  `}
   .level2-title {
     font-style: normal;
     font-weight: bold;
@@ -229,12 +234,29 @@ const Wrapper = styled(StyledWrapper)`
     justify-content: space-between;
     margin-bottom: 34px;
     align-items: center;
+    ${media.mobile`
+      flex-direction: column;
+      align-items: flex-start;
+    `}
     h1 {
       margin: 0;
       font-size: 32px;
       line-height: 32px;
       font-weight: 500;
+      ${media.mobile`
+        margin-bottom: 40px;
+        font-size: 24px;
+        line-height: 24px;
+      `}
     }
+  }
+  .purchase-wrap {
+    ${media.mobile`
+      width: 100%;
+      > button {
+        width: 100%;
+      }
+    `}
   }
   .tooltip-content {
     text-transform: none;
@@ -250,6 +272,9 @@ const Wrapper = styled(StyledWrapper)`
       display: flex;
       justify-content: space-between;
       margin-bottom: 12px;
+      ${media.mobile`
+        flex-direction: column;
+      `}
       label {
         width: 100.5px;
         display: flex;
@@ -261,6 +286,11 @@ const Wrapper = styled(StyledWrapper)`
         font-size: 14px;
         line-height: 14px;
         margin-right: 20px;
+        ${media.mobile`
+          font-weight: bold;
+          margin-bottom: 8px;
+          color: #171d1f;
+        `}
       }
       div {
         flex-grow: 1;
@@ -295,6 +325,9 @@ const Wrapper = styled(StyledWrapper)`
       display: flex;
       flex-direction: column;
       font-size: 14px;
+      ${media.mobile`
+        margin-left: 0;
+      `}
       a {
         color: #595f61;
         cursor: pointer;
