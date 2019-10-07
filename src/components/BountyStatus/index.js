@@ -44,17 +44,15 @@ const Container = styled.div`
   }
   .status-text {
     display: flex;
-    width: 300px;
+    width: 335px;
     height: 20px;
     position: relative;
     align-items: center;
+    justify-content: space-between;
+
     .text-item {
-      position: absolute;
-      text-align: left;
       font-size: 12px;
       line-height: 12px;
-      transform: translateX(-50%);
-      top: 4px;
       white-space: nowrap;
       &.bold {
         font-weight: 700;
@@ -86,12 +84,8 @@ function BountyStatus(props) {
         })}
       </div>
       <div className="status-text">
-        {statusItems.map((item, index) => {
-          return (
-            <div className={classnames('text-item', { bold: status === item })} style={{ left: `${0 + index * 74}px` }}>
-              {i18nTxt(item)}
-            </div>
-          );
+        {statusItems.map(item => {
+          return <div className={classnames('text-item', { bold: status === item })}>{i18nTxt(item)}</div>;
         })}
       </div>
     </Container>

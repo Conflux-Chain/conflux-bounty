@@ -7,12 +7,15 @@ import { connect } from 'react-redux';
 import * as actions from './action';
 import { compose, commonPropTypes, i18nTxt, auth } from '../../utils';
 import CheckIn from '../../assets/iconfont/checkIn.svg';
+import media from '../../globalStyles/media';
 
 const DailyCheckinWrap = styled.div`
   .pos-rightbottom {
+    right: 40px;
     bottom: 170px;
     z-index: 100;
     position: fixed;
+    ${media.tablet`bottom: 20px; right: 20px;`}
   }
 
   .btn-checkin {
@@ -21,7 +24,6 @@ const DailyCheckinWrap = styled.div`
     border-radius: 60px;
     width: 120px;
     height: 120px;
-    right: 40px;
     text-align: center;
     cursor: pointer;
     > div {
@@ -75,6 +77,7 @@ const DailyCheckinWrap = styled.div`
 
   .checkin-success {
     position: fixed;
+    ${media.tablet`top: 20%;`}
     margin-left: -174px;
     top: 40px;
     left: 50%;

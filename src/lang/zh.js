@@ -419,4 +419,5 @@ export default {
   yes: '是',
   no: '否',
   'Choose Country/Region': '选择国家站',
+  Cancel: '取消',
 };

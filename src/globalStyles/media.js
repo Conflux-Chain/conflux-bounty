@@ -20,4 +20,12 @@ const media = Object.keys(sizes).reduce((acc, label) => {
   return acc;
 }, {});
 
+Object.entries(sizes).forEach(([label, size]) => {
+  media[`${label}Else`] = (...args) => css`
+    @media (min-width: ${size + 1}px) {
+      ${css(...args)}
+    }
+  `;
+});
+
 export default media;
