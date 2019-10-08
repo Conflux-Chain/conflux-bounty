@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import * as actions from './action';
 import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink } from '../../utils';
 import { StyledWrapper } from '../../globalStyles/common';
+import media from '../../globalStyles/media';
 // import Input from '../../components/Input';
 import Message from '../../components/Message';
 import PhotoImg from '../../components/PhotoImg';
@@ -65,6 +66,12 @@ const Wrapper = styled(StyledWrapper)`
           font-size: 14px;
           width: 90px;
         }
+      }
+      .solution-user-name {
+        font-weight: 500;
+        text-align: left;
+        color: #171d1f;
+        margin-bottom: 5px;
       }
     }
   }
@@ -193,6 +200,50 @@ const Wrapper = styled(StyledWrapper)`
       background-repeat: repeat-x;
     }
   }
+  ${media.mobile`
+    padding: 20px 12px;
+    .head > h1 {
+      font-size: 24px;
+      line-height: 24px;
+      font-weight: 600;
+    }
+    .subject {
+      font-size: 16px;
+      line-height: 16px;
+      margin: 40px 0 12px 0;
+      font-weight: bold;
+    }
+    .miltstone-wrap {
+      padding-top: 8px;
+    }
+    .solution-head-list {
+      margin-top: 18px;
+      .solution-head-content {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        .solution-user {
+          position: absolute;
+          bottom: -36px;
+          margin: 0;
+          display: flex;
+          margin-bottom: 0;
+          flex-direction: column-reverse;
+          .solution-user-name {
+            text-align: center;
+          }
+          .solution-user-cfx {
+            font-size: 16px;
+            line-height: 16px;
+            padding: 7px 16px;
+          }
+        }
+      }
+    }
+    .solution-dots {
+      margin-top: 45px;
+    }
+  `}
 `;
 
 const AddNoticeDiv = styled.div`
@@ -354,7 +405,7 @@ class ViewSolution extends Component {
 
   render() {
     const { props } = this;
-    const { history, renderReward } = this.props;
+    const { history, renderReward, insideBounty } = this.props;
     const { sendLike, viewSolution, submissionId, from, headDiv } = props;
 
     let curIndex = -1;
@@ -370,7 +421,9 @@ class ViewSolution extends Component {
 
         const gotoCurSolution = () => {
           history.push(`/view-submission?submissionId=${solution.id}`);
-          setTimeout(this.getInitData);
+          if (insideBounty !== true) {
+            setTimeout(this.getInitData);
+          }
         };
         /* eslint jsx-a11y/no-static-element-interactions: 0 */
         /* eslint jsx-a11y/click-events-have-key-events: 0 */
@@ -475,7 +528,9 @@ class ViewSolution extends Component {
               return (
                 <Link
                   onClick={() => {
-                    setTimeout(this.getInitData);
+                    if (insideBounty !== true) {
+                      setTimeout(this.getInitData);
+                    }
                   }}
                   style={{
                     display: 'flex',
@@ -502,17 +557,7 @@ class ViewSolution extends Component {
                 if (viewSolution.status === SOLUTION_STATUS_ENUM.FINISHED && viewSolution.bounty.status === BOUNTY_STATUS_ENUM.FINISHED) {
                   return (
                     <span className="solution-user">
-                      <div
-                        style={{
-                          fontWeight: 500,
-                          textAlign: 'left',
-                          color: '#171D1F',
-                          marginBottom: 5,
-                        }}
-                      >
-                        {' '}
-                        {viewSolution.user.nickname}
-                      </div>
+                      <div className="solution-user-name"> {viewSolution.user.nickname}</div>
                       <div className="solution-user-cfx">
                         <span>+{get(viewSolution, ['reward', 'fansCoin'], 0)}</span>
                         <span style={{ fontSize: 16, marginLeft: 3 }}>FC</span>
@@ -551,7 +596,9 @@ class ViewSolution extends Component {
               return (
                 <Link
                   onClick={() => {
-                    setTimeout(this.getInitData);
+                    if (insideBounty !== true) {
+                      setTimeout(this.getInitData);
+                    }
                   }}
                   style={{
                     display: 'flex',
@@ -787,10 +834,12 @@ ViewSolution.propTypes = {
   user: PropTypes.objectOf({
     id: PropTypes.string,
   }).isRequired,
+  insideBounty: PropTypes.bool,
 };
 
 ViewSolution.defaultProps = {
   renderReward: () => {},
+  insideBounty: false,
 };
 
 function mapStateToProps(state) {
