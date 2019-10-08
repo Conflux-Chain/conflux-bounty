@@ -41,3 +41,5 @@ export const { SOLUTION_STATUS_ENUM } = bountyEnum;
 export const { MILESTONE_STATUS_ENUM } = bountyEnum;
 export const { REWARD_STATUS_ENUM } = bountyEnum;
 export const { WITHDRAWAL_STATUS_ENUM } = bountyEnum;
+
+export const recaptchaKey = '6LcGDroUAAAAAIDuTI9RpZNIuCi-QpSEKCdq_I4i';
