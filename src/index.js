@@ -9,6 +9,10 @@ import rootReducer from './reducers/index';
 import App from './App';
 import { updateDispatch } from './utils';
 
+window.recaptchaOptions = {
+  useRecaptchaNet: true,
+};
+
 Sentry.init({ dsn: 'https://14d772ae785b46d2979814725a251882@sentry.conflux-chain.org/3' });
 
 if (!global.Intl) {

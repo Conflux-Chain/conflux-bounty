@@ -45,7 +45,7 @@ class PhotoImg extends PureComponent {
         <div
           className="backimg"
           style={{
-            backgroundImage: `url(${imgSrc})`,
+            backgroundImage: `url("${imgSrc}")`,
           }}
         ></div>
       </ImgDiv>
