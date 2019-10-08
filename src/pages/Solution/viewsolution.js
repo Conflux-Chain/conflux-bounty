@@ -354,7 +354,7 @@ class ViewSolution extends Component {
 
   render() {
     const { props } = this;
-    const { history, renderReward } = this.props;
+    const { history, renderReward, insideBounty } = this.props;
     const { sendLike, viewSolution, submissionId, from, headDiv } = props;
 
     let curIndex = -1;
@@ -370,7 +370,9 @@ class ViewSolution extends Component {
 
         const gotoCurSolution = () => {
           history.push(`/view-submission?submissionId=${solution.id}`);
-          setTimeout(this.getInitData);
+          if (insideBounty !== true) {
+            setTimeout(this.getInitData);
+          }
         };
         /* eslint jsx-a11y/no-static-element-interactions: 0 */
         /* eslint jsx-a11y/click-events-have-key-events: 0 */
@@ -475,7 +477,9 @@ class ViewSolution extends Component {
               return (
                 <Link
                   onClick={() => {
-                    setTimeout(this.getInitData);
+                    if (insideBounty !== true) {
+                      setTimeout(this.getInitData);
+                    }
                   }}
                   style={{
                     display: 'flex',
@@ -551,7 +555,9 @@ class ViewSolution extends Component {
               return (
                 <Link
                   onClick={() => {
-                    setTimeout(this.getInitData);
+                    if (insideBounty !== true) {
+                      setTimeout(this.getInitData);
+                    }
                   }}
                   style={{
                     display: 'flex',
@@ -787,10 +793,12 @@ ViewSolution.propTypes = {
   user: PropTypes.objectOf({
     id: PropTypes.string,
   }).isRequired,
+  insideBounty: PropTypes.bool,
 };
 
 ViewSolution.defaultProps = {
   renderReward: () => {},
+  insideBounty: false,
 };
 
 function mapStateToProps(state) {
