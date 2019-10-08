@@ -88,7 +88,7 @@ class MySolution extends Component {
                     <div className="update-progress">
                       <Link
                         style={{
-                          opacity: !v.transDeleted ? '0.6' : 1,
+                          opacity: v.transDeleted ? '0.6' : 1,
                         }}
                         onClick={e => {
                           if (v.transDeleted) {
