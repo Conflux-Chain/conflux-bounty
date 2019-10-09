@@ -1,0 +1,69 @@
+.rmc-picker,.rmc-multi-picker {
+  height: 132px; /* 44*3 */
+}
+
+.rmc-multi-picker {
+  display: flex;
+  align-items: center;
+}
+
+.rmc-picker-item {
+  font-size: 20px;
+  height: 44px;
+  line-height: 44px;
+  padding: 0 10px;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #8E9394;
+  width: 100%;
+  box-sizing: border-box;
+}
+.rmc-picker-item.selected{
+  color: #22B2D6;
+}
+.rmc-picker {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  flex: 1;
+  text-align: center;
+}
+
+.rmc-picker-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  margin: 0 auto;
+  width: 100%;
+  z-index: 3;
+  background-position: top, bottom;
+  background-size: 100% 204px;
+  background-repeat: no-repeat;
+}
+
+.rmc-picker-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.rmc-picker-indicator {
+  box-sizing: border-box;
+  width: 70%;
+  height: 44px;
+  margin: 0 15%;
+  min-width: 200px;
+  position: absolute;
+  left: 0;
+  top: 44px; /* xixi */
+  z-index: 3;
+  color: #22b2d6;
+  border-top: 2px solid #22b2d6;
+  border-bottom: 2px solid #22b2d6;
+}

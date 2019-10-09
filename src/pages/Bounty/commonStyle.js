@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import imgRejectBack from '../../assets/iconfont/reject-back.svg';
 import { StyledWrapper } from '../../globalStyles/common';
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
 
 export const HeadDiv = styled.div`
   font-size: 20px;
@@ -53,10 +55,7 @@ export const AttachmentDiv = styled.div`
   .add-attachment {
     color: #22b2d6;
     display: inline-block;
-    margin-top: 6px;
-    margin-right: 10px;
     height: 20px;
-
     font-size: 14px;
     cursor: pointer;
     position: relative;
@@ -67,7 +66,8 @@ export const AttachmentDiv = styled.div`
       border-bottom: 1px solid;
     }
     > span {
-      line-height: 20px;
+      /* line-height: 20px; */
+      display: inline-block;
       vertical-align: middle;
     }
     > i {
@@ -79,6 +79,9 @@ export const AttachmentDiv = styled.div`
     input[type='file'] {
       display: none;
     }
+    ${media.mobile`
+      font-size: ${unitParser(14)};
+    `}
   }
 `;
 
@@ -86,9 +89,14 @@ export const ExampleDiv = styled.div`
   color: #595f61;
   cursor: pointer;
   > i {
-    vertical-align: middle;
     margin-right: 5px;
   }
+  > span {
+    vertical-align: middle;
+  }
+  ${media.mobile`
+    font-size: ${unitParser(14)};
+  `}
 `;
 
 export const SubmitDiv = styled.div`
@@ -102,6 +110,15 @@ export const SubmitDiv = styled.div`
   > label {
     margin-top: 9px;
   }
+  ${media.mobile`
+    margin-top: ${unitParser('40dp')};
+    .btn {
+      width: 100%;
+      height: ${unitParser('44dp')};
+      line-height: ${unitParser('44dp')};
+      font-size: ${unitParser('16dp')};
+    }
+  `}
 `;
 
 export const ImgDiv = styled.div`

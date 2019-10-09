@@ -1,7 +1,92 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import styled from 'styled-components';
 import { i18nTxt } from '../../utils';
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
+
+// const Y = unitParser((44 - 14 * 1.5) / 2);
+const InputWrap = styled.div`
+  > label {
+    z-index: 1;
+    background: #fff;
+    left: 10px;
+    width: auto !important;
+    max-width: 100%;
+    display: inline-block;
+    color: #8e9394;
+    transform: translateY(16px);
+    font-size: 16px;
+    /* @media screen and (max-width: 600px) { */
+    ${media.mobile`
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: ${unitParser('14dp')};
+      left: ${unitParser('8dp')};s
+    `}
+  }
+  &.col > label {
+    margin-left: 10px;
+  }
+
+  > input:not(.browser-default) {
+    border: 1px solid #bfc5c7;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-indent: 16px;
+    box-shadow: none;
+    color: #171d1f;
+    height: 56px;
+    font-size: 16px;
+    text-align: left;
+    width: 100%;
+    outline: none;
+    vertical-align: middle;
+    margin-bottom: 0;
+    ${media.mobile`
+    /* @media scresen and (max-width: 600px) { */
+      height: ${unitParser('44dp')};
+      font-size: ${unitParser('14dp')};
+      text-indent: ${unitParser('10dp')};
+    /* } */
+    `}
+
+    &:disabled,
+    &[readonly='readonly'] {
+      border: 1px solid #d8dddf;
+    }
+    &:disabled + label,
+    &[readonly='readonly'] + label {
+      color: #d8dddf;
+    }
+    &.invalid {
+      border: 1px solid #ec6057;
+    }
+    &.invalid + label {
+      color: #ec6057;
+    }
+
+    &:hover:not([readonly]) {
+      border: 1px solid #595f61;
+    }
+    &:hover:not([readonly]) + label {
+      color: #595f61;
+    }
+
+    &:focus:not([readonly]) {
+      border: 1px solid #22b2d6;
+      box-shadow: 0 0px 0px 1px #22b2d6;
+    }
+    &:focus:not([readonly]) + label {
+      color: #22b2d6;
+    }
+  }
+  > label.active {
+    margin-top: 5px;
+    top: 0;
+  }
+`;
 
 class Input extends Component {
   constructor(...args) {
@@ -22,6 +107,11 @@ class Input extends Component {
 
     const { onChangeDebounced } = this.props;
     if (typeof onChangeDebounced === 'function') this.onChangeDebounced = debounce(onChangeDebounced, 400);
+  }
+
+  componentDidMount() {
+    const { onRef } = this.props;
+    onRef(this);
   }
 
   getInputRef = ref => {
@@ -79,13 +169,13 @@ class Input extends Component {
     };
 
     return (
-      <div className={`input-field no-autoinit ${className}`}>
+      <InputWrap className={`input-field no-autoinit ${className}`}>
         <input {...inputOptions} />
         <label htmlFor={id} className={activeCss} onClick={this.onLabelClick}>
           {label}
         </label>
         {msgDiv}
-      </div>
+      </InputWrap>
     );
   }
 }
@@ -96,6 +186,7 @@ Input.propTypes = {
   onChange: PropTypes.func.isRequired,
   onChangeDebounced: PropTypes.func,
   onClick: PropTypes.func,
+  onRef: PropTypes.func,
   type: PropTypes.string,
   autoComplete: PropTypes.string,
   placeHolder: PropTypes.string,
@@ -111,6 +202,7 @@ Input.defaultProps = {
   type: 'text',
   placeHolder: '',
   className: '',
+  onRef: () => {},
   onClick: () => {},
   onKeyPress: () => {},
   errMsg: '',

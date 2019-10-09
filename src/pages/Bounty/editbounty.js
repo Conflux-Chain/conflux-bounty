@@ -7,9 +7,12 @@ import { StyledWrapper } from '../../globalStyles/common';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Message from '../../components/Message';
+import Picker from '../../components/Picker';
 import * as s from './commonStyle';
 import ConfirmComp from '../../components/Modal/confirm';
 import { getCategory } from '../../utils/api';
+import unitParser, { isMobile } from '../../utils/device';
+import media from '../../globalStyles/media';
 import { i18nTxt, auth, commonPropTypes, getStatus, downLink, i18nTxtAsync } from '../../utils/index';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
 
@@ -28,13 +31,14 @@ const Wrapper = styled(StyledWrapper)`
   }
   .category-wrap {
     display: flex;
+    > * {
+      flex: 1;
+      &:nth-child(1) {
+        margin-right: 12px;
+      }
+    }
   }
-  .category-wrap-select {
-    flex: 1;
-  }
-  .category-wrap-select:first-child {
-    margin-right: 12px;
-  }
+
   .input-field {
     margin-bottom: 0px;
   }
@@ -42,10 +46,37 @@ const Wrapper = styled(StyledWrapper)`
     height: 100px;
     margin-top: 12px;
     margin-bottom: 0;
+    display: block;
+  }
+  .attachment {
+    line-height: unset;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    margin-top: 8px;
   }
   .status-tips {
     margin-bottom: 40px;
   }
+  ${media.mobile`
+    padding: ${unitParser('20dp')} ${unitParser('12dp')};
+    h1 {
+      font-size: ${unitParser('24dp')};
+      font-weight: bold;
+      margin-bottom: 40px;
+
+    }
+    .subject {
+      font-size: ${unitParser('16dp')};
+      text-indent: ${unitParser('4dp')};
+    }
+    textarea {
+      padding: ${unitParser('15dp')} ${unitParser('8dp')};
+      font-size: ${unitParser('14dp')};
+    }
+    .attachment{
+      margin-top: ${unitParser(6)};
+    }
+  `}
 `;
 
 function fmtLabel(item) {
@@ -138,7 +169,11 @@ class EditBounty extends Component {
     }
 
     return (
-      <Wrapper>
+      <Wrapper
+        ref={ref => {
+          this.editBountyRef = ref;
+        }}
+      >
         <h1>{pageType === 'create' ? i18nTxt('Create New Bounty') : i18nTxt('Edit Bounty')} </h1>
         {statusDiv}
         <div className="subject">{i18nTxt('Subject')}:</div>
@@ -160,44 +195,77 @@ class EditBounty extends Component {
             }}
           />
         </div>
-        <div className="category-wrap">
-          <div className="category-wrap-select">
-            <Select
-              {...{
-                label: i18nTxt('* Category'),
-                onSelect: v => {
-                  updateEdit({
-                    categoryL1Id: v.value,
-                    l1ErrMsg: '',
-                  });
-                },
-                options: categoryL1List.map(fmtLabel),
-                selected: {
-                  value: editState.categoryL1Id,
-                },
-                errMsg: i18nTxt(editState.l1ErrMsg),
-              }}
-            />
+        {!isMobile() ? (
+          <div className="category-wrap">
+            <div className="category-wrap-select">
+              <Select
+                {...{
+                  label: i18nTxt('* Category'),
+                  onSelect: v => {
+                    updateEdit({
+                      categoryL1Id: v.value,
+                      l1ErrMsg: '',
+                    });
+                  },
+                  options: categoryL1List.map(fmtLabel),
+                  selected: {
+                    value: editState.categoryL1Id,
+                  },
+                  errMsg: i18nTxt(editState.l1ErrMsg),
+                }}
+              />
+            </div>
+            <div className="category-wrap-select">
+              <Select
+                {...{
+                  label: i18nTxt('* Subcategory'),
+                  onSelect: v => {
+                    updateEdit({
+                      categoryL2Id: v.value,
+                      l2ErrMsg: '',
+                    });
+                  },
+                  options: (categoryMap[editState.categoryL1Id] || []).map(fmtLabel),
+                  selected: {
+                    value: editState.categoryL2Id,
+                  },
+                  errMsg: i18nTxt(editState.l2ErrMsg),
+                }}
+              />
+            </div>
           </div>
-          <div className="category-wrap-select">
-            <Select
-              {...{
-                label: i18nTxt('* Subcategory'),
-                onSelect: v => {
-                  updateEdit({
-                    categoryL2Id: v.value,
-                    l2ErrMsg: '',
-                  });
-                },
-                options: (categoryMap[editState.categoryL1Id] || []).map(fmtLabel),
-                selected: {
-                  value: editState.categoryL2Id,
-                },
-                errMsg: i18nTxt(editState.l2ErrMsg),
+        ) : (
+          <div className="category-wrap">
+            <Picker
+              label={i18nTxt('* Category')}
+              selected={{
+                value: editState.categoryL1Id,
               }}
-            />
+              data={categoryL1List.map(fmtLabel)}
+              errMsg={i18nTxt(editState.l1ErrMsg)}
+              onSelect={v => {
+                updateEdit({
+                  categoryL1Id: v.value,
+                  l1ErrMsg: '',
+                });
+              }}
+            ></Picker>
+            <Picker
+              label={i18nTxt('* Subcategory')}
+              selected={{
+                value: editState.categoryL2Id,
+              }}
+              data={(categoryMap[editState.categoryL1Id] || []).map(fmtLabel)}
+              errMsg={i18nTxt(editState.l2ErrMsg)}
+              onSelect={v => {
+                updateEdit({
+                  categoryL2Id: v.value,
+                  l2ErrMsg: '',
+                });
+              }}
+            ></Picker>
           </div>
-        </div>
+        )}
 
         <textarea
           value={editState.description}
@@ -213,53 +281,47 @@ class EditBounty extends Component {
           }}
         />
         {editState.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editState.descriptionErrMsg)}></span>}
-
-        <div className="clearfix">
-          <div style={{ float: 'left', marginBottom: 20 }}>
-            <s.AttachmentDiv>
-              {editState.attachmentList.map(v => {
-                const removeFile = () => {
-                  const attachmentListCopy = editState.attachmentList.slice();
-                  const curIndex = attachmentListCopy.indexOf(v);
-                  attachmentListCopy.splice(curIndex, 1);
-                  updateEdit({
-                    attachmentList: attachmentListCopy,
-                  });
-                };
-                return (
-                  <div className="attachment-line">
-                    {downLink(v.url, v.title)}
-                    <button className="material-icons dp48" onClick={removeFile} type="button">
-                      cancel
-                    </button>
-                  </div>
-                );
-              })}
-              <label className="add-attachment" htmlFor="bounty-add-attachment">
-                <i className="material-icons">add</i>
-                <span>{i18nTxt('Attachments')}</span>
-                <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
-              </label>
-            </s.AttachmentDiv>
-          </div>
-
-          <div style={{ float: 'right' }}>
-            <s.ExampleDiv
-              role="button"
-              onClick={() => {
+        <div className="attachment">
+          <s.AttachmentDiv>
+            {editState.attachmentList.map(v => {
+              const removeFile = () => {
+                const attachmentListCopy = editState.attachmentList.slice();
+                const curIndex = attachmentListCopy.indexOf(v);
+                attachmentListCopy.splice(curIndex, 1);
                 updateEdit({
-                  descExampleShow: true,
+                  attachmentList: attachmentListCopy,
                 });
-              }}
-            >
-              <i className="example" />
-              <span>{i18nTxt('Bounty Example')}</span>
-            </s.ExampleDiv>
-          </div>
+              };
+              return (
+                <div className="attachment-line">
+                  {downLink(v.url, v.title)}
+                  <button className="material-icons dp48" onClick={removeFile} type="button">
+                    cancel
+                  </button>
+                </div>
+              );
+            })}
+            <label className="add-attachment" htmlFor="bounty-add-attachment">
+              <i className="material-icons">add</i>
+              <span>{i18nTxt('Attachments')}</span>
+              <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
+            </label>
+          </s.AttachmentDiv>
+
+          <s.ExampleDiv
+            // style={{ display: 'inline-flex', alignItems: 'center' }}
+            role="button"
+            onClick={() => {
+              updateEdit({
+                descExampleShow: true,
+              });
+            }}
+          >
+            <i className="example" />
+            <span>{i18nTxt('Bounty Example')}</span>
+          </s.ExampleDiv>
         </div>
-
         <div className="subject">{i18nTxt('Private message')}:</div>
-
         <textarea
           className={`materialize-textarea ${editState.privateMessageErr ? 'invalid' : ''}`}
           placeholder={i18nTxt(
@@ -274,8 +336,8 @@ class EditBounty extends Component {
           }}
         />
         {editState.privateMessageErr && <span className="helper-text" data-error={i18nTxt(editState.privateMessageErr)}></span>}
-
-        <div className="clearfix">
+        <div className="attachment">
+          <span></span>
           <div style={{ float: 'right' }}>
             <s.ExampleDiv
               onClick={() => {
@@ -289,7 +351,6 @@ class EditBounty extends Component {
             </s.ExampleDiv>
           </div>
         </div>
-
         <s.SubmitDiv>
           <button
             onClick={() => {
@@ -301,7 +362,6 @@ class EditBounty extends Component {
             {i18nTxt('SUBMIT')}
           </button>
         </s.SubmitDiv>
-
         <ConfirmComp
           confirmBtns={
             <button
@@ -320,7 +380,7 @@ class EditBounty extends Component {
           content={i18nTxtAsync('bounty.faq')}
           title={i18nTxt('Bounty Example')}
           wrapStyle={{
-            width: '400px',
+            width: window.screen.width >= 600 ? '400px' : '100%',
           }}
         />
         <ConfirmComp
@@ -350,7 +410,7 @@ class EditBounty extends Component {
           }
           title={i18nTxt('Private Message Example')}
           wrapStyle={{
-            width: '400px',
+            width: window.screen.width >= 600 ? '400px' : '100%',
           }}
         />
       </Wrapper>

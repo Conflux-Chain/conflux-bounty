@@ -26,7 +26,7 @@ const Wrap = styled.div`
   padding: 40px 0 20px;
   justify-content: space-between;
   overflow: hidden;
-  z-index: 99999;
+  z-index: 99;
   &.home {
     margin-top: 0px;
   }

@@ -16,6 +16,8 @@ import { ALI_OSS_KEYS, UPDATE_HEAD, UPDATE_UNREAD_MESSAGE_COUNT } from '../const
 import { reqAccountQuery, reqMessageCount } from './api';
 import { i18nTxt, i18nTxtAsync } from './i18n';
 
+import { isMobile } from './device';
+
 export { compose } from 'redux';
 export { i18nTxt, i18nTxtAsync };
 
@@ -138,6 +140,7 @@ export const sendRequest = config => {
       }
     })
     .catch(error => {
+      // eslint-disable-next-line no-console
       console.log(error);
       $toast.error({
         content: i18nTxt('Please reload page'),
@@ -300,6 +303,7 @@ export const uploadFileOss = (key, file) => {
 
   reqFile
     .catch(e => {
+      // eslint-disable-next-line no-console
       console.log(e);
       notice.show({
         type: 'message-error-light',
@@ -508,6 +512,7 @@ export function copyToClipboard(text) {
     try {
       return document.execCommand('copy'); // Security exception may be thrown by some browsers.
     } catch (ex) {
+      // eslint-disable-next-line no-console
       console.warn('Copy to clipboard failed.', ex);
       return false;
     } finally {
@@ -635,22 +640,24 @@ export function downLink(url, title) {
   let target = '';
   if (url && isImgLike(url)) {
     target = '_blank';
-    return (
-      <span>
-        <img
-          alt={title}
-          src={url}
-          style={{
-            maxWidth: '100%',
-            marginTop: 10,
-          }}
-        />
-        <br />
-        <a href={url} download target={target}>
-          {title}
-        </a>
-      </span>
-    );
+    if (!isMobile()) {
+      return (
+        <span>
+          <img
+            alt={title}
+            src={url}
+            style={{
+              maxWidth: '100%',
+              // marginTop: 10,
+            }}
+          />
+          <br />
+          <a href={url} download target={target}>
+            {title}
+          </a>
+        </span>
+      );
+    }
   }
   return (
     <a href={url} download target={target}>

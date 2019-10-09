@@ -34,6 +34,7 @@ if (window.React) {
       return;
     }
     loadScript('./vendor.js').then(init, () => {
+      // eslint-disable-next-line no-alert
       window.alert('page load failed, plearse refresh');
     });
   }, 3000);

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import media from '../../globalStyles/media';
 
 const Overlay = styled.div`
   z-index: 199;
@@ -11,7 +12,17 @@ const Overlay = styled.div`
   right: 0;
   bottom: 0;
 `;
+const slideInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 100px));
+  }
 
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+`;
 const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -24,6 +35,15 @@ const ModalWrapper = styled.div`
   max-height: 90vh;
   max-width: 90vw;
   transform: translate(-50%, -50%) !important;
+  ${media.mobile`
+    width: 100vw;
+    max-width: 100vw;
+    left: 0;
+    transform: translate(0, -50%) !important;
+    &.show {
+    animation: ${slideInUp} 0.2s ease-in-out;
+  }
+  `}
 `;
 
 class ModalComp extends PureComponent {
@@ -47,7 +67,7 @@ class ModalComp extends PureComponent {
     if (show) {
       return (
         <React.Fragment>
-          <ModalWrapper>
+          <ModalWrapper className="show">
             <React.Fragment>{children}</React.Fragment>
           </ModalWrapper>
           {showOverlay && <Overlay />}

@@ -776,6 +776,7 @@ class ViewSolution extends Component {
   }
 }
 ViewSolution.propTypes = {
+  sendLike: PropTypes.func.isRequired,
   history: commonPropTypes.history.isRequired,
   getSolutionView: PropTypes.func.isRequired,
   submissionId: PropTypes.string.isRequired,
@@ -794,11 +795,15 @@ ViewSolution.propTypes = {
     id: PropTypes.string,
   }).isRequired,
   insideBounty: PropTypes.bool,
+  from: PropTypes.string.isRequired,
+  headDiv: PropTypes.element,
+  updateShare: PropTypes.func.isRequired,
 };
 
 ViewSolution.defaultProps = {
   renderReward: () => {},
   insideBounty: false,
+  headDiv: undefined,
 };
 
 function mapStateToProps(state) {

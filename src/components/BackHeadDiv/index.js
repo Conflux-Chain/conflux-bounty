@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
+
 export const Wrapper = styled.div`
   font-size: 20px;
   line-height: 20px;
@@ -20,6 +23,12 @@ export const Wrapper = styled.div`
       text-decoration: none;
     }
   }
+  ${media.mobile`
+    width: 100vw;
+    font-size: ${unitParser(16)};
+    font-weight: bold;
+    padding: ${unitParser(12)} ${unitParser(20)};
+  `}
 `;
 
 export default function BackHeadDiv({ onClick, children }) {

@@ -14,6 +14,8 @@ import Select from '../Select';
 import iconChinaUrl from '../../assets/iconfont/china.svg';
 import Tooltip from '../Tooltip';
 import { reqUserUpdate } from '../../utils/api';
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
 
 const Wrap = styled.div`
   &.normal {
@@ -23,6 +25,9 @@ const Wrap = styled.div`
     display: flex;
     padding: 20px;
     margin-bottom: 40px;
+    ${media.mobile`
+      margin-bottom: ${unitParser('8dp')};
+   `}
     height: 80px;
     position: sticky;
     top: 0;

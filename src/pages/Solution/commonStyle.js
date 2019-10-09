@@ -3,6 +3,8 @@ import React, { Fragment } from 'react';
 import { flexCenterMiddle } from '../../globalStyles/common';
 import { MILESTONE_STATUS_ENUM } from '../../constants';
 import { i18nTxt } from '../../utils';
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
 
 export const MileStoneDiv = styled.div`
   display: flex;
@@ -32,6 +34,9 @@ export const MileStoneDiv = styled.div`
       background: #22b2d6;
       color: #fff;
     }
+    ${media.mobile`
+      font-size: ${unitParser(14)};
+    `}
   }
   .milestone-right {
     flex: 1;

@@ -36,6 +36,9 @@ export const StyledWrapper = styled.div`
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.12);
   border-radius: 12px;
   margin-bottom: 40px;
+  ${media.mobile`
+    width: 100vw;
+  `}
 `;
 
 export const flexCenterMiddle = `

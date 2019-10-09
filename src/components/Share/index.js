@@ -66,6 +66,7 @@ class Share extends Component {
             height: actions.canvasH,
           },
           error => {
+            // eslint-disable-next-line no-console
             if (error) console.error(error);
           }
         );

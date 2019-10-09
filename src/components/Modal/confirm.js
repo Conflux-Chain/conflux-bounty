@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Modal from './index';
+import unitParser from '../../utils/device';
 
 const Confirm = styled.div`
   padding: 20px;
+
   > div {
     min-width: 240px;
     background: #fff;
@@ -46,6 +48,22 @@ const Confirm = styled.div`
   .confirm-actions .agree {
     margin-left: 20px;
     color: #22b2d6;
+  }
+  @media screen and (max-width: 600px) {
+    padding: ${unitParser('12dp')};
+    > div {
+      padding: ${unitParser('20dp')};
+    }
+    .h2 {
+      font-size: ${unitParser('20dp')};
+      margin-bottom: ${unitParser('20dp')};
+    }
+    .p,
+    .confirm-actions > button {
+      color: #3b3d3d;
+      font-size: ${unitParser('14dp')};
+      /* line-height: ${unitParser('14dp')}; */
+    }
   }
 `;
 

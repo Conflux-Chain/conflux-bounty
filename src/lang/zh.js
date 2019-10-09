@@ -108,6 +108,7 @@ export default {
   'Edit Nickname': '编辑昵称',
   LEAVE: '取消',
   SAVE: '保存',
+  CANCEL: '取消',
   'Edit Email': '编辑邮箱',
   'New Email': '新邮箱',
   'Email Code': '邮件验证码',
@@ -418,4 +419,5 @@ export default {
   'Up to <%=restrictNumber%> submission per participant. ': '单用户最多提交<%=restrictNumber%>个方案:',
   yes: '是',
   no: '否',
+  'NO DATA': '暂无数据',
 };
