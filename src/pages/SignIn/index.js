@@ -92,7 +92,7 @@ class SignIn extends Component {
     });
 
     if (code !== 0) {
-      if (result.recaptcha.success !== true) {
+      if (result.recaptcha && result.recaptcha.success !== true) {
         notice.show({
           content: getRecaptchaErr(result.recaptcha['error-codes']),
           type: 'message-error',
