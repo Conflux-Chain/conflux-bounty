@@ -419,5 +419,5 @@ export default {
   'Up to <%=restrictNumber%> submission per participant. ': '单用户最多提交<%=restrictNumber%>个方案:',
   yes: '是',
   no: '否',
-  'NO DATA': '暂无数据',
+  'No Data': '暂无数据',
 };
