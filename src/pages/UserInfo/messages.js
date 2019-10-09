@@ -305,7 +305,12 @@ const Wrapper = styled(StyledWrapper)`
       }
     }
     .time {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 14px;
       text-align: right;
+      color: #8e9394;
       width: 100px;
     }
     td {
@@ -331,14 +336,6 @@ const Wrapper = styled(StyledWrapper)`
       left: -14px;
       font-weight: bold;
       color: #f0453a;
-    }
-    .time {
-      font-style: normal;
-      font-weight: normal;
-      font-size: 14px;
-      line-height: 14px;
-      text-align: right;
-      color: #8e9394;
     }
   }
 `;

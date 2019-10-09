@@ -338,7 +338,7 @@ class EditBounty extends Component {
         {editState.privateMessageErr && <span className="helper-text" data-error={i18nTxt(editState.privateMessageErr)}></span>}
         <div className="attachment">
           <span></span>
-          <div style={{ float: 'right' }}>
+          <div style={{ cssFloat: 'right' }}>
             <s.ExampleDiv
               onClick={() => {
                 updateEdit({

@@ -25,8 +25,6 @@ const slideInUp = keyframes`
 `;
 const ModalWrapper = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
   margin: auto;
   overflow: auto;
   z-index: 299;

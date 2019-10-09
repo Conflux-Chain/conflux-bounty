@@ -20,7 +20,6 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 142px;
   width: 100%;
   padding: 40px 0 20px;
@@ -35,24 +34,6 @@ const Wrap = styled.div`
     display: flex;
     justify-content: space-between;
     position: absolute;
-  }
-  .foot-portal {
-    display: flex;
-    margin-top: 48px;
-    a {
-      color: #fff;
-      opacity: 0.8;
-      font-size: 16px;
-      font-weight: 300;
-      margin-right: 40px;
-      text-decoration: none;
-      img {
-        margin-left: 2px;
-      }
-      &:last-child {
-        margin-right: 0;
-      }
-    }
   }
   .foot-icon {
     display: flex;
@@ -82,6 +63,24 @@ const Wrap = styled.div`
     a {
       color: rgba(255, 255, 255, 0.8);
       text-decoration: underline;
+    }
+  }
+  .foot-portal {
+    display: flex;
+    margin-top: 48px;
+    a {
+      color: #fff;
+      opacity: 0.8;
+      font-size: 16px;
+      font-weight: 300;
+      margin-right: 40px;
+      text-decoration: none;
+      img {
+        margin-left: 2px;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 `;

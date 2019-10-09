@@ -20,7 +20,6 @@ import media from '../../globalStyles/media';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
-  padding: 40px;
   h1 {
     font-size: 32px;
     margin: 0;

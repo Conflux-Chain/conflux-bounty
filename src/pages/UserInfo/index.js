@@ -49,6 +49,15 @@ const Wrapper = styled(StyledWrapper)`
     font-size: 16px;
     ${flexCenterMiddle}
   }
+  .img-edit {
+    position: absolute;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+  }
   .img-wrap {
     vertical-align: middle;
     width: 120px;
@@ -80,15 +89,6 @@ const Wrapper = styled(StyledWrapper)`
     bottom: 0;
     background-size: cover;
     background-position: center;
-  }
-  .img-edit {
-    position: absolute;
-    bottom: 0px;
-    background: rgba(0, 0, 0, 0.3);
-    width: 100%;
-    text-align: center;
-    color: #fff;
-    cursor: pointer;
   }
   .user-info {
     display: inline-block;

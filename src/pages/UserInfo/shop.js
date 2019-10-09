@@ -314,6 +314,12 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 32px;
     font-weight: 500;
   }
+  .total {
+    text-align: center;
+    button {
+      width: 100%;
+    }
+  }
   .products-list {
     display: flex;
     margin-top: 40px;
@@ -378,12 +384,6 @@ const Wrapper = styled(StyledWrapper)`
           color: #8e9394;
         }
       }
-    }
-  }
-  .total {
-    text-align: center;
-    button {
-      width: 100%;
     }
   }
 `;

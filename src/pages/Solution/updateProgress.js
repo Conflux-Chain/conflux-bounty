@@ -14,7 +14,6 @@ import { getStatusMileStone, auth, commonPropTypes, renderAny, i18nTxt, downLink
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
-  padding: 40px;
   .subject {
     font-weight: 500;
     margin-bottom: 20px;
@@ -158,7 +157,7 @@ class UpdateProgress extends Component {
                       })}
 
                       <div className="clearfix">
-                        <div style={{ float: 'left' }}>
+                        <div style={{ cssFloat: 'left' }}>
                           <s.AttachmentDiv>
                             {attachList.map(v => {
                               const removeFile = () => {
@@ -196,7 +195,7 @@ class UpdateProgress extends Component {
                           </s.AttachmentDiv>
                         </div>
 
-                        <div style={{ float: 'right' }}>
+                        <div style={{ cssFloat: 'right' }}>
                           <button
                             onClick={() => {
                               submitMileStone({ milestoneId: milest.id });

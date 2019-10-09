@@ -82,7 +82,6 @@ const DailyCheckinWrap = styled.div`
     top: 40px;
     left: 50%;
     width: 348px;
-    z-index: 100;
     background: #ffffff;
     box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.12);
     border-radius: 12px;

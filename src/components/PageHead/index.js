@@ -20,7 +20,6 @@ import media from '../../globalStyles/media';
 const Wrap = styled.div`
   &.normal {
     width: 100%;
-    background: #ffffff;
     box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.12);
     display: flex;
     padding: 20px;
@@ -33,6 +32,26 @@ const Wrap = styled.div`
     top: 0;
     background: #fff;
     z-index: 100;
+  }
+
+  .head-select {
+    margin-left: 10px;
+    width: 130px;
+    .select .caret {
+      top: 10px;
+      right: 10px;
+    }
+  }
+
+  .head-select .input-field {
+    margin-top: 0;
+    margin-bottom: 0;
+    > input {
+      cursor: pointer;
+      height: 44px;
+      margin: 0;
+      text-indent: 10px;
+    }
   }
 
   &.home {
@@ -54,6 +73,10 @@ const Wrap = styled.div`
       .caret path:first-child {
         stroke: #fff;
         fill: #fff;
+      }
+      .labelInput {
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        color: #fff;
       }
     }
   }
@@ -100,30 +123,6 @@ const Wrap = styled.div`
   }
   a:hover {
     text-decoration: none;
-  }
-  .head-select {
-    margin-left: 10px;
-    width: 130px;
-    .select .caret {
-      top: 10px;
-      right: 10px;
-    }
-  }
-
-  .head-select .input-field {
-    margin-top: 0;
-    margin-bottom: 0;
-    > input {
-      cursor: pointer;
-      height: 44px;
-      margin: 0;
-      text-indent: 10px;
-    }
-  }
-
-  &.home .head-select .labelInput {
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    color: #fff;
   }
 
   .select-lang-row {

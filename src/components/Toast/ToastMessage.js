@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { i18nTxt } from '../../utils/i18n';
 
 const Wrap = styled.div`
+  /* stylelint-disable font-family-no-missing-generic-family-keyword */
   width: 300px;
   margin-bottom: 10px;
   padding: 15px;
@@ -34,7 +35,7 @@ const Wrap = styled.div`
     }
   }
 
-  // colors
+  /* colors */
   &.toast-error {
     color: #fff;
     border-color: #dc3545;
