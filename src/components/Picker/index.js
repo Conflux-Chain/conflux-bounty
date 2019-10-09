@@ -11,10 +11,14 @@ import { i18nTxt } from '../../utils/i18n';
 /* eslint react/no-multi-comp: 0 */
 /* eslint no-restricted-syntax: 0 */
 /* eslint guard-for-in: 0 */
-/* eslint react/prop-types: 0 */
 /* eslint react/destructuring-assignment: 0 */
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
+
+const typeOption = PropTypes.shape({
+  value: PropTypes.string,
+  label: PropTypes.string,
+});
 
 const PickContainerDiv = styled.div`
   z-index: 10001;
@@ -135,6 +139,9 @@ class PickerColumn extends Component {
     // value: PropTypes.any.isRequired,
     itemHeight: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    options: PropTypes.arrayOf(typeOption).isRequired,
+    value: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -318,13 +325,13 @@ class PickerColumn extends Component {
 }
 
 export default class Picker extends Component {
-  static propTyps = {
-    optionGroups: PropTypes.object.isRequired,
-    valueGroups: PropTypes.object.isRequired,
+  static propTypes = {
+    optionGroups: PropTypes.objectOf(PropTypes.arrayOf(typeOption)).isRequired,
+    valueGroups: PropTypes.objectOf(typeOption).isRequired,
     onChange: PropTypes.func.isRequired,
     itemHeight: PropTypes.number,
     height: PropTypes.number,
-    show: PropTypes.show,
+    show: PropTypes.bool,
     onCancel: PropTypes.func,
     onConfirm: PropTypes.func,
   };
@@ -359,7 +366,7 @@ export default class Picker extends Component {
       );
     }
     return (
-      <div className="picker-inner" style={this.props.pickerInnerStyle}>
+      <div className="picker-inner">
         {columnNodes}
         <div className="picker-highlight" style={highlightStyle}></div>
       </div>
