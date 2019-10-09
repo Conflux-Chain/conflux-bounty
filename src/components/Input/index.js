@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import { i18nTxt } from '../../utils/i18n';
+import { i18nTxt } from '../../utils';
 
 class Input extends Component {
   constructor(...args) {
