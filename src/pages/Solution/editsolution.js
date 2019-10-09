@@ -12,7 +12,7 @@ import ConfirmComp from '../../components/Modal/confirm';
 import * as s from '../Bounty/commonStyle';
 import * as s1 from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
-import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, i18n, renderAny } from '../../utils';
+import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, renderAny } from '../../utils';
 import { SOLUTION_STATUS_ENUM } from '../../constants';
 
 const Wrapper = styled(StyledWrapper)`
@@ -383,7 +383,7 @@ class EditSolution extends Component {
             </button>
           }
           show={editSolution.showExample}
-          content={i18n('submission.example')}
+          content={i18nTxt('submission.example')}
           title={i18nTxt('Submission Example')}
           wrapStyle={{
             width: '400px',

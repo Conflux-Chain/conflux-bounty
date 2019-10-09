@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { i18nTxt } from '../../utils/i18n';
 
 const Wrap = styled.div`
   width: 300px;
@@ -72,7 +72,7 @@ class ToastMessage extends Component {
   }
 
   render() {
-    const { title, content, level, onClose, intl, detail } = this.props;
+    const { title, content, level, onClose, detail } = this.props;
     const { showToggle } = this.state;
 
     let iconClassName;
@@ -88,14 +88,8 @@ class ToastMessage extends Component {
       <Wrap className={`toast-${level}`}>
         <i className={`material-icons dp48 toast-icon ${iconClassName}`}>error</i>
         <div className="toast-content">
-          {title ? (
-            <div className="toast-title">
-              <FormattedMessage id={title} />
-            </div>
-          ) : null}
-          <div className="toast-body">
-            <FormattedMessage id={content} />
-          </div>
+          {title ? <div className="toast-title">{i18nTxt(title)}</div> : null}
+          <div className="toast-body">{i18nTxt(content)}</div>
         </div>
         <div
           className="toggle-details"
@@ -105,11 +99,11 @@ class ToastMessage extends Component {
             });
           }}
         >
-          {showToggle ? intl.formatMessage({ id: 'hide details' }) : intl.formatMessage({ id: 'show details' })}
+          {showToggle ? i18nTxt('hide details') : i18nTxt('show details')}
           {showToggle ? <span>&#8607;</span> : <span>&#8609;</span>}
         </div>
         <div className="toast-detail" style={{ display: showToggle ? 'block' : 'none' }}>
-          {detail && intl.formatMessage({ id: detail })}
+          {detail && i18nTxt(detail)}
         </div>
         <i role="button" type="button" className="close" onClick={onClose} onKeyDown={() => {}} tabIndex="-1">
           &times;
@@ -125,13 +119,10 @@ ToastMessage.propTypes = {
   onClose: PropTypes.func.isRequired,
   content: PropTypes.string.isRequired,
   detail: PropTypes.string.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
 };
 
 ToastMessage.defaultProps = {
   title: '',
 };
 
-export default injectIntl(ToastMessage);
+export default ToastMessage;
