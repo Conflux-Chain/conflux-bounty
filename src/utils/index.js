@@ -707,3 +707,20 @@ export const fetchPic = imgSrc => {
       });
     });
 };
+
+export const getRecaptchaErr = (errCodes = []) => {
+  const reContains = a => {
+    return errCodes.indexOf(a) !== -1;
+  };
+  let noticeMsg = '';
+  if (reContains('missing-input-secret') || reContains('invalid-input-secret')) {
+    noticeMsg = i18nTxt('invalid recaptcha secret');
+  } else if (reContains('missing-input-response') || reContains('invalid-input-response')) {
+    noticeMsg = i18nTxt('invalid recaptcha secret');
+  } else if (reContains('timeout-or-duplicate')) {
+    noticeMsg = i18nTxt('recaptcha check timeout, please reload page');
+  } else if (reContains('bad-request')) {
+    noticeMsg = i18nTxt('invalid recaptcha request');
+  }
+  return noticeMsg;
+};
