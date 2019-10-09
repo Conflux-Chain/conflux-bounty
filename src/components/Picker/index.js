@@ -202,10 +202,8 @@ class PickerColumn extends Component {
 
       let nextScrollerTranslate = startScrollerTranslate + touchY - startTouchY;
       if (nextScrollerTranslate < minTranslate) {
-        // nextScrollerTranslate = minTranslate - Math.pow(minTranslate - nextScrollerTranslate, 0.8);
-        nextScrollerTranslate = minTranslate - minTranslate ** 0.8;
+        nextScrollerTranslate = minTranslate - (minTranslate - nextScrollerTranslate) ** 0.8;
       } else if (nextScrollerTranslate > maxTranslate) {
-        // nextScrollerTranslate = maxTranslate + Math.pow(nextScrollerTranslate - maxTranslate, 0.8);
         nextScrollerTranslate = maxTranslate + (nextScrollerTranslate - maxTranslate) ** 0.8;
       }
       return {
