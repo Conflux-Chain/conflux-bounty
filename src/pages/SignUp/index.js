@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA from '../../components/ReCAPTCHA';
 import { StyledWrapper } from '../../globalStyles/common';
 import { reqUserSignup, reqUserQuery } from '../../utils/api';
 import { auth, commonPropTypes, i18nTxt, getRecaptchaErr } from '../../utils';
