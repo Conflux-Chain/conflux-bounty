@@ -53,6 +53,7 @@ class SignUp extends Component {
       termsCheckboxChecked: false,
       showHalfExtend: false,
       recaptchaVal: '',
+      recaptchaErr: '',
     };
   }
 
@@ -148,10 +149,24 @@ class SignUp extends Component {
   };
 
   anyInputsHasError() {
-    const { termsCheckboxChecked } = this.state;
+    const { termsCheckboxChecked, recaptchaVal } = this.state;
+    const validateRecaptcha = () => {
+      if (!recaptchaVal) {
+        this.setState({
+          recaptchaErr: 'Captcha code is empty',
+        });
+        return false;
+      }
+      this.setState({
+        recaptchaErr: '',
+      });
+      return true;
+    };
+
     if (
       !this.nicknameRef ||
       this.nicknameRef.hasError() ||
+      !validateRecaptcha() ||
       !this.emailRef ||
       this.emailRef.hasError() ||
       !this.emailCodeRef ||
@@ -168,7 +183,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const { userId, email, nickname, invitationCode, showHalfExtend } = this.state;
+    const { userId, email, nickname, invitationCode, showHalfExtend, recaptchaErr } = this.state;
 
     return (
       <Fragment>
@@ -191,7 +206,7 @@ class SignUp extends Component {
                   <ReCAPTCHA
                     sitekey={recaptchaKey}
                     onChange={val => {
-                      this.setState({ recaptchaVal: val });
+                      this.setState({ recaptchaVal: val, recaptchaErr: '' });
                     }}
                     asyncScriptOnLoad={() => {
                       setTimeout(() => {
@@ -203,6 +218,18 @@ class SignUp extends Component {
                   />
                   <i className={showHalfExtend ? 'extend-icon-full' : 'extend-icon-default'}></i>
                 </RecaptchaWrapDiv1>
+                {recaptchaErr && (
+                  <div
+                    style={{
+                      color: '#EC6057',
+                      textAlign: 'left',
+                      fontSize: '12px',
+                      marginTop: 9,
+                    }}
+                  >
+                    {i18nTxt(recaptchaErr)}
+                  </div>
+                )}
                 <Email
                   email={email}
                   userId={userId}
