@@ -95,7 +95,7 @@ class MySolution extends Component {
                             e.preventDefault();
                           }
                         }}
-                        to={`/update-progress?submissionId=${v.id}&from=mysubmission&language=${v.createdSiteLang}`}
+                        to={`/update-progress?submissionId=${v.id}&language=${v.createdSiteLang}`}
                         className="btn waves-effect waves-light default"
                         type="button"
                       >

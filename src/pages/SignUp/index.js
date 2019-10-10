@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { StyledWrapper } from '../../globalStyles/common';
 import { reqUserSignup, reqUserQuery } from '../../utils/api';
-import { auth, commonPropTypes, i18nTxt } from '../../utils';
+import { auth, commonPropTypes, i18nTxt, getRecaptchaErr } from '../../utils';
 import EmailCode from '../../components/EmailCode';
 import Email from '../../components/Email';
 import Nickname from '../../components/Nickname';
@@ -19,7 +19,7 @@ import Password from '../../components/Password';
 import InvitationCode from '../../components/InvitationCode';
 import { notice } from '../../components/Message/notice';
 import SignInVia from '../../components/SignInVia';
-import { RecaptchaWrapDiv, getRecaptchaErr } from '../SignIn';
+import { RecaptchaWrapDiv } from '../SignIn';
 import { recaptchaKey } from '../../constants';
 
 const RecaptchaWrapDiv1 = styled(RecaptchaWrapDiv)`
