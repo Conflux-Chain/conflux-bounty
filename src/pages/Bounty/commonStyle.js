@@ -40,6 +40,7 @@ export const AttachmentDiv = styled.div`
     line-height: 16px;
     text-decoration: underline;
     color: #595f61;
+    word-break: break-all;
   }
   .attachment-line .material-icons {
     cursor: pointer;
