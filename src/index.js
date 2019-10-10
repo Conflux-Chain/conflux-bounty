@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducers/index';
 import App from './App';
 import { updateDispatch } from './utils';
+import { updateStore } from './utils/i18n';
 
 window.recaptchaOptions = {
   useRecaptchaNet: true,
@@ -22,6 +23,7 @@ if (!global.Intl) {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 updateDispatch(store.dispatch);
+updateStore(store);
 
 /* eslint-enable */
 ReactDOM.render(

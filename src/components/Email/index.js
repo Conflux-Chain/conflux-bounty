@@ -56,7 +56,7 @@ export default class Email extends Component {
 
   hasError = () => {
     const { emailErrMsg } = this.state;
-    return !!emailErrMsg.length;
+    return !!emailErrMsg.length || this.isEmpty();
   };
 
   isEmpty = () => {

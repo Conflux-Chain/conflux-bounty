@@ -14,10 +14,10 @@ import { notice as $notice } from '../components/Message/notice';
 import { ALI_OSS_KEYS, UPDATE_HEAD, UPDATE_UNREAD_MESSAGE_COUNT } from '../constants';
 // eslint-disable-next-line import/no-cycle
 import { reqAccountQuery, reqMessageCount } from './api';
-import { i18n, I18nText, i18nTxt } from './i18n';
+import { i18nTxt, i18nTxtAsync } from './i18n';
 
 export { compose } from 'redux';
-export { i18n, I18nText, i18nTxt };
+export { i18nTxt, i18nTxtAsync };
 
 const USER_ERROR = {
   0: 'Unauthorized',
@@ -588,7 +588,7 @@ export function checkFileSize(size) {
   if (size > 50 * 1024 * 1024) {
     notice.show({
       type: 'message-error-light',
-      content: i18n('file shold not larger than 50M'),
+      content: i18nTxt('file shold not larger than 50M'),
       timeout: 3000,
     });
     return false;
