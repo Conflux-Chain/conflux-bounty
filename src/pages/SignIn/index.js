@@ -287,31 +287,3 @@ export const RecaptchaWrapDiv = styled.div`
     border-radius: 3px;
   }
 `;
-
-export const RecaptchaWrapDiv = styled.div`
-  position: relative;
-  margin-top: 15px;
-  .extend-icon-full {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: calc(100% - 2px);
-    width: 50%;
-    border: 1px solid #d3d3d3;
-    border-left: none;
-    background: #f9f9f9;
-    pointer-events: none;
-    border-radius: 3px;
-  }
-  .extend-icon-default {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: calc(100% - 2px);
-    width: 100%;
-    border: 1px solid #d3d3d3;
-    background: #f9f9f9;
-    pointer-events: none;
-    border-radius: 3px;
-  }
-`;
