@@ -4,7 +4,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA from '../ReCAPTCHA';
 import * as actions from './action';
 import { compose, commonPropTypes, i18nTxt, auth } from '../../utils';
 import CheckIn from '../../assets/iconfont/checkIn.svg';
