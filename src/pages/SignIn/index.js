@@ -8,14 +8,14 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ReCAPTCHA from '../../components/ReCAPTCHA';
+// import ReCAPTCHA from '../../components/ReCAPTCHA';
 import { StyledWrapper } from '../../globalStyles/common';
 import Input from '../../components/Input';
 import { sendRequest, auth, i18nTxt } from '../../utils';
 import { notice } from '../../components/Message/notice';
 import { getAccount } from '../../components/PageHead/action';
 import SignInVia from '../../components/SignInVia';
-import { recaptchaKey } from '../../constants';
+// import { recaptchaKey } from '../../constants';
 
 export const getRecaptchaErr = (errCodes = []) => {
   const reContains = a => {
@@ -49,7 +49,7 @@ class SignIn extends Component {
         password: '',
         recaptchaVal: '',
       },
-      showHalfExtend: false,
+      // showHalfExtend: false,
     };
   }
 
@@ -122,7 +122,7 @@ class SignIn extends Component {
     const {
       rememberUsernameChecked,
       inputsValue: { email, password },
-      showHalfExtend,
+      // showHalfExtend,
     } = this.state;
     return (
       <Fragment>
@@ -155,7 +155,7 @@ class SignIn extends Component {
                     }
                   }}
                 />
-                <RecaptchaWrapDiv>
+                {/* <RecaptchaWrapDiv>
                   <ReCAPTCHA
                     sitekey={recaptchaKey}
                     onChange={val => {
@@ -171,7 +171,7 @@ class SignIn extends Component {
                     }}
                   />
                   <i className={showHalfExtend ? 'extend-icon-full' : 'extend-icon-default'}></i>
-                </RecaptchaWrapDiv>
+                </RecaptchaWrapDiv> */}
               </div>
               <div className="btn-wrap-signup">
                 <label className="remember-me">
