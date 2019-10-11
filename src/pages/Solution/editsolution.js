@@ -15,7 +15,7 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, renderAny } from '../../utils';
 import { SOLUTION_STATUS_ENUM } from '../../constants';
 
-import unitParser from '../../utils/device';
+import unitParser, { isMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
 
 const Wrapper = styled(StyledWrapper)`
@@ -227,7 +227,11 @@ class EditSolution extends Component {
               <label className="add-attachment" htmlFor="bounty-add-attachment">
                 <i className="material-icons">add</i>
                 <span>{i18nTxt('Attachments')}</span>
-                <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
+                {isMobile() ? (
+                  <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
+                ) : (
+                  <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
+                )}
               </label>
             </s.AttachmentDiv>
 

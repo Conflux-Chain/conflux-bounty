@@ -304,12 +304,15 @@ class EditBounty extends Component {
             <label className="add-attachment" htmlFor="bounty-add-attachment">
               <i className="material-icons">add</i>
               <span>{i18nTxt('Attachments')}</span>
-              <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
+              {isMobile() ? (
+                <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
+              ) : (
+                <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
+              )}
             </label>
           </s.AttachmentDiv>
 
           <s.ExampleDiv
-            // style={{ display: 'inline-flex', alignItems: 'center' }}
             role="button"
             onClick={() => {
               updateEdit({
