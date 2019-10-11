@@ -95,7 +95,7 @@ class MySolution extends Component {
                             e.preventDefault();
                           }
                         }}
-                        to={`/update-progress?submissionId=${v.id}`}
+                        to={`/update-progress?submissionId=${v.id}&language=${v.createdSiteLang}`}
                         className="btn waves-effect waves-light default"
                         type="button"
                       >
@@ -130,7 +130,7 @@ class MySolution extends Component {
                     </Link>
                   </div>
                   <div>
-                    <span className="item-gray">{fmtToDay(v.updatedAt || v.createdAt)}</span>
+                    <span className="item-gray">{fmtToDay(v.createdAt)}</span>
                     <span className="item-gray">{i18nTxt('Submission')}:</span>
                     <span className="item-status" style={rejectColor}>
                       {getStatus(v.status)}

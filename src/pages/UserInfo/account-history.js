@@ -199,7 +199,7 @@ class AccountHistory extends Component {
 
                   return (
                     <tr>
-                      <td>{moment(reward.updatedAt || reward.createdAt).format('HH:mm MM/DD')}</td>
+                      <td>{moment(reward.createdAt).format('HH:mm MM/DD')}</td>
                       <td>{bountyInfo}</td>
                       <td className="align-right">+{reward.fansCoin} FC</td>
                     </tr>
@@ -259,7 +259,7 @@ class AccountHistory extends Component {
 
                   return (
                     <tr key={withdraw.id}>
-                      <td>{moment(withdraw.updatedAt || withdraw.createdAt).format('HH:mm MM/DD')}</td>
+                      <td>{moment(withdraw.createdAt).format('HH:mm MM/DD')}</td>
                       <td>{withdraw.fansCoin}</td>
                       <td>{getStatus(withdraw.status)}</td>
                       <td className="align-right">

@@ -280,7 +280,18 @@ class UserInfo extends Component {
 
             <Link to="/messages">
               <span className="iconmail"></span>
-              {head.messageCount ? <div className="iconmail-dot">{head.messageCount}</div> : <div></div>}
+              {head.messageCount ? (
+                <div
+                  className="iconmail-dot"
+                  style={{
+                    fontSize: head.messageCount > 99 ? 14 : 16,
+                  }}
+                >
+                  {head.messageCount > 99 ? '99+' : head.messageCount}
+                </div>
+              ) : (
+                <div></div>
+              )}
             </Link>
           </div>
 
