@@ -93,6 +93,7 @@ export default {
   'Invalid email address': '邮箱地址有误',
   'Invalid verification code': '验证码格式有误',
   'Email code is empty': '验证码不能为空',
+  'Captcha code is empty': '验证信息未填写',
   SEND: '发送验证码',
   S: '秒',
   'Please enter your current email address here': '请输入当前注册邮箱地址',
