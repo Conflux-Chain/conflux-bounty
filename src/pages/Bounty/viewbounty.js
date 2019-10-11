@@ -90,9 +90,10 @@ const Wrapper = styled(StyledWrapper)`
     margin-left: -5px;
   }
   .submission-sort-item {
-    color: #8E9394;
+    color: #8e9394;
     cursor: pointer;
-    > span, > img {
+    > span,
+    > img {
       vertical-align: middle;
     }
     > img {
@@ -112,7 +113,7 @@ const Wrapper = styled(StyledWrapper)`
   }
   .solution-item-desc {
     padding-left: 8px;
-    color: #595F61;
+    color: #595f61;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -128,7 +129,7 @@ const Wrapper = styled(StyledWrapper)`
     height: 54px;
     display: flex;
     align-items: center;
-    color: #8E9394;
+    color: #8e9394;
     > a {
       color: #22b2d6;
       > i {
@@ -143,7 +144,7 @@ const Wrapper = styled(StyledWrapper)`
     width: 85px;
     > span {
       vertical-align: middle;
-      color: #595F61;
+      color: #595f61;
       max-width: 50px;
       display: inline-block;
       text-overflow: ellipsis;
@@ -162,13 +163,13 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 20px;
     padding-top: 3px;
     padding-bottom: 3px;
-   :hover {
-      background: #EBEDED;
+    :hover {
+      background: #ebeded;
       border-radius: 4px;
-   }
-   > span {
-     width: 100%;
-   }
+    }
+    > span {
+      width: 100%;
+    }
   }
   .solution-item:last-of-type {
     border-bottom: 1px solid #ebeded;
@@ -205,20 +206,20 @@ const Wrapper = styled(StyledWrapper)`
   }
   .comment-input-wrap {
     display: flex;
-    border: 1px solid #BFC5C7;
+    border: 1px solid #bfc5c7;
     border-radius: 4px;
     margin-left: 12px;
     flex: 1;
     input {
       border: none;
-      border-right: 1px solid #BFC5C7;
+      border-right: 1px solid #bfc5c7;
       margin-bottom: 0;
     }
     button {
       width: 100px;
       font-size: 14px;
       padding-left: 10px;
-      padding-right: 10px
+      padding-right: 10px;
     }
   }
   .img-wrap {
@@ -231,7 +232,7 @@ const Wrapper = styled(StyledWrapper)`
     color: #8e9394;
   }
   .comment-item:first-of-type {
-    margin-top: 20px;j
+    margin-top: 20px;
   }
   .comment-item {
     display: flex;

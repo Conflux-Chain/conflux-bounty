@@ -15,6 +15,7 @@ import EmailCode from '../../components/EmailCode';
 import Password from '../../components/Password';
 import SignInVia from '../../components/SignInVia';
 import { i18nTxt } from '../../utils';
+import media from '../../globalStyles/media';
 
 class ResetPassword extends Component {
   state = { email: '', password: '', emailCode: '' };
@@ -119,13 +120,24 @@ export default ResetPassword;
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
+  ${media.mobile`
+    padding: 20px 12px;
+  `}
   .title {
     font-size: 32px;
     line-height: 32px;
+    ${media.mobile`
+      font-size: 24px;
+      line-height: 24px;
+    `}
   }
   .form-wrap {
     text-align: center;
     margin: 0 80px;
+    ${media.mobile`
+      margin: 0;
+      text-align: left;
+    `}
   }
   .signup-input {
     height: 56px;
@@ -152,12 +164,8 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 16px;
     text-transform: uppercase;
     margin-top: 20px;
-  }
-  .signup-link {
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 16px;
-    text-transform: uppercase;
+    ${media.mobile`
+      text-align: center;
+    `}
   }
 `;

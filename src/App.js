@@ -23,6 +23,7 @@ import MaterialHook from './components/MaterialHook';
 import PageHead from './components/PageHead';
 import PageFoot from './components/PageFoot';
 import Share from './components/Share';
+import media from './globalStyles/media';
 
 const PageWrapper = styled.div`
   background-color: #f7f9fa;
@@ -38,6 +39,9 @@ const PageWrapper = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
+    ${media.mobile`
+      min-width: 100%;
+    `}
   }
   .page-content {
     flex: 1;

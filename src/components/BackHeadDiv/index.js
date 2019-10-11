@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import media from '../../globalStyles/media';
 
 export const Wrapper = styled.div`
   font-size: 20px;
@@ -12,6 +13,9 @@ export const Wrapper = styled.div`
   border-top-right-radius: 12px;
   padding: 20px 40px;
   cursor: pointer;
+  ${media.mobile`
+    width: 100%;
+  `}
 
   > a {
     color: #595f61;
