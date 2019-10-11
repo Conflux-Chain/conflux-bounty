@@ -421,6 +421,6 @@ export default {
   no: '否',
   'invalid recaptcha secret': 'recaptcha 密钥不正确',
   'invalid recaptcha response parameter': 'recaptcha 返回结果参数不正确',
-  'invalid recaptcha request': '验证吗异常',
-  'recaptcha check timeout, please reload page': '验证吗交易超时，请刷新页面',
+  'invalid recaptcha request': '验证码异常',
+  'recaptcha check timeout, please reload page': '验证码交易超时，请刷新页面',
 };
