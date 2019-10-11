@@ -48,7 +48,8 @@
     "proseWrap": "always"
   },
   "resolutions": {
-    "lodash.merge": "^4.6.2"
+    "lodash.merge": "^4.6.2",
+    "set-value": "^2.0.1"
   },
   "dependencies": {
     "@sentry/browser": "^5.5.0",
