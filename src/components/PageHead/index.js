@@ -566,6 +566,7 @@ class PageHead extends Component {
               showChangelangModal: false,
             });
           }}
+          mobilePosBottom
         >
           <ChangeLangModel>
             <h3>{i18nTxt('Language & Country')}</h3>

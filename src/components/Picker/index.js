@@ -380,7 +380,7 @@ export default class Picker extends Component {
     const { show, onCancel, onConfirm } = this.props;
 
     return (
-      <Modal show={show} showOverlay onEsc={onCancel}>
+      <Modal isMobile show={show} showOverlay onEsc={onCancel} mobilePosBottom>
         <PickerWrap>
           <PickerHead>
             <button type="button" onClick={onCancel}>

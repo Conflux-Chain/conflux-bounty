@@ -25,14 +25,24 @@ const ModalWrapper = styled.div`
   max-height: 90vh;
   max-width: 90vw;
   transform: translate(-50%, -50%) !important;
-  ${media.tablet`
+
+  &.mobile-modal {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: none !important;
+    max-width: 100%;
+    ${media.tablet`
     top: auto;
     bottom: 0;
     left: 0;
     width: 100%;
     transform: none!important;
     max-width: 100%;
+    z-index: 100000;
   `}
+  }
 `;
 
 class ModalComp extends PureComponent {
@@ -52,11 +62,11 @@ class ModalComp extends PureComponent {
   }
 
   render() {
-    const { children, show, showOverlay, onEsc } = this.props;
+    const { children, show, showOverlay, onEsc, mobilePosBottom } = this.props;
     if (show) {
       return (
         <React.Fragment>
-          <ModalWrapper>
+          <ModalWrapper className={mobilePosBottom ? 'mobile-modal' : ''}>
             <React.Fragment>{children}</React.Fragment>
           </ModalWrapper>
           {showOverlay && <Overlay onClick={onEsc} />}
@@ -73,11 +83,13 @@ ModalComp.propTypes = {
   show: PropTypes.bool.isRequired,
   showOverlay: PropTypes.bool,
   onEsc: PropTypes.func,
+  mobilePosBottom: PropTypes.bool,
 };
 
 ModalComp.defaultProps = {
   showOverlay: true,
   onEsc: () => {},
+  mobilePosBottom: false,
 };
 
 export default ModalComp;
