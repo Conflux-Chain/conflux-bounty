@@ -40,6 +40,7 @@ class Select extends Component {
     super(...args);
     this.state = {
       showOptions: false,
+      pickerSelected: {},
     };
     this.id = `${Date.now()}-${Math.random()}`;
   }
@@ -51,6 +52,12 @@ class Select extends Component {
     });
   };
 
+  updateShowOptions = show => () => {
+    this.setState({
+      showOptions: show,
+    });
+  };
+
   handleClickOutside = () => {
     this.setState({
       showOptions: false,
@@ -59,7 +66,7 @@ class Select extends Component {
 
   render() {
     const { options, onSelect, selected = {}, errMsg, label, theme, showSelectedIcon, ulLabel, labelType } = this.props;
-    const { showOptions } = this.state;
+    const { showOptions, pickerSelected } = this.state;
     let selectedLabel = '';
 
     const domList = options.map(v => {
@@ -120,15 +127,20 @@ class Select extends Component {
             }}
           />
         )}
-
         <Picker
-          show={showOptions}
-          options={options}
-          onSelect={onSelect}
-          toggleOptions={this.toggleOptions}
-          selected={selected.value}
+          show={options.length && showOptions}
+          optionGroups={{ options }}
+          valueGroups={{ options: pickerSelected }}
+          onConfirm={() => {
+            onSelect(pickerSelected);
+            this.updateShowOptions(false)();
+          }}
+          height={178}
+          onCancel={this.updateShowOptions(false)}
+          onChange={(name, value) => {
+            this.setState({ pickerSelected: value });
+          }}
         ></Picker>
-
         <Dropdown className="dropdown-content select-dropdown" showOptions={showOptions}>
           <div className="select-ul-label">{ulLabel}</div>
           {domList}
