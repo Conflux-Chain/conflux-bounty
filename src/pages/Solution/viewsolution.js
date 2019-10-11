@@ -568,7 +568,7 @@ class ViewSolution extends Component {
                 if (viewSolution.status === SOLUTION_STATUS_ENUM.AUDITING) {
                   return (
                     <span className="solution-user">
-                      <div> {viewSolution.user.nickname}</div>
+                      <div className="solution-user-name"> {viewSolution.user.nickname}</div>
                       <Message type="message-success"> {i18nTxt('Submission Auditing!')} </Message>
                     </span>
                   );

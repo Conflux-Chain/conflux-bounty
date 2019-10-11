@@ -1,229 +1,402 @@
+// modified from https://github.com/adcentury/react-mobile-picker
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Modal from '../Modal';
+import { i18nTxt } from '../../utils/i18n';
 import media from '../../globalStyles/media';
-import { i18nTxt } from '../../utils';
 
-const PickerWrapper = styled.div`
-  display: none;
-  font-family: SF Pro Display;
+/* eslint no-restricted-syntax: 0 */
+/* eslint prefer-template: 0 */
+/* eslint react/no-multi-comp: 0 */
+/* eslint no-restricted-syntax: 0 */
+/* eslint guard-for-in: 0 */
+/* eslint react/destructuring-assignment: 0 */
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
+/* eslint jsx-a11y/click-events-have-key-events: 0 */
 
-  .button-wrapper button {
-    padding: 9px 8px;
-    font-size: 14px;
-    line-height: 14px;
-  }
-  .button-wrapper button.left {
-    color: #8e9394;
-  }
-  .button-wrapper button.right {
-    color: #22b2d6;
-  }
+const typeOption = PropTypes.shape({
+  value: PropTypes.string,
+  label: PropTypes.string,
+});
 
-  ${media.mobile`
-    bottom: 0;
-    top: auto;
-    left: 0;
-    position: fixed;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.12);
-    padding: 12px;
-    z-index: 999999;
-    height: 236px;
-    width: 100%;
-    background: #FFFFFF;
-
-    ${props =>
-      props.show &&
-      `
-      display: block;
-      `}
-  `}
-`;
-
-const List = styled.ul`
-  margin: 56px 8px 28px 8px;
-  text-align: center;
-  font-size: 20px;
-  line-height: 20px;
-  position: relative;
-  max-height: 132px;
-  overflow-y: auto;
-  color: #8e9394;
-  overscroll-behavior: none;
-  scroll-snap-type: y mandatory;
-  // old compatilibity
-  scroll-snap-points-y: repeat(44px);
-
-  // hide scrollbar
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  overflow: -moz-scrollbars-none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  hr {
-    margin: 0 auto;
-    width: 200px;
-    background: #22b2d6;
-    height: 2px;
-    border: 0;
-    position: sticky;
-  }
-  hr.top {
-    top: 45px;
-  }
-  hr.bottom {
-    top: 88px;
-  }
-  li {
-    padding: 12px 60px;
-    min-height: 20px;
-    scroll-snap-align: center;
-  }
-  li:focus {
-    outline: none;
-  }
-  li.empty {
-    padding: 22px 60px;
-  }
-  > li > span {
-    padding: 0 !important;
-  }
-  li.selected {
-    color: #22b2d6;
-  }
-`;
-
-const Backdrop = styled.div`
-  display: none;
-  position: fixed;
-  height: 100%;
+const PickContainerDiv = styled.div`
+  z-index: 10001;
   width: 100%;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  background: rgba(0, 0, 0, 0.2);
-
-  ${media.mobile`
-    ${props => props.show && `display: block;`}
-    `}
-`;
-
-class Picker extends Component {
-  constructor(...args) {
-    super(...args);
-
-    this.listRef = React.createRef();
-    this.domList = [];
+  background: #fff;
+  &,
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
   }
-
-  componentDidUpdate() {
-    const { show, selected } = this.props;
-    if (show && selected) {
-      const childOptions = Array.from(this.listRef.childNodes).filter(c => {
-        return c.tagName === 'LI';
-      });
-      // find element with selected value
-      const option = childOptions.find(o => o.getAttribute('value') === selected);
-
-      // scroll into view the previous element
-      const prevIndex = parseInt(option.getAttribute('index'), 10) - 1;
-      const target = childOptions.find(o => parseInt(o.getAttribute('index'), 10) === prevIndex);
-      if (target) {
-        target.scrollIntoView();
+  .picker-inner {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    padding: 0 20px;
+    font-size: 1.2em;
+    -webkit-mask-box-image: linear-gradient(to top, transparent, transparent 5%, white 20%, white 80%, transparent 95%, transparent);
+  }
+  .picker-column {
+    flex: 1 1;
+    position: relative;
+    max-height: 100%;
+    overflow: hidden;
+    text-align: center;
+    .picker-scroller {
+      transition: 300ms;
+      transition-timing-function: ease-out;
+      touch-action: none;
+    }
+    .picker-item {
+      position: relative;
+      font-size: 20px;
+      padding: 0 10px;
+      white-space: nowrap;
+      color: #999999;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &.picker-item-selected {
+        color: #222;
       }
     }
   }
+  .picker-highlight {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    margin-top: -20px;
+    width: 200px;
+    left: 50%;
+    margin-left: -100px;
+    pointer-events: none;
+    &:before,
+    &:after {
+      content: ' ';
+      position: absolute;
+      left: 0;
+      right: auto;
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: #22b2d6;
+    }
+    &:before {
+      top: 0;
+      bottom: auto;
+    }
+    &:after {
+      bottom: 0;
+      top: auto;
+    }
+  }
+`;
+const PickerWrap = styled.div`
+  background: #fff;
+  box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.12);
 
-  toggleOptions = () => {
-    const { showOptions } = this.state;
-    this.setState({
-      showOptions: !showOptions,
-    });
+  ${media.mobile`
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    width: 100%;
+  `}
+`;
+const PickerHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  button {
+    width: 74px;
+    line-height: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    &:nth-child(1) {
+      color: #8e9394;
+    }
+    &:nth-child(2) {
+      color: #22b2d6;
+    }
+  }
+`;
+
+class PickerColumn extends Component {
+  static propTypes = {
+    // value: PropTypes.any.isRequired,
+    itemHeight: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    options: PropTypes.arrayOf(typeOption).isRequired,
+    value: PropTypes.string.isRequired,
   };
 
-  onClick = () => {
-    const { options, onSelect, toggleOptions } = this.props;
-    const { top: topBound, bottom: bottomBound } = this.listRef && this.listRef.getBoundingClientRect();
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMoving: false,
+      startTouchY: 0,
+      startScrollerTranslate: 0,
+      ...this.computeTranslate(props),
+    };
+  }
 
-    const childOptions = Array.from(this.listRef.childNodes).filter(c => {
-      return c.tagName === 'LI';
-    });
+  componentWillReceiveProps(nextProps) {
+    if (this.state.isMoving) {
+      return;
+    }
+    this.setState(this.computeTranslate(nextProps));
+  }
 
-    const visibleOptions = childOptions.filter(o => {
-      if (!o) {
-        return false;
+  computeTranslate = props => {
+    const { options, value, itemHeight, columnHeight } = props;
+    // let selectedIndex = options.indexOf(value);
+
+    let selectedIndex = -1;
+    for (let i = 0; i < options.length; i += 1) {
+      if (options[i].value === value.value) {
+        selectedIndex = i;
+        break;
       }
-      const { top, bottom } = o.getBoundingClientRect();
-      return bottom > topBound && top < bottomBound;
-    });
+    }
 
-    const index = visibleOptions[1].getAttribute('index');
-    onSelect(options[index]);
-    toggleOptions();
+    if (selectedIndex < 0) {
+      // throw new ReferenceError();
+      this.onValueSelected(options[0]);
+      selectedIndex = 0;
+    }
+    return {
+      scrollerTranslate: columnHeight / 2 - itemHeight / 2 - selectedIndex * itemHeight,
+      minTranslate: columnHeight / 2 - itemHeight * options.length + itemHeight / 2,
+      maxTranslate: columnHeight / 2 - itemHeight / 2,
+    };
   };
 
-  render() {
-    const { options, show, toggleOptions } = this.props;
+  onValueSelected = newValue => {
+    this.props.onChange(this.props.name, newValue);
+  };
 
-    const domList = options.map((o, i) => {
+  handleTouchStart = event => {
+    const startTouchY = event.targetTouches[0].pageY;
+    this.setState(({ scrollerTranslate }) => ({
+      startTouchY,
+      startScrollerTranslate: scrollerTranslate,
+    }));
+  };
+
+  handleTouchMove = event => {
+    event.preventDefault();
+    const touchY = event.targetTouches[0].pageY;
+    this.setState(({ isMoving, startTouchY, startScrollerTranslate, minTranslate, maxTranslate }) => {
+      if (!isMoving) {
+        return {
+          isMoving: true,
+        };
+      }
+
+      let nextScrollerTranslate = startScrollerTranslate + touchY - startTouchY;
+      if (nextScrollerTranslate < minTranslate) {
+        nextScrollerTranslate = minTranslate - (minTranslate - nextScrollerTranslate) ** 0.8;
+      } else if (nextScrollerTranslate > maxTranslate) {
+        nextScrollerTranslate = maxTranslate + (nextScrollerTranslate - maxTranslate) ** 0.8;
+      }
+      return {
+        scrollerTranslate: nextScrollerTranslate,
+      };
+    });
+  };
+
+  handleTouchEnd = () => {
+    if (!this.state.isMoving) {
+      return;
+    }
+    this.setState({
+      isMoving: false,
+      startTouchY: 0,
+      startScrollerTranslate: 0,
+    });
+    setTimeout(() => {
+      const { options, itemHeight } = this.props;
+      const { scrollerTranslate, minTranslate, maxTranslate } = this.state;
+      let activeIndex;
+      if (scrollerTranslate > maxTranslate) {
+        activeIndex = 0;
+      } else if (scrollerTranslate < minTranslate) {
+        activeIndex = options.length - 1;
+      } else {
+        activeIndex = -Math.floor((scrollerTranslate - maxTranslate) / itemHeight);
+      }
+      this.onValueSelected(options[activeIndex]);
+    }, 0);
+  };
+
+  handleTouchCancel = () => {
+    if (!this.state.isMoving) {
+      return;
+    }
+    this.setState(startScrollerTranslate => ({
+      isMoving: false,
+      startTouchY: 0,
+      startScrollerTranslate: 0,
+      scrollerTranslate: startScrollerTranslate,
+    }));
+  };
+
+  handleItemClick = option => {
+    if (option !== this.props.value) {
+      this.onValueSelected(option);
+    }
+  };
+
+  renderItems() {
+    const { options, itemHeight, value } = this.props;
+    return options.map(option => {
+      const style = {
+        height: `${itemHeight}px`,
+        lineHeight: `${itemHeight}px`,
+      };
+
+      let className;
+
+      if (option.value === value.value) {
+        className = 'picker-item picker-item-selected';
+      } else {
+        className = 'picker-item';
+      }
+
       return (
-        <li key={o.value} tabIndex="-1" index={i} value={o.value}>
-          <span>{o.label}</span>
-        </li>
+        <div className={className} style={style} onClick={() => this.handleItemClick(option)}>
+          {option.label}
+        </div>
       );
     });
+  }
+
+  render() {
+    const translateString = `translate3d(0, ${this.state.scrollerTranslate}px, 0)`;
+    const style = {
+      MsTransform: translateString,
+      MozTransform: translateString,
+      OTransform: translateString,
+      WebkitTransform: translateString,
+      transform: translateString,
+    };
+    if (this.state.isMoving) {
+      style.transitionDuration = '0ms';
+    }
+
+    const { options } = this.props;
+    if (options.length === 1) {
+      return (
+        <div className="picker-column-middle">
+          <div onClick={() => this.handleItemClick(options[0])}>{options[0].label}</div>
+        </div>
+      );
+    }
 
     return (
-      <React.Fragment>
-        <Backdrop onClick={toggleOptions} show={show} />
-
-        {show ? (
-          <PickerWrapper show={show}>
-            <div className="button-wrapper">
-              <button className="btn-flat left" type="button" onClick={toggleOptions}>
-                {i18nTxt('CANCEL')}
-              </button>
-              <button className="btn-flat right" type="button" onClick={this.onClick}>
-                {i18nTxt('CONFIRM')}
-              </button>
-            </div>
-
-            <List
-              ref={el => {
-                this.listRef = el;
-              }}
-            >
-              <hr className="top"></hr>
-              <hr className="bottom"></hr>
-
-              <li className="empty" filler></li>
-              {domList}
-              <li className="empty" filler></li>
-            </List>
-          </PickerWrapper>
-        ) : null}
-      </React.Fragment>
+      <div className="picker-column">
+        <div
+          className="picker-scroller"
+          style={style}
+          onTouchStart={this.handleTouchStart}
+          onTouchMove={this.handleTouchMove}
+          onTouchEnd={this.handleTouchEnd}
+          onTouchCancel={this.handleTouchCancel}
+        >
+          {this.renderItems()}
+        </div>
+      </div>
     );
   }
 }
 
-const typeOpt = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-};
-Picker.propTypes = {
-  show: PropTypes.bool.isRequired,
-  options: PropTypes.arrayOf(typeOpt).isRequired,
-  onSelect: PropTypes.func.isRequired,
-  toggleOptions: PropTypes.func.isRequired,
-  selected: PropTypes.string,
-};
-Picker.defaultProps = {
-  selected: '',
-};
+export default class Picker extends Component {
+  static propTypes = {
+    optionGroups: PropTypes.objectOf(PropTypes.arrayOf(typeOption)).isRequired,
+    valueGroups: PropTypes.objectOf(typeOption).isRequired,
+    onChange: PropTypes.func.isRequired,
+    itemHeight: PropTypes.number,
+    height: PropTypes.number,
+    show: PropTypes.bool,
+    onCancel: PropTypes.func,
+    onConfirm: PropTypes.func,
+  };
 
-export default Picker;
+  static defaultProps = {
+    itemHeight: 40,
+    height: 160,
+    show: false,
+    onCancel: () => {},
+    onConfirm: () => {},
+  };
+
+  renderInner() {
+    const { optionGroups, valueGroups, itemHeight, height, onChange } = this.props;
+    const highlightStyle = {
+      height: itemHeight,
+      marginTop: -(itemHeight / 2),
+    };
+    const columnNodes = [];
+    // eslint-disable-next-line no-unused-vars
+    for (const name in optionGroups) {
+      columnNodes.push(
+        <PickerColumn
+          key={name}
+          name={name}
+          options={optionGroups[name]}
+          value={valueGroups[name]}
+          itemHeight={itemHeight}
+          columnHeight={height}
+          onChange={onChange}
+        />
+      );
+    }
+    return (
+      <div className="picker-inner">
+        {columnNodes}
+        <div className="picker-highlight" style={highlightStyle}></div>
+      </div>
+    );
+  }
+
+  render() {
+    const style = {
+      height: this.props.height,
+    };
+    const { show, onCancel, onConfirm } = this.props;
+
+    return (
+      <Modal
+        show={show}
+        showOverlay
+        onEsc={onCancel}
+        overlayStyle={media.mobile && { position: 'fixed' }}
+        modalStyle={
+          media.mobile && {
+            padding: 0,
+            left: 0,
+            bottom: 0,
+            top: 'auto',
+            zIndex: 999999,
+            transform: 'none',
+          }
+        }
+      >
+        <PickerWrap>
+          <PickerHead>
+            <button type="button" onClick={onCancel}>
+              {i18nTxt('CANCEL')}
+            </button>
+            <button type="button" onClick={onConfirm}>
+              {i18nTxt('CONFIRM')}
+            </button>
+          </PickerHead>
+          <PickContainerDiv style={style}>{this.renderInner()}</PickContainerDiv>
+        </PickerWrap>
+      </Modal>
+    );
+  }
+}

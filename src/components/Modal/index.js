@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import media from '../../globalStyles/media';
 
 const Overlay = styled.div`
   z-index: 199;
@@ -23,7 +24,11 @@ const ModalWrapper = styled.div`
   left: 50%;
   max-height: 90vh;
   max-width: 90vw;
-  transform: translate(-50%, -50%) !important;
+  transform: translate(-50%, -50%);
+  ${media.mobile`
+    min-width: 100%;
+    padding: 12px;
+  `}
 `;
 
 class ModalComp extends PureComponent {
@@ -43,14 +48,14 @@ class ModalComp extends PureComponent {
   }
 
   render() {
-    const { children, show, showOverlay } = this.props;
+    const { children, show, showOverlay, modalStyle, overlayStyle } = this.props;
     if (show) {
       return (
         <React.Fragment>
-          <ModalWrapper>
+          <ModalWrapper style={modalStyle}>
             <React.Fragment>{children}</React.Fragment>
           </ModalWrapper>
-          {showOverlay && <Overlay />}
+          {showOverlay && <Overlay style={overlayStyle} />}
         </React.Fragment>
       );
     }
@@ -64,11 +69,16 @@ ModalComp.propTypes = {
   show: PropTypes.bool.isRequired,
   showOverlay: PropTypes.bool,
   onEsc: PropTypes.func,
+  /* eslint react/forbid-prop-types: 0 */
+  overlayStyle: PropTypes.object,
+  modalStyle: PropTypes.object,
 };
 
 ModalComp.defaultProps = {
   showOverlay: true,
   onEsc: () => {},
+  overlayStyle: {},
+  modalStyle: {},
 };
 
 export default ModalComp;

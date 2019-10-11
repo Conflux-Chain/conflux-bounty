@@ -12,7 +12,7 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink, renderAny } from '../../utils';
 import { getCategory } from '../../utils/api';
 import { updateShare } from '../../components/Share/action';
-import Select from '../../components/Select';
+import Picker from '../../components/Picker';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
@@ -298,23 +298,20 @@ const Wrapper = styled(StyledWrapper)`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        .submission-sort-select {
-          > .labelInput {
-            font-size: 14px;
-            line-height: 14px;
-            border: 0;
-            padding-right: 24px;
-            &:focus {
-              border: 0;
-            }
-          }
+
+        > button {
+          font-size: 14px;
+          line-height: 14px;
+          display: flex;
+          align-items: center;
+          color: #8E9394;
+          padding: 0;
           > .caret {
             fill: #8E9394;
             right: 0;
             top: 10px;
           }
         }
-        .
       }
     }
     .solution-item {
@@ -435,6 +432,7 @@ class ViewBounty extends Component {
     this.query = query;
     this.state = {
       sortType: 'time_asc',
+      showSortType: false,
     };
     this.setSortType = this.setSortType.bind(this);
   }
@@ -461,10 +459,16 @@ class ViewBounty extends Component {
     });
   };
 
+  showSortType = show => () => {
+    this.setState({
+      showSortType: show,
+    });
+  };
+
   render() {
     const { props } = this;
     const { viewBounty, sendLike, updateView, sendComment, getCommentList, getSolutionList, user, history } = this.props;
-    const { sortType } = this.state;
+    const { sortType, showSortType } = this.state;
 
     const sortOptions = [
       {
@@ -480,6 +484,11 @@ class ViewBounty extends Component {
         value: 'like_desc',
       },
     ];
+
+    const getSortLabel = () => {
+      const opt = sortOptions.find(o => o.value === sortType);
+      return opt && opt.label;
+    };
 
     const CommentButton = () => (
       <button
@@ -633,24 +642,42 @@ class ViewBounty extends Component {
               </button>
               <div className="submission-sort-mobile-wrapper">
                 <span>{i18nTxt('Sort by')}</span>
-                <Select
-                  {...{
-                    theme: 'submission-sort-select',
-                    label: i18nTxt('Sort by'),
-                    labelType: 'text',
-                    onSelect: v => {
-                      updateView({
-                        sortType: v.value,
-                      });
-                      this.setSortType(v.value);
-                      getSolutionList(1);
-                    },
-                    options: sortOptions,
-                    selected: {
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.showSortType(true)();
+                  }}
+                >
+                  <span>{getSortLabel()}</span>
+                  <svg style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
+                    <path d="M7 10l5 5 5-5z" />
+                    <path d="M0 0h24v24H0z" fill="none" />
+                  </svg>
+                </button>
+
+                <Picker
+                  optionGroups={{
+                    sortType: sortOptions,
+                  }}
+                  valueGroups={{
+                    sortType: {
                       value: sortType,
                     },
                   }}
-                />
+                  onChange={(name, val) => {
+                    this.setSortType(val.value);
+                  }}
+                  height={178}
+                  onConfirm={() => {
+                    updateView({ sortType });
+                    this.setSortType(sortType);
+                    getSolutionList(1);
+                    this.showSortType(false)();
+                  }}
+                  onCancel={this.showSortType(false)}
+                  show={showSortType}
+                ></Picker>
               </div>
             </div>
 
