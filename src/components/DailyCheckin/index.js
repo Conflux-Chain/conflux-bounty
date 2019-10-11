@@ -4,10 +4,13 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import ReCAPTCHA from '../ReCAPTCHA';
 import * as actions from './action';
 import { compose, commonPropTypes, i18nTxt, auth } from '../../utils';
 import CheckIn from '../../assets/iconfont/checkIn.svg';
 import media from '../../globalStyles/media';
+import Modal from '../Modal';
+import { recaptchaKey } from '../../constants';
 
 const DailyCheckinWrap = styled.div`
   .pos-rightbottom {
@@ -127,6 +130,13 @@ const svgOrange = (
 /* eslint jsx-a11y/alt-text: 0 */
 
 class DailyCheckin extends Component {
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      showRecaptcha: false,
+    };
+  }
+
   componentDidMount() {
     const { history, common, getCheckInInfo } = this.props;
 
@@ -145,13 +155,16 @@ class DailyCheckin extends Component {
   render() {
     const { common, submitCheckIn, showAlreadyTips } = this.props;
     const { checkinStatus, checkinFansCoin } = common;
+    const { showRecaptcha } = this.state;
 
     let checkInButton;
     if (checkinStatus === actions.checkinEnum.pass) {
       checkInButton = (
         <div
           onClick={() => {
-            submitCheckIn();
+            this.setState({
+              showRecaptcha: true,
+            });
           }}
           className="btn-checkin pos-rightbottom"
         >
@@ -198,10 +211,27 @@ class DailyCheckin extends Component {
       </div>
     );
 
+    const recaptchaModal = (
+      <Modal showOverlay show={showRecaptcha}>
+        <div>
+          <ReCAPTCHA
+            sitekey={recaptchaKey}
+            onChange={val => {
+              submitCheckIn(val);
+              this.setState({
+                showRecaptcha: false,
+              });
+            }}
+          />
+        </div>
+      </Modal>
+    );
+
     return (
       <DailyCheckinWrap>
         {checkInButton}
         {successPanel}
+        {recaptchaModal}
       </DailyCheckinWrap>
     );
   }

@@ -93,6 +93,7 @@ export default {
   'Invalid email address': '邮箱地址有误',
   'Invalid verification code': '验证码格式有误',
   'Email code is empty': '验证码不能为空',
+  'Captcha code is empty': '验证信息未填写',
   SEND: '发送验证码',
   S: '秒',
   'Please enter your current email address here': '请输入当前注册邮箱地址',
@@ -420,4 +421,8 @@ export default {
   no: '否',
   'Choose Country/Region': '选择国家站',
   CANCEL: '取消',
+  'invalid recaptcha secret': 'recaptcha 密钥不正确',
+  'invalid recaptcha response parameter': 'recaptcha 返回结果参数不正确',
+  'invalid recaptcha request': '验证码异常',
+  'recaptcha check timeout, please reload page': '验证码交易超时，请刷新页面',
 };

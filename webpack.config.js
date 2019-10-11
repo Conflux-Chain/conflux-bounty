@@ -35,11 +35,6 @@ const cdnModules = [
     path: 'umd/react-router-dom.min.js',
   },
   {
-    name: 'react-intl',
-    var: 'ReactIntl',
-    path: 'dist/react-intl.min.js',
-  },
-  {
     name: 'moment',
     var: 'moment',
     path: 'min/moment-with-locales.js',
@@ -73,11 +68,6 @@ const cdnModules = [
     name: 'react-redux',
     var: 'ReactRedux',
     path: 'dist/react-redux.min.js',
-  },
-  {
-    name: 'intl',
-    var: 'Intl',
-    path: 'dist/Intl.min.js',
   },
 ];
 function cpFile(inFilePath, outFilePath) {

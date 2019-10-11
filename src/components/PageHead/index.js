@@ -8,7 +8,7 @@ import * as actions from './action';
 import headImg from '../../assets/iconfont/conflux-head-logo.svg';
 import homeImg from '../../assets/iconfont/conflux-home-logo.svg';
 import UserBack from '../../assets/iconfont/user-back.svg';
-import { i18n, compose, commonPropTypes, auth, isPath, i18nTxt, getDefaultLang } from '../../utils';
+import { compose, commonPropTypes, auth, isPath, i18nTxt, getDefaultLang } from '../../utils';
 import PhotoImg from '../PhotoImg';
 import Select from '../Select';
 import iconChinaUrl from '../../assets/iconfont/china.svg';
@@ -419,7 +419,7 @@ class PageHead extends Component {
           <div className="right-info">
             <button className="btn primary" type="button" onClick={this.createBounty}>
               <i className="material-icons dp48">add</i>
-              <span>{i18n('CREATE BOUNTY')}</span>
+              <span>{i18nTxt('CREATE BOUNTY')}</span>
             </button>
 
             {auth.loggedIn() ? (

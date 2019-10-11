@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
 import debounce from 'lodash/debounce';
+import { i18nTxt } from '../../utils';
 
 class Input extends Component {
   constructor(...args) {
@@ -41,7 +41,7 @@ class Input extends Component {
   };
 
   render() {
-    const { id, type = 'text', value, label, onClick, className = '', errMsg, intl, autoComplete, onKeyPress } = this.props;
+    const { id, type = 'text', value, label, onClick, className = '', errMsg, autoComplete, onKeyPress } = this.props;
     const { isActive } = this.state;
     let { placeHolder } = this.props;
     let activeCss = '';
@@ -54,9 +54,7 @@ class Input extends Component {
     let inputClassName = '';
     let msgDiv;
     if (errMsg) {
-      const errMsgFmt = intl.formatMessage({
-        id: errMsg,
-      });
+      const errMsgFmt = i18nTxt(errMsg);
       msgDiv = (
         <span className="helper-text" data-error={errMsgFmt} data-success="">
           {errMsgFmt}
@@ -103,9 +101,6 @@ Input.propTypes = {
   placeHolder: PropTypes.string,
   className: PropTypes.string,
   value: PropTypes.string.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }),
   errMsg: PropTypes.string,
   onKeyPress: PropTypes.func,
 };
@@ -116,12 +111,9 @@ Input.defaultProps = {
   type: 'text',
   placeHolder: '',
   className: '',
-  intl: {
-    formatMessage: () => {},
-  },
   onClick: () => {},
   onKeyPress: () => {},
   errMsg: '',
 };
 
-export default injectIntl(Input);
+export default Input;
