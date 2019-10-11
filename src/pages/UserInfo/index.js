@@ -284,10 +284,10 @@ class UserInfo extends Component {
                 <div
                   className="iconmail-dot"
                   style={{
-                    fontSize: head.messageCount > 0 ? 13 : 16,
+                    fontSize: head.messageCount > 99 ? 13 : 16,
                   }}
                 >
-                  {head.messageCount > 10 ? (
+                  {head.messageCount > 99 ? (
                     <span>
                       99<span style={{ marginLeft: -1, fontSize: 10, verticalAlign: 'top' }}>+</span>
                     </span>
