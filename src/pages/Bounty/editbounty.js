@@ -10,7 +10,7 @@ import Message from '../../components/Message';
 import * as s from './commonStyle';
 import ConfirmComp from '../../components/Modal/confirm';
 import { getCategory } from '../../utils/api';
-import { i18nTxt, auth, commonPropTypes, getStatus, downLink, i18n } from '../../utils/index';
+import { i18nTxt, auth, commonPropTypes, getStatus, downLink, i18nTxtAsync } from '../../utils/index';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
 
 const Wrapper = styled(StyledWrapper)`
@@ -317,7 +317,7 @@ class EditBounty extends Component {
             </button>
           }
           show={editState.descExampleShow}
-          content={i18n('bounty.faq')}
+          content={i18nTxtAsync('bounty.faq')}
           title={i18nTxt('Bounty Example')}
           wrapStyle={{
             width: '400px',
@@ -345,7 +345,7 @@ class EditBounty extends Component {
                 wordBreak: 'break-all',
               }}
             >
-              {i18n('bounty.faq.private')}
+              {i18nTxt('bounty.faq.private')}
             </pre>
           }
           title={i18nTxt('Private Message Example')}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
 import onClickOutside from 'react-onclickoutside';
 import { compose } from 'redux';
 import Input from '../Input/index';
@@ -128,9 +127,6 @@ Select.propTypes = {
   options: PropTypes.arrayOf(typeOpt),
   label: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }),
   errMsg: PropTypes.string,
   theme: PropTypes.string,
   showSelectedIcon: PropTypes.bool,
@@ -143,9 +139,6 @@ Select.defaultProps = {
     label: '',
   },
   options: [],
-  intl: {
-    formatMessage: () => {},
-  },
   errMsg: '',
   theme: '',
   showSelectedIcon: true,
@@ -153,9 +146,6 @@ Select.defaultProps = {
   labelType: 'input',
 };
 
-const enhance = compose(
-  injectIntl,
-  onClickOutside
-);
+const enhance = compose(onClickOutside);
 
 export default enhance(Select);

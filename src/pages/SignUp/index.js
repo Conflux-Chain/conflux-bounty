@@ -8,9 +8,10 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ReCAPTCHA from '../../components/ReCAPTCHA';
 import { StyledWrapper } from '../../globalStyles/common';
 import { reqUserSignup, reqUserQuery } from '../../utils/api';
-import { auth, commonPropTypes, i18nTxt } from '../../utils';
+import { auth, commonPropTypes, i18nTxt, getRecaptchaErr } from '../../utils';
 import EmailCode from '../../components/EmailCode';
 import Email from '../../components/Email';
 import Nickname from '../../components/Nickname';
@@ -19,6 +20,13 @@ import InvitationCode from '../../components/InvitationCode';
 import { notice } from '../../components/Message/notice';
 import SignInVia from '../../components/SignInVia';
 import media from '../../globalStyles/media';
+import { RecaptchaWrapDiv } from '../SignIn';
+import { recaptchaKey } from '../../constants';
+
+const RecaptchaWrapDiv1 = styled(RecaptchaWrapDiv)`
+  margin-top: 5px;
+  margin-bottom: 15px;
+`;
 
 class SignUp extends Component {
   constructor(...args) {
@@ -44,6 +52,9 @@ class SignUp extends Component {
       emailCode: '',
       invitationCode: match.params.invitationCode || '',
       termsCheckboxChecked: false,
+      showHalfExtend: false,
+      recaptchaVal: '',
+      recaptchaErr: '',
     };
   }
 
@@ -73,13 +84,14 @@ class SignUp extends Component {
       password,
       invitationCode,
       termsCheckboxChecked,
+      recaptchaVal,
     } = this.state;
     if (this.anyInputsHasError() || !termsCheckboxChecked) return;
     const { lang, history } = this.props;
     if (userId) {
       const {
         code,
-        result: { accessToken },
+        result: { accessToken, recaptcha },
       } = await reqUserSignup({
         email,
         emailVerificationCode: emailCode,
@@ -90,8 +102,16 @@ class SignUp extends Component {
         googleAccessToken,
         wechatAccessToken,
         language: lang,
+        recaptchaVal,
       });
       if (code !== 0) {
+        if (recaptcha && recaptcha.success !== true) {
+          notice.show({
+            content: getRecaptchaErr(recaptcha['error-codes']),
+            type: 'message-error',
+            timeout: 3000,
+          });
+        }
         return;
       }
       if (accessToken) {
@@ -100,7 +120,7 @@ class SignUp extends Component {
     } else {
       const {
         code,
-        result: { accessToken },
+        result: { accessToken, recaptcha },
       } = await reqUserSignup({
         email,
         emailVerificationCode: emailCode,
@@ -108,8 +128,16 @@ class SignUp extends Component {
         password,
         invitationCode,
         language: lang,
+        recaptchaVal,
       });
       if (code !== 0) {
+        if (recaptcha && recaptcha.success !== true) {
+          notice.show({
+            content: getRecaptchaErr(recaptcha['error-codes']),
+            type: 'message-error',
+            timeout: 3000,
+          });
+        }
         return;
       }
 
@@ -122,10 +150,24 @@ class SignUp extends Component {
   };
 
   anyInputsHasError() {
-    const { termsCheckboxChecked } = this.state;
+    const { termsCheckboxChecked, recaptchaVal } = this.state;
+    const validateRecaptcha = () => {
+      if (!recaptchaVal) {
+        this.setState({
+          recaptchaErr: 'Captcha code is empty',
+        });
+        return false;
+      }
+      this.setState({
+        recaptchaErr: '',
+      });
+      return true;
+    };
+
     if (
       !this.nicknameRef ||
       this.nicknameRef.hasError() ||
+      !validateRecaptcha() ||
       !this.emailRef ||
       this.emailRef.hasError() ||
       !this.emailCodeRef ||
@@ -142,7 +184,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const { userId, email, nickname, invitationCode } = this.state;
+    const { userId, email, nickname, invitationCode, showHalfExtend, recaptchaErr } = this.state;
 
     return (
       <Fragment>
@@ -161,6 +203,34 @@ class SignUp extends Component {
                     this.nicknameRef = ref;
                   }}
                 />
+                <RecaptchaWrapDiv1>
+                  <ReCAPTCHA
+                    sitekey={recaptchaKey}
+                    onChange={val => {
+                      this.setState({ recaptchaVal: val, recaptchaErr: '' });
+                    }}
+                    asyncScriptOnLoad={() => {
+                      setTimeout(() => {
+                        this.setState({
+                          showHalfExtend: true,
+                        });
+                      }, 400);
+                    }}
+                  />
+                  <i className={showHalfExtend ? 'extend-icon-full' : 'extend-icon-default'}></i>
+                </RecaptchaWrapDiv1>
+                {recaptchaErr && (
+                  <div
+                    style={{
+                      color: '#EC6057',
+                      textAlign: 'left',
+                      fontSize: '12px',
+                      marginTop: 9,
+                    }}
+                  >
+                    {i18nTxt(recaptchaErr)}
+                  </div>
+                )}
                 <Email
                   email={email}
                   userId={userId}

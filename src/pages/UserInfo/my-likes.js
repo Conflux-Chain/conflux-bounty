@@ -254,7 +254,7 @@ class MyLikes extends Component {
                       <td>
                         <div className="like-title">{bounty.title}</div>
                         <div className="like-sub">
-                          <span style={{ color: '#666' }}>{fmtToDay(bounty.updatedAt || bounty.createdAt)}</span>
+                          <span style={{ color: '#666' }}>{fmtToDay(bounty.createdAt)}</span>
                           <span className="like-state">{getStatus(bounty.status)}</span>
                           {bounty.transDeleted && <BountyDeletedWarning />}
                         </div>
@@ -333,7 +333,7 @@ class MyLikes extends Component {
                       <td>
                         <div className="like-title">{solution.title}</div>
                         <div className="like-sub">
-                          <span style={{ color: '#666' }}>{fmtToDay(solution.updatedAt || solution.createdAt)}</span>
+                          <span style={{ color: '#666' }}>{fmtToDay(solution.createdAt)}</span>
                           <span className="like-state">{getStatus(solution.status)}</span>
                           <span className="like-subm-from">
                             {i18nTxt('Submission from')} {solution.user.nickname}

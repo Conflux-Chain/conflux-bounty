@@ -258,7 +258,7 @@ export const getWithdrawList = reqPage => (dispatch, getState) => {
   }).then(body => {
     dispatch(
       updateHistoryWithdraws({
-        list: body.result.list,
+        list: accountHistory.withdraws.list.concat(body.result.list),
         total: body.result.total,
         page: reqPage,
       })
@@ -274,7 +274,7 @@ export const getRewardList = reqPage => (dispatch, getState) => {
   }).then(body => {
     dispatch(
       updateHistoryRewards({
-        list: body.result.list,
+        list: accountHistory.rewards.list.concat(body.result.list),
         total: body.result.total,
         page: reqPage,
       })
@@ -287,7 +287,7 @@ export const getOrderList = reqPage => (dispatch, getState) => {
   return reqOrderList({ page: reqPage, limit: accountHistory.orders.limit }).then(body => {
     dispatch(
       updateOrderList({
-        list: body.result.list,
+        list: accountHistory.orders.list.concat(body.result.list),
         total: body.result.total,
         page: reqPage,
       })

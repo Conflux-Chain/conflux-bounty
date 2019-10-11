@@ -360,7 +360,7 @@ class ViewBounty extends Component {
         <Wrapper>
           <h1>{viewBounty.title}</h1>
           <div className="bounty-status">
-            <span>{fmtToDay(viewBounty.updatedAt || viewBounty.createdAt)}</span>
+            <span>{fmtToDay(viewBounty.createdAt)}</span>
             <span style={{ marginLeft: 20, color: '#595F61' }}>
               {i18nTxt('Status')}:<strong style={{ marginLeft: 2, fontWeight: 'bold' }}>{getStatus(viewBounty.status)}</strong>
             </span>
