@@ -1,10 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import template from 'lodash/template';
-import { createIntl, createIntlCache } from 'react-intl';
 import zhTranslationMessages from '../lang/zh';
 import enTranslationMessages from '../lang/en';
 
-const cache = createIntlCache();
 const messageTotal = {
   en: enTranslationMessages,
   'zh-CN': zhTranslationMessages,
@@ -20,16 +18,13 @@ export const i18nTxt = (str, param, lang) => {
     return '';
   }
   const language = lang || store.getState().head.user.language;
-  const intl = createIntl(
-    {
-      locale: language,
-      messages: messageTotal[language],
-    },
-    cache
-  );
-  const txt = intl.formatMessage({
-    id: str,
-  });
+
+  let txt;
+  if (messageTotal[language][str]) {
+    txt = messageTotal[language][str];
+  } else {
+    txt = str;
+  }
 
   if (param) {
     return template(txt)(param);
