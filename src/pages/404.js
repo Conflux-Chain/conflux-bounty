@@ -64,7 +64,7 @@ class PageNotFound extends PureComponent {
         <div className="row5">
           {i18nTxt('If you think there is something wrong, please ')}
           <a rel="noopener noreferrer" target="_blank" href="mailto:feedbacks@conflux-chain.org">
-            {'contact us'}
+            contact&nbsp;us
           </a>
         </div>
       </NfWrapDiv>
