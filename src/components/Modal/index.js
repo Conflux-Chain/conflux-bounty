@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import media from '../../globalStyles/media';
 
 const Overlay = styled.div`
@@ -11,6 +11,28 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+`;
+
+const slideInMiddle = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 100px));
+  }
+   to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+`;
+
+const sliceInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+   to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
 `;
 
 const ModalWrapper = styled.div`
@@ -25,6 +47,10 @@ const ModalWrapper = styled.div`
   max-height: 90vh;
   max-width: 90vw;
   transform: translate(-50%, -50%) !important;
+
+  ${media.tablet`
+    animation: ${slideInMiddle} 0.2s ease-in-out;
+  `}
 
   &.mobile-modal {
     top: auto;
@@ -41,6 +67,7 @@ const ModalWrapper = styled.div`
     transform: none!important;
     max-width: 100%;
     z-index: 100000;
+    animation: ${sliceInUp} 0.2s ease-in-out;
   `}
   }
 `;
