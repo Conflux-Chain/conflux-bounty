@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import { i18nTxt } from '../utils';
 import media from '../globalStyles/media';
 
 const nfImg = require('../assets/images/404.gif');
@@ -55,25 +55,17 @@ class PageNotFound extends PureComponent {
     return (
       <NfWrapDiv>
         <img src={nfImg} className="img" alt="not found" />
-        <div className="title">
-          <FormattedHTMLMessage id="Page not found" />
-        </div>
+        <div className="title">{i18nTxt('Page not found')}</div>
 
         <div className="row2">
-          <a href="/">
-            <FormattedMessage id="home page" />
-          </a>
+          <a href="/">{i18nTxt('home page')}</a>
         </div>
 
         <div className="row5">
-          <FormattedMessage id="If you think there is something wrong, please " />
-          <FormattedMessage id="contact us">
-            {txt => (
-              <a rel="noopener noreferrer" target="_blank" href="mailto:feedbacks@conflux-chain.org">
-                {txt}
-              </a>
-            )}
-          </FormattedMessage>
+          {i18nTxt('If you think there is something wrong, please ')}
+          <a rel="noopener noreferrer" target="_blank" href="mailto:feedbacks@conflux-chain.org">
+            {'contact us'}
+          </a>
         </div>
       </NfWrapDiv>
     );
@@ -92,4 +84,4 @@ PageNotFound.defaultProps = {
   },
 };
 
-export default injectIntl(PageNotFound);
+export default PageNotFound;
