@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import media from './globalStyles/media';
 
 // components
 import Router from './route/router';
@@ -33,11 +34,14 @@ const PageWrapper = styled.div`
   bottom: 0px;
   overflow: auto;
   .page-holder {
-    /* min-width: 600px; */
+    min-width: 600px;
     min-height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
+    ${media.mobile`
+      min-width:unset;
+    `}
   }
   .page-content {
     flex: 1;
