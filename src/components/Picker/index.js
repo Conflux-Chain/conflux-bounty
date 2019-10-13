@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import RMCPicker from 'rmc-picker';
-import './picker.css';
+import RawPicker from './rawPicker';
 import unitParser from '../../utils/device';
 import MobileModal from '../MobileModal';
 import Input from '../Input';
@@ -18,14 +17,12 @@ const PickerWapper = styled.div`
   .input-field {
     margin-top: 0;
   }
-  .RMCPicker {
-    margin-top: ${unitParser(40)};
-  }
 `;
 const Operator = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: ${unitParser(14)};
+  margin-bottom: ${unitParser(40)};
   > button {
     padding: unset;
     &:nth-child(1) {
@@ -49,6 +46,8 @@ class Picker extends Component {
     currentSelect: {},
     confirmSelect: {},
   };
+
+  id = `${Date.now()}-${Math.random()}`;
 
   showModal = () => {
     const { selected } = this.props;
@@ -88,7 +87,7 @@ class Picker extends Component {
 
   changeValue = value => {
     const { data } = this.props;
-    this.currentSelect = data.find(option => option.value === value);
+    this.currentSelect = data.find(option => option.value === value.value);
     this.setState({
       currentSelect: this.currentSelect,
     });
@@ -97,6 +96,7 @@ class Picker extends Component {
   render() {
     const { modalShow, currentSelect, confirmSelect } = this.state;
     const { data, label, errMsg } = this.props;
+    console.log(data, currentSelect, 'value');
     return (
       <PickerWapper>
         <Input
@@ -135,19 +135,13 @@ class Picker extends Component {
             )}
           </Operator>
           {data.length ? (
-            <RMCPicker className="RMCPicker" selectedValue={currentSelect.value} onValueChange={this.changeValue}>
-              {data.map((item, index) => {
-                return (
-                  <RMCPicker.Item
-                    className={currentSelect.value === item.value || (!currentSelect.value && index === 0) ? 'selected' : ''}
-                    key={item.value}
-                    value={item.value}
-                  >
-                    {item.label}
-                  </RMCPicker.Item>
-                );
-              })}
-            </RMCPicker>
+            <RawPicker
+              optionGroups={{ data }}
+              valueGroups={{
+                data: currentSelect.value ? currentSelect : data[0],
+              }}
+              onChange={this.changeValue}
+            ></RawPicker>
           ) : (
             <Empty>{i18nTxt('No Data')}</Empty>
           )}
@@ -166,12 +160,14 @@ Picker.propTypes = {
   data: PropTypes.arrayOf(typeOpt),
   errMsg: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  itemHeight: PropTypes.number,
 };
 
 Picker.defaultProps = {
   selected: { value: '', label: '' },
   data: [],
   errMsg: '',
+  itemHeight: 44,
 };
 
 export default Picker;

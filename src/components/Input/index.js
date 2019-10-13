@@ -45,11 +45,9 @@ const InputWrap = styled.div`
     vertical-align: middle;
     margin-bottom: 0;
     ${media.mobile`
-    /* @media scresen and (max-width: 600px) { */
       height: ${unitParser('44dp')};
       font-size: ${unitParser('14dp')};
       text-indent: ${unitParser('10dp')};
-    /* } */
     `}
 
     &:disabled,

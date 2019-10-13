@@ -648,7 +648,7 @@ export function downLink(url, title) {
             src={url}
             style={{
               maxWidth: '100%',
-              // marginTop: 10,
+              marginTop: 10,
             }}
           />
           <br />

@@ -52,6 +52,7 @@ const Wrapper = styled(StyledWrapper)`
     line-height: unset;
     display: grid;
     grid-template-columns: 1fr max-content;
+    grid-column-gap: 10px;
     margin-top: 8px;
   }
   .status-tips {
@@ -383,7 +384,7 @@ class EditBounty extends Component {
           content={i18nTxtAsync('bounty.faq')}
           title={i18nTxt('Bounty Example')}
           wrapStyle={{
-            width: window.screen.width >= 600 ? '400px' : '100%',
+            width: isMobile() ? '400px' : '100%',
           }}
         />
         <ConfirmComp
@@ -413,7 +414,7 @@ class EditBounty extends Component {
           }
           title={i18nTxt('Private Message Example')}
           wrapStyle={{
-            width: window.screen.width >= 600 ? '400px' : '100%',
+            width: isMobile() ? '400px' : '100%',
           }}
         />
       </Wrapper>

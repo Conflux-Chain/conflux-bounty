@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Conflux Bounty",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.dev.config.js",
+    "start": "cross-env NODE_ENV=development  BOUNTY_BACKEND_ENDPOINT='http://bountytest.conflux-chain.org' webpack-dev-server --config webpack.dev.config.js",
     "dev": "npm run start",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js",
     "lint": "concurrently --names 'JS,STYLE' -c 'green,blue' 'npm run lint:eslint .' 'npm run lint:style'",
