@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import * as actions from './action';
 import { StyledWrapper, flexCenterMiddle } from '../../globalStyles/common';
-import { isMobile } from '../../utils/device';
+import { useMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
 import Message from '../../components/Message';
 import { notice } from '../../components/Message/notice';
@@ -29,12 +29,12 @@ const Wrapper = styled(StyledWrapper)`
     margin-top: 40px;
   }
   ${media.mobile`
-width: 100%;
-border-radius: unset;
-padding: 16px;
-box-shadow: unset;
-padding-bottom: 40px;
-margin-bottom:-90px;
+  width: 100%;
+  border-radius: unset;
+  padding: 16px;
+  box-shadow: unset;
+  padding-bottom: 40px;
+  margin-bottom:-90px;
 
   .currency-wrap {
     position: relative;
@@ -215,7 +215,7 @@ z-index: 10;
 `}
 `;
 
-function UserAvatar({ photoUrl, onAvatarLoad }) {
+function UserAvatar({ photoUrl, getAccount }) {
   return (
     <UserAvatarStyle className={cx({ withimg: photoUrl })}>
       <div
@@ -225,7 +225,57 @@ function UserAvatar({ photoUrl, onAvatarLoad }) {
         }}
       />
       <div className="img-edit">
-        <input type="file" className="avatar-uploader" accept="image/jpeg,image/png,image/gif" onChange={onAvatarLoad} />
+        <input
+          type="file"
+          className="avatar-uploader"
+          accept="image/jpeg,image/png,image/gif"
+          onChange={async e => {
+            if (!e.target.value) return;
+            const { target } = e;
+            const curFile = e.target.files[0];
+            const fileKey = encodeImgKey(curFile.name);
+            const md5Promise = getMd5(curFile);
+
+            uploadFileOss(fileKey, curFile).then(async () => {
+              target.value = '';
+
+              const md5 = await md5Promise;
+              const url = genImgUrlFromName(curFile.name, md5);
+              const { code } = await reqUserUpdate({ photoUrl: url });
+
+              if (code !== 0) {
+                return notice.show({
+                  content: i18nTxt('Upload failed, please try again.'),
+                  type: 'message-error',
+                  timeout: 3000,
+                });
+              }
+
+              const getPhoto = () => {
+                return new Promise((resolve, reject) => {
+                  const imgTmp = new Image();
+                  imgTmp.onload = () => {
+                    resolve();
+                  };
+                  imgTmp.onerror = () => {
+                    reject();
+                  };
+                  imgTmp.src = url;
+                });
+              };
+
+              setTimeout(() => {
+                getPhoto()
+                  .catch(getPhoto)
+                  .catch(getPhoto)
+                  .then(() => {
+                    getAccount();
+                  });
+              }, 1000);
+              return null;
+            });
+          }}
+        />
         {i18nTxt('EDIT')}
       </div>
     </UserAvatarStyle>
@@ -234,7 +284,7 @@ function UserAvatar({ photoUrl, onAvatarLoad }) {
 UserAvatar.defaultProps = { photoUrl: undefined };
 UserAvatar.propTypes = {
   photoUrl: PropTypes.string,
-  onAvatarLoad: PropTypes.func.isRequired,
+  getAccount: PropTypes.func.isRequired,
 };
 
 const UserSection = styled.div`
@@ -470,11 +520,8 @@ function SignOut({ onClick }) {
 }
 SignOut.propTypes = { onClick: PropTypes.func.isRequired };
 
-// eslint-disable-next-line react/prefer-stateless-function
-class UserInfo extends Component {
-  constructor(...args) {
-    super(...args);
-    const { history, resetUserAccount } = this.props;
+function UserInfo({ history, resetUserAccount, getAccount, head, updateUserAccount }) {
+  useEffect(() => {
     if (!auth.loggedIn()) {
       history.push('/signin');
       return;
@@ -482,116 +529,56 @@ class UserInfo extends Component {
 
     resetUserAccount();
     document.title = i18nTxt('My Account');
-  }
+  }, []);
 
-  componentDidMount() {
-    window.addEventListener(
-      'orientationchange',
-      () => {
-        this.forceUpdate();
-      },
-      false
-    );
-  }
+  const isMobile = useMobile();
 
-  onAvatarLoad = async e => {
-    if (!e.target.value) return;
-    const { target } = e;
-    const curFile = e.target.files[0];
-    const fileKey = encodeImgKey(curFile.name);
-    const md5Promise = getMd5(curFile);
+  return (
+    <React.Fragment>
+      <Wrapper>
+        {isMobile && <ColorBackground />}
+        <UserSection>
+          <Flex>
+            <UserAvatar photoUrl={head.user.photoUrl} getAccount={getAccount} />
+            <UserTextInfo user={head.user} />
+          </Flex>
+          <MessagesCountButton messageCount={head.messageCount} />
+        </UserSection>
 
-    uploadFileOss(fileKey, curFile).then(async () => {
-      target.value = '';
-
-      const md5 = await md5Promise;
-      const url = genImgUrlFromName(curFile.name, md5);
-      const { code } = await reqUserUpdate({ photoUrl: url });
-
-      if (code !== 0) {
-        return notice.show({
-          content: i18nTxt('Upload failed, please try again.'),
-          type: 'message-error',
-          timeout: 3000,
-        });
-      }
-
-      const { getAccount } = this.props;
-      const getPhoto = () => {
-        return new Promise((resolve, reject) => {
-          const imgTmp = new Image();
-          imgTmp.onload = () => {
-            resolve();
-          };
-          imgTmp.onerror = () => {
-            reject();
-          };
-          imgTmp.src = url;
-        });
-      };
-
-      setTimeout(() => {
-        getPhoto()
-          .catch(getPhoto)
-          .catch(getPhoto)
-          .then(() => {
-            getAccount();
-          });
-      }, 1000);
-      return null;
-    });
-  };
-
-  render() {
-    const { history, head, updateUserAccount } = this.props;
-
-    return (
-      <React.Fragment>
-        <Wrapper>
-          {isMobile() && <ColorBackground />}
-          <UserSection>
-            <Flex>
-              <UserAvatar photoUrl={head.user.photoUrl} onAvatarLoad={this.onAvatarLoad} />
-              <UserTextInfo user={head.user} />
-            </Flex>
-            <MessagesCountButton messageCount={head.messageCount} />
-          </UserSection>
-
-          <div className="currency-wrap">
-            <RewardInfo fansCoin={head.fansCoin} fansCoinLocked={head.fansCoinLocked} />
-            <WithdrawActions
-              onWithdrawClick={() => {
-                updateUserAccount({ showWithdrawDialog: true });
-              }}
-            />
-            {isMobile() && (
-              <MessageNoticeStyle>
-                <Message type="message-notice-light">{i18nTxt('Withdrawal are processed 12PM CST every Tuesday')}</Message>
-              </MessageNoticeStyle>
-            )}
-          </div>
-
-          {!isMobile() && (
+        <div className="currency-wrap">
+          <RewardInfo fansCoin={head.fansCoin} fansCoinLocked={head.fansCoinLocked} />
+          <WithdrawActions
+            onWithdrawClick={() => {
+              updateUserAccount({ showWithdrawDialog: true });
+            }}
+          />
+          {isMobile && (
             <MessageNoticeStyle>
               <Message type="message-notice-light">{i18nTxt('Withdrawal are processed 12PM CST every Tuesday')}</Message>
             </MessageNoticeStyle>
           )}
+        </div>
 
-          {!isMobile() && <LineSep />}
-          <Settings />
+        {!isMobile && (
+          <MessageNoticeStyle>
+            <Message type="message-notice-light">{i18nTxt('Withdrawal are processed 12PM CST every Tuesday')}</Message>
+          </MessageNoticeStyle>
+        )}
 
-          <SignOut
-            onClick={() => {
-              reqLogout().then(() => {
-                history.push('/');
-              });
-            }}
-          />
-        </Wrapper>
-        <Withdraw />
-      </React.Fragment>
-    );
-  }
+        {!isMobile && <LineSep />}
+        <Settings />
+
+        <SignOut
+          onClick={() => {
+            reqLogout().then(() => {
+              history.push('/');
+            });
+          }}
+        />
+      </Wrapper>
+      <Withdraw />
+    </React.Fragment>
+  );
 }
 
 UserInfo.propTypes = {

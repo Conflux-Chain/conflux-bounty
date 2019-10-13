@@ -1,3 +1,4 @@
+import { useMedia } from 'react-use';
 import variable from '../globalStyles/variable';
 
 function allowMiniPixel() {
@@ -15,10 +16,13 @@ function getType(unit) {
   return typeof unit;
 }
 
+const isMobileQuery = `(orientation: portrait) and (max-width: ${variable.breakpoint.mobile}px)`;
 export const isMobile = () => {
-  return window.matchMedia('(orientation: portrait)').matches
-    ? window.screen.width <= variable.breakpoint.mobile
-    : window.screen.height <= variable.breakpoint.mobile;
+  return window.matchMedia(isMobileQuery).matches;
+};
+
+export const useMobile = () => {
+  return useMedia(isMobileQuery);
 };
 
 export default function unitParser(unit) {
