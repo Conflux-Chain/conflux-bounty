@@ -482,6 +482,16 @@ class UserInfo extends Component {
     document.title = i18nTxt('My Account');
   }
 
+  componentDidMount() {
+    window.addEventListener(
+      'orientationchange',
+      () => {
+        this.forceUpdate();
+      },
+      false
+    );
+  }
+
   onAvatarLoad = async e => {
     if (!e.target.value) return;
     const { target } = e;

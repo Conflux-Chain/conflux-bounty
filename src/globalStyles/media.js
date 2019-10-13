@@ -21,7 +21,9 @@ const media = Object.keys(sizes).reduce((acc, label) => {
 }, {});
 
 export const isMobile = () => {
-  return window.screen.width <= variable.breakpoint.mobile;
+  return window.matchMedia('(orientation: portrait)').matches
+    ? window.screen.width <= variable.breakpoint.mobile
+    : window.screen.height <= variable.breakpoint.mobile;
 };
 
 export default media;
