@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import * as actions from './action';
 import { StyledWrapper, flexCenterMiddle } from '../../globalStyles/common';
-import { useMobile } from '../../utils/device';
+import unitParser, { useMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
 import Message from '../../components/Message';
 import { notice } from '../../components/Message/notice';
@@ -17,6 +17,7 @@ import imgMyLikes from '../../assets/iconfont/my-likes.svg';
 import imgInviteFriends from '../../assets/iconfont/invite-friends.svg';
 import imgSettings from '../../assets/iconfont/settings.svg';
 import imgDefaultAvatar from '../../assets/iconfont/default-avatar.svg';
+import ConfirmComp from '../../components/Modal/confirm';
 
 import { i18nTxt, auth, commonPropTypes, encodeImgKey, genImgUrlFromName, getMd5, uploadFileOss } from '../../utils';
 import { reqUserUpdate, reqLogout } from '../../utils/api';
@@ -141,7 +142,8 @@ const UserTextInfoStyle = styled.div`
   ${media.mobile`
 align-self: unset;
 margin-top: 16px;
-z-index: 10;
+z-index: 1;
+pointer-events: none;
   .user-name  {
     color: #FFFFFF;
   }
@@ -339,9 +341,15 @@ text-align: center;
 :nth-child(1) {border-right: 1px solid #EBEDED;}
 `}
   }
+  .question-button {
+    padding: unset;
+  }
   .question {
     vertical-align: middle;
     margin-left: 5px;
+    ${media.mobile`
+font-size: ${unitParser(16)};
+`}
   }
   ${media.mobile`
 flex-direction: column;
@@ -350,21 +358,51 @@ margin-bottom: 20px;
 `;
 
 function RewardInfo({ fansCoin, fansCoinLocked }) {
+  const [tipsVisible, setTipsVisible] = useState(false);
+  const isMobile = useMobile();
+
   return (
     <RewardInfoStyle>
       <div className="reward-title">
         <span style={{ verticalAlign: 'middle' }}> {i18nTxt('Bounty Rewards')}</span>
 
-        <Tooltip tipSpan={<i className="question"></i>}>
-          <div>
-            {i18nTxt('userinfo.rewardsExplain')}
+        {isMobile && (
+          <button type="button" className="question-button" onClick={() => setTipsVisible(true)}>
+            <i className="question"></i>
+          </button>
+        )}
+        {isMobile && (
+          <ConfirmComp
+            show={tipsVisible}
+            confirmBtns={
+              <button className="agree" type="button" onClick={() => setTipsVisible(false)}>
+                Close
+              </button>
+            }
+            content={
+              <div>
+                {i18nTxt('userinfo.rewardsExplain')}
+                <div>
+                  <a rel="noopener noreferrer" target="_blank" href="https://wallet.confluxscan.io/about">
+                    {i18nTxt('userInfo.viewMore')} &gt;
+                  </a>
+                </div>
+              </div>
+            }
+          ></ConfirmComp>
+        )}
+        {!isMobile && (
+          <Tooltip tipSpan={<i className="question"></i>}>
             <div>
-              <a rel="noopener noreferrer" target="_blank" href="https://wallet.confluxscan.io/about">
-                {i18nTxt('userInfo.viewMore')} &gt;
-              </a>
+              {i18nTxt('userinfo.rewardsExplain')}
+              <div>
+                <a rel="noopener noreferrer" target="_blank" href="https://wallet.confluxscan.io/about">
+                  {i18nTxt('userInfo.viewMore')} &gt;
+                </a>
+              </div>
             </div>
-          </div>
-        </Tooltip>
+          </Tooltip>
+        )}
       </div>
       <div className="reward-content">
         <div className="withdraw-currency">
