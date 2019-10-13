@@ -5,7 +5,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import * as actions from './action';
-import { media, StyledWrapper, flexCenterMiddle } from '../../globalStyles/common';
+import { StyledWrapper, flexCenterMiddle } from '../../globalStyles/common';
+import { isMobile } from '../../utils/device';
+import media from '../../globalStyles/media';
 import Message from '../../components/Message';
 import { notice } from '../../components/Message/notice';
 import Tooltip from '../../components/Tooltip';
@@ -16,7 +18,7 @@ import imgInviteFriends from '../../assets/iconfont/invite-friends.svg';
 import imgSettings from '../../assets/iconfont/settings.svg';
 import imgDefaultAvatar from '../../assets/iconfont/default-avatar.svg';
 
-import { isMobile, i18nTxt, auth, commonPropTypes, encodeImgKey, genImgUrlFromName, getMd5, uploadFileOss } from '../../utils';
+import { i18nTxt, auth, commonPropTypes, encodeImgKey, genImgUrlFromName, getMd5, uploadFileOss } from '../../utils';
 import { reqUserUpdate, reqLogout } from '../../utils/api';
 import Withdraw from './withdraw';
 

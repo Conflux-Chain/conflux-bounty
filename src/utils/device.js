@@ -1,3 +1,5 @@
+import variable from '../globalStyles/variable';
+
 function allowMiniPixel() {
   let allow = false;
   if (window.devicePixelRatio && devicePixelRatio >= 2) {
@@ -12,9 +14,12 @@ function allowMiniPixel() {
 function getType(unit) {
   return typeof unit;
 }
-export function isMobile() {
-  return window.screen.width <= 600;
-}
+
+export const isMobile = () => {
+  return window.matchMedia('(orientation: portrait)').matches
+    ? window.screen.width <= variable.breakpoint.mobile
+    : window.screen.height <= variable.breakpoint.mobile;
+};
 
 export default function unitParser(unit) {
   let myUnit = unit;
