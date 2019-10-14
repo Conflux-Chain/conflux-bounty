@@ -10,6 +10,7 @@ const ReCAPTCHA = props => {
       {...{
         ...props,
         hl: hl || language,
+        key: hl || language,
       }}
     ></ReCAPTCHARaw>
   );
