@@ -33,6 +33,9 @@ const Wrapper = styled(StyledWrapper)`
     }
     td {
       color: #171d1f;
+      &:first-child {
+        white-space: nowrap;
+      }
     }
     .text-gray {
       color: #8e9394;
