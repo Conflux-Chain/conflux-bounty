@@ -38,6 +38,7 @@ function MyBounty({ getMyBounty, getMyJoinedBounty, myBounty, history, resetMy, 
 
   const isMobile = useMobile();
 
+  // FIXME: duplicates
   return (
     <React.Fragment>
       <BackHeadDiv onClick={() => history.push('/user-info')}>
@@ -89,8 +90,10 @@ function MyBounty({ getMyBounty, getMyJoinedBounty, myBounty, history, resetMy, 
               if (v.status === BOUNTY_STATUS_ENUM.PENDING) {
                 rejectTips = (
                   <div className="reject-tips">
-                    <i className="material-icons dp48">info</i>
-                    <span className="reject-content">{v.redoMessage}</span>
+                    <span>
+                      <i className="material-icons dp48">info</i>
+                      <span className="reject-content">{v.redoMessage}</span>
+                    </span>
                     <Link to={`/edit-bounty?bountyId=${v.id}`}>
                       <span>{i18nTxt('EDIT BOUNTY')}</span>
                       <i className="material-icons dp48">chevron_right</i>
@@ -164,8 +167,10 @@ function MyBounty({ getMyBounty, getMyJoinedBounty, myBounty, history, resetMy, 
               if (v.status === BOUNTY_STATUS_ENUM.PENDING) {
                 rejectTips = (
                   <div className="reject-tips">
-                    <i className="material-icons dp48">info</i>
-                    <span className="reject-content">{v.redoMessage}</span>
+                    <span>
+                      <i className="material-icons dp48">info</i>
+                      <span className="reject-content">{v.redoMessage}</span>
+                    </span>
                     <Link to={`/edit-bounty?bountyId=${v.id}`}>
                       <span>{i18nTxt('EDIT BOUNTY')}</span>
                       <i className="material-icons dp48">chevron_right</i>

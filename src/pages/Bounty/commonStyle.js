@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import imgRejectBack from '../../assets/iconfont/reject-back.svg';
+import imgRejectBackMobile from '../../assets/iconfont/reject-back-mobile.svg';
 import { StyledWrapper } from '../../globalStyles/common';
 import unitParser from '../../utils/device';
 import media from '../../globalStyles/media';
@@ -254,19 +255,40 @@ line-height: ${unitParser(12)}
       margin-top: 8px;
       width: 520px;
       height: 50px;
+      // FIXME: don't use svg, here
       background-image: url(${imgRejectBack});
+      ${media.mobile`
+font-size: ${unitParser(14)};
+line-height: ${unitParser(14)};
+width: 100%;
+height: 73px;
+background-image: url(${imgRejectBackMobile});
+flex-direction: column;
+padding: ${unitParser(20)} ${unitParser(16)} ${unitParser(12)} ${unitParser(16)};
+`}
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding: 20px 16px;
       padding-top: 26px;
       color: #e76a25;
 
-      > i {
-        font-size: 20px;
-        color: #e76a25;
-        margin-right: 8px;
+      > span {
+        display: flex;
+        justify-content: center;
+        ${media.mobile`
+align-self: flex-start;
+`}
+        > i {
+          font-size: 20px;
+          color: #e76a25;
+          margin-right: 8px;
+        }
       }
       > a {
+        ${media.mobile`
+align-self: flex-end;
+`}
         font-size: 14px;
         cursor: pointer;
         color: #595f61;
@@ -274,6 +296,11 @@ line-height: ${unitParser(12)}
         > span {
           vertical-align: middle;
         }
+        ${media.mobile`
+  > i {
+    margin-right: ${unitParser(-12)};
+  }
+`}
       }
     }
     .reject-content {
