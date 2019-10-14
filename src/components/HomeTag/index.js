@@ -19,7 +19,7 @@ const Container = styled.div`
     color: #fff;
   }
 
-  ${media.tablet`
+  ${media.mobile`
  width: 100%;
  height: initial;
  background: #FFFFFF;
@@ -50,7 +50,7 @@ const TagItem = styled.div`
   font-size: 16px;
   letter-spacing: 0.05em;
 
-  ${media.tablet`
+  ${media.mobile`
 background: none;
 display: block;
 align-items: initial;
@@ -66,6 +66,7 @@ text-align: center;
 margin-left: 20px;
 margin-right: 20px;
 flex: 1;
+font-weight: bold;
 &.selected {
   border-bottom:3px solid #22B2D6;
 }

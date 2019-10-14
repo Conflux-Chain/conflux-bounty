@@ -245,6 +245,7 @@ const WrapMobile = styled.div`
     font-size: 32px;
     line-height: 32px;
     cursor: pointer;
+    text-decoration: none;
   }
 `;
 const ChangeLangModel = styled.div`
@@ -253,17 +254,20 @@ const ChangeLangModel = styled.div`
   padding-top: 26px;
   position: relative;
   z-index: 1000;
+  > h3 {
+    font-weight: bold;
+  }
   label {
     display: block;
+    margin-top: 6px;
+    > span {
+      color: #3b3d3d;
+    }
   }
   > .primary {
     width: 100%;
     margin-top: 28px;
   }
-  label {
-    margin-top: 6px;
-  }
-
   h3 {
     font-size: 20px;
     line-height: 20px;
