@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 export const Wrapper = styled(
   styled.div`
@@ -23,16 +24,16 @@ export const Wrapper = styled(
       }
     }
     ${media.mobile`
-    padding: 12px 20px;
-    font-size: 16px;
-    line-height: 16px;
+    padding: ${unitParser(12)} ${unitParser(20)};
+    font-size: ${unitParser(16)};
+    line-height: ${unitParser(16)};
     position: relative;
     
     > a {
       position: relative;
       z-index: 1;
-      font-size: 16px;
-      line-height: 16px;
+      font-size: ${unitParser(16)};
+      line-height: ${unitParser(16)};
       font-weight: 500;
     }
   `}
@@ -43,7 +44,7 @@ export const Wrapper = styled(
       content: '';
       background: linear-gradient(106.15deg, #ebeded 0%, #dee0e0 100%);
       position: absolute;
-      top: 40px;
+      bottom: -30px;
       left: 0;
       height: 30px;
       width: 100%;

@@ -9,6 +9,7 @@ import * as actions from './action';
 import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink } from '../../utils';
 import { StyledWrapper } from '../../globalStyles/common';
 import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 // import Input from '../../components/Input';
 import Message from '../../components/Message';
 import PhotoImg from '../../components/PhotoImg';
@@ -201,23 +202,27 @@ const Wrapper = styled(StyledWrapper)`
     }
   }
   ${media.mobile`
-    padding: 20px 12px;
+    padding: ${unitParser(20)} ${unitParser(12)};
+    pre {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
+    }
     .head > h1 {
-      font-size: 24px;
-      line-height: 24px;
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
       font-weight: 600;
     }
     .subject {
-      font-size: 16px;
-      line-height: 16px;
-      margin: 40px 0 12px 0;
+      font-size: ${unitParser(16)};
+      line-height: ${unitParser(16)};
+      margin: ${unitParser(40)} 0 ${unitParser(12)} 0;
       font-weight: bold;
     }
     .miltstone-wrap {
-      padding-top: 8px;
+      padding-top: ${unitParser(8)};
     }
     .solution-head-list {
-      margin-top: 18px;
+      margin-top: ${unitParser(18)};
       .solution-head-content {
         display: flex;
         justify-content: center;
@@ -230,18 +235,28 @@ const Wrapper = styled(StyledWrapper)`
           margin-bottom: 0;
           flex-direction: column-reverse;
           .solution-user-name {
+            margin-top: 3px;
+            font-size: ${unitParser(14)};
+            line-height: ${unitParser(14)}
             text-align: center;
           }
           .solution-user-cfx {
-            font-size: 16px;
-            line-height: 16px;
-            padding: 7px 16px;
+            font-size: ${unitParser(16)};
+            line-height: ${unitParser(16)};
+            padding: ${unitParser(7)} ${unitParser(16)};
           }
         }
       }
     }
     .solution-dots {
-      margin-top: 45px;
+      margin-top: ${unitParser(45)};
+    }
+    .head-right {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
+      button {
+        margin-right: ${unitParser(20)};
+      }
     }
   `}
 `;

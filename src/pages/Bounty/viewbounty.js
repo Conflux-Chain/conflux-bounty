@@ -20,6 +20,7 @@ import ViewSolution from '../Solution/viewsolution';
 import sortImg from '../../assets/iconfont/sort.svg';
 import Tooltip from '../../components/Tooltip';
 import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -92,9 +93,10 @@ const Wrapper = styled(StyledWrapper)`
     margin-left: -5px;
   }
   .submission-sort-item {
-    color: #8E9394;
+    color: #8e9394;
     cursor: pointer;
-    > span, > img {
+    > span,
+    > img {
       vertical-align: middle;
     }
     > img {
@@ -117,7 +119,7 @@ const Wrapper = styled(StyledWrapper)`
   }
   .solution-item-desc {
     padding-left: 8px;
-    color: #595F61;
+    color: #595f61;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -133,7 +135,7 @@ const Wrapper = styled(StyledWrapper)`
     height: 54px;
     display: flex;
     align-items: center;
-    color: #8E9394;
+    color: #8e9394;
     > a {
       color: #22b2d6;
       > i {
@@ -148,7 +150,7 @@ const Wrapper = styled(StyledWrapper)`
     width: 85px;
     > span {
       vertical-align: middle;
-      color: #595F61;
+      color: #595f61;
       max-width: 50px;
       display: inline-block;
       text-overflow: ellipsis;
@@ -167,13 +169,13 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 20px;
     padding-top: 3px;
     padding-bottom: 3px;
-   :hover {
-      background: #EBEDED;
+    :hover {
+      background: #ebeded;
       border-radius: 4px;
-   }
-   > span {
-     width: 100%;
-   }
+    }
+    > span {
+      width: 100%;
+    }
   }
   .solution-item:last-of-type {
     border-bottom: 1px solid #ebeded;
@@ -218,20 +220,20 @@ const Wrapper = styled(StyledWrapper)`
   }
   .comment-input-wrap {
     display: flex;
-    border: 1px solid #BFC5C7;
+    border: 1px solid #bfc5c7;
     border-radius: 4px;
     margin-left: 12px;
     flex: 1;
     input {
       border: none;
-      border-right: 1px solid #BFC5C7;
+      border-right: 1px solid #bfc5c7;
       margin-bottom: 0;
     }
     button {
       width: 100px;
       font-size: 14px;
       padding-left: 10px;
-      padding-right: 10px
+      padding-right: 10px;
     }
   }
   .img-wrap {
@@ -244,7 +246,7 @@ const Wrapper = styled(StyledWrapper)`
     color: #8e9394;
   }
   .comment-item:first-of-type {
-    margin-top: 20px;j
+    margin-top: 20px;
   }
   .comment-item {
     display: flex;
@@ -268,19 +270,33 @@ const Wrapper = styled(StyledWrapper)`
   }
 
   ${media.mobile`
-    padding: 20px 12px;
+    padding: ${unitParser(20)} ${unitParser(12)};
     h1 {
-      font-size: 24px;
-      line-height: 24px;
-      margin-bottom: 20px;
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
+      margin-bottom: ${unitParser(20)};
     }
     .bounty-category {
-      padding-top: 20px;
+      padding-top: ${unitParser(20)};
+    }
+    .bounty-status {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
     }
     .reward {
-      margin: 12px 0;
+      margin: ${unitParser(12)} 0;
+      font-size: ${unitParser(20)};
+      line-height: ${unitParser(20)};
       color: #22B2D6;
       font-weight: 500;
+    }
+    .reward-rule {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
+    }
+    .reward-info-line {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
     }
     .attachment-line img {
       width: 100%;
@@ -291,17 +307,17 @@ const Wrapper = styled(StyledWrapper)`
         display: none;
       }
       .submission-sort-mobile-wrapper {
-        height: 14px;
+        height: ${unitParser(14)};
         color: #8E9394;
-        font-size: 14px;
-        line-height: 14px;
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
         display: flex;
         align-items: center;
         justify-content: space-between;
 
         > button {
-          font-size: 14px;
-          line-height: 14px;
+          font-size: ${unitParser(14)};
+          line-height: ${unitParser(14)};
           display: flex;
           align-items: center;
           color: #8E9394;
@@ -309,13 +325,19 @@ const Wrapper = styled(StyledWrapper)`
           > .caret {
             fill: #8E9394;
             right: 0;
-            top: 10px;
+            top: ${unitParser(10)};
           }
         }
       }
     }
+    .desc {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
+    }
     .solution-item {
       justify-content: space-between;
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
       .solution-item-left {
         flex-grow: 1;
         max-width: 200px;
@@ -327,7 +349,10 @@ const Wrapper = styled(StyledWrapper)`
         display: none;
       }
       > a {
-        margin-left: 10px;
+        margin-left: ${unitParser(10)};
+        > i {
+          font-size: ${unitParser(16)};
+        }
       }
     }
     .solution-bottom {
@@ -336,8 +361,10 @@ const Wrapper = styled(StyledWrapper)`
       button {
         padding: 0;
         margin: 0;
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
         &:first-of-type {
-          margin-right: 20px;
+          margin-right: ${unitParser(20)};
           .material-icons.like {
             color: #F09C3A;
             & ~ span {
@@ -355,6 +382,10 @@ const Wrapper = styled(StyledWrapper)`
       > a.btn {
         width: 100%;
         margin-top: 40px;
+        font-size: ${unitParser(16)};
+        line-height: ${unitParser(16)};
+        padding: 14px 0;
+        height: auto;
       }
     }
     .comment-header {
@@ -367,19 +398,23 @@ const Wrapper = styled(StyledWrapper)`
       }
       .comment-total {
         display: block;
-        font-size: 14px;
-        line-height: 14px;
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
         color: #8E9394;
       }
     }
     .comment-send {
       flex-wrap: wrap;
       justify-content: flex-end;
+      .withimg {
+        width: ${unitParser(44)};
+        height: ${unitParser(44)};
+      }
       .comment-input-wrap {
         flex: 1 0 80%;
         > input {
-          font-size: 14px;
-          line-height: 14px;
+          font-size: ${unitParser(14)};
+          line-height: ${unitParser(14)};
           border-right: 0;
         }
         .comment-btn {
@@ -388,11 +423,26 @@ const Wrapper = styled(StyledWrapper)`
       }
       > .comment-btn {
         display: block;
-        font-size: 14px;
-        line-height: 14px;
-        height: 14px;
-        margin-top: 12px;
-        padding: 0 0 0 16px;
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+        height: ${unitParser(14)};
+        margin-top: ${unitParser(12)};
+        padding: 0 0 0 ${unitParser(16)};
+      }
+    }
+    .comment-item {
+      .withimg {
+        width: ${unitParser(44)};
+        height: ${unitParser(44)};
+      }
+      .comment-msg {
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+        padding: ${unitParser(15)};
+        .comment-time {
+          font-size: ${unitParser(12)};
+          line-height: ${unitParser(12)};
+        }
       }
     }
   `}
@@ -422,6 +472,19 @@ const RewardDiv = styled.div`
       margin-right: 3px;
     }
   }
+  ${media.mobile`
+    .line1 {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
+    }
+    .line2 {
+      font-size: ${unitParser(16)};
+      .fcBig {
+        font-size: ${unitParser(24)};
+        line-height: ${unitParser(24)};
+      }
+    }
+  `}
 `;
 
 // eslint-disable-next-line react/prefer-stateless-function
