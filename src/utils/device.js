@@ -31,7 +31,7 @@ export default function unitParser(unit) {
   if (type === 'number') {
     myUnit += 'dp';
   }
-  const regExp = /^([\d.]+)(px|dp)?$/g;
+  const regExp = /^-?([\d.]+)(px|dp)?$/g;
   return myUnit.replace(regExp, (chars, count, suffix) => {
     let myCount = Number(count);
     switch (suffix) {
@@ -48,6 +48,6 @@ export default function unitParser(unit) {
     if (!allowMiniPixel() && myCount < 1) {
       myCount = 1;
     }
-    return `${myCount}px`;
+    return `${chars.startsWith('-') ? '-' : ''}${myCount}px`;
   });
 }

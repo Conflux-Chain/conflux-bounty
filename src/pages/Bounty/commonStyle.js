@@ -169,12 +169,20 @@ export const LikeAndShare = styled.div`
 export const MyBounSolunDiv = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
+  ${media.mobile`
+padding: ${unitParser(20)} ${unitParser(12)}
+`}
   h1 {
     font-size: 32px;
     line-height: 32px;
     margin: 0;
     margin-bottom: 40px;
     font-weight: 500;
+    ${media.mobile`
+line-height: ${unitParser('24')};
+font-size: ${unitParser('24')};
+margin-bottom: ${unitParser('20')};
+`}
   }
 
   .item-link {
@@ -186,6 +194,11 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
     a > span {
       vertical-align: middle;
     }
+    ${media.mobile`
+position: unset;
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
   }
   .item-link.disabled {
     cursor: default;
@@ -194,6 +207,9 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
   .item-head {
     display: flex;
     justify-content: space-between;
+    ${media.mobile`
+align-items: center;
+`}
   }
   .item-content {
     padding-right: 100px;
@@ -212,15 +228,27 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
       margin-bottom: 4px;
       color: #171d1f;
       font-weight: 500;
+      ${media.mobile`
+font-size: ${unitParser(14)}
+line-height: ${unitParser(14)}
+`}
     }
     .item-status {
       color: #595f61;
       font-size: 14px;
+      ${media.mobile`
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
     }
     .item-gray {
       color: #8e9394;
       font-size: 14px;
       margin-right: 12px;
+      ${media.mobile`
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
     }
     .reject-tips {
       margin-top: 8px;
@@ -252,11 +280,15 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
       flex: 1;
     }
   }
+  .my-bounty-item:nth-child(1) {
+    border-top: none;
+  }
   .my-bounty-item:last-of-type {
     border-bottom: 1px solid #ebeded;
   }
   .show-more {
     text-align: center;
     margin-top: 40px;
+    ${media.mobile`margin-top: ${unitParser(20)};`}
   }
 `;

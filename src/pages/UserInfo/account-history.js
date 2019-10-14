@@ -8,9 +8,9 @@ import * as actions from './action';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import * as s2 from './commonStyle';
-import noResult from '../../assets/images/icon-no-results.png';
 import { auth, commonPropTypes, getStatus, i18nTxt } from '../../utils';
 import BountyDeletedWarning from '../../components/BountyDeletedWarning';
+import NoResult from '../../components/NoResult';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -61,22 +61,6 @@ const Wrapper = styled(StyledWrapper)`
     i {
       vertical-align: middle;
     }
-  }
-`;
-
-const NoResult = styled.div`
-  display: block;
-  text-align: center;
-  margin-top: 40px;
-  > img {
-    width: 80px;
-    margin: 0 auto;
-    display: block;
-  }
-  img + div {
-    margin-top: 20px;
-    color: rgb(142, 147, 148);
-    margin-bottom: 20px;
   }
 `;
 
@@ -207,6 +191,7 @@ class AccountHistory extends Component {
                 })}
               </tbody>
             </table>
+            {accountHistory.rewards.total === 0 && <NoResult marginTop={40} />}
             <div
               style={{
                 display: accountHistory.rewards.total > accountHistory.rewards.list.length ? 'block' : 'none',
@@ -223,13 +208,6 @@ class AccountHistory extends Component {
                 {i18nTxt('SHOW MORE')}
               </button>
             </div>
-
-            {accountHistory.rewards.total === 0 && (
-              <NoResult>
-                <img src={noResult} alt="noresult" />
-                <div>{i18nTxt('No data available')}</div>
-              </NoResult>
-            )}
           </div>
 
           <div
@@ -281,6 +259,7 @@ class AccountHistory extends Component {
               </tbody>
             </table>
 
+            {accountHistory.withdraws.total === 0 && <NoResult marginTop={40} />}
             <div
               className="show-more"
               style={{
@@ -297,12 +276,6 @@ class AccountHistory extends Component {
                 {i18nTxt('SHOW MORE')}
               </button>
             </div>
-            {accountHistory.withdraws.total === 0 && (
-              <NoResult>
-                <img src={noResult} alt="noresult" />
-                <div>{i18nTxt('No data available')}</div>
-              </NoResult>
-            )}
           </div>
 
           <div
@@ -330,6 +303,7 @@ class AccountHistory extends Component {
               </tbody>
             </table>
 
+            {accountHistory.orders.total === 0 && <NoResult marginTop={40} />}
             <div
               className="show-more"
               style={{
@@ -346,12 +320,6 @@ class AccountHistory extends Component {
                 {i18nTxt('SHOW MORE')}
               </button>
             </div>
-            {accountHistory.orders.total === 0 && (
-              <NoResult>
-                <img src={noResult} alt="noresult" />
-                <div>{i18nTxt('No data available')}</div>
-              </NoResult>
-            )}
           </div>
         </Wrapper>
       </React.Fragment>
