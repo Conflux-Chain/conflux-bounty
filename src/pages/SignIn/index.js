@@ -68,6 +68,23 @@ class SignIn extends Component {
       rememberUsernameChecked,
     } = this.state;
 
+    if (!email) {
+      notice.show({
+        content: i18nTxt('Please enter email Address'),
+        type: 'message-important-light',
+        timeout: 3000,
+      });
+      return;
+    }
+    if (!password) {
+      notice.show({
+        content: i18nTxt('Please enter password'),
+        type: 'message-important-light',
+        timeout: 3000,
+      });
+      return;
+    }
+
     const {
       body: { code, result },
     } = await sendRequest({
