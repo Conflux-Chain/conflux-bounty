@@ -16,6 +16,7 @@ import Password from '../../components/Password';
 import SignInVia from '../../components/SignInVia';
 import { i18nTxt } from '../../utils';
 import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 class ResetPassword extends Component {
   state = { email: '', password: '', emailCode: '' };
@@ -121,14 +122,15 @@ export default ResetPassword;
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   ${media.mobile`
-    padding: 20px 12px;
+    padding: ${unitParser(20)} ${unitParser(12)};
   `}
   .title {
     font-size: 32px;
     line-height: 32px;
+    font-weight: 600;
     ${media.mobile`
-      font-size: 24px;
-      line-height: 24px;
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
     `}
   }
   .form-wrap {
