@@ -26,7 +26,7 @@ function ConfirmPurchaseModal({ onConfirm, userEmail, onClose }) {
   let password;
   let emailCode;
   return (
-    <Modal show showOverlay>
+    <Modal show showOverlay mobilePosBottom>
       <Confirm>
         <div>
           <h4>{i18nTxt('Confirm Payment')}</h4>
