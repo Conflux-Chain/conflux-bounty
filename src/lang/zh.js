@@ -425,4 +425,9 @@ export default {
   'invalid recaptcha response parameter': 'recaptcha 返回结果参数不正确',
   'invalid recaptcha request': '验证码异常',
   'recaptcha check timeout, please reload page': '验证码交易超时，请刷新页面',
+  unlimit: '无限',
+  'Token expired. Please login again.': '登录信息已过期，请重新登录',
+  'Comment should not be empty': '评论不能为空',
+  'Please enter email Address': '请输入邮箱地址',
+  'Please enter password': '请输入密码',
 };

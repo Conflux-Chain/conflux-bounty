@@ -14,7 +14,7 @@ import { getCategory } from '../../utils/api';
 import { updateShare as updateShareAction } from '../../components/Share/action';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
-import { BOUNTY_STATUS_ENUM } from '../../constants';
+import { BOUNTY_STATUS_ENUM, REGEX } from '../../constants';
 import ViewSolution from '../Solution/viewsolution';
 import sortImg from '../../assets/iconfont/sort.svg';
 import Tooltip from '../../components/Tooltip';
@@ -390,7 +390,7 @@ class ViewBounty extends Component {
             )}
             <div className="reward-info-line">
               {i18nTxt('Up to <%=restrictNumber%> submission per participant. ', {
-                restrictNumber: viewBounty.restrictNumber === null ? '无限' : viewBounty.restrictNumber,
+                restrictNumber: viewBounty.restrictNumber === null ? i18nTxt('unlimit') : viewBounty.restrictNumber,
               })}
             </div>
             {viewBounty.milestoneLimit !== 0 && <div className="reward-info-line">{i18nTxt('Submission have Milestones.')}</div>}
@@ -565,6 +565,15 @@ class ViewBounty extends Component {
                       notice.show({
                         type: 'message-notice',
                         content: i18nTxt('please login first'),
+                        timeout: 3 * 1000,
+                      });
+                      return;
+                    }
+                    const val = viewBounty.commentText;
+                    if (!val || REGEX.CHECK_BLANK.test(val)) {
+                      notice.show({
+                        type: 'message-important-light',
+                        content: i18nTxt('Comment should not be empty'),
                         timeout: 3 * 1000,
                       });
                       return;

@@ -311,10 +311,7 @@ SignUp.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {
-    common: { lang },
-  } = state;
-  return { lang };
+  return { lang: state.head.user.language };
 }
 
 export default connect(mapStateToProps)(SignUp);

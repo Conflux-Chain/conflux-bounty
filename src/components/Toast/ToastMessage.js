@@ -50,7 +50,7 @@ const Wrap = styled.div`
   &.toast-info {
     color: #fff;
     border-color: #28a745;
-    background: rgb(153, 153, 153, 0.9);
+    background-color: rgba(153, 153, 153, 0.9);
     > .toast-icon {
       font-size: 46px;
     }

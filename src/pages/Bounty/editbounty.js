@@ -13,7 +13,7 @@ import ConfirmComp from '../../components/Modal/confirm';
 import { getCategory } from '../../utils/api';
 import unitParser, { isMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
-import { i18nTxt, auth, commonPropTypes, getStatus, downLink, i18nTxtAsync } from '../../utils/index';
+import { i18nTxt, auth, commonPropTypes, getStatus, downLink, showLink, i18nTxtAsync } from '../../utils/index';
 import { BOUNTY_STATUS_ENUM } from '../../constants';
 
 const Wrapper = styled(StyledWrapper)`
@@ -282,48 +282,48 @@ class EditBounty extends Component {
           }}
         />
         {editState.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editState.descriptionErrMsg)}></span>}
-        <div className="attachment">
-          <s.AttachmentDiv>
-            {editState.attachmentList.map(v => {
-              const removeFile = () => {
-                const attachmentListCopy = editState.attachmentList.slice();
-                const curIndex = attachmentListCopy.indexOf(v);
-                attachmentListCopy.splice(curIndex, 1);
+        <div className="clearfix">
+          <div style={{ float: 'right' }}>
+            <s.ExampleDiv
+              role="button"
+              onClick={() => {
                 updateEdit({
-                  attachmentList: attachmentListCopy,
+                  descExampleShow: true,
                 });
-              };
-              return (
-                <div className="attachment-line">
-                  {downLink(v.url, v.title)}
-                  <button className="material-icons dp48" onClick={removeFile} type="button">
-                    cancel
-                  </button>
-                </div>
-              );
-            })}
-            <label className="add-attachment" htmlFor="bounty-add-attachment">
-              <i className="material-icons">add</i>
-              <span>{i18nTxt('Attachments')}</span>
-              {isMobile() ? (
-                <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
-              ) : (
-                <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
-              )}
-            </label>
-          </s.AttachmentDiv>
+              }}
+            >
+              <i className="example" />
+              <span>{i18nTxt('Bounty Example')}</span>
+            </s.ExampleDiv>
+          </div>
 
-          <s.ExampleDiv
-            role="button"
-            onClick={() => {
-              updateEdit({
-                descExampleShow: true,
-              });
-            }}
-          >
-            <i className="example" />
-            <span>{i18nTxt('Bounty Example')}</span>
-          </s.ExampleDiv>
+          <div style={{ float: 'left', marginBottom: 20 }}>
+            <s.AttachmentDiv>
+              {editState.attachmentList.map(v => {
+                const removeFile = () => {
+                  const attachmentListCopy = editState.attachmentList.slice();
+                  const curIndex = attachmentListCopy.indexOf(v);
+                  attachmentListCopy.splice(curIndex, 1);
+                  updateEdit({
+                    attachmentList: attachmentListCopy,
+                  });
+                };
+                return (
+                  <div className="attachment-line">
+                    {isMobile() ? showLink(v.url, v.title) : downLink(v.url, v.title)}
+                    <button className="material-icons dp48" onClick={removeFile} type="button">
+                      cancel
+                    </button>
+                  </div>
+                );
+              })}
+              <label className="add-attachment" htmlFor="bounty-add-attachment">
+                <i className="material-icons">add</i>
+                <span>{i18nTxt('Attachments')}</span>
+                <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
+              </label>
+            </s.AttachmentDiv>
+          </div>
         </div>
         <div className="subject">{i18nTxt('Private message')}:</div>
         <textarea

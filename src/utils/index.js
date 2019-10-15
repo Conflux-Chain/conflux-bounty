@@ -16,7 +16,7 @@ import { ALI_OSS_KEYS, UPDATE_HEAD, UPDATE_UNREAD_MESSAGE_COUNT } from '../const
 import { reqAccountQuery, reqMessageCount } from './api';
 import { i18nTxt, i18nTxtAsync } from './i18n';
 
-import { isMobile } from './device';
+import unitParser from './device';
 
 export { compose } from 'redux';
 export { i18nTxt, i18nTxtAsync };
@@ -640,29 +640,85 @@ export function downLink(url, title) {
   let target = '';
   if (url && isImgLike(url)) {
     target = '_blank';
-    if (!isMobile()) {
-      return (
-        <span>
-          <img
-            alt={title}
-            src={url}
-            style={{
-              maxWidth: '100%',
-              marginTop: 10,
-            }}
-          />
-          <br />
-          <a href={url} download target={target}>
-            {title}
-          </a>
-        </span>
-      );
-    }
+    return (
+      <span>
+        <img
+          alt={title}
+          src={url}
+          style={{
+            maxWidth: '100%',
+            marginTop: 10,
+          }}
+        />
+        <br />
+        <a href={url} download target={target}>
+          {title}
+        </a>
+      </span>
+    );
   }
   return (
     <a href={url} download target={target}>
       {title}
     </a>
+  );
+}
+
+export function showLink(url, title) {
+  let target = '';
+  if (url && isImgLike(url)) {
+    target = '_blank';
+    return (
+      <span>
+        <img
+          alt={title}
+          src={url}
+          style={{
+            width: '100%',
+          }}
+        />
+        <br />
+        <a
+          href={url}
+          target={target}
+          style={{
+            fontSize: `${unitParser(16)}`,
+          }}
+        >
+          {title}
+        </a>
+      </span>
+    );
+  }
+  return (
+    <span>
+      <i
+        className="icon-attachment-file-icon"
+        style={{
+          display: 'inline-block',
+          width: `${unitParser(46)}`,
+          height: `${unitParser(46)}`,
+          backgroundColor: '#22B2D6',
+          borderRadius: '4px',
+          textAlign: 'center',
+          lineHeight: `${unitParser(46)}`,
+          color: '#fff',
+          fontSize: `${unitParser(24)}`,
+          verticalAlign: 'middle',
+          marginRight: '8px',
+        }}
+      ></i>
+      <a
+        href={url}
+        target={target}
+        style={{
+          verticalAlign: 'middle',
+          fontSize: `${unitParser(16)}`,
+        }}
+      >
+        {title}
+      </a>
+    </span>
   );
 }
 

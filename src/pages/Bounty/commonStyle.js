@@ -34,6 +34,15 @@ export const H2 = styled.div`
 export const AttachmentDiv = styled.div`
   .attachment-line {
     color: #595f61;
+    ${media.mobile`
+      &:nth-child(1){
+        margin-top: ${unitParser(15)};
+      }
+      margin-bottom: ${unitParser(20)};
+      &:nth-last-of-type(1){
+        margin-bottom: ${unitParser(10)};
+      }
+    `}
   }
   .attachment-line a {
     cursor: pointer;
@@ -81,7 +90,18 @@ export const AttachmentDiv = styled.div`
       display: none;
     }
     ${media.mobile`
-      font-size: ${unitParser(14)};
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: ${unitParser(16)};
+      width: calc(100vw - 24px);
+      height: ${unitParser(44)};
+      border: ${unitParser(1)} solid #ccc;
+      border-radius: 4px;
+      margin-top: 10px;
+      :hover{
+        border-bottom: ${unitParser(1)} solid #ccc;
+      }
     `}
   }
 `;
@@ -96,6 +116,7 @@ export const ExampleDiv = styled.div`
     vertical-align: middle;
   }
   ${media.mobile`
+    margin-top: 10px;
     font-size: ${unitParser(14)};
   `}
 `;
@@ -112,12 +133,12 @@ export const SubmitDiv = styled.div`
     margin-top: 9px;
   }
   ${media.mobile`
-    margin-top: ${unitParser('40dp')};
+    margin-top: ${unitParser(40)};
     .btn {
       width: 100%;
-      height: ${unitParser('44dp')};
-      line-height: ${unitParser('44dp')};
-      font-size: ${unitParser('16dp')};
+      height: ${unitParser(44)};
+      line-height: ${unitParser(44)};
+      font-size: ${unitParser(44)};
     }
   `}
 `;
