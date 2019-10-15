@@ -11,7 +11,7 @@ import * as s from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink, renderAny } from '../../utils';
 import { getCategory } from '../../utils/api';
-import { updateShare as updateShareAction } from '../../components/Share/action';
+import { updateShare } from '../../components/Share/action';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM, REGEX } from '../../constants';
@@ -307,7 +307,8 @@ class ViewBounty extends Component {
   }
 
   render() {
-    const { updateShare, viewBounty, sendLike, updateView, sendComment, getCommentList, getSolutionList, user, history } = this.props;
+    const { props } = this;
+    const { viewBounty, sendLike, updateView, sendComment, getCommentList, getSolutionList, user, history } = this.props;
 
     return (
       <React.Fragment>
@@ -503,7 +504,7 @@ class ViewBounty extends Component {
               <button
                 type="button"
                 onClick={() => {
-                  updateShare({
+                  props.updateShare({
                     show: true,
                     qrTxt: window.location.href,
                   });
@@ -635,7 +636,6 @@ class ViewBounty extends Component {
 
 const { func } = PropTypes;
 ViewBounty.propTypes = {
-  updateShare: func.isRequired,
   updateView: func.isRequired,
   getBountyView: func.isRequired,
   viewBounty: PropTypes.objectOf({
@@ -651,6 +651,7 @@ ViewBounty.propTypes = {
     id: PropTypes.string,
   }).isRequired,
   history: commonPropTypes.history.isRequired,
+  updateShare: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -666,6 +667,6 @@ export default connect(
   {
     ...actions,
     getCategory,
-    updateShare: updateShareAction,
+    updateShare,
   }
 )(ViewBounty);

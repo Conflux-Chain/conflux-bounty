@@ -12,7 +12,7 @@ import ConfirmComp from '../../components/Modal/confirm';
 import * as s from '../Bounty/commonStyle';
 import * as s1 from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
-import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, renderAny } from '../../utils';
+import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, showLink, renderAny } from '../../utils';
 import { SOLUTION_STATUS_ENUM } from '../../constants';
 
 import unitParser, { isMobile } from '../../utils/device';
@@ -95,6 +95,7 @@ const Wrapper = styled(StyledWrapper)`
     textarea {
       padding: ${unitParser('15dp')} ${unitParser('8dp')};
       font-size: ${unitParser('14dp')};
+      margin-bottom: 0;
     }
     .add-step .btn {
       font-size: ${unitParser(16)};
@@ -204,47 +205,50 @@ class EditSolution extends Component {
           />
           {editSolution.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editSolution.descriptionErrMsg)}></span>}
 
-          <div className="attachment">
-            <s.AttachmentDiv>
-              {editSolution.attachmentList.map(v => {
-                const removeFile = () => {
-                  const attachmentListCopy = editSolution.attachmentList.slice();
-                  const curIndex = attachmentListCopy.indexOf(v);
-                  attachmentListCopy.splice(curIndex, 1);
+          <div className="clearfix">
+            <div style={{ float: 'right' }}>
+              <s.ExampleDiv
+                onClick={() => {
                   updateEdit({
-                    attachmentList: attachmentListCopy,
+                    showExample: true,
                   });
-                };
-                return (
-                  <div className="attachment-line">
-                    {downLink(v.url, v.title)}
-                    <button className="material-icons dp48" onClick={removeFile} type="button">
-                      cancel
-                    </button>
-                  </div>
-                );
-              })}
-              <label className="add-attachment" htmlFor="bounty-add-attachment">
-                <i className="material-icons">add</i>
-                <span>{i18nTxt('Attachments')}</span>
-                {isMobile() ? (
-                  <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
-                ) : (
-                  <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
-                )}
-              </label>
-            </s.AttachmentDiv>
-
-            <s.ExampleDiv
-              onClick={() => {
-                updateEdit({
-                  showExample: true,
-                });
-              }}
-            >
-              <i className="example" />
-              <span>{i18nTxt('EXAMPLE')}</span>
-            </s.ExampleDiv>
+                }}
+              >
+                <i className="example" />
+                <span>{i18nTxt('EXAMPLE')}</span>
+              </s.ExampleDiv>
+            </div>
+            <div style={{ float: 'left', marginBottom: 20 }}>
+              <s.AttachmentDiv>
+                {editSolution.attachmentList.map(v => {
+                  const removeFile = () => {
+                    const attachmentListCopy = editSolution.attachmentList.slice();
+                    const curIndex = attachmentListCopy.indexOf(v);
+                    attachmentListCopy.splice(curIndex, 1);
+                    updateEdit({
+                      attachmentList: attachmentListCopy,
+                    });
+                  };
+                  return (
+                    <div className="attachment-line">
+                      {isMobile() ? showLink(v.url, v.title) : downLink(v.url, v.title)}
+                      <button className="material-icons dp48" onClick={removeFile} type="button">
+                        cancel
+                      </button>
+                    </div>
+                  );
+                })}
+                <label className="add-attachment" htmlFor="bounty-add-attachment">
+                  <i className="material-icons">add</i>
+                  <span>{i18nTxt('Attachments')}</span>
+                  {isMobile() ? (
+                    <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
+                  ) : (
+                    <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
+                  )}
+                </label>
+              </s.AttachmentDiv>
+            </div>
           </div>
 
           {renderAny(() => {
