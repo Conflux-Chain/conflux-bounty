@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Tooltip from '../Tooltip';
 import { i18nTxt } from '../../utils';
+import media from '../../globalStyles/media';
 
 const ItemWarning = styled.span`
   margin-left: 10px;
@@ -9,6 +10,9 @@ const ItemWarning = styled.span`
     font-size: 18px;
     color: rgb(240, 69, 58);
   }
+  ${media.mobile`
+margin-left: 0;
+`}
 `;
 
 export default function BountyDeletedWarning() {

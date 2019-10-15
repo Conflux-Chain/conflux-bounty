@@ -36,6 +36,7 @@ line-height: ${unitParser(54)};
     color: #333333;
     &.tab-item-active {
       border-bottom: 2px solid #22b2d6;
+      color: #22b2d6;
     }
   }
 `;
