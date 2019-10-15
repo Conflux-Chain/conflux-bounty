@@ -165,6 +165,11 @@ export const LikeAndShare = styled.div`
     .material-icons {
       font-size: 20px;
     }
+    ${media.mobile`
+margin-right: 0;
+font-size: ${unitParser(14)};
+line-height: ${unitParser(14)};
+`}
   }
 `;
 
