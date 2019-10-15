@@ -85,6 +85,9 @@ const Wrapper = styled(StyledWrapper)`
       line-height: ${unitParser(14)};
     }
   }
+  .submit-for-review-btn {
+    width: 100%;
+  }
 `}
 `;
 
@@ -245,7 +248,7 @@ function UpdateProgress({
                           onClick={() => {
                             submitMileStone({ milestoneId: milest.id });
                           }}
-                          className="btn waves-effect waves-light primary"
+                          className="btn waves-effect waves-light primary submit-for-review-btn"
                           type="button"
                         >
                           {i18nTxt('SUBMIT FOR REVIEW')}
