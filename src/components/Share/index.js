@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../Modal';
 import * as actions from './action';
-import { i18nTxt } from '../../utils';
+import { i18nTxt, compose, commonPropTypes } from '../../utils';
 
 const Canvas = styled.canvas`
   display: block;
@@ -14,7 +15,7 @@ const Canvas = styled.canvas`
 `;
 const Wrap = styled.div`
   /* stylelint-disable font-family-no-missing-generic-family-keyword */
-  background: rgb(51, 51, 51, 0.9);
+  background-color: rgba(51, 51, 51, 0.9);
   border-radius: 12px;
   width: 300px;
   padding-bottom: 40px;
@@ -53,6 +54,14 @@ class Share extends Component {
         show: false,
       });
     };
+
+    const { history } = this.props;
+    history.listen(() => {
+      const { show } = this.props;
+      if (show) {
+        this.onClose();
+      }
+    });
   }
 
   componentDidUpdate() {
@@ -96,6 +105,7 @@ Share.propTypes = {
   show: PropTypes.bool.isRequired,
   update: PropTypes.func.isRequired,
   qrTxt: PropTypes.string,
+  history: commonPropTypes.history.isRequired,
 };
 Share.defaultProps = {
   qrTxt: '',
@@ -105,7 +115,12 @@ function mapStateToProps(state) {
   return state.frameworks.share;
 }
 
-export default connect(
-  mapStateToProps,
-  actions
-)(Share);
+const enhance = compose(
+  withRouter,
+  connect(
+    mapStateToProps,
+    actions
+  )
+);
+
+export default enhance(Share);

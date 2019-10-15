@@ -165,7 +165,7 @@ class MySolution extends Component {
               );
             })}
           </div>
-          <NoResult marginTop={40} />
+          {mySolution.total === 0 && <NoResult marginTop={40} />}
           <div className="show-more">
             <button
               onClick={() => {

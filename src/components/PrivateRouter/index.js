@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import { notice, auth } from '../../utils';
+import { notice, auth, i18nTxt } from '../../utils';
 
 const PrivateRoute = ({ component: Component, render, ...rest }) => {
   const isLoggedIn = auth.loggedIn();
-  if (!isLoggedIn) notice.show({ content: 'Token expired. Please login again.', type: 'message-important-light', timeout: 3000 });
+  if (!isLoggedIn) notice.show({ content: i18nTxt('Token expired. Please login again.'), type: 'message-important-light', timeout: 3000 });
   return (
     <Route
       {...rest}

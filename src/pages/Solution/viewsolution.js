@@ -26,6 +26,7 @@ import Tooltip from '../../components/Tooltip';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
+  padding: 40px;
   .head {
     display: flex;
     align-items: center;
@@ -35,45 +36,6 @@ const Wrapper = styled(StyledWrapper)`
       color: #171d1f;
       margin: 0;
       padding: 0;
-    }
-  }
-  .translate-btn {
-    position: relative;
-    cursor: pointer;
-    width: 150px;
-    background: #fff;
-    z-index: 2;
-    border: 1px solid #d7dddf;
-    box-sizing: border-box;
-    border-radius: 18px;
-    height: 36px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    > span {
-      font-size: 16px;
-      margin-left: 8px;
-      color: #22b2d6;
-    }
-    > i {
-      color: #22b2d6;
-      font-size: 16px;
-    }
-  }
-  .translate-sep {
-    display: flex;
-    align-items: center;
-    > span {
-      color: #a770ee;
-      margin-right: 10px;
-    }
-    > i {
-      flex: 1;
-      height: 2px;
-      background: url(${dashedback});
-      background-size: cover;
-      background-repeat: repeat-x;
     }
   }
   .solution-head-list {
@@ -178,7 +140,7 @@ const Wrapper = styled(StyledWrapper)`
     padding-left: 12px;
     padding-right: 12px;
     font-weight: bold;
-    align-items: center;
+    align-item: center;
   }
 
   .trans-line {
@@ -191,6 +153,45 @@ const Wrapper = styled(StyledWrapper)`
     background: #d7dddf;
     position: absolute;
     top: 50%;
+  }
+  .translate-btn {
+    position: relative;
+    cursor: pointer;
+    width: 150px;
+    background: #fff;
+    z-index: 2;
+    border: 1px solid #d7dddf;
+    box-sizing: border-box;
+    border-radius: 18px;
+    height: 36px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > span {
+      font-size: 16px;
+      margin-left: 8px;
+      color: #22b2d6;
+    }
+    > i {
+      color: #22b2d6;
+      font-size: 16px;
+    }
+  }
+  .translate-sep {
+    display: flex;
+    align-items: center;
+    > span {
+      color: #a770ee;
+      margin-right: 10px;
+    }
+    > i {
+      flex: 1;
+      height: 2px;
+      background: url(${dashedback});
+      background-size: cover;
+      background-repeat: repeat-x;
+    }
   }
 `;
 
@@ -234,6 +235,7 @@ const EditNotePanel = styled.div`
   > .close {
     position: absolute;
     color: #8e9394;
+    font-weight: 500;
     top: 23px;
     right: 10px;
     font-style: normal;
@@ -775,6 +777,7 @@ class ViewSolution extends Component {
 }
 ViewSolution.propTypes = {
   sendLike: PropTypes.func.isRequired,
+  updateShare: PropTypes.func.isRequired,
   history: commonPropTypes.history.isRequired,
   getSolutionView: PropTypes.func.isRequired,
   submissionId: PropTypes.string.isRequired,
@@ -795,13 +798,12 @@ ViewSolution.propTypes = {
   insideBounty: PropTypes.bool,
   from: PropTypes.string.isRequired,
   headDiv: PropTypes.element,
-  updateShare: PropTypes.func.isRequired,
 };
 
 ViewSolution.defaultProps = {
   renderReward: () => {},
   insideBounty: false,
-  headDiv: undefined,
+  headDiv: null,
 };
 
 function mapStateToProps(state) {
