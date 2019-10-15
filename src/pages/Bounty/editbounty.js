@@ -215,6 +215,19 @@ class EditBounty extends Component {
         {editState.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editState.descriptionErrMsg)}></span>}
 
         <div className="clearfix">
+          <div style={{ float: 'right' }}>
+            <s.ExampleDiv
+              role="button"
+              onClick={() => {
+                updateEdit({
+                  descExampleShow: true,
+                });
+              }}
+            >
+              <i className="example" />
+              <span>{i18nTxt('Bounty Example')}</span>
+            </s.ExampleDiv>
+          </div>
           <div style={{ float: 'left', marginBottom: 20 }}>
             <s.AttachmentDiv>
               {editState.attachmentList.map(v => {
@@ -241,20 +254,6 @@ class EditBounty extends Component {
                 <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
               </label>
             </s.AttachmentDiv>
-          </div>
-
-          <div style={{ float: 'right' }}>
-            <s.ExampleDiv
-              role="button"
-              onClick={() => {
-                updateEdit({
-                  descExampleShow: true,
-                });
-              }}
-            >
-              <i className="example" />
-              <span>{i18nTxt('Bounty Example')}</span>
-            </s.ExampleDiv>
           </div>
         </div>
 
