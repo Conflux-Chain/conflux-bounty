@@ -310,6 +310,11 @@ align-self: flex-end;
   .my-bounty-item:nth-child(1) {
     border-top: none;
   }
+  .my-submission-list {
+    .my-bounty-item {
+      border-top: 1px solid #ebeded;
+    }
+  }
   .my-bounty-item:last-of-type {
     border-bottom: 1px solid #ebeded;
   }
