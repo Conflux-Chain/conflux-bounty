@@ -81,6 +81,7 @@ export const AttachmentDiv = styled.div`
     input[type='file'] {
       display: none;
     }
+
     ${media.mobile`
       font-size: ${unitParser(14)};
     `}

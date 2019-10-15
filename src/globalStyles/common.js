@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import media from './media';
+import unitParser from '../utils/device';
 
 export const lightBorder = `
 border: 0;
@@ -38,6 +39,7 @@ export const StyledWrapper = styled.div`
   margin-bottom: 40px;
   ${media.mobile`
     width: 100vw;
+    padding: ${unitParser(20)} ${unitParser(16)};
   `}
 `;
 
