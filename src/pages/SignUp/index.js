@@ -22,6 +22,7 @@ import SignInVia from '../../components/SignInVia';
 import media from '../../globalStyles/media';
 import { RecaptchaWrapDiv } from '../SignIn';
 import { recaptchaKey } from '../../constants';
+import unitParser from '../../utils/device';
 
 const RecaptchaWrapDiv1 = styled(RecaptchaWrapDiv)`
   margin-top: 5px;
@@ -318,10 +319,7 @@ SignUp.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {
-    common: { lang },
-  } = state;
-  return { lang };
+  return { lang: state.head.user.language };
 }
 
 export default connect(mapStateToProps)(SignUp);
@@ -329,15 +327,15 @@ export default connect(mapStateToProps)(SignUp);
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   ${media.mobile`
-    padding: 20px 12px;
+    padding: ${unitParser(20)} ${unitParser(12)};
   `}
   .title {
     font-size: 32px;
     line-height: 32px;
     font-weight: 600;
     ${media.mobile`
-      font-size: 24px;
-      line-height: 24px;
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
     `}
   }
   .form-wrap {
@@ -387,7 +385,7 @@ const Wrapper = styled(StyledWrapper)`
     flex: 1;
     margin-right: 12px;
     ${media.mobile`
-      margin-right: 8px;
+      margin-right: ${unitParser(8)};
     `}
   }
   .third-party-done-btn {

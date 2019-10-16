@@ -16,6 +16,7 @@ import { notice } from '../../components/Message/notice';
 import { getAccount } from '../../components/PageHead/action';
 import SignInVia from '../../components/SignInVia';
 import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 // import { recaptchaKey } from '../../constants';
 
 class SignIn extends Component {
@@ -66,6 +67,23 @@ class SignIn extends Component {
       inputsValue: { email, password, recaptchaVal },
       rememberUsernameChecked,
     } = this.state;
+
+    if (!email) {
+      notice.show({
+        content: i18nTxt('Please enter email Address'),
+        type: 'message-important-light',
+        timeout: 3000,
+      });
+      return;
+    }
+    if (!password) {
+      notice.show({
+        content: i18nTxt('Please enter password'),
+        type: 'message-important-light',
+        timeout: 3000,
+      });
+      return;
+    }
 
     const {
       body: { code, result },
@@ -206,15 +224,15 @@ export default connect()(SignIn);
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   ${media.mobile`
-    padding: 20px 12px;
+    padding: ${unitParser(20)} ${unitParser(12)};
   `}
   .title {
     font-size: 32px;
     line-height: 32px;
     font-weight: 600;
     ${media.mobile`
-      font-size: 24px;
-      line-height: 24px;
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
     `}
   }
   .form-wrap {

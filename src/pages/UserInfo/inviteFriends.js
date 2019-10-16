@@ -15,6 +15,7 @@ import { i18nTxt, copyToClipboard, commonPropTypes } from '../../utils';
 import { reqInvitationCode, reqInvitationLimit, reqGoodsList } from '../../utils/api';
 import Tooltip from '../../components/Tooltip';
 import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 // eslint-disable-next-line react/prefer-stateless-function
 /* eslint jsx-a11y/label-has-for: 0 */
@@ -220,7 +221,7 @@ const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
   ${media.mobile`
-    padding: 20px 12px;
+    padding: ${unitParser(20)} ${unitParser(12)};
   `}
   .level2-title {
     font-style: normal;
@@ -237,7 +238,7 @@ const Wrapper = styled(StyledWrapper)`
     ${media.mobile`
       flex-direction: column;
       align-items: flex-start;
-      margin-bottom: 12px;
+      margin-bottom: ${unitParser(12)};
     `}
     h1 {
       margin: 0;
@@ -245,9 +246,9 @@ const Wrapper = styled(StyledWrapper)`
       line-height: 32px;
       font-weight: 500;
       ${media.mobile`
-        margin-bottom: 40px;
-        font-size: 24px;
-        line-height: 24px;
+        margin-bottom: ${unitParser(40)};
+        font-size: ${unitParser(24)};
+        line-height: ${unitParser(24)};
       `}
     }
   }
@@ -289,7 +290,7 @@ const Wrapper = styled(StyledWrapper)`
         margin-right: 20px;
         ${media.mobile`
           font-weight: bold;
-          margin-bottom: 8px;
+          margin-bottom: ${unitParser(8)};
           color: #171d1f;
         `}
       }

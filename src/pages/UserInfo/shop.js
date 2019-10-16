@@ -17,6 +17,7 @@ import EmailCode from '../../components/EmailCode';
 import Modal from '../../components/Modal';
 import media from '../../globalStyles/media';
 import close from '../../assets/iconfont/modal-close.svg';
+import unitParser from '../../utils/device';
 
 /* eslint-disable func-names */
 function ConfirmPurchaseModal({ onConfirm, userEmail, onClose }) {
@@ -282,9 +283,9 @@ const Confirm = styled.div`
     justify-content: space-between;
     box-shadow: rgba(0, 0, 0, 0.12) 2px 4px 20px;
     ${media.mobile`
-      border-radius: 12px 12px 0 0;
+      border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
       box-shadow: none;
-      padding: 24px 12px 20px 12px;
+      padding: ${unitParser(24)} ${unitParser(12)} ${unitParser(20)} ${unitParser(12)};
     `}
   }
   .noting {
@@ -298,8 +299,8 @@ const Confirm = styled.div`
     right: 30px;
     top: 40px;
     ${media.mobile`
-      right: 10px;
-      top: 15px;
+      right: ${unitParser(10)};
+      top: ${unitParser(15)};
     `}
 
     &:hover {
@@ -314,7 +315,7 @@ const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
   ${media.mobile`
-    padding: 20px 12px;
+    padding: ${unitParser(20)} ${unitParser(12)};
   `}
   h1 {
     margin: 0;
@@ -322,8 +323,8 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 32px;
     font-weight: 500;
     ${media.mobile`
-      font-size: 24px;
-      line-height: 24px;
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
     `}
   }
   .products-list {
@@ -366,7 +367,7 @@ const Wrapper = styled(StyledWrapper)`
           display: flex;
           justify-content: flex-start;
           ${media.mobile`
-            margin-bottom: 12px;
+            margin-bottom: ${unitParser(12)};
             width: 100%;
             justify-content: space-between;
             button:last-child {
