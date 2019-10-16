@@ -214,7 +214,7 @@ function HomeBounty(props) {
             <span className="bounty-upto">{i18nTxt('Up to')}</span>
             <span className={classnames('bounty-coin-num', { open: type === 'open' })}>
               <span>{toThousands(fansCoin)}</span>
-              {' FC'}
+              &nbsp;FC
             </span>
           </span>
           <span className="bounty-user">
