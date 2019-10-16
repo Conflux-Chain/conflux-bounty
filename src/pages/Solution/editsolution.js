@@ -13,7 +13,7 @@ import * as s from '../Bounty/commonStyle';
 import * as s1 from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, showLink, renderAny } from '../../utils';
-import { SOLUTION_STATUS_ENUM } from '../../constants';
+import { SOLUTION_STATUS_ENUM, fileAcceptStr } from '../../constants';
 
 import unitParser, { isMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
@@ -241,7 +241,7 @@ class EditSolution extends Component {
                 <label className="add-attachment" htmlFor="bounty-add-attachment">
                   <i className="material-icons">add</i>
                   <span>{i18nTxt('Attachments')}</span>
-                  <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
+                  <input id="bounty-add-attachment" type="file" multiple accept={fileAcceptStr} onChange={uploadFile} />
                 </label>
               </s.AttachmentDiv>
             </div>

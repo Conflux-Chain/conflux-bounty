@@ -14,7 +14,7 @@ import { getCategory } from '../../utils/api';
 import unitParser, { isMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
 import { i18nTxt, auth, commonPropTypes, getStatus, downLink, showLink, i18nTxtAsync } from '../../utils/index';
-import { BOUNTY_STATUS_ENUM } from '../../constants';
+import { BOUNTY_STATUS_ENUM, fileAcceptStr } from '../../constants';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -326,7 +326,7 @@ class EditBounty extends Component {
               <label className="add-attachment" htmlFor="bounty-add-attachment">
                 <i className="material-icons">add</i>
                 <span>{i18nTxt('Attachments')}</span>
-                <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
+                <input accept={fileAcceptStr} id="bounty-add-attachment" type="file" onChange={uploadFile} multiple />
               </label>
             </s.AttachmentDiv>
           </div>

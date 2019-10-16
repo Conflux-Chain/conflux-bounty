@@ -9,7 +9,7 @@ import * as s from '../Bounty/commonStyle';
 import * as s1 from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import Message from '../../components/Message';
-import { MILESTONE_STATUS_ENUM } from '../../constants';
+import { MILESTONE_STATUS_ENUM, fileAcceptStr } from '../../constants';
 import { getStatusMileStone, auth, commonPropTypes, renderAny, i18nTxt, downLink } from '../../utils';
 
 const Wrapper = styled(StyledWrapper)`
@@ -187,6 +187,8 @@ class UpdateProgress extends Component {
                               <input
                                 id="bounty-add-attachment"
                                 type="file"
+                                multiple
+                                accept={fileAcceptStr}
                                 onChange={e => {
                                   uploadFileMileStone(e, index);
                                 }}

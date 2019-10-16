@@ -75,56 +75,62 @@ export const getBounty = bountyId => (dispatch, getState) => {
   });
 };
 
-export const uploadFile = e => (dispatch, getState) => {
+export const uploadFile = e => async (dispatch, getState) => {
   const { files } = e.target;
   const { target } = e;
-  const curFile = files[0];
-  if (!curFile) {
-    return;
-  }
-  if (!utils.checkFileSize(curFile.size)) {
-    return;
-  }
 
-  const fileKey = utils.encodeKey(curFile.name);
-  const md5Promise = utils.getMd5(curFile);
+  const uploadOne = curFile => {
+    if (!curFile) {
+      return Promise.reject();
+    }
+    if (!utils.checkFileSize(curFile.size)) {
+      return Promise.reject();
+    }
 
-  utils.uploadFileOss(fileKey, curFile).then(() => {
-    md5Promise.then(md5 => {
-      const { editSolution } = getState().solution;
-      const attachmentListCopy = editSolution.attachmentList.slice();
+    const fileKey = utils.encodeKey(curFile.name);
+    const md5Promise = utils.getMd5(curFile);
 
-      const imgUrl = utils.genUrlFromName(curFile.name, md5);
-      attachmentListCopy.push({
-        title: curFile.name,
-        url: imgUrl,
-        size: curFile.size,
-        info: {
-          md5,
-          attachmentGetHost: ALI_OSS_KEYS.attachmentGetHost,
-          downBucket: ALI_OSS_KEYS.downBucket,
-        },
-      });
+    return utils.uploadFileOss(fileKey, curFile).then(() => {
+      return md5Promise.then(md5 => {
+        const imgUrl = utils.genUrlFromName(curFile.name, md5);
 
-      const upAttach = () => {
-        dispatch(
-          updateEdit({
-            attachmentList: attachmentListCopy,
-          })
-        );
-      };
-      if (utils.isImgLike(curFile.name)) {
-        // setTimeout(upAttach, 1000);
-        utils.fetchPic(imgUrl).then(() => {
+        const upAttach = () => {
+          const { editSolution } = getState().solution;
+          const attachmentListCopy = editSolution.attachmentList.slice();
+          attachmentListCopy.push({
+            title: curFile.name,
+            url: imgUrl,
+            size: curFile.size,
+            info: {
+              md5,
+              attachmentGetHost: ALI_OSS_KEYS.attachmentGetHost,
+              downBucket: ALI_OSS_KEYS.downBucket,
+            },
+          });
+
+          dispatch(
+            updateEdit({
+              attachmentList: attachmentListCopy,
+            })
+          );
+        };
+        if (utils.isImgLike(curFile.name)) {
+          // setTimeout(upAttach, 1000);
+          utils.fetchPic(imgUrl).then(() => {
+            upAttach();
+          });
+        } else {
           upAttach();
-        });
-      } else {
-        upAttach();
-      }
-
-      target.value = '';
+        }
+      });
     });
-  });
+  };
+
+  for (let i = 0; i < files.length; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    await uploadOne(files[i]);
+  }
+  target.value = '';
 };
 const isEmpty = val => {
   if (!val) {
@@ -527,58 +533,62 @@ export const getMileStone = () => dispatch => {
   });
 };
 
-export const uploadFileMileStone = (e, index) => (dispatch, getState) => {
+export const uploadFileMileStone = (e, index) => async (dispatch, getState) => {
   const { files } = e.target;
   const { target } = e;
-  const curFile = files[0];
-  if (!curFile) {
-    return;
-  }
-  if (!utils.checkFileSize(curFile.size)) {
-    return;
-  }
 
-  const fileKey = utils.encodeKey(curFile.name);
-  const md5Promise = utils.getMd5(curFile);
+  const uploadOne = curFile => {
+    if (!curFile) {
+      return Promise.reject();
+    }
+    if (!utils.checkFileSize(curFile.size)) {
+      return Promise.reject();
+    }
 
-  utils.uploadFileOss(fileKey, curFile).then(() => {
-    md5Promise.then(md5 => {
-      const { editMileStone } = getState().solution;
-      const attachmentListCopy = (editMileStone.list[index].attachmentList || []).slice();
+    const fileKey = utils.encodeKey(curFile.name);
+    const md5Promise = utils.getMd5(curFile);
 
-      const imgUrl = utils.genUrlFromName(curFile.name, md5);
-      attachmentListCopy.push({
-        title: curFile.name,
-        url: imgUrl,
-        size: curFile.size,
-        info: {
-          md5,
-          attachmentGetHost: ALI_OSS_KEYS.attachmentGetHost,
-          downBucket: ALI_OSS_KEYS.downBucket,
-        },
-      });
-
-      const upAttach = () => {
-        dispatch(
-          updateMileStoneStep(
-            {
-              attachmentList: attachmentListCopy,
+    return utils.uploadFileOss(fileKey, curFile).then(() => {
+      return md5Promise.then(md5 => {
+        const imgUrl = utils.genUrlFromName(curFile.name, md5);
+        const upAttach = () => {
+          const { editMileStone } = getState().solution;
+          const attachmentListCopy = (editMileStone.list[index].attachmentList || []).slice();
+          attachmentListCopy.push({
+            title: curFile.name,
+            url: imgUrl,
+            size: curFile.size,
+            info: {
+              md5,
+              attachmentGetHost: ALI_OSS_KEYS.attachmentGetHost,
+              downBucket: ALI_OSS_KEYS.downBucket,
             },
-            index
-          )
-        );
-      };
-      if (utils.isImgLike(curFile.name)) {
-        utils.fetchPic(imgUrl).then(() => {
+          });
+          dispatch(
+            updateMileStoneStep(
+              {
+                attachmentList: attachmentListCopy,
+              },
+              index
+            )
+          );
+        };
+        if (utils.isImgLike(curFile.name)) {
+          utils.fetchPic(imgUrl).then(() => {
+            upAttach();
+          });
+        } else {
           upAttach();
-        });
-      } else {
-        upAttach();
-      }
-
-      target.value = '';
+        }
+      });
     });
-  });
+  };
+
+  for (let i = 0; i < files.length; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    await uploadOne(files[i]);
+  }
+  target.value = '';
 };
 
 export const submitMileStone = ({ milestoneId }) => (dispatch, getState) => {
