@@ -596,7 +596,7 @@ class PageHead extends Component {
                 }}
               >
                 <input type="radio" className="with-gap" checked={this.state.modalLanguage === 'en'} />
-                <span>Global</span>
+                <span>English</span>
               </label>
               <label
                 onClick={() => {
@@ -606,7 +606,7 @@ class PageHead extends Component {
                 }}
               >
                 <input type="radio" className="with-gap" checked={this.state.modalLanguage === 'zh-CN'} />
-                <span>中国</span>
+                <span>中文</span>
               </label>
             </div>
 
@@ -620,7 +620,7 @@ class PageHead extends Component {
                 }}
               >
                 <input type="radio" className="with-gap" checked={this.state.modelSiteLang === 'en'} />
-                <span>English</span>
+                <span>Global</span>
               </label>
               <label
                 onClick={() => {
@@ -630,7 +630,7 @@ class PageHead extends Component {
                 }}
               >
                 <input type="radio" className="with-gap" checked={this.state.modelSiteLang === 'zh-CN'} />
-                <span>中文</span>
+                <span>中国</span>
               </label>
             </div>
 
