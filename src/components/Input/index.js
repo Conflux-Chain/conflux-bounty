@@ -43,11 +43,10 @@ const InputWrap = styled.div`
     width: 100%;
     outline: none;
     vertical-align: middle;
-    margin-bottom: 0;
     ${media.mobile`
-      height: ${unitParser('44dp')};
-      font-size: ${unitParser('14dp')};
-      text-indent: ${unitParser('10dp')};
+      height: ${unitParser(44)};
+      font-size: ${unitParser(14)};
+      text-indent: ${unitParser(10)};
     `}
 
     &:disabled,
