@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import superagent from 'superagent';
 import { matchPath } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -17,7 +18,6 @@ import { ALI_OSS_KEYS, UPDATE_HEAD, UPDATE_UNREAD_MESSAGE_COUNT } from '../const
 // eslint-disable-next-line import/no-cycle
 import { reqAccountQuery, reqMessageCount } from './api';
 import { i18nTxt, i18nTxtAsync } from './i18n';
-
 import unitParser from './device';
 
 export { compose } from 'redux';

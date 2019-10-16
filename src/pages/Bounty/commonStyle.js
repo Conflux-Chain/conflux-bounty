@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import imgRejectBack from '../../assets/iconfont/reject-back.svg';
+import imgRejectBackMobile from '../../assets/iconfont/reject-back-mobile.svg';
 import { StyledWrapper } from '../../globalStyles/common';
 import media from '../../globalStyles/media';
 import unitParser from '../../utils/device';
@@ -99,6 +100,7 @@ export const AttachmentDiv = styled.div`
     input[type='file'] {
       display: none;
     }
+
     ${media.mobile`
       display: inline-flex;
       align-items: center;
@@ -194,18 +196,31 @@ export const LikeAndShare = styled.div`
     .material-icons {
       font-size: 20px;
     }
+    ${media.mobile`
+margin-right: 0;
+font-size: ${unitParser(14)};
+line-height: ${unitParser(14)};
+`}
   }
 `;
 
 export const MyBounSolunDiv = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
+  ${media.mobile`
+padding: ${unitParser(20)} ${unitParser(12)}
+`}
   h1 {
     font-size: 32px;
     line-height: 32px;
     margin: 0;
     margin-bottom: 40px;
     font-weight: 500;
+    ${media.mobile`
+line-height: ${unitParser('24')};
+font-size: ${unitParser('24')};
+margin-bottom: ${unitParser('20')};
+`}
   }
 
   .item-link {
@@ -217,6 +232,11 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
     a > span {
       vertical-align: middle;
     }
+    ${media.mobile`
+position: unset;
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
   }
   .item-link.disabled {
     cursor: default;
@@ -225,6 +245,9 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
   .item-head {
     display: flex;
     justify-content: space-between;
+    ${media.mobile`
+align-items: center;
+`}
   }
   .item-content {
     padding-right: 100px;
@@ -243,33 +266,66 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
       margin-bottom: 4px;
       color: #171d1f;
       font-weight: 500;
+      ${media.mobile`
+font-size: ${unitParser(14)}
+line-height: ${unitParser(14)}
+`}
     }
     .item-status {
       color: #595f61;
       font-size: 14px;
+      ${media.mobile`
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
     }
     .item-gray {
       color: #8e9394;
       font-size: 14px;
       margin-right: 12px;
+      ${media.mobile`
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
     }
     .reject-tips {
       margin-top: 8px;
       width: 520px;
       height: 50px;
+      // FIXME: don't use svg, here
       background-image: url(${imgRejectBack});
+      ${media.mobile`
+font-size: ${unitParser(14)};
+line-height: ${unitParser(14)};
+width: 100%;
+height: 73px;
+background-image: url(${imgRejectBackMobile});
+flex-direction: column;
+padding: ${unitParser(20)} ${unitParser(16)} ${unitParser(12)} ${unitParser(16)};
+`}
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding: 20px 16px;
       padding-top: 26px;
       color: #e76a25;
 
-      > i {
-        font-size: 20px;
-        color: #e76a25;
-        margin-right: 8px;
+      > span {
+        display: flex;
+        justify-content: center;
+        ${media.mobile`
+align-self: flex-start;
+`}
+        > i {
+          font-size: 20px;
+          color: #e76a25;
+          margin-right: 8px;
+        }
       }
       > a {
+        ${media.mobile`
+align-self: flex-end;
+`}
         font-size: 14px;
         cursor: pointer;
         color: #595f61;
@@ -277,10 +333,23 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
         > span {
           vertical-align: middle;
         }
+        ${media.mobile`
+  > i {
+    margin-right: ${unitParser(-12)};
+  }
+`}
       }
     }
     .reject-content {
       flex: 1;
+    }
+  }
+  .my-bounty-item:nth-child(1) {
+    border-top: none;
+  }
+  .my-submission-list {
+    .my-bounty-item {
+      border-top: 1px solid #ebeded;
     }
   }
   .my-bounty-item:last-of-type {
@@ -289,5 +358,6 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
   .show-more {
     text-align: center;
     margin-top: 40px;
+    ${media.mobile`margin-top: ${unitParser(20)};`}
   }
 `;

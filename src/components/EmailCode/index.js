@@ -11,6 +11,8 @@ import Input from '../Input';
 import { REGEX } from '../../constants';
 import { reqSendVerificationEmail } from '../../utils/api';
 import { i18nTxt } from '../../utils';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 class EmailCode extends Component {
   state = {
@@ -151,6 +153,10 @@ const Wrapper = styled.div`
       text-transform: uppercase;
     }
     .email-code-btn {
+      ${media.mobile`
+height: ${unitParser(44)};
+font-size: ${unitParser(14)};
+`}
       flex-grow: 0;
       height: 56px;
       min-width: 74px;

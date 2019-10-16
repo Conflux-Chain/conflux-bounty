@@ -36,6 +36,7 @@ export const MileStoneDiv = styled.div`
     }
     ${media.mobile`
       font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
     `}
   }
   .milestone-right {
@@ -97,6 +98,21 @@ export const MileStoneProgress = styled(MileStoneDiv)`
   &:last-child .milestone-right {
     padding-bottom: 0;
   }
+
+  ${media.mobile`
+  .duration {
+    font-size: ${unitParser(12)};
+    line-height: ${unitParser(12)};
+  }
+  .milestone-right > h5 {
+    font-size: ${unitParser(16)};
+    line-height: ${unitParser(16)};
+  }
+  .milestone-right > p {
+    font-size: ${unitParser(12)};
+    line-height: ${unitParser(16)};
+  }
+`}
 `;
 
 export const StatusTagDiv = styled.div`
@@ -138,6 +154,7 @@ export const StatusTagDiv = styled.div`
 export function stepBoxLine(status, index, total) {
   const hideLast = {
     visibility: total - 1 === index ? 'hidden' : 'visible',
+    display: total - 1 === index ? 'none' : 'inherit',
   };
 
   let boxLine = null;
