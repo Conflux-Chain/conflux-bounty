@@ -436,4 +436,6 @@ export default {
   'Comment should not be empty': '评论不能为空',
   'Please enter email Address': '请输入邮箱地址',
   'Please enter password': '请输入密码',
+  'Your added content is not approved. Here is the reason:': '很抱歉, 你的补充信息没有被采纳, 原因如下:',
+  Close: '关闭',
 };

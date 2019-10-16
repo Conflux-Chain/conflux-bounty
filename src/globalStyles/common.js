@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import media from './media';
+import unitParser from '../utils/device';
 
 export const lightBorder = `
 border: 0;
@@ -41,6 +42,7 @@ export const StyledWrapper = styled.div`
     box-shadow: none;
     position: relative;
     width: 100vw;
+    padding: ${unitParser(20)} ${unitParser(16)};
   `}
 `;
 

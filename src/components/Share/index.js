@@ -14,6 +14,7 @@ const Canvas = styled.canvas`
   height: 200px;
 `;
 const Wrap = styled.div`
+  /* stylelint-disable font-family-no-missing-generic-family-keyword */
   background-color: rgba(51, 51, 51, 0.9);
   border-radius: 12px;
   width: 300px;

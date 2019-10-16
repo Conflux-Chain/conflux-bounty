@@ -9,6 +9,9 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { SOLUTION_STATUS_ENUM } from '../../constants';
 import { fmtToDay, getStatus, auth, commonPropTypes, i18nTxt } from '../../utils';
 import BountyDeletedWarning from '../../components/BountyDeletedWarning';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
+import NoResult from '../../components/NoResult';
 
 const MyBounSolunDiv = styled(s.MyBounSolunDiv)`
   .update-progress {
@@ -31,6 +34,23 @@ const MyBounSolunDiv = styled(s.MyBounSolunDiv)`
       color: #8e9394;
     }
   }
+  ${media.mobile`
+      .update-progress-wrapper {
+        display: flex;
+        justify-content: center;
+        .update-progress {
+          margin-top: 20px;
+          float: unset;
+          a.btn {
+            height: ${unitParser(32)};
+            padding-left: ${unitParser(9)};
+            padding-right: ${unitParser(9)};
+            line-height: ${unitParser(32)};
+            font-size: ${unitParser(14)};
+          }
+        }
+      }
+`}
 `;
 class MySolution extends Component {
   constructor(...args) {
@@ -61,15 +81,17 @@ class MySolution extends Component {
         </BackHeadDiv>
         <MyBounSolunDiv>
           <h1>{i18nTxt('My Submissions')}</h1>
-          <div className="my-bounty-list">
+          <div className="my-bounty-list my-submission-list">
             {mySolution.list.map(v => {
               let rejectTips;
               let rejectColor = {};
               if (v.status === SOLUTION_STATUS_ENUM.PENDING) {
                 rejectTips = (
                   <div className="reject-tips">
-                    <i className="material-icons dp48">info</i>
-                    <span className="reject-content">{v.redoMessage}</span>
+                    <span>
+                      <i className="material-icons dp48">info</i>
+                      <span className="reject-content">{v.redoMessage}</span>
+                    </span>
                     <Link to={`/edit-submission?submissionId=${v.id}`}>
                       <span>{i18nTxt('EDIT SUBMISSION')}</span>
                       <i className="material-icons dp48">chevron_right</i>
@@ -84,7 +106,7 @@ class MySolution extends Component {
               let updateDiv;
               if (v.status === SOLUTION_STATUS_ENUM.ONGOING) {
                 updateDiv = (
-                  <div className="clearfix">
+                  <div className="clearfix update-progress-wrapper">
                     <div className="update-progress">
                       <Link
                         style={{
@@ -143,6 +165,7 @@ class MySolution extends Component {
               );
             })}
           </div>
+          {mySolution.total === 0 && <NoResult marginTop={40} />}
           <div className="show-more">
             <button
               onClick={() => {

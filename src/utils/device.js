@@ -1,3 +1,6 @@
+import { useMedia } from 'react-use';
+import variable from '../globalStyles/variable';
+
 function allowMiniPixel() {
   let allow = false;
   if (window.devicePixelRatio && devicePixelRatio >= 2) {
@@ -12,9 +15,15 @@ function allowMiniPixel() {
 function getType(unit) {
   return typeof unit;
 }
-export function isMobile() {
-  return window.screen.width <= 600;
-}
+
+const isMobileQuery = `(orientation: portrait) and (max-width: ${variable.breakpoint.mobile}px)`;
+export const isMobile = () => {
+  return window.matchMedia(isMobileQuery).matches;
+};
+
+export const useMobile = () => {
+  return useMedia(isMobileQuery);
+};
 
 function getw() {
   return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -23,16 +32,14 @@ function getw() {
 export default function unitParser(unit) {
   let myUnit = unit;
   const type = undefined === myUnit ? 'undefined' : getType(myUnit);
-  let sign = '';
   if (type === 'number') {
     if (unit < 0) {
-      sign = '-';
       myUnit = `${Math.abs(unit)}dp`;
     } else {
       myUnit += 'dp';
     }
   }
-  const regExp = /^([\d.]+)(px|dp)?$/g;
+  const regExp = /^-?([\d.]+)(px|dp)?$/g;
   return myUnit.replace(regExp, (chars, count, suffix) => {
     let myCount = Number(count);
     switch (suffix) {
@@ -49,6 +56,6 @@ export default function unitParser(unit) {
     if (!allowMiniPixel() && myCount < 1) {
       myCount = 1;
     }
-    return `${sign}${myCount}px`;
+    return `${chars.startsWith('-') ? '-' : ''}${myCount}px`;
   });
 }
