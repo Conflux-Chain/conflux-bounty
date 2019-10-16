@@ -30,7 +30,8 @@ export const paginatorMixin = css`
 
 export const StyledWrapper = styled.div`
   display: block;
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
   margin: 0 auto;
   background: #ffffff;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.12);
@@ -39,6 +40,7 @@ export const StyledWrapper = styled.div`
   ${media.mobile`
     width: 100%;
     box-shadow: none;
+    position: relative;
   `}
 `;
 

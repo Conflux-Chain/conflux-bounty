@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Modal from '../Modal';
 import { i18nTxt } from '../../utils/i18n';
+import media from '../../globalStyles/media';
 
 /* eslint no-restricted-syntax: 0 */
 /* eslint prefer-template: 0 */
@@ -24,90 +25,70 @@ const PickContainerDiv = styled.div`
   z-index: 10001;
   width: 100%;
   background: #fff;
-
   &,
   *,
   *:before,
   *:after {
     box-sizing: border-box;
   }
-
   .picker-inner {
     position: relative;
-
     display: flex;
     justify-content: center;
     height: 100%;
     padding: 0 20px;
-
     font-size: 1.2em;
     -webkit-mask-box-image: linear-gradient(to top, transparent, transparent 5%, white 20%, white 80%, transparent 95%, transparent);
   }
-
   .picker-column {
     flex: 1 1;
-
     position: relative;
-
     max-height: 100%;
-
     overflow: hidden;
     text-align: center;
-
     .picker-scroller {
       transition: 300ms;
       transition-timing-function: ease-out;
       touch-action: none;
     }
-
     .picker-item {
       position: relative;
       font-size: 20px;
       padding: 0 10px;
-
       white-space: nowrap;
       color: #999999;
       overflow: hidden;
       text-overflow: ellipsis;
-
       &.picker-item-selected {
         color: #222;
       }
     }
   }
-
   .picker-highlight {
     position: absolute;
     top: 50%;
     left: 0;
     width: 100%;
-
     margin-top: -20px;
     width: 200px;
     left: 50%;
     margin-left: -100px;
-
     pointer-events: none;
-
     &:before,
     &:after {
       content: ' ';
       position: absolute;
       left: 0;
       right: auto;
-
       display: block;
       width: 100%;
       height: 2px;
-
       background-color: #22b2d6;
     }
-
     &:before {
       top: 0;
       bottom: auto;
     }
-
     &:after {
       bottom: 0;
       top: auto;
@@ -116,6 +97,13 @@ const PickContainerDiv = styled.div`
 `;
 const PickerWrap = styled.div`
   background: #fff;
+  box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.12);
+
+  ${media.mobile`
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    width: 100%;
+  `}
 `;
 const PickerHead = styled.div`
   display: flex;
@@ -125,6 +113,7 @@ const PickerHead = styled.div`
     width: 74px;
     line-height: 32px;
     font-size: 14px;
+    font-weight: 500;
     &:nth-child(1) {
       color: #8e9394;
     }
@@ -380,7 +369,7 @@ export default class Picker extends Component {
     const { show, onCancel, onConfirm } = this.props;
 
     return (
-      <Modal isMobile show={show} showOverlay onEsc={onCancel} mobilePosBottom>
+      <Modal show={show} showOverlay onEsc={onCancel} overlayStyle={media.mobile && { position: 'fixed' }} mobilePosBottom>
         <PickerWrap>
           <PickerHead>
             <button type="button" onClick={onCancel}>

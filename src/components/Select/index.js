@@ -2,13 +2,33 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
 import { compose } from 'redux';
+import styled from 'styled-components';
 import Input from '../Input/index';
+import Picker from '../Picker';
+import media from '../../globalStyles/media';
 
 const selectdIcon = (
   <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
     <path d="M1 5.26923L3.52632 8.5L9 1.5" stroke="#3B3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+
+const Dropdown = styled.ul`
+  display: none;
+  max-height: 400px;
+  ${props =>
+    props.showOptions &&
+    `
+    &.select-dropdown.dropdown-content {
+      display: block;
+    }
+  `}
+  ${media.mobile`
+    &.select-dropdown.dropdown-content {
+      display: none !important;
+    }
+  `}
+`;
 
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
 /* eslint jsx-a11y/no-noninteractive-element-interactions: 0 */
@@ -99,16 +119,20 @@ class Select extends Component {
           />
         )}
 
-        <ul
-          className="dropdown-content select-dropdown"
-          style={{
-            display: showOptions ? 'block' : 'none',
-            maxHeight: 400,
-          }}
-        >
+        <Picker
+          show={showOptions}
+          options={options}
+          onSelect={onSelect}
+          toggleOptions={this.toggleOptions}
+          selected={selected.value}
+        ></Picker>
+
+        <Dropdown className="dropdown-content select-dropdown" showOptions={showOptions}>
+          <div className="select-ul-label">{ulLabel}</div>
           <div className="select-ul-label">{ulLabel}</div>
           {domList}
-        </ul>
+          {domList}
+        </Dropdown>
         <svg style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
           <path d="M7 10l5 5 5-5z" />
           <path d="M0 0h24v24H0z" fill="none" />

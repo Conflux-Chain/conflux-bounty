@@ -12,12 +12,15 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink, renderAny } from '../../utils';
 import { getCategory } from '../../utils/api';
 import { updateShare } from '../../components/Share/action';
+import Picker from '../../components/Picker';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM, REGEX } from '../../constants';
 import ViewSolution from '../Solution/viewsolution';
 import sortImg from '../../assets/iconfont/sort.svg';
 import Tooltip from '../../components/Tooltip';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -102,6 +105,9 @@ const Wrapper = styled(StyledWrapper)`
     }
     margin-right: 5px;
   }
+  .submission-sort-mobile-wrapper {
+    display: none;
+  }
   .solution-item-star {
     margin-left: 20px;
     display: flex;
@@ -174,12 +180,14 @@ const Wrapper = styled(StyledWrapper)`
   .solution-item:last-of-type {
     border-bottom: 1px solid #ebeded;
   }
-
   .solution-bottom {
     margin-top: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    .share-copy {
+      display: none;
+    }
   }
 
   &.comment {
@@ -189,6 +197,9 @@ const Wrapper = styled(StyledWrapper)`
       display: flex;
       margin-top: 20px;
     }
+  }
+  .comment-total {
+    display: none;
   }
   .comment-list {
     padding-top: 10px;
@@ -202,6 +213,9 @@ const Wrapper = styled(StyledWrapper)`
       padding-top: 12px;
       padding-bottom: 12px;
       margin: 0;
+    }
+    > .comment-btn {
+      display: none;
     }
   }
   .comment-input-wrap {
@@ -250,11 +264,188 @@ const Wrapper = styled(StyledWrapper)`
       }
     }
   }
-
   .load-more-solution {
     margin-top: 20px;
     text-align: center;
   }
+
+  ${media.mobile`
+    padding: ${unitParser(20)} ${unitParser(12)};
+    h1 {
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
+      margin-bottom: ${unitParser(20)};
+    }
+    .bounty-category {
+      padding-top: ${unitParser(20)};
+    }
+    .bounty-status {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
+    }
+    .reward {
+      margin: ${unitParser(12)} 0;
+      font-size: ${unitParser(20)};
+      line-height: ${unitParser(20)};
+      color: #22B2D6;
+      font-weight: 500;
+    }
+    .reward-rule {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
+    }
+    .reward-info-line {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
+    }
+    .attachment-line img {
+      width: 100%;
+    }
+    .submission-sort-wrap {
+      margin-left: 0;
+      .submission-sort-item {
+        display: none;
+      }
+      .submission-sort-mobile-wrapper {
+        height: ${unitParser(14)};
+        color: #8E9394;
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > button {
+          font-size: ${unitParser(14)};
+          line-height: ${unitParser(14)};
+          display: flex;
+          align-items: center;
+          color: #8E9394;
+          padding: 0;
+          > .caret {
+            fill: #8E9394;
+            right: 0;
+            top: ${unitParser(10)};
+          }
+        }
+      }
+    }
+    .desc {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
+    }
+    .solution-item {
+      justify-content: space-between;
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
+      .solution-item-left {
+        flex-grow: 1;
+        max-width: 200px;
+        > span {
+          max-width: 180px;
+        }
+      }
+      .solution-item-descwrap {
+        display: none;
+      }
+      > a {
+        margin-left: ${unitParser(10)};
+        > i {
+          font-size: ${unitParser(16)};
+        }
+      }
+    }
+    .solution-bottom {
+      justify-content: center;
+      flex-wrap: wrap;
+      button {
+        padding: 0;
+        margin: 0;
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+        &:first-of-type {
+          margin-right: ${unitParser(20)};
+          .material-icons.like {
+            color: #F09C3A;
+            & ~ span {
+              color: #F09C3A;
+            }
+          }
+        }
+        &.share-qr {
+          display: none;
+        }
+        &.share-copy {
+          display: inline-block;
+        }
+      }
+      > a.btn {
+        width: 100%;
+        margin-top: 40px;
+        font-size: ${unitParser(16)};
+        line-height: ${unitParser(16)};
+        padding: 14px 0;
+        height: auto;
+      }
+    }
+    .comment-header {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-end;
+      > h1 {
+        margin: 0;
+        flex-grow: 1;
+      }
+      .comment-total {
+        display: block;
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+        color: #8E9394;
+      }
+    }
+    .comment-send {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      .withimg {
+        width: ${unitParser(44)};
+        height: ${unitParser(44)};
+      }
+      .comment-input-wrap {
+        flex: 1 0 80%;
+        > input {
+          font-size: ${unitParser(14)};
+          line-height: ${unitParser(14)};
+          border-right: 0;
+        }
+        .comment-btn {
+          display: none;
+        }
+      }
+      > .comment-btn {
+        display: block;
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+        height: ${unitParser(14)};
+        margin-top: ${unitParser(12)};
+        padding: 0 0 0 ${unitParser(16)};
+      }
+    }
+    .comment-item {
+      .withimg {
+        width: ${unitParser(44)};
+        height: ${unitParser(44)};
+      }
+      .comment-msg {
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+        padding: ${unitParser(15)};
+        .comment-time {
+          font-size: ${unitParser(12)};
+          line-height: ${unitParser(12)};
+        }
+      }
+    }
+  `}
 `;
 
 const RewardDiv = styled.div`
@@ -281,6 +472,19 @@ const RewardDiv = styled.div`
       margin-right: 3px;
     }
   }
+  ${media.mobile`
+    .line1 {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
+    }
+    .line2 {
+      font-size: ${unitParser(16)};
+      .fcBig {
+        font-size: ${unitParser(24)};
+        line-height: ${unitParser(24)};
+      }
+    }
+  `}
 `;
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -289,6 +493,11 @@ class ViewBounty extends Component {
     super(...args);
     const query = getQuery();
     this.query = query;
+    this.state = {
+      sortType: 'time_asc',
+      showSortType: false,
+    };
+    this.setSortType = this.setSortType.bind(this);
   }
 
   componentDidMount() {
@@ -307,9 +516,71 @@ class ViewBounty extends Component {
     }
   }
 
+  setSortType = sort => {
+    this.setState({
+      sortType: sort,
+    });
+  };
+
+  showSortType = show => () => {
+    this.setState({
+      showSortType: show,
+    });
+  };
+
   render() {
     const { props } = this;
     const { viewBounty, sendLike, updateView, sendComment, getCommentList, getSolutionList, user, history } = this.props;
+    const { sortType, showSortType } = this.state;
+
+    const sortOptions = [
+      {
+        label: i18nTxt('Time (Early Listed)'),
+        value: 'time_asc',
+      },
+      {
+        label: i18nTxt('Time (Newly Listed)'),
+        value: 'time_desc',
+      },
+      {
+        label: i18nTxt('Likes (More to Less)'),
+        value: 'like_desc',
+      },
+    ];
+
+    const getSortLabel = () => {
+      const opt = sortOptions.find(o => o.value === sortType);
+      return opt && opt.label;
+    };
+
+    const CommentButton = () => (
+      <button
+        type="button"
+        className="btn btnTextPrimary comment-btn"
+        onClick={() => {
+          if (!user.id) {
+            notice.show({
+              type: 'message-notice',
+              content: i18nTxt('please login first'),
+              timeout: 3 * 1000,
+            });
+            return;
+          }
+          const val = viewBounty.commentText;
+          if (!val || REGEX.CHECK_BLANK.test(val)) {
+            notice.show({
+              type: 'message-important-light',
+              content: i18nTxt('Comment should not be empty'),
+              timeout: 3 * 1000,
+            });
+            return;
+          }
+          sendComment();
+        }}
+      >
+        {i18nTxt('viewbounty.COMMENT')}
+      </button>
+    );
 
     return (
       <React.Fragment>
@@ -441,6 +712,45 @@ class ViewBounty extends Component {
                 <span>{i18nTxt('Sort by Likes')}</span>
                 <img src={sortImg} className="sorticon" alt="sorticon" />
               </button>
+              <div className="submission-sort-mobile-wrapper">
+                <span>{i18nTxt('Sort by')}</span>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.showSortType(true)();
+                  }}
+                >
+                  <span>{getSortLabel()}</span>
+                  <svg style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
+                    <path d="M7 10l5 5 5-5z" />
+                    <path d="M0 0h24v24H0z" fill="none" />
+                  </svg>
+                </button>
+
+                <Picker
+                  optionGroups={{
+                    sortType: sortOptions,
+                  }}
+                  valueGroups={{
+                    sortType: {
+                      value: sortType,
+                    },
+                  }}
+                  onChange={(name, val) => {
+                    this.setSortType(val.value);
+                  }}
+                  height={178}
+                  onConfirm={() => {
+                    updateView({ sortType });
+                    this.setSortType(sortType);
+                    getSolutionList(1);
+                    this.showSortType(false)();
+                  }}
+                  onCancel={this.showSortType(false)}
+                  show={showSortType}
+                ></Picker>
+              </div>
             </div>
 
             {viewBounty.solutionList.map(solution => {
@@ -504,10 +814,26 @@ class ViewBounty extends Component {
               </button>
               <button
                 type="button"
+                className="share-qr"
                 onClick={() => {
                   props.updateShare({
                     show: true,
                     qrTxt: window.location.href,
+                  });
+                }}
+              >
+                <i className="share" />
+                <span>{i18nTxt('Share')}</span>
+              </button>
+              <button
+                type="button"
+                className="share-copy"
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  notice.show({
+                    content: i18nTxt('Link copied'),
+                    type: 'message-success',
+                    timeout: 3000,
                   });
                 }}
               >
@@ -539,7 +865,10 @@ class ViewBounty extends Component {
         </Wrapper>
 
         <Wrapper className="comment">
-          <h1>{i18nTxt('Comments')}</h1>
+          <div className="comment-header">
+            <h1>{i18nTxt('Comments')}</h1>
+            <span className="comment-total">{`${viewBounty.commentTotal} ${i18nTxt('Comments')}`}</span>
+          </div>
           <div className="comment-list">
             <div
               className="comment-send"
@@ -559,32 +888,7 @@ class ViewBounty extends Component {
                   }}
                   style={{ marginLeft: 12 }}
                 />
-                <button
-                  type="button"
-                  className="btn btnTextPrimary"
-                  onClick={() => {
-                    if (!user.id) {
-                      notice.show({
-                        type: 'message-notice',
-                        content: i18nTxt('please login first'),
-                        timeout: 3 * 1000,
-                      });
-                      return;
-                    }
-                    const val = viewBounty.commentText;
-                    if (!val || REGEX.CHECK_BLANK.test(val)) {
-                      notice.show({
-                        type: 'message-important-light',
-                        content: i18nTxt('Comment should not be empty'),
-                        timeout: 3 * 1000,
-                      });
-                      return;
-                    }
-                    sendComment();
-                  }}
-                >
-                  {i18nTxt('viewbounty.COMMENT')}
-                </button>
+                <CommentButton />
               </div>
             </div>
 

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import imgRejectBack from '../../assets/iconfont/reject-back.svg';
 import { StyledWrapper } from '../../globalStyles/common';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 export const HeadDiv = styled.div`
   font-size: 20px;
@@ -19,6 +21,12 @@ export const HeadDiv = styled.div`
       text-decoration: none;
     }
   }
+
+  ${media.mobile`
+    font-size: ${unitParser(20)};
+    line-height: ${unitParser(20)};
+    padding: ${unitParser(20)} ${unitParser(40)};
+  `}
 `;
 
 export const H2 = styled.div`
@@ -27,6 +35,10 @@ export const H2 = styled.div`
   line-height: 16px;
   color: #171d1f;
   font-weight: bold;
+  ${media.mobile`
+    font-size: ${unitParser(16)};
+    line-height: ${unitParser(16)};
+  `}
 `;
 
 export const AttachmentDiv = styled.div`

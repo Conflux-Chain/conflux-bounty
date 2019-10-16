@@ -46,6 +46,11 @@ const PageWrapper = styled.div`
   .page-content {
     flex: 1;
   }
+  ${media.mobile`
+    .page-holder {
+      min-width: 100%;
+    }
+  `}
 `;
 class App extends PureComponent {
   render() {

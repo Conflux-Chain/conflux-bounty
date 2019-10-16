@@ -8,6 +8,8 @@ import get from 'lodash/get';
 import * as actions from './action';
 import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink } from '../../utils';
 import { StyledWrapper } from '../../globalStyles/common';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 // import Input from '../../components/Input';
 import Message from '../../components/Message';
 import PhotoImg from '../../components/PhotoImg';
@@ -65,6 +67,12 @@ const Wrapper = styled(StyledWrapper)`
           font-size: 14px;
           width: 90px;
         }
+      }
+      .solution-user-name {
+        font-weight: 500;
+        text-align: left;
+        color: #171d1f;
+        margin-bottom: 5px;
       }
     }
   }
@@ -193,6 +201,64 @@ const Wrapper = styled(StyledWrapper)`
       background-repeat: repeat-x;
     }
   }
+  ${media.mobile`
+    padding: ${unitParser(20)} ${unitParser(12)};
+    pre {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
+    }
+    .head > h1 {
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
+      font-weight: 600;
+    }
+    .subject {
+      font-size: ${unitParser(16)};
+      line-height: ${unitParser(16)};
+      margin: ${unitParser(40)} 0 ${unitParser(12)} 0;
+      font-weight: bold;
+    }
+    .miltstone-wrap {
+      padding-top: ${unitParser(8)};
+    }
+    .solution-head-list {
+      margin-top: ${unitParser(18)};
+      .solution-head-content {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        .solution-user {
+          position: absolute;
+          bottom: -36px;
+          margin: 0;
+          display: flex;
+          margin-bottom: 0;
+          flex-direction: column-reverse;
+          .solution-user-name {
+            margin-top: 3px;
+            font-size: ${unitParser(14)};
+            line-height: ${unitParser(14)}
+            text-align: center;
+          }
+          .solution-user-cfx {
+            font-size: ${unitParser(16)};
+            line-height: ${unitParser(16)};
+            padding: ${unitParser(7)} ${unitParser(16)};
+          }
+        }
+      }
+    }
+    .solution-dots {
+      margin-top: ${unitParser(45)};
+    }
+    .head-right {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
+      button {
+        margin-right: ${unitParser(20)};
+      }
+    }
+  `}
 `;
 
 const AddNoticeDiv = styled.div`
@@ -506,17 +572,7 @@ class ViewSolution extends Component {
                 if (viewSolution.status === SOLUTION_STATUS_ENUM.FINISHED && viewSolution.bounty.status === BOUNTY_STATUS_ENUM.FINISHED) {
                   return (
                     <span className="solution-user">
-                      <div
-                        style={{
-                          fontWeight: 500,
-                          textAlign: 'left',
-                          color: '#171D1F',
-                          marginBottom: 5,
-                        }}
-                      >
-                        {' '}
-                        {viewSolution.user.nickname}
-                      </div>
+                      <div className="solution-user-name"> {viewSolution.user.nickname}</div>
                       <div className="solution-user-cfx">
                         <span>+{get(viewSolution, ['reward', 'fansCoin'], 0)}</span>
                         <span style={{ fontSize: 16, marginLeft: 3 }}>FC</span>
@@ -527,7 +583,7 @@ class ViewSolution extends Component {
                 if (viewSolution.status === SOLUTION_STATUS_ENUM.AUDITING) {
                   return (
                     <span className="solution-user">
-                      <div> {viewSolution.user.nickname}</div>
+                      <div className="solution-user-name"> {viewSolution.user.nickname}</div>
                       <Message type="message-success"> {i18nTxt('Submission Auditing!')} </Message>
                     </span>
                   );
