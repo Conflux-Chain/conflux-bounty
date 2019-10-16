@@ -43,3 +43,40 @@ export const { REWARD_STATUS_ENUM } = bountyEnum;
 export const { WITHDRAWAL_STATUS_ENUM } = bountyEnum;
 
 export const recaptchaKey = '6LcGDroUAAAAAIDuTI9RpZNIuCi-QpSEKCdq_I4i';
+
+const fileAccept = [
+  'txt',
+  'doc',
+  'docx',
+  'hlp',
+  'wps',
+  'rtf',
+  'pdf',
+  'xlsx',
+  'xls',
+  'ppt',
+  'pptx',
+  'rar',
+  'zip',
+  'arj',
+  'z',
+  'bmp',
+  'gif',
+  'jpg',
+  'jpeg',
+  'pic',
+  'png',
+  'tif',
+  'psd',
+  'raw',
+];
+
+let fileAccepts = '';
+fileAccept.forEach((v, i) => {
+  fileAccepts += `.${v},.${v.toUpperCase()}`;
+  if (i !== fileAccept.length - 1) {
+    fileAccepts += ',';
+  }
+});
+
+export const fileAcceptStr = fileAccepts;
