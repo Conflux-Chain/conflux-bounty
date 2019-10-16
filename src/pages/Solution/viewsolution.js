@@ -27,6 +27,7 @@ import dashedback from '../../assets/iconfont/background-dashed.svg';
 import ModalComp from '../../components/Modal';
 import Tooltip from '../../components/Tooltip';
 import MobileModal from '../../components/MobileModal';
+import StickyNotification from '../../components/StickyNotification';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -206,6 +207,12 @@ const Wrapper = styled(StyledWrapper)`
     margin-top: ${unitParser(40)};
     margin-bottom: ${unitParser(20)};
   }
+  .notemsg-detail {
+    > p {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(20)};
+    }
+  }
   `}
 `;
 
@@ -293,6 +300,10 @@ h5 {
   }
 `}
 `;
+
+const addedContent = content => {
+  return `${i18nTxt('Your added content is not approved. Here is the reason:')} ${content}`;
+};
 
 function ViewSolution({
   getSolutionView,
@@ -497,9 +508,18 @@ function ViewSolution({
     </BackHeadDiv>
   );
 
+  let deletedNote;
+  if (viewSolution.addTranslate) {
+    deletedNote = viewSolution.noteListTranslated[viewSolution.noteListTranslated.length - 1];
+  } else {
+    deletedNote = viewSolution.noteList[viewSolution.noteList.length - 1];
+  }
+  if ((deletedNote && deletedNote.status !== 'DELETED') || user.id !== viewSolution.user.id) deletedNote = undefined;
+
   return (
     <React.Fragment>
       {renderAddNote()}
+      {deletedNote && <StickyNotification type="warning" content={addedContent(deletedNote && deletedNote.rejectMessage)} />}
       {hDiv}
       <Wrapper>
         <div className="head">
