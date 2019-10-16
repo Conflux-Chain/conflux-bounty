@@ -11,6 +11,8 @@ import * as s2 from './commonStyle';
 import { auth, commonPropTypes, getStatus, i18nTxt } from '../../utils';
 import BountyDeletedWarning from '../../components/BountyDeletedWarning';
 import NoResult from '../../components/NoResult';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -52,6 +54,11 @@ const Wrapper = styled(StyledWrapper)`
       line-height: 14px;
       text-align: right;
       color: #f0453a;
+      font-weight: bold;
+    }
+    .order-reward {
+      color: #4a9e81;
+      font-weight: bold;
     }
     tr {
       th:last-child {
@@ -65,6 +72,65 @@ const Wrapper = styled(StyledWrapper)`
       vertical-align: middle;
     }
   }
+  ${media.mobile`
+  h1 {
+    font-size: ${unitParser(24)};
+    line-height: ${unitParser(24)};
+    margin-bottom: ${unitParser(20)};
+  }
+  .table-wrap {
+    margin-top:0;
+    table {
+      tr {
+        font-size: ${unitParser(12)};
+        line-height: ${unitParser(12)};
+        th, td {
+          padding: ${unitParser(20)} 0;
+        }
+        // date
+        td:first-child {
+          color: #8E9394;
+        }
+      }
+    }
+  }
+`}
+`;
+
+const RewardsTableStyle = styled.table`
+  ${media.mobile`
+tr {
+  td:last-child {
+    font-weight: bold;
+    font-size: ${unitParser(14)};
+    line-height: ${unitParser(14)};
+  }
+}
+`}
+`;
+
+const WithdrawalTableStyle = styled.table`
+  ${media.mobile`
+tr {
+  td:nth-child(2) {
+    font-weight: bold;
+    font-size: ${unitParser(14)};
+    line-height: ${unitParser(14)};
+  }
+}
+`}
+`;
+
+const PurchasingTableStyle = styled.table`
+  ${media.mobile`
+tr {
+  td:not(:first-child) {
+    font-weight: bold;
+    font-size: ${unitParser(14)};
+    line-height: ${unitParser(14)};
+  }
+}
+`}
 `;
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -155,7 +221,7 @@ class AccountHistory extends Component {
             }}
             className="table-wrap"
           >
-            <table>
+            <RewardsTableStyle>
               <tr>
                 <th>{i18nTxt('Date')}</th>
                 <th>{i18nTxt('Bounty')}</th>
@@ -188,12 +254,12 @@ class AccountHistory extends Component {
                     <tr>
                       <td>{moment(reward.createdAt).format('HH:mm MM/DD')}</td>
                       <td>{bountyInfo}</td>
-                      <td className="align-right">+{reward.fansCoin} FC</td>
+                      <td className="align-right order-reward">+{reward.fansCoin} FC</td>
                     </tr>
                   );
                 })}
               </tbody>
-            </table>
+            </RewardsTableStyle>
             {accountHistory.rewards.total === 0 && <NoResult marginTop={40} />}
             <div
               style={{
@@ -219,7 +285,7 @@ class AccountHistory extends Component {
             }}
             className="table-wrap"
           >
-            <table>
+            <WithdrawalTableStyle>
               <tr>
                 <th>{i18nTxt('Date')}</th>
                 <th>{i18nTxt('Amount')}</th>
@@ -260,7 +326,7 @@ class AccountHistory extends Component {
                   );
                 })}
               </tbody>
-            </table>
+            </WithdrawalTableStyle>
 
             {accountHistory.withdraws.total === 0 && <NoResult marginTop={40} />}
             <div
@@ -287,7 +353,7 @@ class AccountHistory extends Component {
             }}
             className="table-wrap"
           >
-            <table>
+            <PurchasingTableStyle>
               <tr>
                 <th>{i18nTxt('Date')}</th>
                 <th>{i18nTxt('Item')}</th>
@@ -299,12 +365,12 @@ class AccountHistory extends Component {
                     <tr key={order.id}>
                       <td>{moment(order.createdAt).format('HH:mm MM/DD')}</td>
                       <td>{order.goods.name}</td>
-                      <td className="order-cost">{`- ${order.costFansCoin} FC`}</td>
+                      <td className="order-cost" style={{ color: '#F0453A' }}>{`- ${order.costFansCoin} FC`}</td>
                     </tr>
                   );
                 })}
               </tbody>
-            </table>
+            </PurchasingTableStyle>
 
             {accountHistory.orders.total === 0 && <NoResult marginTop={40} />}
             <div

@@ -376,7 +376,7 @@ function RewardInfo({ fansCoin, fansCoinLocked }) {
             show={tipsVisible}
             confirmBtns={
               <button className="agree" type="button" onClick={() => setTipsVisible(false)}>
-                Close
+                {i18nTxt('Close')}
               </button>
             }
             content={
