@@ -53,12 +53,6 @@ const ModalWrapper = styled.div`
   `}
 
   &.mobile-modal {
-    top: auto;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    transform: none !important;
-    max-width: 100%;
     ${media.tablet`
     top: auto;
     bottom: 0;

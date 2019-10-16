@@ -9,7 +9,19 @@ import * as actions from './action';
 import { StyledWrapper, flexCenterMiddle } from '../../globalStyles/common';
 import * as s from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
-import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink, renderAny } from '../../utils';
+import {
+  i18nTxt,
+  fmtToDay,
+  getQuery,
+  commonPropTypes,
+  htmlsafe,
+  notice,
+  auth,
+  getStatus,
+  showLink,
+  downLink,
+  renderAny,
+} from '../../utils';
 import { getCategory } from '../../utils/api';
 import { updateShare } from '../../components/Share/action';
 import Picker from '../../components/Picker/picker';
@@ -20,7 +32,7 @@ import ViewSolution from '../Solution/viewsolution';
 import sortImg from '../../assets/iconfont/sort.svg';
 import Tooltip from '../../components/Tooltip';
 import media from '../../globalStyles/media';
-import unitParser from '../../utils/device';
+import unitParser, { isMobile } from '../../utils/device';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -675,7 +687,11 @@ class ViewBounty extends Component {
           <div style={{ marginTop: 12 }}>
             <s.AttachmentDiv>
               {viewBounty.attachmentList.map(v => {
-                return <div className="attachment-line">{downLink(v.url, v.title)}</div>;
+                return (
+                  <div className="attachment-line">
+                    {isMobile() ? showLink(v.url, v.title, viewBounty.attachmentList) : downLink(v.url, v.title)}
+                  </div>
+                );
               })}
             </s.AttachmentDiv>
           </div>

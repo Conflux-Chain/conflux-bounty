@@ -7,8 +7,7 @@ import { Link } from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
 import get from 'lodash/get';
 import * as actions from './action';
-import unitParser, { useMobile } from '../../utils/device';
-import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink } from '../../utils';
+import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink, showLink } from '../../utils';
 import { StyledWrapper } from '../../globalStyles/common';
 import media from '../../globalStyles/media';
 // import Input from '../../components/Input';
@@ -21,6 +20,7 @@ import imgGoLeft from '../../assets/iconfont/go-left.svg';
 import imgGoRight from '../../assets/iconfont/go-right.svg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { updateShare as updateShareAction } from '../../components/Share/action';
+import unitParser, { useMobile } from '../../utils/device';
 
 import { SOLUTION_STATUS_ENUM, MILESTONE_STATUS_ENUM, BOUNTY_STATUS_ENUM } from '../../constants';
 import dashedback from '../../assets/iconfont/background-dashed.svg';
@@ -863,7 +863,12 @@ function ViewSolution({
                 <div style={{ marginBottom: 20 }}>
                   <s.AttachmentDiv>
                     {viewSolution.attachmentList.map(v => {
-                      return <div className="attachment-line">{downLink(v.url, v.title)}</div>;
+                      return (
+                        <div className="attachment-line">
+                          {' '}
+                          {isMobile ? showLink(v.url, v.title, viewSolution.attachmentList) : downLink(v.url, v.title)}
+                        </div>
+                      );
                     })}
                   </s.AttachmentDiv>
                 </div>
@@ -911,7 +916,12 @@ function ViewSolution({
                           <p>{milest.proof}</p>
                           <s.AttachmentDiv>
                             {attachList.map(v => {
-                              return <div className="attachment-line">{downLink(v.url, v.title)}</div>;
+                              return (
+                                <div className="attachment-line">
+                                  {' '}
+                                  {isMobile ? showLink(v.url, v.title, attachList) : downLink(v.url, v.title)}
+                                </div>
+                              );
                             })}
                           </s.AttachmentDiv>
                           {renderAny(() => {
