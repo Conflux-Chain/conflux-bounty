@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import onClickOutside from 'react-onclickoutside';
 import { compose } from 'redux';
 import Input from '../Input/index';
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
 
 const selectdIcon = (
   <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
     <path d="M1 5.26923L3.52632 8.5L9 1.5" stroke="#3B3D3D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+
+const Caret = styled.svg`
+  position: absolute;
+  top: 28px;
+  transform: translateY(-12px);
+  right: 10px;
+  ${media.mobile`
+    top: ${unitParser(44 / 2)}
+  `}
+`;
 
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
 /* eslint jsx-a11y/no-noninteractive-element-interactions: 0 */
@@ -109,10 +122,10 @@ class Select extends Component {
           <div className="select-ul-label">{ulLabel}</div>
           {domList}
         </ul>
-        <svg style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
+        <Caret style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
           <path d="M7 10l5 5 5-5z" />
           <path d="M0 0h24v24H0z" fill="none" />
-        </svg>
+        </Caret>
       </div>
     );
   }

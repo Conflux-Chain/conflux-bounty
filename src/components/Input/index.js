@@ -18,12 +18,11 @@ const InputWrap = styled.div`
     color: #8e9394;
     transform: translateY(16px);
     font-size: 16px;
-    /* @media screen and (max-width: 600px) { */
     ${media.mobile`
       top: 50%;
       transform: translateY(-50%);
-      font-size: ${unitParser('14dp')};
-      left: ${unitParser('8dp')};s
+      font-size: ${unitParser(14)};
+      left: ${unitParser(8)};
     `}
   }
   &.col > label {
@@ -47,6 +46,9 @@ const InputWrap = styled.div`
       height: ${unitParser(44)};
       font-size: ${unitParser(14)};
       text-indent: ${unitParser(10)};
+      &.invalid + label{
+        transform: translateY(calc(-50% - 9px));
+      }
     `}
 
     &:disabled,
