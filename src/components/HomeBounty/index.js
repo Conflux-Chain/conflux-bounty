@@ -8,6 +8,7 @@ import team from '../../assets/iconfont/bounty-team.svg';
 import teamOpen from '../../assets/iconfont/bounty-team-open.svg';
 import BountyStatus from '../BountyStatus';
 import { toThousands, i18nTxt } from '../../utils';
+import media from '../../globalStyles/media';
 
 const Container = styled.div`
   width: 373px;
@@ -20,6 +21,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 40px;
+  ${media.mobile`
+        margin-bottom: 12px;
+      `}
   cursor: pointer;
   &.wrap-open {
     background: linear-gradient(118.2deg, #ffe501 0%, #fac801 100%);
@@ -110,6 +114,9 @@ const Container = styled.div`
       justify-content: space-between;
       align-items: baseline;
       margin: 16px 0;
+      ${media.mobile`
+        margin-top: 8px;
+      `}
       .bounty-coin {
         display: flex;
         align-items: center;

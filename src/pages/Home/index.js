@@ -81,14 +81,14 @@ const HoTBounty = styled.div`
     text-transform: uppercase;
     color: #fff;
     margin-bottom: 15px;
-    ${media.tablet`align-left: flex-start; margin-left: 10px;`}
+    ${media.tablet`align-self: flex-start; margin-left: 10px;`}
   }
   .hot-slider {
     width: 100%;
     max-width: 1400px;
     min-height: 230px;
     padding: 0 32px;
-    ${media.tablet`padding: 0 12px;`}
+    ${media.tablet`padding: 0;`}
     .slick-track {
       min-width: 800px;
     }
@@ -102,6 +102,11 @@ const HoTBounty = styled.div`
      div[class*="wrap-"] {
        width: 320px;
        margin-right: 12px;
+     }
+     .slick-track > div:first-child {
+      div[class*="wrap-"] {
+           margin-left: 12px;
+      }
      }
      .status-image .status-line {
        width: 64px;
@@ -165,7 +170,7 @@ const HoTBounty = styled.div`
   }
 `;
 const Broadcast = styled.div`
-  ${media.tablet`display: none;`}
+  ${media.mobile`display: none;`}
   width: 100%;
   max-width: 1200px;
   height: 44px;
@@ -191,6 +196,9 @@ const Broadcast = styled.div`
       height: 44px;
       align-items: center;
       color: #fff;
+      ${media.mobile`
+        text-align: center;
+      `}
       a {
         display: flex;
         flex: 1;
@@ -212,7 +220,7 @@ const Broadcast = styled.div`
 
 const BroadcastMobile = styled.div`
   display: none;
-  ${media.tablet`display: block;`}
+  ${media.mobile`display: block;`}
 
   background: rgba(0, 0, 0, 0.2);
   padding-top: 16px;
@@ -237,6 +245,13 @@ const BroadcastMobile = styled.div`
     &:last-of-type {
       border-right: none;
     }
+    ${media.mobile`
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.4);
+      &:last-of-type {
+        border-right: 1px solid rgba(255, 255, 255, 0.4);
+      }
+   `}
   }
 `;
 
@@ -246,7 +261,7 @@ const BountyWall = styled.div`
   z-index: 10;
   align-items: center;
   margin-top: 28px;
-  ${media.tablet`margin-top: 0;`}
+  ${media.mobile`margin-top: 0;`}
   width: 100%;
   max-width: 1240px;
 
@@ -277,16 +292,18 @@ const Category = styled.div`
       margin-bottom: 0;
     }
     .title {
-      display: inline-block;
+      display: block;
       width: 100px;
       line-height: 14px;
-      color: #8e9394;
+      color: #3b3d3d;
+      margin-bottom: 12px;
     }
   }
 
   ${media.tablet`
 width: 100%;
 padding-left: 12px;
+padding-top: 0;
 display: block;
 flex-direction: initial;
 background-color: none;
@@ -495,16 +512,16 @@ function getSortType(type) {
   let result;
   switch (type) {
     case 'fansCoin':
-      result = i18nTxt('Sort by Bounty Rewards');
+      result = i18nTxt('home.Bounty Rewards');
       break;
     case 'time':
-      result = i18nTxt('Sort by Date');
+      result = i18nTxt('home.Date');
       break;
     case 'account':
-      result = i18nTxt('Sort by Participants');
+      result = i18nTxt('home.Participants');
       break;
     default:
-      result = i18nTxt('Sort by Bounty Rewards');
+      result = i18nTxt('home.Bounty Rewards');
   }
   return result;
 }
@@ -661,6 +678,7 @@ class Home extends Component {
         {
           breakpoint: 820,
           settings: {
+            dots: false,
             variableWidth: true,
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -778,7 +796,7 @@ class Home extends Component {
         )}
 
         <BroadcastMobile>
-          <div className="broadcast-item-wrap">
+          {/* <div className="broadcast-item-wrap">
             {broadcastList.map(item => {
               return (
                 <a href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'} className="broadcast-item">
@@ -786,7 +804,27 @@ class Home extends Component {
                 </a>
               );
             })}
-          </div>
+          </div> */}
+          <Slider
+            {...{
+              infinite: false,
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              autoplay: true,
+              speed: 1000,
+              autoplaySpeed: 5000,
+              variableWidth: true,
+              arrows: false,
+            }}
+          >
+            {broadcastList.map(item => {
+              return (
+                <a href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'} className="broadcast-item">
+                  {item.title}
+                </a>
+              );
+            })}
+          </Slider>
         </BroadcastMobile>
 
         <BountyWall>
