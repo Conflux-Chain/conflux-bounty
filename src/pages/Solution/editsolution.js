@@ -231,7 +231,7 @@ class EditSolution extends Component {
                   };
                   return (
                     <div className="attachment-line">
-                      {isMobile() ? showLink(v.url, v.title) : downLink(v.url, v.title)}
+                      {isMobile() ? showLink(v.url, v.title, editSolution.attachmentList) : downLink(v.url, v.title)}
                       <button className="material-icons dp48" onClick={removeFile} type="button">
                         cancel
                       </button>
@@ -241,11 +241,7 @@ class EditSolution extends Component {
                 <label className="add-attachment" htmlFor="bounty-add-attachment">
                   <i className="material-icons">add</i>
                   <span>{i18nTxt('Attachments')}</span>
-                  {isMobile() ? (
-                    <input id="bounty-add-attachment" type="file" accept="image/*" onChange={uploadFile} />
-                  ) : (
-                    <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
-                  )}
+                  <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
                 </label>
               </s.AttachmentDiv>
             </div>

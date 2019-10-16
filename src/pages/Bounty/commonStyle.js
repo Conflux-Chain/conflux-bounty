@@ -138,7 +138,7 @@ export const SubmitDiv = styled.div`
       width: 100%;
       height: ${unitParser(44)};
       line-height: ${unitParser(44)};
-      font-size: ${unitParser(44)};
+      font-size: ${unitParser(16)};
     }
   `}
 `;

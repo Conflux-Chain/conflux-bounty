@@ -127,7 +127,6 @@ class EditBounty extends Component {
 
   render() {
     const { categoryL1List, editState, updateEdit, categoryMap, pageType, doSubmit, uploadFile, history } = this.props;
-
     let statusDiv;
     if (editState.status === BOUNTY_STATUS_ENUM.REVIEWING) {
       statusDiv = (
@@ -310,7 +309,7 @@ class EditBounty extends Component {
                 };
                 return (
                   <div className="attachment-line">
-                    {isMobile() ? showLink(v.url, v.title) : downLink(v.url, v.title)}
+                    {isMobile() ? showLink(v.url, v.title, editState.attachmentList) : downLink(v.url, v.title)}
                     <button className="material-icons dp48" onClick={removeFile} type="button">
                       cancel
                     </button>
