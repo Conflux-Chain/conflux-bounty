@@ -16,6 +16,7 @@ import { reqMessageList, reqMessageCount, reqMessageReadAll } from '../../utils/
 import { UPDATE_UNREAD_MESSAGE_COUNT } from '../../constants';
 import media from '../../globalStyles/media';
 import unitParser, { useMobile } from '../../utils/device';
+import NoResult from '../../components/NoResult';
 
 const PAGE_SIZE = 5;
 export const MESSAGE_TEMPLATE = {
@@ -211,6 +212,7 @@ function Messages({ dispatch, lang, history }) {
               })}
             </tbody>
           </table>
+          {total === 0 && <NoResult />}
           <div className="show-more" style={{ display: total > messages.length ? 'block' : 'none' }}>
             <button
               onClick={() => {
