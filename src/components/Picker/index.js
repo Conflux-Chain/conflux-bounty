@@ -1,387 +1,174 @@
-// modified from https://github.com/adcentury/react-mobile-picker
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Modal from '../Modal';
-import { i18nTxt } from '../../utils/i18n';
-import media from '../../globalStyles/media';
 
-/* eslint no-restricted-syntax: 0 */
-/* eslint prefer-template: 0 */
-/* eslint react/no-multi-comp: 0 */
-/* eslint no-restricted-syntax: 0 */
-/* eslint guard-for-in: 0 */
-/* eslint react/destructuring-assignment: 0 */
-/* eslint jsx-a11y/no-static-element-interactions: 0 */
-/* eslint jsx-a11y/click-events-have-key-events: 0 */
+import RawPicker from './rawPicker';
+import unitParser from '../../utils/device';
+import MobileModal from '../MobileModal';
+import Input from '../Input';
+import { i18nTxt } from '../../utils';
 
-const typeOption = PropTypes.shape({
-  value: PropTypes.string,
-  label: PropTypes.string,
-});
-
-const PickContainerDiv = styled.div`
-  z-index: 10001;
+const PickerWapper = styled.div`
+  position: relative;
   width: 100%;
-  background: #fff;
-  &,
-  *,
-  *:before,
-  *:after {
-    box-sizing: border-box;
-  }
-  .picker-inner {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    height: 100%;
-    padding: 0 20px;
-    font-size: 1.2em;
-    -webkit-mask-box-image: linear-gradient(to top, transparent, transparent 5%, white 20%, white 80%, transparent 95%, transparent);
-  }
-  .picker-column {
-    flex: 1 1;
-    position: relative;
-    max-height: 100%;
-    overflow: hidden;
-    text-align: center;
-    .picker-scroller {
-      transition: 300ms;
-      transition-timing-function: ease-out;
-      touch-action: none;
-    }
-    .picker-item {
-      position: relative;
-      font-size: 20px;
-      padding: 0 10px;
-      white-space: nowrap;
-      color: #999999;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      &.picker-item-selected {
-        color: #222;
-      }
-    }
-  }
-  .picker-highlight {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    margin-top: -20px;
-    width: 200px;
-    left: 50%;
-    margin-left: -100px;
-    pointer-events: none;
-    &:before,
-    &:after {
-      content: ' ';
-      position: absolute;
-      left: 0;
-      right: auto;
-      display: block;
-      width: 100%;
-      height: 2px;
-      background-color: #22b2d6;
-    }
-    &:before {
-      top: 0;
-      bottom: auto;
-    }
-    &:after {
-      bottom: 0;
-      top: auto;
-    }
-  }
-`;
-const PickerWrap = styled.div`
-  background: #fff;
-  box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.12);
+  color: #8e9394;
 
-  ${media.mobile`
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    width: 100%;
-  `}
+  .input-field {
+    margin-top: 0;
+  }
+  svg {
+    pointer-events: none;
+    position: absolute;
+    top: ${unitParser(44 / 2)};
+    transform: translateY(-12px);
+    right: 10px;
+  }
 `;
-const PickerHead = styled.div`
+const Operator = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 12px;
-  button {
-    width: 74px;
-    line-height: 32px;
-    font-size: 14px;
-    font-weight: 500;
+  font-size: ${unitParser(14)};
+  margin-bottom: ${unitParser(40)};
+  > button {
+    padding: unset;
     &:nth-child(1) {
       color: #8e9394;
     }
-    &:nth-child(2) {
+    &:nth-last-child(1) {
       color: #22b2d6;
     }
   }
 `;
 
-class PickerColumn extends Component {
-  static propTypes = {
-    // value: PropTypes.any.isRequired,
-    itemHeight: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(typeOption).isRequired,
-    value: PropTypes.string.isRequired,
+const Empty = styled.div`
+  height: ${unitParser(132)};
+  line-height: ${unitParser(132)};
+  font-size: ${unitParser(20)};
+  text-align: center;
+`;
+class Picker extends Component {
+  state = {
+    modalShow: false,
+    currentSelect: {},
+    confirmSelect: {},
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isMoving: false,
-      startTouchY: 0,
-      startScrollerTranslate: 0,
-      ...this.computeTranslate(props),
-    };
-  }
+  id = `${Date.now()}-${Math.random()}`;
 
-  componentWillReceiveProps(nextProps) {
-    if (this.state.isMoving) {
-      return;
-    }
-    this.setState(this.computeTranslate(nextProps));
-  }
-
-  computeTranslate = props => {
-    const { options, value, itemHeight, columnHeight } = props;
-    // let selectedIndex = options.indexOf(value);
-
-    let selectedIndex = -1;
-    for (let i = 0; i < options.length; i += 1) {
-      if (options[i].value === value.value) {
-        selectedIndex = i;
-        break;
-      }
-    }
-
-    if (selectedIndex < 0) {
-      // throw new ReferenceError();
-      this.onValueSelected(options[0]);
-      selectedIndex = 0;
-    }
-    return {
-      scrollerTranslate: columnHeight / 2 - itemHeight / 2 - selectedIndex * itemHeight,
-      minTranslate: columnHeight / 2 - itemHeight * options.length + itemHeight / 2,
-      maxTranslate: columnHeight / 2 - itemHeight / 2,
-    };
-  };
-
-  onValueSelected = newValue => {
-    this.props.onChange(this.props.name, newValue);
-  };
-
-  handleTouchStart = event => {
-    const startTouchY = event.targetTouches[0].pageY;
-    this.setState(({ scrollerTranslate }) => ({
-      startTouchY,
-      startScrollerTranslate: scrollerTranslate,
-    }));
-  };
-
-  handleTouchMove = event => {
-    event.preventDefault();
-    const touchY = event.targetTouches[0].pageY;
-    this.setState(({ isMoving, startTouchY, startScrollerTranslate, minTranslate, maxTranslate }) => {
-      if (!isMoving) {
-        return {
-          isMoving: true,
-        };
-      }
-
-      let nextScrollerTranslate = startScrollerTranslate + touchY - startTouchY;
-      if (nextScrollerTranslate < minTranslate) {
-        nextScrollerTranslate = minTranslate - (minTranslate - nextScrollerTranslate) ** 0.8;
-      } else if (nextScrollerTranslate > maxTranslate) {
-        nextScrollerTranslate = maxTranslate + (nextScrollerTranslate - maxTranslate) ** 0.8;
-      }
-      return {
-        scrollerTranslate: nextScrollerTranslate,
-      };
-    });
-  };
-
-  handleTouchEnd = () => {
-    if (!this.state.isMoving) {
-      return;
-    }
+  showModal = () => {
+    const { selected } = this.props;
     this.setState({
-      isMoving: false,
-      startTouchY: 0,
-      startScrollerTranslate: 0,
+      modalShow: true,
+      currentSelect: selected,
     });
-    setTimeout(() => {
-      const { options, itemHeight } = this.props;
-      const { scrollerTranslate, minTranslate, maxTranslate } = this.state;
-      let activeIndex;
-      if (scrollerTranslate > maxTranslate) {
-        activeIndex = 0;
-      } else if (scrollerTranslate < minTranslate) {
-        activeIndex = options.length - 1;
-      } else {
-        activeIndex = -Math.floor((scrollerTranslate - maxTranslate) / itemHeight);
-      }
-      this.onValueSelected(options[activeIndex]);
-    }, 0);
   };
 
-  handleTouchCancel = () => {
-    if (!this.state.isMoving) {
-      return;
-    }
-    this.setState(startScrollerTranslate => ({
-      isMoving: false,
-      startTouchY: 0,
-      startScrollerTranslate: 0,
-      scrollerTranslate: startScrollerTranslate,
-    }));
-  };
-
-  handleItemClick = option => {
-    if (option !== this.props.value) {
-      this.onValueSelected(option);
-    }
-  };
-
-  renderItems() {
-    const { options, itemHeight, value } = this.props;
-    return options.map(option => {
-      const style = {
-        height: `${itemHeight}px`,
-        lineHeight: `${itemHeight}px`,
-      };
-
-      let className;
-
-      if (option.value === value.value) {
-        className = 'picker-item picker-item-selected';
-      } else {
-        className = 'picker-item';
-      }
-
-      return (
-        <div className={className} style={style} onClick={() => this.handleItemClick(option)}>
-          {option.label}
-        </div>
-      );
+  closeModal = () => {
+    this.setState({
+      modalShow: false,
     });
-  }
+    this.inputRef.input.blur();
+  };
+
+  cancelSelection = () => {
+    this.closeModal();
+    this.clearSelect();
+  };
+
+  confirmSelection = () => {
+    const { onSelect } = this.props;
+    this.setState({
+      confirmSelect: this.currentSelect,
+    });
+    onSelect(this.currentSelect);
+    this.closeModal();
+    this.clearSelect();
+  };
+
+  clearSelect = () => {
+    this.setState({
+      currentSelect: { value: '' },
+    });
+  };
+
+  changeValue = value => {
+    const { data } = this.props;
+    this.currentSelect = data.find(option => option.value === value.value);
+    this.setState({
+      currentSelect: this.currentSelect,
+    });
+  };
 
   render() {
-    const translateString = `translate3d(0, ${this.state.scrollerTranslate}px, 0)`;
-    const style = {
-      MsTransform: translateString,
-      MozTransform: translateString,
-      OTransform: translateString,
-      WebkitTransform: translateString,
-      transform: translateString,
-    };
-    if (this.state.isMoving) {
-      style.transitionDuration = '0ms';
-    }
-
-    const { options } = this.props;
-    if (options.length === 1) {
-      return (
-        <div className="picker-column-middle">
-          <div onClick={() => this.handleItemClick(options[0])}>{options[0].label}</div>
-        </div>
-      );
-    }
-
+    const { modalShow, currentSelect, confirmSelect } = this.state;
+    const { data, label, errMsg } = this.props;
+    console.log(data, currentSelect, 'value');
     return (
-      <div className="picker-column">
-        <div
-          className="picker-scroller"
-          style={style}
-          onTouchStart={this.handleTouchStart}
-          onTouchMove={this.handleTouchMove}
-          onTouchEnd={this.handleTouchEnd}
-          onTouchCancel={this.handleTouchCancel}
-        >
-          {this.renderItems()}
-        </div>
-      </div>
-    );
-  }
-}
-
-export default class Picker extends Component {
-  static propTypes = {
-    optionGroups: PropTypes.objectOf(PropTypes.arrayOf(typeOption)).isRequired,
-    valueGroups: PropTypes.objectOf(typeOption).isRequired,
-    onChange: PropTypes.func.isRequired,
-    itemHeight: PropTypes.number,
-    height: PropTypes.number,
-    show: PropTypes.bool,
-    onCancel: PropTypes.func,
-    onConfirm: PropTypes.func,
-  };
-
-  static defaultProps = {
-    itemHeight: 40,
-    height: 160,
-    show: false,
-    onCancel: () => {},
-    onConfirm: () => {},
-  };
-
-  renderInner() {
-    const { optionGroups, valueGroups, itemHeight, height, onChange } = this.props;
-    const highlightStyle = {
-      height: itemHeight,
-      marginTop: -(itemHeight / 2),
-    };
-    const columnNodes = [];
-    // eslint-disable-next-line no-unused-vars
-    for (const name in optionGroups) {
-      columnNodes.push(
-        <PickerColumn
-          key={name}
-          name={name}
-          options={optionGroups[name]}
-          value={valueGroups[name]}
-          itemHeight={itemHeight}
-          columnHeight={height}
-          onChange={onChange}
+      <PickerWapper>
+        <Input
+          onRef={ref => {
+            this.inputRef = ref;
+          }}
+          {...{
+            id: this.id,
+            value: confirmSelect.label,
+            onChange: () => {},
+            onClick: this.showModal,
+            label,
+            placeHolder: '',
+            errMsg,
+            type: 'button',
+          }}
         />
-      );
-    }
-    return (
-      <div className="picker-inner">
-        {columnNodes}
-        <div className="picker-highlight" style={highlightStyle}></div>
-      </div>
-    );
-  }
-
-  render() {
-    const style = {
-      height: this.props.height,
-    };
-    const { show, onCancel, onConfirm } = this.props;
-
-    return (
-      <Modal show={show} showOverlay onEsc={onCancel} overlayStyle={media.mobile && { position: 'fixed' }} mobilePosBottom>
-        <PickerWrap>
-          <PickerHead>
-            <button type="button" onClick={onCancel}>
+        <svg height="24" viewbox="0 0 24 24" width="24">
+          <path d="M7 10l5 5 5-5z" />
+          <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
+        <MobileModal show={modalShow} closeModal={this.closeModal}>
+          <Operator>
+            <button type="button" onClick={this.cancelSelection}>
               {i18nTxt('CANCEL')}
             </button>
-            <button type="button" onClick={onConfirm}>
-              {i18nTxt('CONFIRM')}
-            </button>
-          </PickerHead>
-          <PickContainerDiv style={style}>{this.renderInner()}</PickContainerDiv>
-        </PickerWrap>
-      </Modal>
+            {!!data.length && (
+              <button type="button" onClick={this.confirmSelection}>
+                {i18nTxt('CONFIRM')}
+              </button>
+            )}
+          </Operator>
+          {data.length ? (
+            <RawPicker
+              optionGroups={{ data }}
+              valueGroups={{
+                data: currentSelect.value ? currentSelect : data[0],
+              }}
+              onChange={this.changeValue}
+            ></RawPicker>
+          ) : (
+            <Empty>{i18nTxt('No Data')}</Empty>
+          )}
+        </MobileModal>
+      </PickerWapper>
     );
   }
 }
+const typeOpt = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+};
+Picker.propTypes = {
+  label: PropTypes.string.isRequired,
+  selected: PropTypes.objectOf(typeOpt),
+  data: PropTypes.arrayOf(typeOpt),
+  errMsg: PropTypes.string,
+  onSelect: PropTypes.func.isRequired,
+  itemHeight: PropTypes.number,
+};
+
+Picker.defaultProps = {
+  selected: { value: '', label: '' },
+  data: [],
+  errMsg: '',
+  itemHeight: 44,
+};
+
+export default Picker;

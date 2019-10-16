@@ -327,6 +327,12 @@ const Wrapper = styled(StyledWrapper)`
       line-height: ${unitParser(24)};
     `}
   }
+  .total {
+    text-align: center;
+    button {
+      width: 100%;
+    }
+  }
   .products-list {
     display: flex;
     margin-top: 40px;

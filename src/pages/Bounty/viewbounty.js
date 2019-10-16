@@ -12,7 +12,7 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { i18nTxt, fmtToDay, getQuery, commonPropTypes, htmlsafe, notice, auth, getStatus, downLink, renderAny } from '../../utils';
 import { getCategory } from '../../utils/api';
 import { updateShare } from '../../components/Share/action';
-import Picker from '../../components/Picker';
+import Picker from '../../components/Picker/picker';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM, REGEX } from '../../constants';

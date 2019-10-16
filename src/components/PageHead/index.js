@@ -109,7 +109,7 @@ const Wrap = styled.div`
     margin-left: 10px;
     width: 130px;
     .select .caret {
-      top: 10px;
+      top: 20px;
       right: 10px;
     }
   }

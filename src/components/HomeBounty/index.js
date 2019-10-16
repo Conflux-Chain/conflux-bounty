@@ -138,13 +138,13 @@ const Container = styled.div`
         align-items: center;
       }
       .bounty-coin-num {
-        font-size: 24px;
         line-height: 24px;
         font-weight: 800;
         ${media.mobile`
         font-size: ${unitParser(24)};
         line-height: ${unitParser(24)};
       `}
+        font-size: 24px;
         &.open {
           color: #f0453a;
         }

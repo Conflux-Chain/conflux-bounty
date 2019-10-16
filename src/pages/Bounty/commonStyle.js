@@ -44,6 +44,15 @@ export const H2 = styled.div`
 export const AttachmentDiv = styled.div`
   .attachment-line {
     color: #595f61;
+    ${media.mobile`
+      &:nth-child(1){
+        margin-top: ${unitParser(15)};
+      }
+      margin-bottom: ${unitParser(20)};
+      &:nth-last-of-type(1){
+        margin-bottom: ${unitParser(10)};
+      }
+    `}
   }
   .attachment-line a {
     cursor: pointer;
@@ -66,10 +75,7 @@ export const AttachmentDiv = styled.div`
   .add-attachment {
     color: #22b2d6;
     display: inline-block;
-    margin-top: 6px;
-    margin-right: 10px;
     height: 20px;
-
     font-size: 14px;
     cursor: pointer;
     position: relative;
@@ -80,7 +86,8 @@ export const AttachmentDiv = styled.div`
       border-bottom: 1px solid;
     }
     > span {
-      line-height: 20px;
+      /* line-height: 20px; */
+      display: inline-block;
       vertical-align: middle;
     }
     > i {
@@ -92,6 +99,20 @@ export const AttachmentDiv = styled.div`
     input[type='file'] {
       display: none;
     }
+    ${media.mobile`
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: ${unitParser(16)};
+      width: calc(100vw - 24px);
+      height: ${unitParser(44)};
+      border: ${unitParser(1)} solid #ccc;
+      border-radius: 4px;
+      margin-top: 10px;
+      :hover{
+        border-bottom: ${unitParser(1)} solid #ccc;
+      }
+    `}
   }
 `;
 
@@ -99,9 +120,15 @@ export const ExampleDiv = styled.div`
   color: #595f61;
   cursor: pointer;
   > i {
-    vertical-align: middle;
     margin-right: 5px;
   }
+  > span {
+    vertical-align: middle;
+  }
+  ${media.mobile`
+    margin-top: 10px;
+    font-size: ${unitParser(14)};
+  `}
 `;
 
 export const SubmitDiv = styled.div`
@@ -115,6 +142,15 @@ export const SubmitDiv = styled.div`
   > label {
     margin-top: 9px;
   }
+  ${media.mobile`
+    margin-top: ${unitParser(40)};
+    .btn {
+      width: 100%;
+      height: ${unitParser(44)};
+      line-height: ${unitParser(44)};
+      font-size: ${unitParser(16)};
+    }
+  `}
 `;
 
 export const ImgDiv = styled.div`

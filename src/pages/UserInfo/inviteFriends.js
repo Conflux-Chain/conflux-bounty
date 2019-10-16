@@ -266,6 +266,44 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 20px;
     text-align: left;
   }
+  .faq-wrap {
+    margin-top: 28px;
+    > span {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 16px;
+      color: #171d1f;
+    }
+    .faq-list {
+      margin: 18px 0 15px 8px;
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+      a {
+        color: #595f61;
+        cursor: pointer;
+      }
+    }
+    .arrow-link {
+      > span,
+      > i {
+        vertical-align: middle;
+      }
+    }
+  }
+  .generate {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    > div {
+      margin-top: 20px;
+      font-size: 16px;
+      .primary {
+        color: #22b2d6;
+      }
+    }
+  }
   .infos {
     display: flex;
     flex-direction: column;

@@ -38,9 +38,9 @@ export const StyledWrapper = styled.div`
   border-radius: 12px;
   margin-bottom: 40px;
   ${media.mobile`
-    width: 100%;
     box-shadow: none;
     position: relative;
+    width: 100vw;
   `}
 `;
 

@@ -50,7 +50,14 @@ export const Wrapper = styled(
       width: 100%;
       z-index: 0;
     }
-  `}
+
+    ${media.mobile`
+      width: 100vw;
+      font-size: ${unitParser(16)};
+      font-weight: bold;
+      padding: ${unitParser(12)} ${unitParser(20)};
+    `}
+    `}
 `;
 
 export default function BackHeadDiv({ onClick, children }) {
