@@ -18,12 +18,11 @@ const InputWrap = styled.div`
     color: #8e9394;
     transform: translateY(16px);
     font-size: 16px;
-    /* @media screen and (max-width: 600px) { */
     ${media.mobile`
       top: 50%;
       transform: translateY(-50%);
-      font-size: ${unitParser('14dp')};
-      left: ${unitParser('8dp')};s
+      font-size: ${unitParser(14)};
+      left: ${unitParser(8)};
     `}
   }
   &.col > label {
@@ -43,11 +42,13 @@ const InputWrap = styled.div`
     width: 100%;
     outline: none;
     vertical-align: middle;
-    margin-bottom: 0;
     ${media.mobile`
       height: ${unitParser('44dp')};
       font-size: ${unitParser('14dp')};
       text-indent: ${unitParser('10dp')};
+      &.invalid + label{
+        transform: translateY(calc(-50% - 9px));
+      }
     `}
 
     &:disabled,

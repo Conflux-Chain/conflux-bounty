@@ -31,6 +31,7 @@ const Wrapper = styled(StyledWrapper)`
   }
   .category-wrap {
     display: flex;
+    margin-top: 12px;
     > * {
       flex: 1;
       &:nth-child(1) {
@@ -38,10 +39,16 @@ const Wrapper = styled(StyledWrapper)`
       }
     }
   }
-
+  .select .input-field {
+    margin-top: 0;
+  }
   .input-field {
     margin-bottom: 0px;
+    #bounty-title {
+      margin-bottom: 0px;
+    }
   }
+
   .materialize-textarea {
     height: 100px;
     margin-top: 12px;

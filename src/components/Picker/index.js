@@ -12,10 +12,16 @@ const PickerWapper = styled.div`
   position: relative;
   width: 100%;
   color: #8e9394;
-  margin-top: 12px;
 
   .input-field {
     margin-top: 0;
+  }
+  svg {
+    pointer-events: none;
+    position: absolute;
+    top: ${unitParser(44 / 2)};
+    transform: translateY(-12px);
+    right: 10px;
   }
 `;
 const Operator = styled.div`
@@ -114,12 +120,7 @@ class Picker extends Component {
             type: 'button',
           }}
         />
-        <svg
-          style={{ pointerEvents: 'none', position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: '10px' }}
-          height="24"
-          viewbox="0 0 24 24"
-          width="24"
-        >
+        <svg height="24" viewbox="0 0 24 24" width="24">
           <path d="M7 10l5 5 5-5z" />
           <path d="M0 0h24v24H0z" fill="none" />
         </svg>
