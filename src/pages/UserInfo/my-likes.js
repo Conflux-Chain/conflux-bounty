@@ -69,13 +69,12 @@ const Wrapper = styled(StyledWrapper)`
         &:nth-child(1) {
           color: #8e9394;
         }
-        .like-state {
-          color: #595f61;
-        }
       }
-    }
-    .like-state {
-      font-weight: 500;
+      .like-state {
+        font-weight: 500;
+        color: #595f61;
+        margin-right: 0;
+      }
     }
     .arrow-link {
       white-space: nowrap;
@@ -87,6 +86,9 @@ const Wrapper = styled(StyledWrapper)`
     .arrow-link.disabled {
       cursor: default;
       pointer-events: none;
+    }
+    .remove-like-btn {
+      cursor: pointer;
     }
   }
   .like-subm-from {
