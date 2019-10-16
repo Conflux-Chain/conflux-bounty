@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 const Container = styled.div`
   width: 440px;
@@ -20,14 +21,13 @@ const Container = styled.div`
   }
 
   ${media.mobile`
+ background-color: #fffff;
  width: 100%;
  height: initial;
- background: #FFFFFF;
  display: flex;
  align-items: initial;
  justify-content: initial;
- background: initial;
- box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+ box-shadow: 0px ${unitParser(4)} ${unitParser(12)} rgba(0, 0, 0, 0.08);
  border-radius: initial;
  z-index: initial;
  .selected {
@@ -59,16 +59,15 @@ border-radius: initial;
 height: initial;
 cursor: initial;
 color: #8E9394;
-font-size: 16px;
-line-height: 60px;
-font-size: 16px;
+line-height: 60px
+font-size: ${unitParser(16)};
 text-align: center;
-margin-left: 20px;
-margin-right: 20px;
+margin-left: ${unitParser(20)};
+margin-right: ${unitParser(20)};
 flex: 1;
 font-weight: bold;
 &.selected {
-  border-bottom:3px solid #22B2D6;
+  border-bottom: ${unitParser(3)} solid #22B2D6;
 }
 `}
 `;

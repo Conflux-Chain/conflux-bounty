@@ -11,6 +11,7 @@ import CheckIn from '../../assets/iconfont/checkIn.svg';
 import media from '../../globalStyles/media';
 import Modal from '../Modal';
 import { recaptchaKey } from '../../constants';
+import unitParser from '../../utils/device';
 
 const DailyCheckinWrap = styled.div`
   .pos-rightbottom {
@@ -27,6 +28,11 @@ const DailyCheckinWrap = styled.div`
     border-radius: 60px;
     width: 120px;
     height: 120px;
+    ${media.mobile`
+    width: ${unitParser(120)};
+    height: ${unitParser(120)};
+    border-radius: ${unitParser(60)};
+  `}
     text-align: center;
     cursor: pointer;
     > div {
@@ -34,9 +40,15 @@ const DailyCheckinWrap = styled.div`
       line-height: 16px;
       color: #fff;
       font-weight: 500;
+      ${media.mobile`
+         line-height: ${unitParser(16)};
+     `}
     }
     > img {
       margin-top: 17px;
+      ${media.mobile`
+      margin-top:  ${unitParser(17)};
+     `}
     }
   }
 
@@ -49,16 +61,32 @@ const DailyCheckinWrap = styled.div`
     border-top-left-radius: 12px;
     right: 0px;
 
+    ${media.mobile`
+    width: ${unitParser(100)};
+    height: ${unitParser(116)};
+    border-bottom-left-radius:  ${unitParser(12)};
+    border-top-left-radius:  ${unitParser(12)};
+        `}
+
     .checked-line1 {
       width: 32px;
       margin: 0 auto;
       display: block;
       margin-top: 13px;
+      ${media.mobile`
+      width: ${unitParser(32)};
+      margin-top: ${unitParser(13)};
+      `}
     }
     .checked-line2 {
       left: 59px;
       top: 30px;
       position: absolute;
+
+      ${media.mobile`
+      left: ${unitParser(59)};
+      top:${unitParser(30)};
+      `}
     }
     .checked-line3 {
       margin-top: 9px;
@@ -68,6 +96,11 @@ const DailyCheckinWrap = styled.div`
       line-height: 14px;
       color: #fff;
       font-weight: 500;
+      ${media.mobile`
+      margin-top: ${unitParser(9)};
+      margin-bottom: ${unitParser(5)};
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};`}
     }
     .checked-line4,
     .checked-line5 {
@@ -75,6 +108,8 @@ const DailyCheckinWrap = styled.div`
       text-align: center;
       font-size: 14px;
       line-height: 1.3;
+      ${media.mobile`
+      font-size: ${unitParser(14)};`}
     }
   }
 
@@ -85,6 +120,10 @@ const DailyCheckinWrap = styled.div`
     top: 40px;
     left: 50%;
     width: 348px;
+
+    ${media.mobile`
+    width: ${unitParser(348)};
+    margin-left: ${unitParser(-174)};`}
     z-index: 100;
     background: #ffffff;
     box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.12);

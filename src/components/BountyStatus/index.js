@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import classnames from 'classnames';
 import { i18nTxt } from '../../utils';
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
 
 const Container = styled.div`
   display: flex;
@@ -34,6 +36,9 @@ const Container = styled.div`
       }
       .status-line {
         width: 70px;
+        ${media.mobile`
+           width: ${unitParser(70)};
+  `}
         height: 0px;
         &.open {
           border: 1px solid #171d1f;
@@ -50,10 +55,19 @@ const Container = styled.div`
     align-items: center;
     justify-content: space-between;
 
+    ${media.mobile`
+      width: ${unitParser(335)};
+      height: ${unitParser(20)};
+    `}
+
     .text-item {
       font-size: 12px;
       line-height: 12px;
       white-space: nowrap;
+      ${media.mobile`
+        font-size: ${unitParser(12)};
+        line-height: ${unitParser(12)};
+      `}
       &.bold {
         font-weight: 700;
       }

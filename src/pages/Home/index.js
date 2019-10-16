@@ -22,6 +22,7 @@ import { compose, commonPropTypes, i18nTxt } from '../../utils';
 import DailyCheckin from '../../components/DailyCheckin';
 import media from '../../globalStyles/media';
 import Picker from '../../components/Picker';
+import unitParser from '../../utils/device';
 
 const Container = styled.div`
   display: flex;
@@ -35,6 +36,9 @@ const Container = styled.div`
     ${media.tablet`
     background-image: url("${mhomeImg}");
     height: 471px;
+    `}
+    ${media.mobile`
+    height: ${unitParser(500)};
     `}
     height: 616px;
     width: 100%;
@@ -88,7 +92,14 @@ const HoTBounty = styled.div`
     max-width: 1400px;
     min-height: 230px;
     padding: 0 32px;
-    ${media.tablet`padding: 0;`}
+    ${media.tablet`
+    padding: 0;
+    `}
+
+    ${media.mobile`
+    min-height: ${unitParser(230)};
+    `}
+
     .slick-track {
       min-width: 800px;
     }
@@ -101,18 +112,28 @@ const HoTBounty = styled.div`
     ${media.tablet`
      div[class*="wrap-"] {
        width: 320px;
-       margin-right: 12px;
-     }
-     .slick-track > div:first-child {
-      div[class*="wrap-"] {
-           margin-left: 12px;
-      }
+       margin-left: 12px;
+       /* margin-right: 12px; */
      }
      .status-image .status-line {
        width: 64px;
      }
      .status-text {
        width: 300px;
+     }
+  `}
+
+    ${media.mobile`
+     div[class*="wrap-"] {
+       width: ${unitParser(320)};
+       margin-left: ${unitParser(12)};
+       /* margin-right: 12px; */
+     }
+     .status-image .status-line {
+       width: ${unitParser(64)};
+     }
+     .status-text {
+       width: ${unitParser(300)}; 
      }
   `}
 

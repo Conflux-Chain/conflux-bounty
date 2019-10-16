@@ -274,7 +274,7 @@ const Confirm = styled.div`
     margin: 0 0 20px 0;
   }
   > div {
-    min-width: 400px;
+    min-width: 350px;
     background: #fff;
     border-radius: 12px;
     padding: 20px;
