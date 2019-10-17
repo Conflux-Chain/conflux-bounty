@@ -223,6 +223,7 @@ class EditBounty extends Component {
           <div className="category-wrap-select">
             <Select
               {...{
+                disabled: true,
                 label: i18nTxt('* Subcategory'),
                 onSelect: v => {
                   updateEdit({

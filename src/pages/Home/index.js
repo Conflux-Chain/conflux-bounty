@@ -21,7 +21,7 @@ import mArrowDown from '../../assets/iconfont/m-arrow-down.svg';
 import { compose, commonPropTypes, i18nTxt } from '../../utils';
 import DailyCheckin from '../../components/DailyCheckin';
 import media from '../../globalStyles/media';
-import Picker from '../../components/Picker/picker';
+import Picker from '../../components/Picker';
 import unitParser from '../../utils/device';
 
 const Container = styled.div`

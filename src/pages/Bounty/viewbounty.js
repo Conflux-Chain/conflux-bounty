@@ -24,7 +24,7 @@ import {
 } from '../../utils';
 import { getCategory } from '../../utils/api';
 import { updateShare } from '../../components/Share/action';
-import Picker from '../../components/Picker/picker';
+import Picker from '../../components/Picker';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM, REGEX } from '../../constants';

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import onClickOutside from 'react-onclickoutside';
 import { compose } from 'redux';
 import Input from '../Input/index';
-import Picker from '../Picker/picker';
+import Picker from '../Picker';
 import unitParser, { isMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
 
@@ -145,6 +145,11 @@ class Select extends Component {
       });
     }
 
+    let disabled = false;
+    if (options.length === 0) {
+      disabled = true;
+    }
+
     return (
       <div className={`select ${theme}`}>
         {labelType === 'text' ? (
@@ -162,6 +167,7 @@ class Select extends Component {
               placeHolder: '',
               errMsg,
               type: 'button',
+              disabled,
             }}
           />
         )}

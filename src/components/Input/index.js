@@ -131,7 +131,7 @@ class Input extends Component {
   };
 
   render() {
-    const { id, type = 'text', value, label, onClick, className = '', errMsg, autoComplete, onKeyPress } = this.props;
+    const { id, type = 'text', value, label, onClick, className = '', errMsg, autoComplete, onKeyPress, disabled } = this.props;
     const { isActive } = this.state;
     let { placeHolder } = this.props;
     let activeCss = '';
@@ -166,6 +166,7 @@ class Input extends Component {
       value,
       ref: this.getInputRef,
       className: inputClassName,
+      disabled,
     };
 
     return (
@@ -194,6 +195,7 @@ Input.propTypes = {
   value: PropTypes.string.isRequired,
   errMsg: PropTypes.string,
   onKeyPress: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 Input.defaultProps = {
   // this won't work for chrome
@@ -206,6 +208,7 @@ Input.defaultProps = {
   onClick: () => {},
   onKeyPress: () => {},
   errMsg: '',
+  disabled: false,
 };
 
 export default Input;
