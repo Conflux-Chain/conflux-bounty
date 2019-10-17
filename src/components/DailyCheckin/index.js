@@ -243,10 +243,6 @@ class DailyCheckin extends Component {
         zIndex: 100,
       };
     }
-    succesStyle = {
-      opacity: 1,
-      zIndex: 100,
-    };
 
     const successPanel = (
       <div className="checkin-success" style={succesStyle}>
