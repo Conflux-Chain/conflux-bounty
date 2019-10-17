@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
+import LinesEllipsis from 'react-lines-ellipsis';
 import * as actions from './action';
 import { StyledWrapper, flexCenterMiddle } from '../../globalStyles/common';
 import unitParser, { useMobile } from '../../utils/device';
@@ -128,6 +129,7 @@ MessagesCountButton.propTypes = {
 };
 
 const UserTextInfoStyle = styled.div`
+  flex-grow: 2;
   align-self: center;
   .user-name {
     font-size: 24px;
@@ -156,8 +158,8 @@ pointer-events: none;
 function UserTextInfo({ user: { nickname, email } }) {
   return (
     <UserTextInfoStyle>
-      <div className="user-name">{nickname}</div>
-      <div className="user-email">{email}</div>
+      <LinesEllipsis className="user-name" style={{ whiteSpace: 'pre-wrap' }} text={nickname} maxLine="1" trimRight ellipsis="..." />
+      <LinesEllipsis className="user-email" style={{ whiteSpace: 'pre-wrap' }} text={email} maxLine="1" trimRight ellipsis="..." />
     </UserTextInfoStyle>
   );
 }
@@ -297,6 +299,9 @@ justify-content: space-between;
 
 const Flex = styled.div`
   display: flex;
+  ${media.mobile`
+min-width: ${unitParser(312)};
+`}
 `;
 
 const RewardInfoStyle = styled.div`
