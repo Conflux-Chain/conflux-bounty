@@ -187,8 +187,14 @@ function Messages({ dispatch, lang, history }) {
                 const { id, createdAt, isRead } = message;
                 const { bountyTitle } = message.info;
                 const template = getMessageTemplate(message, lang);
-                const firstPartStr = template.substring(0, template.indexOf('{{')) + bountyTitle;
-                const lastPartStr = template.substring(template.indexOf('}}') + 2, template.length - 1);
+                let firstPartStr;
+                let lastPartStr = '';
+                if (message.info.withdrawalId) {
+                  firstPartStr = template;
+                } else {
+                  firstPartStr = template.substring(0, template.indexOf('{{')) + bountyTitle || template;
+                  lastPartStr = template.substring(template.indexOf('}}') + 2, template.length - 1) || '';
+                }
 
                 return (
                   <tr>
