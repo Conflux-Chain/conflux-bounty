@@ -245,7 +245,15 @@ export default function Shop({ history }) {
           <button
             type="button"
             className="btn primary waves"
-            onClick={async () => {
+            onClick={() => {
+              if (productsCount === 0 || productsCount.reduce((a, b) => a + b) === 0) {
+                notice.show({
+                  content: i18nTxt('Please select a product.'),
+                  type: 'message-error',
+                  timeout: 3000,
+                });
+                return;
+              }
               setConfirming(true);
             }}
           >
