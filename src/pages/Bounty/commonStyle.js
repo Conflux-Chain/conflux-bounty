@@ -106,7 +106,7 @@ export const AttachmentDiv = styled.div`
       align-items: center;
       justify-content: center;
       font-size: ${unitParser(16)};
-      width: calc(100vw - 24px);
+      width: calc(100vw -  ${unitParser(24)});
       height: ${unitParser(44)};
       border: ${unitParser(1)} solid #ccc;
       border-radius: 4px;

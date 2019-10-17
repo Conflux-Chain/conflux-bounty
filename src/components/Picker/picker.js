@@ -340,8 +340,8 @@ export default class Picker extends Component {
 
   isRenderInder() {
     const { optionGroups } = this.props;
-    for (const value of Object.values(optionGroups)) {
-      if (!value.length) {
+    for (const name in optionGroups) {
+      if (!optionGroups[name].length) {
         return false;
       }
     }

@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import onClickOutside from 'react-onclickoutside';
 import { compose } from 'redux';
 import Input from '../Input/index';
-import unitParser from '../../utils/device';
+import Picker from '../Picker/picker';
+import unitParser, { isMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
 
 const selectdIcon = (
@@ -31,6 +32,8 @@ class Select extends Component {
     super(...args);
     this.state = {
       showOptions: false,
+      currentSelect: {},
+      confirmSelect: {},
     };
     this.id = `${Date.now()}-${Math.random()}`;
   }
@@ -42,54 +45,105 @@ class Select extends Component {
     });
   };
 
+  showModal = () => {
+    const { selected, options } = this.props;
+    if (options.length) {
+      const currentSelect = selected.value ? options.find(option => option.value === selected.value) : options[0];
+      this.setState({
+        currentSelect,
+      });
+    }
+    this.setState({
+      showOptions: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      showOptions: false,
+    });
+  };
+
   handleClickOutside = () => {
     this.setState({
       showOptions: false,
     });
   };
 
+  cancelSelection = () => {
+    this.closeModal();
+    this.clearSelect();
+  };
+
+  confirmSelection = () => {
+    const { currentSelect } = this.state;
+    const { onSelect } = this.props;
+    this.setState({
+      confirmSelect: currentSelect,
+    });
+    onSelect(currentSelect);
+    this.closeModal();
+  };
+
+  clearSelect = () => {
+    this.setState({
+      currentSelect: { value: '' },
+    });
+  };
+
+  changeValue = value => {
+    const { options } = this.props;
+    const currentSelect = options.find(option => option.value === value.value);
+    this.setState({
+      currentSelect,
+    });
+  };
+
   render() {
     const { options, onSelect, selected = {}, errMsg, label, theme, showSelectedIcon, ulLabel, labelType } = this.props;
-    const { showOptions } = this.state;
+    const { showOptions, currentSelect, confirmSelect } = this.state;
     let selectedLabel = '';
+    let domList;
+    if (labelType === 'input' && isMobile()) {
+      selectedLabel = confirmSelect.label;
+    } else {
+      domList = options.map(v => {
+        const onClick = () => {
+          onSelect(v);
+          this.setState({
+            showOptions: false,
+          });
+        };
 
-    const domList = options.map(v => {
-      const onClick = () => {
-        onSelect(v);
-        this.setState({
-          showOptions: false,
-        });
-      };
-
-      const isSelected = v.value === selected.value;
-      if (isSelected) {
-        selectedLabel = v.label;
-      }
-
-      let content;
-      if (showSelectedIcon) {
-        content = (
-          <span>
-            {isSelected ? selectdIcon : null}
-            <span
-              style={{
-                paddingLeft: isSelected ? '8px' : '18px',
-              }}
-            >
-              {v.label}
+        const isSelected = v.value === selected.value;
+        if (isSelected) {
+          selectedLabel = v.label;
+        }
+        let content;
+        if (showSelectedIcon) {
+          content = (
+            <span>
+              {isSelected ? selectdIcon : null}
+              <span
+                style={{
+                  paddingLeft: isSelected ? '8px' : '18px',
+                }}
+              >
+                {v.label}
+              </span>
             </span>
-          </span>
-        );
-      } else {
-        content = <span>{v.label}</span>;
-      }
+          );
+        } else {
+          content = <span>{v.label}</span>;
+        }
 
-      return (
-        <li key={v.value} onClick={onClick} tabIndex="-1" className={isSelected ? 'active' : ''}>
-          {content}
-        </li>
-      );
-    });
+        return (
+          <li key={v.value} onClick={onClick} tabIndex="-1" className={isSelected ? 'active' : ''}>
+            {content}
+          </li>
+        );
+      });
+    }
 
     return (
       <div className={`select ${theme}`}>
@@ -103,7 +157,7 @@ class Select extends Component {
               id: this.id,
               value: selectedLabel,
               onChange: () => {},
-              onClick: this.toggleOptions,
+              onClick: isMobile() ? this.showModal : this.toggleOptions,
               label,
               placeHolder: '',
               errMsg,
@@ -111,17 +165,37 @@ class Select extends Component {
             }}
           />
         )}
+        {labelType === 'input' && isMobile() ? (
+          <Picker
+            optionGroups={{ options }}
+            valueGroups={{
+              options: currentSelect.value ? currentSelect : options[0],
+            }}
+            onChange={(name, val) => {
+              this.changeValue(val);
+            }}
+            height={160}
+            onCancel={() => {
+              this.cancelSelection();
+            }}
+            onConfirm={() => {
+              this.confirmSelection();
+            }}
+            show={showOptions}
+          ></Picker>
+        ) : (
+          <ul
+            className="dropdown-content select-dropdown"
+            style={{
+              display: showOptions ? 'block' : 'none',
+              maxHeight: 400,
+            }}
+          >
+            <div className="select-ul-label">{ulLabel}</div>
+            {domList}
+          </ul>
+        )}
 
-        <ul
-          className="dropdown-content select-dropdown"
-          style={{
-            display: showOptions ? 'block' : 'none',
-            maxHeight: 400,
-          }}
-        >
-          <div className="select-ul-label">{ulLabel}</div>
-          {domList}
-        </ul>
         <Caret style={{ pointerEvents: 'none' }} className="caret" height="24" viewbox="0 0 24 24" width="24">
           <path d="M7 10l5 5 5-5z" />
           <path d="M0 0h24v24H0z" fill="none" />

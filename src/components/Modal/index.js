@@ -51,6 +51,10 @@ const ModalWrapper = styled.div`
   ${media.tablet`
     animation: ${slideInMiddle} 0.2s ease-in-out;
   `}
+  ${media.mobile`
+    width: 100vw;
+    max-width: unset;
+  `}
 
   &.mobile-modal {
     top: auto;
