@@ -638,7 +638,6 @@ function ViewSolution({
                     <div
                       style={{
                         fontWeight: 500,
-                        textAlign: 'left',
                         color: '#171D1F',
                         marginBottom: 5,
                       }}
@@ -661,7 +660,11 @@ function ViewSolution({
                   </span>
                 );
               }
-              return null;
+              return (
+                <span className="solution-user">
+                  <div className="solution-user-name">{viewSolution.user.nickname}</div>
+                </span>
+              );
             })}
           </div>
 

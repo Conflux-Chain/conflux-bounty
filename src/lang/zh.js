@@ -301,7 +301,7 @@ export default {
   'Available (FC)': '可用余额 (FC)',
   'Locked (FC)': '冻结余额 (FC)',
   HISTORY: '历史记录',
-  'Withdrawal are processed 12PM CST every Tuesday': '每周二中午12点统一为上一周所有提币请求打币',
+  'Withdrawals will be processed at 12.00 PM CST every Tuesday': '每周二中午12点统一为上一周所有提币请求打币',
   'My Bounties': '我的赏金任务',
   'Invite Friends': '邀请朋友',
   'VIEW PROGRESS': '查看进展',

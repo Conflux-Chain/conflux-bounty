@@ -596,14 +596,14 @@ function UserInfo({ history, resetUserAccount, getAccount, head, updateUserAccou
           />
           {isMobile && (
             <MessageNoticeStyle>
-              <Message type="message-notice-light">{i18nTxt('Withdrawal are processed 12PM CST every Tuesday')}</Message>
+              <Message type="message-notice-light">{i18nTxt('Withdrawals will be processed at 12.00 PM CST every Tuesday')}</Message>
             </MessageNoticeStyle>
           )}
         </div>
 
         {!isMobile && (
           <MessageNoticeStyle>
-            <Message type="message-notice-light">{i18nTxt('Withdrawal are processed 12PM CST every Tuesday')}</Message>
+            <Message type="message-notice-light">{i18nTxt('Withdrawals will be processed at 12.00 PM CST every Tuesday')}</Message>
           </MessageNoticeStyle>
         )}
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -189,6 +189,7 @@ function MyLikes({
   delLikeBounty,
   delLikeSolution,
 }) {
+  const [removingItem, setRemovingItem] = useState({});
   useEffectOnce(() => {
     if (!auth.loggedIn()) {
       history.push('/signin');
@@ -212,8 +213,36 @@ function MyLikes({
     }
     document.title = i18nTxt('My Likes');
   });
-  let removeLike = () => {};
   const isMobile = useMobile();
+
+  const removeLike = () => {
+    const { type, id, index } = removingItem;
+    if (type === 'bounty') {
+      delLikeBounty(id).then(() => {
+        const bountyList = myLike.bounty.list.slice();
+        bountyList.splice(index, 1);
+        updateMyLikeBounty({
+          list: bountyList,
+          total: myLike.bounty.total - 1,
+        });
+        updateMyLike({
+          showRemoveDialog: false,
+        });
+      });
+    } else if (type === 'submission') {
+      delLikeSolution(id).then(() => {
+        const solutionList = myLike.solution.list.slice();
+        solutionList.splice(index, 1);
+        updateMyLikeSolution({
+          list: solutionList,
+          total: myLike.solution.total - 1,
+        });
+        updateMyLike({
+          showRemoveDialog: false,
+        });
+      });
+    }
+  };
 
   const showRemoveLikeConfirm = () => {
     if (myLike.showRemoveDialog) {
@@ -275,19 +304,7 @@ function MyLikes({
               {myLike.bounty.list.map((bounty, index) => {
                 const showConfirm = () => {
                   showRemoveLikeConfirm();
-                  removeLike = () => {
-                    delLikeBounty(bounty.id).then(() => {
-                      const bountyList = myLike.bounty.list.slice();
-                      bountyList.splice(index, 1);
-                      updateMyLikeBounty({
-                        list: bountyList,
-                        total: myLike.bounty.total - 1,
-                      });
-                      updateMyLike({
-                        showRemoveDialog: false,
-                      });
-                    });
-                  };
+                  setRemovingItem({ id: bounty.id, index, type: 'bounty' });
                 };
                 const removeBtn = (
                   <button className="remove-like-btn" type="button" onClick={showConfirm}>
@@ -368,19 +385,7 @@ function MyLikes({
               {myLike.solution.list.map((solution, index) => {
                 const showConfirm = () => {
                   showRemoveLikeConfirm();
-                  removeLike = () => {
-                    delLikeSolution(solution.id).then(() => {
-                      const solutionList = myLike.solution.list.slice();
-                      solutionList.splice(index, 1);
-                      updateMyLikeSolution({
-                        list: solutionList,
-                        total: myLike.solution.total - 1,
-                      });
-                      updateMyLike({
-                        showRemoveDialog: false,
-                      });
-                    });
-                  };
+                  setRemovingItem({ id: solution.id, index, type: 'submission' });
                 };
 
                 const likeInfos = [

@@ -89,6 +89,7 @@ const Wrap = styled.div`
 `;
 
 const WrapMobile = styled.div`
+  z-index: 9;
   display: none;
   ${media.tablet`display: block!important;`}
   background: #33353D;
