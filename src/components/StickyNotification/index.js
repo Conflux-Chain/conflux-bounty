@@ -31,8 +31,9 @@ const Wrapper = styled.div`
   padding: 12px;
   margin: 40px auto;
   ${media.mobile`
+width: unset;
 padding: ${unitParser(12)};
-margin: ${unitParser(8)};
+margin: 0 ${unitParser(8)} ${unitParser(8)} ${unitParser(8)};
 `};
 `;
 
@@ -45,7 +46,7 @@ const ContentStyle = styled.p`
   ${media.mobile`
 font-size: ${unitParser(14)};
 line-height: ${unitParser(20)};
-margin-right: ${unitParser(12)};
+margin-right: ${unitParser(10)};
 `}
 `;
 const CloseButton = styled.button``;

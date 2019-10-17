@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import cx from 'classnames';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import Modal from '../../components/Modal';
@@ -23,41 +24,59 @@ import EmailCode from '../../components/EmailCode';
 import Email from '../../components/Email';
 import Select from '../../components/Select';
 import media from '../../globalStyles/media';
-import { useMobile } from '../../utils/device';
-import MobileModal from '../../components/MobileModal';
+import unitParser, { useMobile } from '../../utils/device';
+
+const ModalHeadStyle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  > p {
+    margin: 0;
+    font-size: 20px;
+    line-height: 20px;
+    color: #171d1f;
+    font-weight: 500;
+  }
+  ${media.mobile`
+font-size: ${unitParser(24)};
+line-height: ${unitParser(24)};
+`}
+`;
 
 const LANGUAGES = { 'zh-CN': { label: '简体中文', value: 'zh-CN' }, en: { label: 'English', value: 'en' } };
 
 function LanguageModal({ onCancel, onOk, defaultLanguageCode }) {
   const [selectedLangCode, setSelectedLangCode] = useState(defaultLanguageCode);
+  const isMobile = useMobile();
   return (
-    <Modal show showOverlay={false}>
+    <Modal show showOverlay>
       <Confirm>
-        <div>
-          <Select
-            options={Object.values(LANGUAGES)}
-            selected={LANGUAGES[selectedLangCode]}
-            label={i18nTxt('Language Preference')}
-            onSelect={lang => {
-              setSelectedLangCode(lang.value);
-            }}
-          />
-          <div className="confirm-actions">
+        <Select
+          options={Object.values(LANGUAGES)}
+          selected={LANGUAGES[selectedLangCode]}
+          label={i18nTxt('Language Preference')}
+          onSelect={lang => {
+            setSelectedLangCode(lang.value);
+          }}
+        />
+        <div className="confirm-actions">
+          {!isMobile && (
             <button type="button" onClick={onCancel}>
               {i18nTxt('LEAVE')}
             </button>
-            <button
-              className="agree"
-              type="button"
-              onClick={async e => {
-                const { code } = await reqUserUpdate({ language: selectedLangCode });
-                if (code !== 0) return;
-                onOk(e);
-              }}
-            >
-              {i18nTxt('SAVE')}
-            </button>
-          </div>
+          )}
+          <button
+            className={cx({ 'btn waves-effect waves-light primary': isMobile }, 'agree')}
+            type="button"
+            onClick={async e => {
+              const { code } = await reqUserUpdate({ language: selectedLangCode });
+              if (code !== 0) return;
+              onOk(e);
+            }}
+          >
+            {i18nTxt('SAVE')}
+          </button>
         </div>
       </Confirm>
     </Modal>
@@ -76,40 +95,46 @@ function NicknameModal({ onOk, onCancel }) {
   const isMobile = useMobile();
   const modalContent = (
     <Confirm>
-      <div>
-        <p style={{ marginBottom: '20px' }}>{i18nTxt('Edit Nickname')}</p>
-        <Nickname
-          onChange={e => (nickname = e.target.value)}
-          ref={ref => {
-            nicknameRef = ref;
-          }}
-        />
-        <div className="confirm-actions">
+      <ModalHeadStyle>
+        <p>{i18nTxt('Edit Nickname')}</p>
+        {isMobile && (
+          <button className="material-icons close" onClick={onCancel} type="button">
+            close
+          </button>
+        )}
+      </ModalHeadStyle>
+
+      <Nickname
+        onChange={e => (nickname = e.target.value)}
+        ref={ref => {
+          nicknameRef = ref;
+        }}
+      />
+      <div className="confirm-actions">
+        {!isMobile && (
           <button type="button" onClick={onCancel}>
             {i18nTxt('LEAVE')}
           </button>
-          <button
-            className="agree"
-            type="button"
-            onClick={async e => {
-              if (nicknameRef.hasError()) return;
-              const { code } = await reqUserUpdate({ nickname });
-              if (code === 0) {
-                onOk(e);
-              }
-            }}
-          >
-            {i18nTxt('SAVE')}
-          </button>
-        </div>
+        )}
+        <button
+          className={cx({ 'btn waves-effect waves-light primary': isMobile }, 'agree')}
+          type="button"
+          onClick={async e => {
+            if (nicknameRef.hasError()) return;
+            const { code } = await reqUserUpdate({ nickname });
+            if (code === 0) {
+              onOk(e);
+            }
+          }}
+        >
+          {i18nTxt('SAVE')}
+        </button>
       </div>
     </Confirm>
   );
 
-  return isMobile ? (
-    <MobileModal show>{modalContent}</MobileModal>
-  ) : (
-    <Modal show showOverlay={false}>
+  return (
+    <Modal show mobilePosBottom={isMobile} showOverlay>
       {modalContent}
     </Modal>
   );
@@ -134,68 +159,73 @@ function EmailModal({ onCancel, onOk }) {
   const isMobile = useMobile();
   const modalContent = (
     <Confirm>
-      <div>
-        <p style={{ marginBottom: '20px' }}>{i18nTxt('Edit Email')}</p>
-        <div className="inputs-wrap">
-          <Email label={i18nTxt('New Email')} onChange={e => setNewEmail(e.target.value)} ref={ref => (newEmailRef = ref)} />
-          <EmailCode email={newEmail} onChange={e => (newVerificationCode = e.target.value)} ref={ref => (newVerificationCodeRef = ref)} />
-          <Email
-            label={i18nTxt('Current Email')}
-            checkIsOwner
-            onChange={e => setCurrentEmail(e.target.value)}
-            ref={ref => (currentEmailRef = ref)}
-          />
-          <EmailCode
-            email={currentEmail}
-            onChange={e => (currentVerificationCode = e.target.value)}
-            ref={ref => (currentVerificationCodeRef = ref)}
-          />
-          <Password onChange={e => (password = e.target.value)} ref={ref => (passwordRef = ref)} />
-        </div>
-        <div className="confirm-actions">
+      <ModalHeadStyle>
+        <p>{i18nTxt('Edit Email')}</p>
+        {isMobile && (
+          <button className="material-icons close" onClick={onCancel} type="button">
+            close
+          </button>
+        )}
+      </ModalHeadStyle>
+      <div className="inputs-wrap">
+        <Email label={i18nTxt('New Email')} onChange={e => setNewEmail(e.target.value)} ref={ref => (newEmailRef = ref)} />
+        <EmailCode email={newEmail} onChange={e => (newVerificationCode = e.target.value)} ref={ref => (newVerificationCodeRef = ref)} />
+        <Email
+          label={i18nTxt('Current Email')}
+          checkIsOwner
+          onChange={e => setCurrentEmail(e.target.value)}
+          ref={ref => (currentEmailRef = ref)}
+        />
+        <EmailCode
+          email={currentEmail}
+          onChange={e => (currentVerificationCode = e.target.value)}
+          ref={ref => (currentVerificationCodeRef = ref)}
+        />
+        <Password onChange={e => (password = e.target.value)} ref={ref => (passwordRef = ref)} />
+      </div>
+      <div className="confirm-actions">
+        {!isMobile && (
           <button type="button" onClick={onCancel}>
             {i18nTxt('LEAVE')}
           </button>
-          <button
-            className="agree"
-            type="button"
-            onClick={async () => {
-              if (
-                newEmailRef.hasError() ||
-                currentEmailRef.hasError() ||
-                newVerificationCodeRef.hasError() ||
-                currentVerificationCodeRef.hasError() ||
-                passwordRef.hasError()
-              ) {
-                return;
-              }
-              const { code } = await reqUserUpdate({
-                password,
-                newEmail,
-                currentEmail,
-                newEmailVerificationCode: newVerificationCode,
-                currentEmailVerificationCode: currentVerificationCode,
-              });
+        )}
+        <button
+          className={cx({ 'btn waves-effect waves-light primary': isMobile }, 'agree')}
+          type="button"
+          onClick={async () => {
+            if (
+              newEmailRef.hasError() ||
+              currentEmailRef.hasError() ||
+              newVerificationCodeRef.hasError() ||
+              currentVerificationCodeRef.hasError() ||
+              passwordRef.hasError()
+            ) {
+              return;
+            }
+            const { code } = await reqUserUpdate({
+              password,
+              newEmail,
+              currentEmail,
+              newEmailVerificationCode: newVerificationCode,
+              currentEmailVerificationCode: currentVerificationCode,
+            });
 
-              if (code !== 0) {
-                // handle error at utils/api
-                // notice.show({ content: body.message, type: 'message-error', timeout: 3000 });
-                return;
-              }
-              onOk();
-            }}
-          >
-            {i18nTxt('SAVE')}
-          </button>
-        </div>
+            if (code !== 0) {
+              // handle error at utils/api
+              // notice.show({ content: body.message, type: 'message-error', timeout: 3000 });
+              return;
+            }
+            onOk();
+          }}
+        >
+          {i18nTxt('SAVE')}
+        </button>
       </div>
     </Confirm>
   );
 
-  return isMobile ? (
-    <MobileModal show>{modalContent}</MobileModal>
-  ) : (
-    <Modal show showOverlay={false}>
+  return (
+    <Modal show mobilePosBottom={isMobile} showOverlay>
       {' '}
       {modalContent}
     </Modal>
@@ -218,58 +248,63 @@ function PasswordModal({ onOk, onCancel, email }) {
   const isMobile = useMobile();
   const modalContent = (
     <Confirm>
-      <div>
-        <p style={{ marginBottom: '20px' }}>{i18nTxt('CHANGE PASSWORD')}</p>
-        <div className="inputs-wrap">
-          <Password
-            labels={[i18nTxt('Current Password')]}
-            onChange={e => (currentPassword = e.target.value)}
-            ref={ref => (currentPasswordRef = ref)}
-          />
-          <Password
-            hasRepeat
-            labels={[i18nTxt('New Password')]}
-            onChange={e => (newPassword = e.target.value)}
-            ref={ref => (newPasswordRef = ref)}
-          />
-          <EmailCode onChange={e => (verificationCode = e.target.value)} email={email} ref={ref => (verificationCodeRef = ref)} />
-        </div>
-        <div className="confirm-actions">
+      <ModalHeadStyle>
+        <p>{i18nTxt('CHANGE PASSWORD')}</p>
+        {isMobile && (
+          <button className="material-icons close" onClick={onCancel} type="button">
+            close
+          </button>
+        )}
+      </ModalHeadStyle>
+      <div className="inputs-wrap">
+        <Password
+          labels={[i18nTxt('Current Password')]}
+          onChange={e => (currentPassword = e.target.value)}
+          ref={ref => (currentPasswordRef = ref)}
+        />
+        <Password
+          hasRepeat
+          labels={[i18nTxt('New Password')]}
+          onChange={e => (newPassword = e.target.value)}
+          ref={ref => (newPasswordRef = ref)}
+        />
+        <EmailCode onChange={e => (verificationCode = e.target.value)} email={email} ref={ref => (verificationCodeRef = ref)} />
+      </div>
+      <div className="confirm-actions">
+        {!isMobile && (
           <button type="button" onClick={onCancel}>
             {i18nTxt('LEAVE')}
           </button>
-          <button
-            className="agree"
-            type="button"
-            onClick={async () => {
-              if (currentPasswordRef.hasError() || newPasswordRef.hasError() || verificationCodeRef.hasError()) {
-                return;
-              }
+        )}
+        <button
+          className={cx({ 'btn waves-effect waves-light primary': isMobile }, 'agree')}
+          type="button"
+          onClick={async () => {
+            if (currentPasswordRef.hasError() || newPasswordRef.hasError() || verificationCodeRef.hasError()) {
+              return;
+            }
 
-              const { code } = await reqUserUpdate({
-                currentPassword,
-                newPassword,
-                emailVerificationCode: verificationCode,
-              });
+            const { code } = await reqUserUpdate({
+              currentPassword,
+              newPassword,
+              emailVerificationCode: verificationCode,
+            });
 
-              if (code !== 0) {
-                // notice.show({ content: body.message, type: 'message-error', timeout: 5000 });
-                return;
-              }
-              onOk();
-            }}
-          >
-            {i18nTxt('SAVE')}
-          </button>
-        </div>
+            if (code !== 0) {
+              // notice.show({ content: body.message, type: 'message-error', timeout: 5000 });
+              return;
+            }
+            onOk();
+          }}
+        >
+          {i18nTxt('SAVE')}
+        </button>
       </div>
     </Confirm>
   );
 
-  return isMobile ? (
-    <MobileModal show>{modalContent}</MobileModal>
-  ) : (
-    <Modal show showOverlay={false}>
+  return (
+    <Modal show mobilePosBottom={isMobile} showOverlay>
       {modalContent}
     </Modal>
   );
@@ -473,23 +508,14 @@ const Wrapper = styled(StyledWrapper)`
 
 const Confirm = styled.div`
   padding: 20px;
-  > div {
-    min-width: 400px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: rgba(0, 0, 0, 0.12) 2px 4px 20px;
-  }
-  p {
-    font-size: 20px;
-    line-height: 20px;
-    color: #171d1f;
-    margin: 0;
-    font-weight: 500;
-  }
+  min-width: 400px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.12);
   .inputs-wrap {
     margin-top: 20px;
   }
@@ -518,12 +544,13 @@ const Confirm = styled.div`
   }
 
   ${media.mobile`
-  padding: 0;
-  > div {
+  width: 100%;
+  min-width: unset;
+  border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
+  .confirm-actions .agree {
+    margin-left: 0;
     width: 100%;
-    min-width: unset;
-    padding: 0;
-    box-shadow: unset;
+    color: white;
   }
 `}
 `;

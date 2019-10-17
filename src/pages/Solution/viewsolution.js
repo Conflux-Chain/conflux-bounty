@@ -26,7 +26,6 @@ import { SOLUTION_STATUS_ENUM, MILESTONE_STATUS_ENUM, BOUNTY_STATUS_ENUM } from 
 import dashedback from '../../assets/iconfont/background-dashed.svg';
 import ModalComp from '../../components/Modal';
 import Tooltip from '../../components/Tooltip';
-import MobileModal from '../../components/MobileModal';
 import StickyNotification from '../../components/StickyNotification';
 
 const Wrapper = styled(StyledWrapper)`
@@ -428,37 +427,8 @@ function ViewSolution({
 
     const isMobile = useMobile();
 
-    const editNoteMsgDiv = isMobile ? (
-      <MobileModal show closeModal={closeNotePanel}>
-        <EditNotePanel>
-          <button className="material-icons close" onClick={closeNotePanel} type="button">
-            close
-          </button>
-          <h5>{i18nTxt('Add additional contents')}</h5>
-          <div>
-            <textarea
-              className={cx('materialize-textarea')}
-              onChange={e => {
-                updateView({
-                  addNoteTxt: e.target.value,
-                });
-              }}
-              placeholder={i18nTxt('Tell us what to be added to your submission...')}
-            ></textarea>
-          </div>
-          <button
-            className="btn waves-effect waves-light primary"
-            type="button"
-            onClick={() => {
-              submitNote();
-            }}
-          >
-            {i18nTxt('SUBMIT')}
-          </button>
-        </EditNotePanel>
-      </MobileModal>
-    ) : (
-      <ModalComp show onEsc={closeNotePanel}>
+    const editNoteMsgDiv = (
+      <ModalComp show mobilePosBottom={isMobile} onEsc={closeNotePanel}>
         <EditNotePanel>
           <button className="material-icons close" onClick={closeNotePanel} type="button">
             close

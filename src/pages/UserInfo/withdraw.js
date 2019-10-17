@@ -7,7 +7,6 @@ import Input from '../../components/Input';
 import Modal from '../../components/Modal';
 import { i18nTxt } from '../../utils';
 import unitParser, { useMobile } from '../../utils/device';
-import MobileModal from '../../components/MobileModal';
 import media from '../../globalStyles/media';
 
 const WithdrawContent = styled.div`
@@ -15,13 +14,8 @@ const WithdrawContent = styled.div`
   width: 400px;
   z-index: 100;
   padding: 20px;
-  > h3 {
-    font-weight: 500;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
+  box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
   > p {
     font-size: 14px;
     line-height: 14px;
@@ -57,23 +51,10 @@ const WithdrawContent = styled.div`
     width: 100%;
     margin-top: 10px;
   }
-  .close {
-    position: absolute;
-    color: #8e9394;
-    font-weight: 500;
-    right: 2px;
-    top: 9px;
-    font-style: normal;
-    cursor: pointer;
-    outline: none;
-  }
   ${media.mobile`
   width: 100%;
-  padding: 0;
-  padding-top: ${unitParser(6)};
-  > h3 {
-    font-size: ${unitParser(20)};
-  }
+  border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
+  padding-top: ${unitParser(26)};
   > p {
     font-size: ${unitParser(14)};
     line-height: ${unitParser(14)};
@@ -89,6 +70,30 @@ const WithdrawContent = styled.div`
   }
 `}
 `;
+
+const HeadStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  > h3 {
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+  }
+  .close {
+    color: #8e9394;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+  }
+  ${media.mobile`
+  font-size: ${unitParser(20)};
+  line-height: ${unitParser(20)};
+`}
+`;
+
 function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw }) {
   useEffect(() => {
     updateUserAccount({
@@ -98,19 +103,22 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
 
   const withdrawContent = (
     <WithdrawContent>
-      <button
-        className="material-icons close"
-        onClick={() => {
-          updateUserAccount({
-            showWithdrawDialog: false,
-          });
-        }}
-        type="button"
-      >
-        close
-      </button>
+      <HeadStyle>
+        <h3>{i18nTxt('Withdraw FC')}</h3>
 
-      <h3>{i18nTxt('Withdraw FC')}</h3>
+        <button
+          className="material-icons close"
+          onClick={() => {
+            updateUserAccount({
+              showWithdrawDialog: false,
+            });
+          }}
+          type="button"
+        >
+          close
+        </button>
+      </HeadStyle>
+
       <p>
         <strong>{head.fansCoin} FC </strong>
         <span>{i18nTxt('available to withdraw')}</span>
@@ -191,20 +199,11 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
   );
   const isMobile = useMobile();
 
-  const modal = isMobile ? (
-    <MobileModal
-      show={userAccount.showWithdrawDialog}
-      closeModal={() => {
-        updateUserAccount({
-          showWithdrawDialog: false,
-        });
-      }}
-    >
-      {withdrawContent}
-    </MobileModal>
-  ) : (
+  const modal = (
     <Modal
       show={userAccount.showWithdrawDialog}
+      mobilePosBottom={isMobile}
+      showOverlay
       onEsc={() => {
         updateUserAccount({
           showWithdrawDialog: false,
