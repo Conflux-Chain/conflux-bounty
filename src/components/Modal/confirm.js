@@ -7,7 +7,6 @@ import media from '../../globalStyles/media';
 
 const Confirm = styled.div`
   padding: 20px;
-
   > div {
     min-width: 240px;
     background: #fff;
