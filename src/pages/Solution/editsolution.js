@@ -423,7 +423,7 @@ class EditSolution extends Component {
           content={i18nTxt('submission.example')}
           title={i18nTxt('Submission Example')}
           wrapStyle={{
-            width: '400px',
+            width: isMobile() ? '100%' : '400px',
           }}
         />
       </React.Fragment>
