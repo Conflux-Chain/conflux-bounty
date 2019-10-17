@@ -327,7 +327,6 @@ const Category = styled.div`
   }
   .category-line > div {
     display: inline-block;
-    border-radius: 4px;
   }
 
   ${media.tablet`

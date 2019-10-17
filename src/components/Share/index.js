@@ -87,7 +87,7 @@ class Share extends Component {
     const { show } = this.props;
 
     return (
-      <Modal show={show} showOverlay={false}>
+      <Modal show={show} showOverlay={false} customStyle={{ width: 'auto' }}>
         <Wrap>
           <i className="close" tabIndex="-1" onClick={this.onClose} onKeyDown={() => {}} role="button">
             &times;

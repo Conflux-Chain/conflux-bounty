@@ -87,11 +87,11 @@ class ModalComp extends PureComponent {
   }
 
   render() {
-    const { children, show, showOverlay, onEsc, mobilePosBottom, overlayStyle } = this.props;
+    const { children, show, showOverlay, onEsc, mobilePosBottom, overlayStyle, customStyle } = this.props;
     if (show) {
       return (
         <React.Fragment>
-          <ModalWrapper className={mobilePosBottom ? 'mobile-modal' : ''}>
+          <ModalWrapper style={customStyle} className={mobilePosBottom ? 'mobile-modal' : ''}>
             <React.Fragment>{children}</React.Fragment>
           </ModalWrapper>
           {showOverlay && <Overlay onClick={onEsc} style={overlayStyle} />}
@@ -111,6 +111,7 @@ ModalComp.propTypes = {
   mobilePosBottom: PropTypes.bool,
   /* eslint react/forbid-prop-types: 0 */
   overlayStyle: PropTypes.object,
+  customStyle: PropTypes.object,
 };
 
 ModalComp.defaultProps = {
@@ -118,6 +119,7 @@ ModalComp.defaultProps = {
   onEsc: () => {},
   mobilePosBottom: false,
   overlayStyle: {},
+  customStyle: {},
 };
 
 export default ModalComp;
