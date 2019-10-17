@@ -297,7 +297,7 @@ line-height: ${unitParser(12)}
       ${media.mobile`
 font-size: ${unitParser(14)};
 line-height: ${unitParser(14)};
-width: 100%;
+width: 351px;
 height: 73px;
 background-image: url(${imgRejectBackMobile});
 flex-direction: column;
