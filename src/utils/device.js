@@ -33,11 +33,7 @@ export default function unitParser(unit) {
   let myUnit = unit;
   const type = undefined === myUnit ? 'undefined' : getType(myUnit);
   if (type === 'number') {
-    if (unit < 0) {
-      myUnit = `${Math.abs(unit)}dp`;
-    } else {
-      myUnit += 'dp';
-    }
+    myUnit += 'dp';
   }
   const regExp = /^-?([\d.]+)(px|dp)?$/g;
   return myUnit.replace(regExp, (chars, count, suffix) => {

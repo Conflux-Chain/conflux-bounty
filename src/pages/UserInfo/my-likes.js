@@ -397,7 +397,7 @@ function MyLikes({
                 ];
 
                 const removeBtn = (
-                  <button type="button" onClick={showConfirm}>
+                  <button className="remove-like-btn" type="button" onClick={showConfirm}>
                     {i18nTxt('REMOVE')}
                   </button>
                 );

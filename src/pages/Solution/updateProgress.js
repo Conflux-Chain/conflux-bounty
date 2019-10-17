@@ -73,6 +73,10 @@ const Wrapper = styled(StyledWrapper)`
     display: flex;
     flex-direction: column;
   }
+  .add-attachment {
+    width: 100%;
+    margin-bottom: 20px;
+  }
   .status-and-redo-message {
     display: flex;
     flex-direction: column;

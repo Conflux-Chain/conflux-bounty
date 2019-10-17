@@ -140,7 +140,7 @@ function mapStateToProps(state) {
 
 const Wrapper = styled.div`
   > div {
-    margin: 0 0 4px 0;
+    margin: 0 0 12px 0;
   }
   .email-code-wrap {
     display: flex;
