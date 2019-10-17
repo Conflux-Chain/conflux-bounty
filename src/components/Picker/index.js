@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import RawPicker from './rawPicker';
+import RawPicker from './picker';
 import unitParser from '../../utils/device';
-import MobileModal from '../MobileModal';
 import Input from '../Input';
-import { i18nTxt } from '../../utils';
 
 const PickerWapper = styled.div`
   position: relative;
@@ -24,28 +22,6 @@ const PickerWapper = styled.div`
     right: 10px;
   }
 `;
-const Operator = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-size: ${unitParser(14)};
-  margin-bottom: ${unitParser(40)};
-  > button {
-    padding: unset;
-    &:nth-child(1) {
-      color: #8e9394;
-    }
-    &:nth-last-child(1) {
-      color: #22b2d6;
-    }
-  }
-`;
-
-const Empty = styled.div`
-  height: ${unitParser(132)};
-  line-height: ${unitParser(132)};
-  font-size: ${unitParser(20)};
-  text-align: center;
-`;
 class Picker extends Component {
   state = {
     modalShow: false,
@@ -56,10 +32,11 @@ class Picker extends Component {
   id = `${Date.now()}-${Math.random()}`;
 
   showModal = () => {
-    const { selected } = this.props;
+    const { selected, data } = this.props;
+    const currentSelect = selected.value ? data.find(option => option.value === selected.value) : data[0];
     this.setState({
       modalShow: true,
-      currentSelect: selected,
+      currentSelect,
     });
   };
 
@@ -76,13 +53,13 @@ class Picker extends Component {
   };
 
   confirmSelection = () => {
+    const { currentSelect } = this.state;
     const { onSelect } = this.props;
     this.setState({
-      confirmSelect: this.currentSelect,
+      confirmSelect: currentSelect,
     });
-    onSelect(this.currentSelect);
+    onSelect(currentSelect);
     this.closeModal();
-    this.clearSelect();
   };
 
   clearSelect = () => {
@@ -93,16 +70,15 @@ class Picker extends Component {
 
   changeValue = value => {
     const { data } = this.props;
-    this.currentSelect = data.find(option => option.value === value.value);
+    const currentSelect = data.find(option => option.value === value.value);
     this.setState({
-      currentSelect: this.currentSelect,
+      currentSelect,
     });
   };
 
   render() {
     const { modalShow, currentSelect, confirmSelect } = this.state;
     const { data, label, errMsg } = this.props;
-    console.log(data, currentSelect, 'value');
     return (
       <PickerWapper>
         <Input
@@ -124,29 +100,23 @@ class Picker extends Component {
           <path d="M7 10l5 5 5-5z" />
           <path d="M0 0h24v24H0z" fill="none" />
         </svg>
-        <MobileModal show={modalShow} closeModal={this.closeModal}>
-          <Operator>
-            <button type="button" onClick={this.cancelSelection}>
-              {i18nTxt('CANCEL')}
-            </button>
-            {!!data.length && (
-              <button type="button" onClick={this.confirmSelection}>
-                {i18nTxt('CONFIRM')}
-              </button>
-            )}
-          </Operator>
-          {data.length ? (
-            <RawPicker
-              optionGroups={{ data }}
-              valueGroups={{
-                data: currentSelect.value ? currentSelect : data[0],
-              }}
-              onChange={this.changeValue}
-            ></RawPicker>
-          ) : (
-            <Empty>{i18nTxt('No Data')}</Empty>
-          )}
-        </MobileModal>
+        <RawPicker
+          optionGroups={{ data }}
+          valueGroups={{
+            data: currentSelect.value ? currentSelect : data[0],
+          }}
+          onChange={(name, val) => {
+            this.changeValue(val);
+          }}
+          height={160}
+          onCancel={() => {
+            this.cancelSelection();
+          }}
+          onConfirm={() => {
+            this.confirmSelection();
+          }}
+          show={modalShow}
+        ></RawPicker>
       </PickerWapper>
     );
   }

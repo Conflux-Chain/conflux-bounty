@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Modal from '../Modal';
 import { i18nTxt } from '../../utils/i18n';
 import media from '../../globalStyles/media';
-
+import unitParser from '../../utils/device';
 /* eslint no-restricted-syntax: 0 */
 /* eslint prefer-template: 0 */
 /* eslint react/no-multi-comp: 0 */
@@ -56,11 +56,11 @@ const PickContainerDiv = styled.div`
       font-size: 20px;
       padding: 0 10px;
       white-space: nowrap;
-      color: #999999;
+      color: #8e9394;
       overflow: hidden;
       text-overflow: ellipsis;
       &.picker-item-selected {
-        color: #222;
+        color: #22b2d6;
       }
     }
   }
@@ -122,7 +122,12 @@ const PickerHead = styled.div`
     }
   }
 `;
-
+const Empty = styled.div`
+  height: ${unitParser(120)};
+  line-height: ${unitParser(120)};
+  font-size: ${unitParser(16)};
+  text-align: center;
+`;
 class PickerColumn extends Component {
   static propTypes = {
     // value: PropTypes.any.isRequired,
@@ -333,6 +338,16 @@ export default class Picker extends Component {
     onConfirm: () => {},
   };
 
+  isRenderInder() {
+    const { optionGroups } = this.props;
+    for (const value of Object.values(optionGroups)) {
+      if (!value.length) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   renderInner() {
     const { optionGroups, valueGroups, itemHeight, height, onChange } = this.props;
     const highlightStyle = {
@@ -375,11 +390,17 @@ export default class Picker extends Component {
             <button type="button" onClick={onCancel}>
               {i18nTxt('CANCEL')}
             </button>
-            <button type="button" onClick={onConfirm}>
-              {i18nTxt('CONFIRM')}
-            </button>
+            {this.isRenderInder() && (
+              <button type="button" onClick={onConfirm}>
+                {i18nTxt('CONFIRM')}
+              </button>
+            )}
           </PickerHead>
-          <PickContainerDiv style={style}>{this.renderInner()}</PickContainerDiv>
+          {this.isRenderInder() ? (
+            <PickContainerDiv style={style}>{this.renderInner()}</PickContainerDiv>
+          ) : (
+            <Empty>{i18nTxt('No Data')}</Empty>
+          )}
         </PickerWrap>
       </Modal>
     );
