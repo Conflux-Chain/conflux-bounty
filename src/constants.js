@@ -79,4 +79,8 @@ fileAccept.forEach((v, i) => {
   }
 });
 
+if (typeof window.orientation !== 'undefined') {
+  fileAccepts = 'image/*';
+}
+
 export const fileAcceptStr = fileAccepts;
