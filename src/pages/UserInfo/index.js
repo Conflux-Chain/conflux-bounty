@@ -32,9 +32,9 @@ const Wrapper = styled(StyledWrapper)`
   ${media.mobile`
   width: 100%;
   border-radius: unset;
-  padding: 16px;
+  padding: -8px 16px 40px 16px;
   box-shadow: unset;
-  padding-bottom: 40px;
+  margin-top: -8px;
   margin-bottom:-90px;
 
   .currency-wrap {
@@ -57,7 +57,6 @@ const ColorBackground = styled.div`
   height: 220px;
   width: 100%;
   background: radial-gradient(66.13% 120.18% at 0% 0%, #37a2c4 0%, #1587ab 100%);
-  margin-top: 56px;
 `;
 
 const IconMail = styled.div`
