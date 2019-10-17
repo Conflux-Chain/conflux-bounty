@@ -24,6 +24,7 @@ const InputWrap = styled.div`
       font-size: ${unitParser(14)};
       left: ${unitParser(8)};
     `}
+    padding: 0 4px;
   }
   &.col > label {
     margin-left: 10px;
