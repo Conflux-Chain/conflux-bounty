@@ -702,6 +702,7 @@ export function showLink(url, title, list) {
           style={{
             textDecoration: 'underline',
             fontSize: `${unitParser(16)}`,
+            wordBreak: 'break-word',
           }}
         >
           {title}

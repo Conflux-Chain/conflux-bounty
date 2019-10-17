@@ -17,6 +17,7 @@ export const MileStoneDiv = styled.div`
     }
   }
   .milestone-step {
+    flex-shrink: 0;
     margin-right: 8px;
     position: relative;
   }
