@@ -66,7 +66,7 @@ class ResetPassword extends Component {
         <Wrapper>
           <div className="signup">
             <form className="form-wrap">
-              <span className="title"> {i18nTxt('RESET PASSWORD')}</span>
+              <span className="title"> {i18nTxt('Reset Password')}</span>
               <div className="inputs-wrap">
                 <Email
                   checkIsRegistered
