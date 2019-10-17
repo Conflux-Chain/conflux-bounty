@@ -93,6 +93,7 @@ class Example extends Component {
               <Select
                 label="asdasda"
                 onSelect={v => {
+                  // eslint-disable-next-line no-console
                   console.log(v);
                 }}
                 options={[

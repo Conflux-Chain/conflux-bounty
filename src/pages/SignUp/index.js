@@ -19,8 +19,10 @@ import Password from '../../components/Password';
 import InvitationCode from '../../components/InvitationCode';
 import { notice } from '../../components/Message/notice';
 import SignInVia from '../../components/SignInVia';
+import media from '../../globalStyles/media';
 import { RecaptchaWrapDiv } from '../SignIn';
 import { recaptchaKey } from '../../constants';
+import unitParser from '../../utils/device';
 
 const RecaptchaWrapDiv1 = styled(RecaptchaWrapDiv)`
   margin-top: 5px;
@@ -288,9 +290,15 @@ class SignUp extends Component {
                 <SignInVia />
               </div>
               <div className={userId ? 'btn-wrap-third-party-signup' : 'btn-wrap-third-party-signup-hidden'}>
-                <Link className="primary signout-link" to="/">
+                <button
+                  className="btn waves-effect waves-light default signout-btn"
+                  type="button"
+                  onClick={() => {
+                    window.location.href = '/';
+                  }}
+                >
                   {i18nTxt('SIGN OUT')}
-                </Link>
+                </button>
                 <button className="btn waves-effect waves-light primary third-party-done-btn" type="button" onClick={this.onSignupClick}>
                   {i18nTxt('DONE')}
                 </button>
@@ -318,13 +326,25 @@ export default connect(mapStateToProps)(SignUp);
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
+  ${media.mobile`
+    padding: ${unitParser(20)} ${unitParser(12)};
+  `}
   .title {
     font-size: 32px;
     line-height: 32px;
+    font-weight: 600;
+    ${media.mobile`
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
+    `}
   }
   .form-wrap {
     text-align: center;
     margin: 0 80px;
+    ${media.mobile`
+      margin: 0;
+      text-align: left;
+    `}
   }
   .inputs-wrap {
     margin-top: 40px;
@@ -342,6 +362,7 @@ const Wrapper = styled(StyledWrapper)`
   }
   .btn-wrap-third-party-signup {
     display: flex;
+    flex: 1;
   }
   .btn-wrap-third-party-signup-hidden {
     display: none;
@@ -353,20 +374,21 @@ const Wrapper = styled(StyledWrapper)`
     font-size: 16px;
     line-height: 16px;
     text-transform: uppercase;
+    &:hover {
+      text-decoration: none;
+    }
+    ${media.mobile`
+      text-align: center;
+    `}
   }
-  .signout-link {
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 44px;
-    width: 174px;
-    text-transform: uppercase;
+  .signout-btn {
+    flex: 1;
     margin-right: 12px;
+    ${media.mobile`
+      margin-right: ${unitParser(8)};
+    `}
   }
   .third-party-done-btn {
-    width: 174px;
-  }
-  .signin-link:hover {
-    text-decoration: none;
+    flex: 1;
   }
 `;

@@ -65,6 +65,19 @@ ${i18nTxt('You can check the details at below link')}.`,
     const { history, nickname } = this.props;
     const paragraphs = description.split('\n');
     const isSubmission = title.includes('Submission');
+    const isWithdrawal = title.includes('Withdrawal');
+    let helperLink;
+    let helperTitle;
+    if (isSubmission) {
+      helperLink = '/my-submission';
+      helperTitle = 'My Submission';
+    } else if (isWithdrawal) {
+      helperLink = '/account-history';
+      helperTitle = 'Account History';
+    } else {
+      helperLink = '/my-bounty';
+      helperTitle = 'My Bounties';
+    }
 
     return (
       <React.Fragment>
@@ -83,9 +96,7 @@ ${i18nTxt('You can check the details at below link')}.`,
               {paragraphs.map(paragraph => (
                 <p>{paragraph}</p>
               ))}
-              <Link to={`${isSubmission ? '/my-submission' : '/my-bounty'}`}>
-                {i18nTxt(`${isSubmission ? 'My Submissions' : 'My Bounties'}`)}
-              </Link>
+              <Link to={helperLink}>{i18nTxt(helperTitle)}</Link>
               <br />
               <p>{i18nTxt('Conflux Team')}</p>
             </div>

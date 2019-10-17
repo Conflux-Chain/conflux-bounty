@@ -233,7 +233,6 @@ a {
     border: 1px solid #C6CCCD;
     box-sizing: border-box;
     border-radius: 4px;
-   
     width: auto;
     height: 44px;
     font-size: 16px;
@@ -249,76 +248,6 @@ a {
 
   input {
     caret-color: transparent;
-  }
-  .caret {
-    position: absolute;
-    top: 15px;
-    right: 10px;
-  }
-}
-
-// form input
-.input-field {
-  > label {
-    z-index: 1;
-    background: #fff;
-    left: 10px;
-    width: auto !important;
-    max-width: 100%;
-    display: inline-block;
-    color: #8e9394;
-    transform: translateY(16px);
-    font-size: 16px;
-  }
-  &.col > label {
-    margin-left: 10px;
-  }
-
-  > input:not(.browser-default) {
-    border: 1px solid #bfc5c7;
-    border-radius: 4px;
-    box-sizing: border-box;
-    text-indent: 16px;
-    box-shadow: none;
-    color: #171d1f;
-    height: 56px;
-    font-size: 16px;
-    text-align: left;
-    width: 100%;
-    outline: none;
-
-    &:disabled,
-    &[readonly="readonly"] {
-      border: 1px solid #d8dddf;
-    }
-    &:disabled + label,
-    &[readonly="readonly"] + label {
-      color: #d8dddf;
-    }
-    &.invalid {
-      border: 1px solid #ec6057;
-    }
-    &.invalid + label {
-      color: #ec6057;
-    }
-
-    &:hover:not([readonly]) {
-      border: 1px solid #595f61;
-    }
-    &:hover:not([readonly]) + label {
-      color: #595f61;
-    }
-
-    &:focus:not([readonly]) {
-      border: 1px solid #22b2d6;
-      box-shadow: 0 0px 0px 1px #22b2d6;
-    }
-    &:focus:not([readonly]) + label {
-      color: #22b2d6;
-    }
-  }
-  > label.active {
-    margin-top: 5px;
   }
 }
 
@@ -339,6 +268,7 @@ textarea.materialize-textarea {
   &:hover {
     text-decoration: none;
   }
+
 }
 
 @font-face {

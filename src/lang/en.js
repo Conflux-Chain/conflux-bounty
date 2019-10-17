@@ -25,4 +25,7 @@ export default {
   'submission.note.DELETED': 'REJECTED',
   'submission.note.APPROVED': ' ',
   PermissionError: 'You do not have permission to access the page, please login again',
+  'home.Bounty Rewards': 'Bounty Rewards',
+  'home.Date': 'Date',
+  'home.Participants': 'Participants',
 };

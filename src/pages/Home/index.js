@@ -14,10 +14,15 @@ import HomeCategory from '../../components/HomeCategory';
 import HomeBounty from '../../components/HomeBounty';
 import sortImg from '../../assets/iconfont/sort.svg';
 import homeImg from '../../assets/iconfont/home-back.svg';
+import mhomeImg from '../../assets/iconfont/m-home-back.svg';
 import leftArrow from '../../assets/iconfont/left-arrow.svg';
 import rightArrow from '../../assets/iconfont/right-arrow.svg';
+import mArrowDown from '../../assets/iconfont/m-arrow-down.svg';
 import { compose, commonPropTypes, i18nTxt } from '../../utils';
 import DailyCheckin from '../../components/DailyCheckin';
+import media from '../../globalStyles/media';
+import Picker from '../../components/Picker';
+import unitParser from '../../utils/device';
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +32,14 @@ const Container = styled.div`
   position: relative;
   background-color: #fff;
   .homeBg {
-    background-image: url(${homeImg});
+    background-image: url("${homeImg}");
+    ${media.tablet`
+    background-image: url("${mhomeImg}");
+    height: 471px;
+    `}
+    ${media.mobile`
+    height: ${unitParser(500)};
+    `}
     height: 616px;
     width: 100%;
     position: absolute;
@@ -48,6 +60,7 @@ const Container = styled.div`
     justify-content: center;
     color: #fff;
     z-index: 10;
+    ${media.tablet`display: none;`}
   }
   .bounty-action {
     display: flex;
@@ -69,20 +82,63 @@ const HoTBounty = styled.div`
     font-size: 24px;
     line-height: 24px;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
     color: #fff;
     margin-bottom: 15px;
+    text-transform: uppercase;
+    ${media.tablet`
+      text-transform: none;
+      align-self: flex-start; margin-left: 10px; font-size: ${unitParser(20)}`}
   }
   .hot-slider {
     width: 100%;
     max-width: 1400px;
     min-height: 230px;
     padding: 0 32px;
+    ${media.tablet`
+    padding: 0;
+    `}
+
+    ${media.mobile`
+    min-height: ${unitParser(230)};
+    `}
+
+    .slick-track {
+      min-width: 800px;
+    }
     .hot-wall-items {
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
+    ${media.tablet`
+      div[class*="wrap-"] {
+        width: 320px;
+        margin-left: 12px;
+        /* margin-right: 12px; */
+      }
+      .status-image .status-line {
+        width: 64px;
+      }
+      .status-text {
+        width: 300px;
+      }
+    `}
+
+    ${media.mobile`
+      div[class*="wrap-"] {
+        width: ${unitParser(320)};
+        margin-left: ${unitParser(12)};
+        /* margin-right: 12px; */
+      }
+      .status-image .status-line {
+        width: ${unitParser(64)};
+      }
+      .status-text {
+        width: ${unitParser(300)};
+      }
+    `}
+
     .wrap-open,
     .wrap-finished,
     .wrap-ongoing {
@@ -137,6 +193,7 @@ const HoTBounty = styled.div`
   }
 `;
 const Broadcast = styled.div`
+  ${media.mobile`display: none;`}
   width: 100%;
   max-width: 1200px;
   height: 44px;
@@ -162,6 +219,9 @@ const Broadcast = styled.div`
       height: 44px;
       align-items: center;
       color: #fff;
+      ${media.mobile`
+        text-align: center;
+      `}
       a {
         display: flex;
         flex: 1;
@@ -180,14 +240,54 @@ const Broadcast = styled.div`
     }
   }
 `;
+
+const BroadcastMobile = styled.div`
+  display: none;
+  ${media.mobile`display: block;`}
+
+  background: rgba(0, 0, 0, 0.2);
+  padding-top: 16px;
+  padding-bottom: 16px;
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  .broadcast-item-wrap {
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .broadcast-item {
+    font-size: 12px;
+    line-height: 16px;
+    color: #ffffff;
+    display: inline-block;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-right: 1px solid rgba(255, 255, 255, 0.4);
+    min-width: 150px;
+    &:last-of-type {
+      border-right: none;
+    }
+    ${media.mobile`
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.4);
+      &:last-of-type {
+        border-right: 1px solid rgba(255, 255, 255, 0.4);
+      }
+    `}
+  }
+`;
+
 const BountyWall = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 10;
   align-items: center;
   margin-top: 28px;
+  ${media.mobile`margin-top: 0; background: #fff;`}
   width: 100%;
   max-width: 1240px;
+
   .bounty-wall-title {
     display: inline-block;
     font-weight: 700;
@@ -203,6 +303,9 @@ const Category = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #f7f9fa;
+  ${media.tablet`
+    background-color: #fff;
+  `}
   border-radius: 12px;
   margin: 40px 20px;
   padding: 20px;
@@ -215,12 +318,67 @@ const Category = styled.div`
       margin-bottom: 0;
     }
     .title {
-      display: inline-block;
+      display: block;
       width: 100px;
       line-height: 14px;
-      color: #8e9394;
+      color: #3b3d3d;
+      margin-bottom: 12px;
     }
   }
+  .category-line > div {
+    display: inline-block;
+  }
+
+  ${media.tablet`
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    display: block;
+    flex-direction: initial;
+    background-color: none;
+    border-radius: none;
+    margin: initial;
+    padding: none;
+
+    .category {
+      display: block;
+      height: initial;
+      align-items: initial;
+      margin-bottom: initial;
+      &:last-of-type {
+        margin-bottom: initial;
+      }
+
+      padding-bottom: 20px;
+      border-bottom: 1px solid #EBEDED;
+      overflow: auto;
+      .category-line > div {
+        display: inline-block;
+        border-radius: 4px;
+      }
+      .category-line {
+        padding-left: ${unitParser(12)};
+        padding-bottom: ${unitParser(12)};
+        display: block;
+        clear: both;
+        overflow: auto;
+        white-space: nowrap;k
+      }
+    }
+    .title {
+      width: initial;
+      line-height: initial;
+      padding-left: ${unitParser(12)};
+
+      display: block;
+      font-size: 14px;
+      color: #3B3D3D;
+      margin-top: 5px;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+  `}
 `;
 
 const BountyList = styled.div`
@@ -231,6 +389,7 @@ const BountyList = styled.div`
   max-width: 1240px;
 
   .bounty-list-header {
+    ${media.tablet`display: none;`}
     display: flex;
     width: 100%;
     padding: 0 20px;
@@ -255,12 +414,54 @@ const BountyList = styled.div`
       }
     }
   }
+
+  .m-bounty-list {
+    display: none;
+    ${media.tablet`display: flex;`}
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #D8DDDF;
+    justify-content: space-between;
+    width: 100%;
+    color: #8E9394;
+    margin-bottom: 20px;
+
+    > button {
+      color: #8E9394;
+    }
+
+    .arrow-down {
+      background-image: url("${mArrowDown}");
+      width: 6px;
+      display: inline-block;
+      background-position: center;
+      width: 20px;
+      height: 12px;
+      background-repeat: no-repeat;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+  }
+
+
   .bounty-list-content {
     width: 100%;
     max-width: 1240px;
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
+    ${media.tablet`
+    padding-left: 12px;
+    padding-right: 12px;
+    .wrap-create {
+      display: none;
+    }
+    div[class*="wrap-"] {
+      width: 100%;
+    }
+    `}
   }
 `;
 
@@ -345,12 +546,31 @@ function getStatus(status) {
   return result;
 }
 
+function getSortType(type) {
+  let result;
+  switch (type) {
+    case 'fansCoin':
+      result = i18nTxt('home.Bounty Rewards');
+      break;
+    case 'time':
+      result = i18nTxt('home.Date');
+      break;
+    case 'account':
+      result = i18nTxt('home.Participants');
+      break;
+    default:
+      result = i18nTxt('home.Bounty Rewards');
+  }
+  return result;
+}
+
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sortType: 'time',
       sortOrder: false,
+      sortPickerShow: false,
     };
     this.onChangeTag = this.onChangeTag.bind(this);
     this.onChangeCategory = this.onChangeCategory.bind(this);
@@ -466,30 +686,52 @@ class Home extends Component {
   render() {
     const { homeState, getMoreBounty, categoryL1List, categoryMap } = this.props;
     const { tag, category, subCategory, total, bountyList, popBountyList, broadcastList } = homeState;
-    let count = 3;
-    if (window.innerWidth > 1290) {
-      count = 3;
-    } else if (window.innerWidth > 860) {
-      count = 2;
-    } else {
-      count = 1;
+    const { sortType, sortPickerShow, curSortType } = this.state;
+
+    let infinite = false;
+    if (popBountyList.length > 3) {
+      infinite = true;
     }
+    infinite = false;
+
     const settings = {
       dots: true,
-      infinite: true,
-      slidesToShow: count,
-      slidesToScroll: count,
-      autoplay: true,
+      infinite,
+      slidesToShow: 3,
+      slidesToScroll: 3,
+      autoplay: false,
       speed: 1000,
       autoplaySpeed: 3000,
       pauseOnHover: true,
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />,
+      responsive: [
+        {
+          breakpoint: 1170,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+          },
+        },
+        {
+          breakpoint: 820,
+          settings: {
+            dots: false,
+            variableWidth: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            initialSlide: 1,
+            infinite: false,
+            nextArrow: <Fragment></Fragment>,
+            prevArrow: <Fragment></Fragment>,
+          },
+        },
+      ],
     };
     const broadSettings = {
       dots: false,
       infinite: true,
-      fade: true,
+      // fade: true,
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
@@ -507,48 +749,33 @@ class Home extends Component {
     //   { title: 'Breaking News! Conflux Chain Mainnet online' },
     //   { title: 'Conflux Shenzhen Meetup 15 Sep 2019' },
     // ];
+
     return (
       <Container>
         <div className="homeBg" />
         <span className="bounty-slogan">{i18nTxt('Discovering the Value of Each Token')}</span>
         <HoTBounty>
-          <span className="hot-bounty-title">{i18nTxt('HOTTEST BOUNTIES')}</span>
+          <span className="hot-bounty-title">{i18nTxt('Hottest bounties')}</span>
           <div className="hot-slider">
-            {popBountyList.length < count ? (
-              <div className="hot-wall-items">
-                {popBountyList.map(item => (
-                  <HomeBounty
-                    id={item.id}
-                    key={item.id}
-                    type={getType(item.status)}
-                    status={getStatus(item.status)}
-                    count={item.submissionAccountNumber}
-                    title={item.title}
-                    user={item.user.nickname}
-                    fansCoin={item.fansCoin}
-                    onClick={this.onOpenBounty}
-                  />
-                ))}
-                {/* <HomeBounty type="open" title="Animoji" user="Rach" fansCoin={20100} onClick={this.onOpenBounty} />
-                <HomeBounty type="open" title="Animoji" user="Rach" fansCoin={20100} onClick={this.onOpenBounty} /> */}
-              </div>
-            ) : (
-              <Slider {...settings}>
-                {popBountyList.map(item => (
-                  <HomeBounty
-                    id={item.id}
-                    key={item.id}
-                    type={getType(item.status)}
-                    status={getStatus(item.status)}
-                    count={item.submissionAccountNumber}
-                    title={item.title}
-                    user={item.user.nickname}
-                    fansCoin={item.fansCoin}
-                    onClick={this.onOpenBounty}
-                  />
-                ))}
-              </Slider>
-            )}
+            <Slider {...settings}>
+              {popBountyList.map(item => {
+                return (
+                  <div>
+                    <HomeBounty
+                      id={item.id}
+                      key={item.id}
+                      type={getType(item.status)}
+                      status={getStatus(item.status)}
+                      count={item.submissionAccountNumber}
+                      title={item.title}
+                      user={item.user.nickname}
+                      fansCoin={item.fansCoin}
+                      onClick={this.onOpenBounty}
+                    />
+                  </div>
+                );
+              })}
+            </Slider>
           </div>
         </HoTBounty>
         {broadcastList.length > 0 && (
@@ -605,6 +832,30 @@ class Home extends Component {
             </div>
           </Broadcast>
         )}
+
+        <BroadcastMobile>
+          <Slider
+            {...{
+              infinite: true,
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              autoplay: true,
+              speed: 1000,
+              autoplaySpeed: 5000,
+              variableWidth: true,
+              arrows: false,
+            }}
+          >
+            {broadcastList.map(item => {
+              return (
+                <a href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'} className="broadcast-item">
+                  {item.title}
+                </a>
+              );
+            })}
+          </Slider>
+        </BroadcastMobile>
+
         <BountyWall>
           {broadcastList.length === 0 && <span className="bounty-wall-title">{i18nTxt('BOUNTY WALL')}</span>}
           <HomeTag
@@ -619,30 +870,34 @@ class Home extends Component {
           <Category>
             <div className="category">
               <span className="title">{i18nTxt('Category')}:</span>
-              <HomeCategory text={i18nTxt('All')} value={null} selected={category === null} onClick={this.onChangeCategory} />
-              {categoryL1List.map(item => (
-                <HomeCategory
-                  key={item.id}
-                  text={item.name}
-                  value={item.id}
-                  selected={category === item.id}
-                  onClick={this.onChangeCategory}
-                />
-              ))}
-            </div>
-            {category !== null && (
-              <div className="category">
-                <span className="title">{i18nTxt('SubCategory')}:</span>
-                <HomeCategory text="All" value={null} selected={subCategory === null} onClick={this.onChangeSubCategory} />
-                {(categoryMap[category] || []).map(item => (
+              <span className="category-line">
+                <HomeCategory text={i18nTxt('All')} value={null} selected={category === null} onClick={this.onChangeCategory} />
+                {categoryL1List.map(item => (
                   <HomeCategory
                     key={item.id}
                     text={item.name}
                     value={item.id}
-                    selected={subCategory === item.id}
-                    onClick={this.onChangeSubCategory}
+                    selected={category === item.id}
+                    onClick={this.onChangeCategory}
                   />
                 ))}
+              </span>
+            </div>
+            {category !== null && (
+              <div className="category">
+                <span className="title">{i18nTxt('SubCategory')}:</span>
+                <span className="category-line">
+                  <HomeCategory text="All" value={null} selected={subCategory === null} onClick={this.onChangeSubCategory} />
+                  {(categoryMap[category] || []).map(item => (
+                    <HomeCategory
+                      key={item.id}
+                      text={item.name}
+                      value={item.id}
+                      selected={subCategory === item.id}
+                      onClick={this.onChangeSubCategory}
+                    />
+                  ))}
+                </span>
               </div>
             )}
           </Category>
@@ -664,6 +919,24 @@ class Home extends Component {
               </div>
               <span>{i18nTxt('Found <%=total%> Results', { total })}</span>
             </div>
+
+            <div className="m-bounty-list">
+              <span>{i18nTxt('Sort By')}</span>
+
+              <button
+                type="button"
+                onClick={() => {
+                  this.setState({
+                    sortPickerShow: true,
+                    curSortType: sortType,
+                  });
+                }}
+              >
+                <span>{getSortType(sortType)}</span>
+                <span className="arrow-down"></span>
+              </button>
+            </div>
+
             <div className="bounty-list-content">
               {tag === 'open' && <HomeBounty type="create" title="" user="" fansCoin={0} onClick={this.onCreateBounty} />}
               {bountyList.map(item => (
@@ -691,6 +964,48 @@ class Home extends Component {
           )}
         </div>
         <DailyCheckin />
+        <Picker
+          optionGroups={{
+            sortType: [
+              {
+                value: 'fansCoin',
+                label: getSortType('fansCoin'),
+              },
+              {
+                value: 'time',
+                label: getSortType('time'),
+              },
+              {
+                value: 'account',
+                label: getSortType('account'),
+              },
+            ],
+          }}
+          valueGroups={{
+            sortType: {
+              value: curSortType,
+            },
+          }}
+          onChange={(name, val) => {
+            this.setState({
+              sortOrder: false,
+              curSortType: val.value,
+            });
+          }}
+          height={160}
+          onCancel={() => {
+            this.setState({
+              sortPickerShow: false,
+            });
+          }}
+          onConfirm={() => {
+            this.onChangeSort(curSortType);
+            this.setState({
+              sortPickerShow: false,
+            });
+          }}
+          show={sortPickerShow}
+        ></Picker>
       </Container>
     );
   }

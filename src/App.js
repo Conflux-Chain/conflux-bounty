@@ -23,6 +23,7 @@ import MaterialHook from './components/MaterialHook';
 import PageHead from './components/PageHead';
 import PageFoot from './components/PageFoot';
 import Share from './components/Share';
+import media from './globalStyles/media';
 
 const PageWrapper = styled.div`
   background-color: #f7f9fa;
@@ -33,15 +34,23 @@ const PageWrapper = styled.div`
   bottom: 0px;
   overflow: auto;
   .page-holder {
-    min-width: 600px;
+    min-width: auto;
     min-height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
+    ${media.mobile`
+      min-width: 100%;
+    `}
   }
   .page-content {
     flex: 1;
   }
+  ${media.mobile`
+    .page-holder {
+      min-width: 100%;
+    }
+  `}
 `;
 class App extends PureComponent {
   render() {

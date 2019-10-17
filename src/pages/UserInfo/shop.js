@@ -15,6 +15,9 @@ import { reqCreateOrder } from '../../utils/api';
 import Password from '../../components/Password';
 import EmailCode from '../../components/EmailCode';
 import Modal from '../../components/Modal';
+import media from '../../globalStyles/media';
+import close from '../../assets/iconfont/modal-close.svg';
+import unitParser from '../../utils/device';
 
 /* eslint-disable func-names */
 function ConfirmPurchaseModal({ onConfirm, userEmail, onClose }) {
@@ -23,12 +26,12 @@ function ConfirmPurchaseModal({ onConfirm, userEmail, onClose }) {
   let password;
   let emailCode;
   return (
-    <Modal show showOverlay>
+    <Modal show showOverlay mobilePosBottom>
       <Confirm>
         <div>
           <h4>{i18nTxt('Confirm Payment')}</h4>
           <button type="button" aria-label="Close" className="close" onClick={onClose}>
-            ⤫
+            <img src={close} alt="close" />
           </button>
           <p className="noting">{i18nTxt('Please enter your password and E-mail code to confirm this payment')}.</p>
           <Password
@@ -236,12 +239,21 @@ export default function Shop({ history }) {
         <section className="products-list">{listUI}</section>
         <section className="total">
           <p>
-            {i18nTxt('Total price')}: {total} FC
+            <span>{i18nTxt('Total price')}: </span>
+            <span>{total} FC</span>
           </p>
           <button
             type="button"
             className="btn primary waves"
-            onClick={async () => {
+            onClick={() => {
+              if (productsCount === 0 || productsCount.reduce((a, b) => a + b) === 0) {
+                notice.show({
+                  content: i18nTxt('Please select a product.'),
+                  type: 'message-error',
+                  timeout: 3000,
+                });
+                return;
+              }
               setConfirming(true);
             }}
           >
@@ -259,6 +271,9 @@ Shop.propTypes = {
 
 const Confirm = styled.div`
   padding: 26px 20px 20px 20px;
+  ${media.mobile`
+    padding: 0;
+  `}
   h4 {
     font-weight: 500;
     font-size: 20px;
@@ -267,7 +282,7 @@ const Confirm = styled.div`
     margin: 0 0 20px 0;
   }
   > div {
-    min-width: 400px;
+    min-width: 350px;
     background: #fff;
     border-radius: 12px;
     padding: 20px;
@@ -275,6 +290,11 @@ const Confirm = styled.div`
     flex-direction: column;
     justify-content: space-between;
     box-shadow: rgba(0, 0, 0, 0.12) 2px 4px 20px;
+    ${media.mobile`
+      border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
+      box-shadow: none;
+      padding: ${unitParser(24)} ${unitParser(12)} ${unitParser(20)} ${unitParser(12)};
+    `}
   }
   .noting {
     margin-bottom: 20px;
@@ -283,19 +303,13 @@ const Confirm = styled.div`
   }
   .close {
     cursor: pointer;
-    border: 0;
-    background: transparent;
-    font-size: 21px;
     position: absolute;
-    right: 40px;
+    right: 30px;
     top: 40px;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    text-shadow: 0 1px 0 #fff;
-    filter: alpha(opacity=20);
-    opacity: 0.2;
-    text-decoration: none;
+    ${media.mobile`
+      right: ${unitParser(10)};
+      top: ${unitParser(15)};
+    `}
 
     &:hover {
       opacity: 1;
@@ -308,11 +322,24 @@ const Confirm = styled.div`
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
+  ${media.mobile`
+    padding: ${unitParser(20)} ${unitParser(12)};
+  `}
   h1 {
     margin: 0;
     font-size: 32px;
     line-height: 32px;
     font-weight: 500;
+    ${media.mobile`
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
+    `}
+  }
+  .total {
+    text-align: center;
+    button {
+      width: 100%;
+    }
   }
   .products-list {
     display: flex;
@@ -346,10 +373,21 @@ const Wrapper = styled(StyledWrapper)`
         display: flex;
         justify-content: space-between;
         align-items: center;
-
+        ${media.mobile`
+          flex-direction: column;
+          align-items: flex-start;
+        `}
         .controls {
           display: flex;
           justify-content: flex-start;
+          ${media.mobile`
+            margin-bottom: ${unitParser(12)};
+            width: 100%;
+            justify-content: space-between;
+            button:last-child {
+              margin-right: 0;
+            }
+          `}
           * {
             margin-right: 8px;
           }
@@ -361,12 +399,18 @@ const Wrapper = styled(StyledWrapper)`
           }
           .input-field {
             margin: 0 8px 0 0;
+            ${media.mobile`
+              width: 100%;
+            `}
             input {
               text-indent: unset;
               text-align: center;
               width: 56px;
               height: 44px;
               margin: 0;
+              ${media.mobile`
+                width: 100%;
+              `}
             }
           }
         }
@@ -384,6 +428,16 @@ const Wrapper = styled(StyledWrapper)`
     text-align: center;
     button {
       width: 100%;
+    }
+    p {
+      margin: 0;
+      font-size: 20px;
+      line-height: 20px;
+      margin-bottom: 20px;
+      ${media.mobile`
+        display: flex;
+        justify-content: space-between;
+      `}
     }
   }
 `;

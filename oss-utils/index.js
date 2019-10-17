@@ -1,4 +1,4 @@
-console.log('Loading function ...');
+// console.log('Loading function ...');
 const OSS = require('ali-oss');
 const config = require('./config');
 
@@ -28,7 +28,7 @@ module.exports.handler = (eventBuf, ctx, callback) => {
   // bounty/aa.txt(xxx-xxxxx-xxx)
   const fileKey = ossEvent.oss.object.key;
   // Get object
-  console.log('Getting object: ', fileKey);
+  // console.log('Getting object: ', fileKey);
 
   clientOrigin
     .getStream(fileKey)
@@ -59,7 +59,7 @@ module.exports.handler = (eventBuf, ctx, callback) => {
           };
         }
       }
-      console.log(saveKey);
+      // console.log(saveKey);
       clientDist.putStream(saveKey, fileGetStream, opts).then(result1 => {
         // console.log(result1);
         callback(null, result1);

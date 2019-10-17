@@ -4,11 +4,13 @@
  */
 
 /* eslint react/no-multi-comp:0 */
+/* eslint no-return-assign:0 */
 import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import cx from 'classnames';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import Modal from '../../components/Modal';
@@ -21,39 +23,60 @@ import Password from '../../components/Password';
 import EmailCode from '../../components/EmailCode';
 import Email from '../../components/Email';
 import Select from '../../components/Select';
+import media from '../../globalStyles/media';
+import unitParser, { useMobile } from '../../utils/device';
+
+const ModalHeadStyle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  > p {
+    margin: 0;
+    font-size: 20px;
+    line-height: 20px;
+    color: #171d1f;
+    font-weight: 500;
+  }
+  ${media.mobile`
+font-size: ${unitParser(24)};
+line-height: ${unitParser(24)};
+`}
+`;
 
 const LANGUAGES = { 'zh-CN': { label: '简体中文', value: 'zh-CN' }, en: { label: 'English', value: 'en' } };
 
 function LanguageModal({ onCancel, onOk, defaultLanguageCode }) {
   const [selectedLangCode, setSelectedLangCode] = useState(defaultLanguageCode);
+  const isMobile = useMobile();
   return (
-    <Modal show showOverlay={false}>
+    <Modal show showOverlay>
       <Confirm>
-        <div>
-          <Select
-            options={Object.values(LANGUAGES)}
-            selected={LANGUAGES[selectedLangCode]}
-            label={i18nTxt('Language Preference')}
-            onSelect={lang => {
-              setSelectedLangCode(lang.value);
-            }}
-          />
-          <div className="confirm-actions">
+        <Select
+          options={Object.values(LANGUAGES)}
+          selected={LANGUAGES[selectedLangCode]}
+          label={i18nTxt('Language Preference')}
+          onSelect={lang => {
+            setSelectedLangCode(lang.value);
+          }}
+        />
+        <div className="confirm-actions">
+          {!isMobile && (
             <button type="button" onClick={onCancel}>
               {i18nTxt('LEAVE')}
             </button>
-            <button
-              className="agree"
-              type="button"
-              onClick={async e => {
-                const { code } = await reqUserUpdate({ language: selectedLangCode });
-                if (code !== 0) return;
-                onOk(e);
-              }}
-            >
-              {i18nTxt('SAVE')}
-            </button>
-          </div>
+          )}
+          <button
+            className={cx({ 'btn waves-effect waves-light primary': isMobile }, 'agree')}
+            type="button"
+            onClick={async e => {
+              const { code } = await reqUserUpdate({ language: selectedLangCode });
+              if (code !== 0) return;
+              onOk(e);
+            }}
+          >
+            {i18nTxt('SAVE')}
+          </button>
         </div>
       </Confirm>
     </Modal>
@@ -66,46 +89,55 @@ LanguageModal.propTypes = {
   defaultLanguageCode: PropTypes.string.isRequired,
 };
 
-class NicknameModal extends Component {
-  onChange = async e => {
-    this.nickname = e.target.value;
-  };
+function NicknameModal({ onOk, onCancel }) {
+  let nicknameRef;
+  let nickname;
+  const isMobile = useMobile();
+  const modalContent = (
+    <Confirm>
+      <ModalHeadStyle>
+        <p>{i18nTxt('Edit Nickname')}</p>
+        {isMobile && (
+          <button className="material-icons close" onClick={onCancel} type="button">
+            close
+          </button>
+        )}
+      </ModalHeadStyle>
 
-  onOk = async e => {
-    if (this.nicknameRef.hasError()) return;
-    const { onOk } = this.props;
-    const { code } = await reqUserUpdate({ nickname: this.nickname });
-    if (code === 0) {
-      onOk(e);
-    }
-  };
+      <Nickname
+        onChange={e => (nickname = e.target.value)}
+        ref={ref => {
+          nicknameRef = ref;
+        }}
+      />
+      <div className="confirm-actions">
+        {!isMobile && (
+          <button type="button" onClick={onCancel}>
+            {i18nTxt('LEAVE')}
+          </button>
+        )}
+        <button
+          className={cx({ 'btn waves-effect waves-light primary': isMobile }, 'agree')}
+          type="button"
+          onClick={async e => {
+            if (nicknameRef.hasError()) return;
+            const { code } = await reqUserUpdate({ nickname });
+            if (code === 0) {
+              onOk(e);
+            }
+          }}
+        >
+          {i18nTxt('SAVE')}
+        </button>
+      </div>
+    </Confirm>
+  );
 
-  render() {
-    const { onCancel } = this.props;
-    return (
-      <Modal show showOverlay={false}>
-        <Confirm>
-          <div>
-            <p style={{ marginBottom: '20px' }}>{i18nTxt('Edit Nickname')}</p>
-            <Nickname
-              onChange={this.onChange}
-              ref={ref => {
-                this.nicknameRef = ref;
-              }}
-            />
-            <div className="confirm-actions">
-              <button type="button" onClick={onCancel}>
-                {i18nTxt('LEAVE')}
-              </button>
-              <button className="agree" type="button" onClick={this.onOk}>
-                {i18nTxt('SAVE')}
-              </button>
-            </div>
-          </div>
-        </Confirm>
-      </Modal>
-    );
-  }
+  return (
+    <Modal show mobilePosBottom={isMobile} showOverlay>
+      {modalContent}
+    </Modal>
+  );
 }
 
 NicknameModal.propTypes = {
@@ -113,115 +145,91 @@ NicknameModal.propTypes = {
   onOk: PropTypes.func.isRequired,
 };
 
-class EmailModal extends Component {
-  state = { newEmail: '', currentEmail: '' };
+function EmailModal({ onCancel, onOk }) {
+  let newVerificationCode;
+  let currentVerificationCode;
+  let password;
+  let newEmailRef;
+  let currentEmailRef;
+  let newVerificationCodeRef;
+  let currentVerificationCodeRef;
+  let passwordRef;
+  const [newEmail, setNewEmail] = useState('');
+  const [currentEmail, setCurrentEmail] = useState('');
+  const isMobile = useMobile();
+  const modalContent = (
+    <Confirm>
+      <ModalHeadStyle>
+        <p>{i18nTxt('Edit Email')}</p>
+        {isMobile && (
+          <button className="material-icons close" onClick={onCancel} type="button">
+            close
+          </button>
+        )}
+      </ModalHeadStyle>
+      <div className="inputs-wrap">
+        <Email label={i18nTxt('New Email')} onChange={e => setNewEmail(e.target.value)} ref={ref => (newEmailRef = ref)} />
+        <EmailCode email={newEmail} onChange={e => (newVerificationCode = e.target.value)} ref={ref => (newVerificationCodeRef = ref)} />
+        <Email
+          label={i18nTxt('Current Email')}
+          checkIsOwner
+          onChange={e => setCurrentEmail(e.target.value)}
+          ref={ref => (currentEmailRef = ref)}
+        />
+        <EmailCode
+          email={currentEmail}
+          onChange={e => (currentVerificationCode = e.target.value)}
+          ref={ref => (currentVerificationCodeRef = ref)}
+        />
+        <Password onChange={e => (password = e.target.value)} ref={ref => (passwordRef = ref)} />
+      </div>
+      <div className="confirm-actions">
+        {!isMobile && (
+          <button type="button" onClick={onCancel}>
+            {i18nTxt('LEAVE')}
+          </button>
+        )}
+        <button
+          className={cx({ 'btn waves-effect waves-light primary': isMobile }, 'agree')}
+          type="button"
+          onClick={async () => {
+            if (
+              newEmailRef.hasError() ||
+              currentEmailRef.hasError() ||
+              newVerificationCodeRef.hasError() ||
+              currentVerificationCodeRef.hasError() ||
+              passwordRef.hasError()
+            ) {
+              return;
+            }
+            const { code } = await reqUserUpdate({
+              password,
+              newEmail,
+              currentEmail,
+              newEmailVerificationCode: newVerificationCode,
+              currentEmailVerificationCode: currentVerificationCode,
+            });
 
-  onNewEmailChange = async e => {
-    this.setState({ newEmail: e.target.value });
-  };
+            if (code !== 0) {
+              // handle error at utils/api
+              // notice.show({ content: body.message, type: 'message-error', timeout: 3000 });
+              return;
+            }
+            onOk();
+          }}
+        >
+          {i18nTxt('SAVE')}
+        </button>
+      </div>
+    </Confirm>
+  );
 
-  onNewVerificationCodeChange = async e => {
-    this.newVerificationCode = e.target.value;
-  };
-
-  onCurrentEmailChange = async e => {
-    this.setState({ currentEmail: e.target.value });
-  };
-
-  onCurrentVerificationCodeChange = async e => {
-    this.currentVerificationCode = e.target.value;
-  };
-
-  onPasswordChange = async e => {
-    this.password = e.target.value;
-  };
-
-  onOk = async () => {
-    if (
-      this.newEmailRef.hasError() ||
-      this.currentEmailRef.hasError() ||
-      this.newVerificationCodeRef.hasError() ||
-      this.currentVerificationCodeRef.hasError() ||
-      this.passwordRef.hasError()
-    ) {
-      return;
-    }
-    const { onOk } = this.props;
-    const { newEmail, currentEmail } = this.state;
-    const { code } = await reqUserUpdate({
-      password: this.password,
-      newEmail,
-      currentEmail,
-      newEmailVerificationCode: this.newVerificationCode,
-      currentEmailVerificationCode: this.currentVerificationCode,
-    });
-
-    if (code !== 0) {
-      // handle error at utils/api
-      // notice.show({ content: body.message, type: 'message-error', timeout: 3000 });
-      return;
-    }
-    onOk();
-  };
-
-  render() {
-    const { onCancel } = this.props;
-    const { newEmail, currentEmail } = this.state;
-    return (
-      <Modal show showOverlay={false}>
-        <Confirm>
-          <div>
-            <p style={{ marginBottom: '20px' }}>{i18nTxt('Edit Email')}</p>
-            <div className="inputs-wrap">
-              <Email
-                label={i18nTxt('New Email')}
-                onChange={this.onNewEmailChange}
-                ref={ref => {
-                  this.newEmailRef = ref;
-                }}
-              />
-              <EmailCode
-                email={newEmail}
-                onChange={this.onNewVerificationCodeChange}
-                ref={ref => {
-                  this.newVerificationCodeRef = ref;
-                }}
-              />
-              <Email
-                label={i18nTxt('Current Email')}
-                checkIsOwner
-                onChange={this.onCurrentEmailChange}
-                ref={ref => {
-                  this.currentEmailRef = ref;
-                }}
-              />
-              <EmailCode
-                email={currentEmail}
-                onChange={this.onCurrentVerificationCodeChange}
-                ref={ref => {
-                  this.currentVerificationCodeRef = ref;
-                }}
-              />
-              <Password
-                onChange={this.onPasswordChange}
-                ref={ref => {
-                  this.passwordRef = ref;
-                }}
-              />
-            </div>
-            <div className="confirm-actions">
-              <button type="button" onClick={onCancel}>
-                {i18nTxt('LEAVE')}
-              </button>
-              <button className="agree" type="button" onClick={this.onOk}>
-                {i18nTxt('SAVE')}
-              </button>
-            </div>
-          </div>
-        </Confirm>
-      </Modal>
-    );
-  }
+  return (
+    <Modal show mobilePosBottom={isMobile} showOverlay>
+      {' '}
+      {modalContent}
+    </Modal>
+  );
 }
 
 EmailModal.propTypes = {
@@ -229,82 +237,77 @@ EmailModal.propTypes = {
   onOk: PropTypes.func.isRequired,
 };
 
-class PasswordModal extends Component {
-  onCurrentPasswordChange = async e => {
-    this.currentPassword = e.target.value;
-  };
+function PasswordModal({ onOk, onCancel, email }) {
+  let currentPassword;
+  let newPassword;
+  let verificationCode;
+  let currentPasswordRef;
+  let newPasswordRef;
+  let verificationCodeRef;
 
-  onNewPasswordChange = async e => {
-    this.newPassword = e.target.value;
-  };
+  const isMobile = useMobile();
+  const modalContent = (
+    <Confirm>
+      <ModalHeadStyle>
+        <p>{i18nTxt('CHANGE PASSWORD')}</p>
+        {isMobile && (
+          <button className="material-icons close" onClick={onCancel} type="button">
+            close
+          </button>
+        )}
+      </ModalHeadStyle>
+      <div className="inputs-wrap">
+        <Password
+          labels={[i18nTxt('Current Password')]}
+          onChange={e => (currentPassword = e.target.value)}
+          ref={ref => (currentPasswordRef = ref)}
+        />
+        <Password
+          hasRepeat
+          labels={[i18nTxt('New Password')]}
+          onChange={e => (newPassword = e.target.value)}
+          ref={ref => (newPasswordRef = ref)}
+        />
+        <EmailCode onChange={e => (verificationCode = e.target.value)} email={email} ref={ref => (verificationCodeRef = ref)} />
+      </div>
+      <div className="confirm-actions">
+        {!isMobile && (
+          <button type="button" onClick={onCancel}>
+            {i18nTxt('LEAVE')}
+          </button>
+        )}
+        <button
+          className={cx({ 'btn waves-effect waves-light primary': isMobile }, 'agree')}
+          type="button"
+          onClick={async () => {
+            if (currentPasswordRef.hasError() || newPasswordRef.hasError() || verificationCodeRef.hasError()) {
+              return;
+            }
 
-  onVerificationCodeChange = async e => {
-    this.verificationCode = e.target.value;
-  };
+            const { code } = await reqUserUpdate({
+              currentPassword,
+              newPassword,
+              emailVerificationCode: verificationCode,
+            });
 
-  onOk = async () => {
-    if (this.currentPasswordRef.hasError() || this.newPasswordRef.hasError() || this.verificationCodeRef.hasError()) {
-      return;
-    }
+            if (code !== 0) {
+              // notice.show({ content: body.message, type: 'message-error', timeout: 5000 });
+              return;
+            }
+            onOk();
+          }}
+        >
+          {i18nTxt('SAVE')}
+        </button>
+      </div>
+    </Confirm>
+  );
 
-    const { onOk } = this.props;
-    const { code } = await reqUserUpdate({
-      currentPassword: this.currentPassword,
-      newPassword: this.newPassword,
-      emailVerificationCode: this.verificationCode,
-    });
-
-    if (code !== 0) {
-      // notice.show({ content: body.message, type: 'message-error', timeout: 5000 });
-      return;
-    }
-    onOk();
-  };
-
-  render() {
-    const { onCancel, email } = this.props;
-    return (
-      <Modal show showOverlay={false}>
-        <Confirm>
-          <div>
-            <p style={{ marginBottom: '20px' }}>{i18nTxt('CHANGE PASSWORD')}</p>
-            <div className="inputs-wrap">
-              <Password
-                labels={[i18nTxt('Current Password')]}
-                onChange={this.onCurrentPasswordChange}
-                ref={ref => {
-                  this.currentPasswordRef = ref;
-                }}
-              />
-              <Password
-                hasRepeat
-                labels={[i18nTxt('New Password')]}
-                onChange={this.onNewPasswordChange}
-                ref={ref => {
-                  this.newPasswordRef = ref;
-                }}
-              />
-              <EmailCode
-                onChange={this.onVerificationCodeChange}
-                email={email}
-                ref={ref => {
-                  this.verificationCodeRef = ref;
-                }}
-              />
-            </div>
-            <div className="confirm-actions">
-              <button type="button" onClick={onCancel}>
-                {i18nTxt('LEAVE')}
-              </button>
-              <button className="agree" type="button" onClick={this.onOk}>
-                {i18nTxt('SAVE')}
-              </button>
-            </div>
-          </div>
-        </Confirm>
-      </Modal>
-    );
-  }
+  return (
+    <Modal show mobilePosBottom={isMobile} showOverlay>
+      {modalContent}
+    </Modal>
+  );
 }
 
 PasswordModal.propTypes = {
@@ -407,17 +410,17 @@ class Settings extends Component {
                     </a>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <div className="settings-title">{i18nTxt('Language')}</div>
-                  </td>
-                  <td className="align-right settings-middle">{(LANGUAGES[language] && LANGUAGES[language].label) || ''}</td>
-                  <td className="align-right settings-btn">
-                    <a href="/" className="primary" onClick={this.changeLanguagePreference}>
-                      <span>{i18nTxt('CHANGE')}</span>
-                    </a>
-                  </td>
-                </tr>
+                {/* <tr> */}
+                {/*   <td> */}
+                {/*     <div className="settings-title">{i18nTxt('Language')}</div> */}
+                {/*   </td> */}
+                {/*   <td className="align-right settings-middle">{(LANGUAGES[language] && LANGUAGES[language].label) || ''}</td> */}
+                {/*   <td className="align-right settings-btn"> */}
+                {/*     <a href="/" className="primary" onClick={this.changeLanguagePreference}> */}
+                {/*       <span>{i18nTxt('CHANGE')}</span> */}
+                {/*     </a> */}
+                {/*   </td> */}
+                {/* </tr> */}
               </tbody>
             </table>
           </div>
@@ -505,23 +508,14 @@ const Wrapper = styled(StyledWrapper)`
 
 const Confirm = styled.div`
   padding: 20px;
-  > div {
-    min-width: 400px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: rgba(0, 0, 0, 0.12) 2px 4px 20px;
-  }
-  p {
-    font-size: 20px;
-    line-height: 20px;
-    color: #171d1f;
-    margin: 0;
-    font-weight: 500;
-  }
+  min-width: 400px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 4px 20px rgba(0, 0, 0, 0.12);
   .inputs-wrap {
     margin-top: 20px;
   }
@@ -548,4 +542,15 @@ const Confirm = styled.div`
   .confirm-actions .disabled {
     margin-left: 20px;
   }
+
+  ${media.mobile`
+  width: 100%;
+  min-width: unset;
+  border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
+  .confirm-actions .agree {
+    margin-left: 0;
+    width: 100%;
+    color: white;
+  }
+`}
 `;

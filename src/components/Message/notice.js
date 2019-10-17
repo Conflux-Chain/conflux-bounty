@@ -5,12 +5,13 @@ import media from '../../globalStyles/media';
 
 const Wrap = styled.div`
   position: fixed;
+  display: table;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
   ${media.pad`
-    top: 66px;
+    top: 37px;
   `}
 `;
 const MessageWrap = styled.div`
