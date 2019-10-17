@@ -244,8 +244,6 @@ const Wrapper = styled(StyledWrapper)`
     `}
   }
   .signup-input {
-    height: 56px;
-    margin: 12px 0 0;
     color: #8e9394;
   }
   .inputs-wrap {
