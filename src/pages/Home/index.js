@@ -82,10 +82,12 @@ const HoTBounty = styled.div`
     font-size: 24px;
     line-height: 24px;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
     color: #fff;
     margin-bottom: 15px;
-    ${media.tablet`align-self: flex-start; margin-left: 10px; font-size: ${unitParser(20)}`}
+    text-transform: uppercase;
+    ${media.tablet`
+      text-transform: none;
+      align-self: flex-start; margin-left: 10px; font-size: ${unitParser(20)}`}
   }
   .hot-slider {
     width: 100%;
@@ -750,7 +752,7 @@ class Home extends Component {
         <div className="homeBg" />
         <span className="bounty-slogan">{i18nTxt('Discovering the Value of Each Token')}</span>
         <HoTBounty>
-          <span className="hot-bounty-title">{i18nTxt('HOTTEST BOUNTIES')}</span>
+          <span className="hot-bounty-title">{i18nTxt('Hottest bounties')}</span>
           <div className="hot-slider">
             <Slider {...settings}>
               {popBountyList.map(item => {

@@ -290,6 +290,9 @@ const Wrapper = styled(StyledWrapper)`
     }
     .bounty-category {
       padding-top: ${unitParser(20)};
+      > span {
+        border-radius: ${unitParser(4)};
+      }
     }
     .bounty-status {
       font-size: ${unitParser(14)};

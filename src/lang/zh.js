@@ -2,6 +2,7 @@ export default {
   'Discovering the Value of Each Token': '为每一个通证找到价值',
   'CREATE BOUNTY': '创建赏金任务',
   'HOTTEST BOUNTIES': '热门赏金任务',
+  'Hottest bounties': '热门赏金任务',
   'UP TO ': '赏金最高 ',
   'Up to': '最高',
   'CLAIM IT': '认领',
