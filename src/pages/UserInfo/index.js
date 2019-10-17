@@ -61,7 +61,6 @@ const ColorBackground = styled.div`
 `;
 
 const IconMail = styled.div`
-  margin-left: 189px;
   .iconmail {
     text-decoration: none;
     font-size: 24px;
@@ -129,7 +128,7 @@ MessagesCountButton.propTypes = {
 };
 
 const UserTextInfoStyle = styled.div`
-  flex-grow: 2;
+  flex: 1;
   align-self: center;
   .user-name {
     font-size: 24px;
@@ -292,16 +291,13 @@ UserAvatar.propTypes = {
 
 const UserSection = styled.div`
   display: flex;
-  ${media.mobile`
-justify-content: space-between;
-`}
+  flex: 1;
+  justify-content: space-between;
 `;
 
 const Flex = styled.div`
   display: flex;
-  ${media.mobile`
-min-width: ${unitParser(312)};
-`}
+  flex: 1;
 `;
 
 const RewardInfoStyle = styled.div`
