@@ -33,10 +33,14 @@ class Picker extends Component {
 
   showModal = () => {
     const { selected, data } = this.props;
-    const currentSelect = selected.value ? data.find(option => option.value === selected.value) : data[0];
+    if (data.length) {
+      const currentSelect = selected.value ? data.find(option => option.value === selected.value) : data[0];
+      this.setState({
+        currentSelect,
+      });
+    }
     this.setState({
       modalShow: true,
-      currentSelect,
     });
   };
 
