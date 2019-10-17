@@ -108,8 +108,8 @@ const Container = styled.div`
       height: 56px;
       margin-bottom: 20px;
       ${media.mobile`
-      font-size: ${unitParser(24)};
-      line-height: ${unitParser(28)};
+      font-size: ${unitParser(22)};
+      line-height: ${unitParser(22)};
       max-width: ${unitParser(341)};
       height: ${unitParser(56)};
       margin-bottom: ${unitParser(20)};
@@ -120,8 +120,8 @@ const Container = styled.div`
       line-height: 16px;
       opacity: 0.8;
       ${media.mobile`
-      font-size: ${unitParser(16)};
-      line-height: ${unitParser(16)};
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
       `}
     }
     .bounty-detail {
@@ -173,14 +173,14 @@ const Container = styled.div`
         }
 
         ${media.mobile`
-        font-size: ${unitParser(16)};
-        line-height: ${unitParser(16)};
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
         > img {
           margin-right: ${unitParser(4)};
         }
         > span {
-          font-size: ${unitParser(16)};
-          line-height: ${unitParser(16)};
+          font-size: ${unitParser(14)};
+          line-height: ${unitParser(14)};
         }
       `}
       }

@@ -906,6 +906,7 @@ class ViewBounty extends Component {
                 />
                 <CommentButton />
               </div>
+              <CommentButton />
             </div>
 
             <div style={{ marginTop: 20 }}>

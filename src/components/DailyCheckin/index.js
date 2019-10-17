@@ -29,8 +29,8 @@ const DailyCheckinWrap = styled.div`
     width: 120px;
     height: 120px;
     ${media.mobile`
-    width: ${unitParser(120)};
-    height: ${unitParser(120)};
+    width: ${unitParser(84)};
+    height: ${unitParser(84)};
     border-radius: ${unitParser(60)};
   `}
     text-align: center;
@@ -41,13 +41,15 @@ const DailyCheckinWrap = styled.div`
       color: #fff;
       font-weight: 500;
       ${media.mobile`
-         line-height: ${unitParser(16)};
+         line-height: ${unitParser(12)};
+         font-size:  ${unitParser(12)};
      `}
     }
     > img {
       margin-top: 17px;
       ${media.mobile`
-      margin-top:  ${unitParser(17)};
+        margin-top:  ${unitParser(12)};
+        width: ${unitParser(40)};
      `}
     }
   }
@@ -241,6 +243,10 @@ class DailyCheckin extends Component {
         zIndex: 100,
       };
     }
+    succesStyle = {
+      opacity: 1,
+      zIndex: 100,
+    };
 
     const successPanel = (
       <div className="checkin-success" style={succesStyle}>

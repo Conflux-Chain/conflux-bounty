@@ -295,6 +295,7 @@ class EditBounty extends Component {
               onClick={() => {
                 updateEdit({
                   descExampleShow: true,
+                  privateMsgExampleShow: false,
                 });
               }}
             >
@@ -353,6 +354,7 @@ class EditBounty extends Component {
               onClick={() => {
                 updateEdit({
                   privateMsgExampleShow: true,
+                  descExampleShow: false,
                 });
               }}
             >

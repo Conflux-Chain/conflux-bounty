@@ -28,6 +28,8 @@ export const MileStoneDiv = styled.div`
     box-sizing: border-box;
     border-radius: 4px;
     color: #595f61;
+    position: relative;
+    z-index: 10;
     ${flexCenterMiddle}
     &.approved {
       border-color: #22b2d6;

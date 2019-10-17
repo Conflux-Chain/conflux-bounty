@@ -85,7 +85,7 @@ const HoTBounty = styled.div`
     text-transform: uppercase;
     color: #fff;
     margin-bottom: 15px;
-    ${media.tablet`align-self: flex-start; margin-left: 10px;`}
+    ${media.tablet`align-self: flex-start; margin-left: 10px; font-size: ${unitParser(20)}`}
   }
   .hot-slider {
     width: 100%;
@@ -282,7 +282,7 @@ const BountyWall = styled.div`
   z-index: 10;
   align-items: center;
   margin-top: 28px;
-  ${media.mobile`margin-top: 0;`}
+  ${media.mobile`margin-top: 0; background: #fff;`}
   width: 100%;
   max-width: 1240px;
 
@@ -301,6 +301,9 @@ const Category = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #f7f9fa;
+  ${media.tablet`
+   background-color: #fff;
+ `}
   border-radius: 12px;
   margin: 40px 20px;
   padding: 20px;
@@ -323,7 +326,8 @@ const Category = styled.div`
 
   ${media.tablet`
 width: 100%;
-padding-left: 12px;
+padding-left: 0;
+padding-right: 0;
 padding-top: 0;
 display: block;
 flex-direction: initial;
@@ -343,21 +347,29 @@ padding: none;
 
   padding-bottom: 20px;
   border-bottom: 1px solid #EBEDED;
-  white-space: nowrap;
-    overflow: auto;
-  > div {
+  overflow: auto;
+  .category-line > div {
     display: inline-block;
     border-radius: 4px;
+  }
+  .category-line {
+    padding-left: ${unitParser(12)};
+    padding-bottom: ${unitParser(12)};
+    display: block;
+    clear: both;
+    overflow: auto;
+    white-space: nowrap;k
   }
 }
 .title {
   width: initial;
   line-height: initial;
+  padding-left: ${unitParser(12)};
 
   display: block;
   font-size: 14px;
   color: #3B3D3D;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-bottom: 12px;
   font-weight: 500;
 }
@@ -817,18 +829,9 @@ class Home extends Component {
         )}
 
         <BroadcastMobile>
-          {/* <div className="broadcast-item-wrap">
-            {broadcastList.map(item => {
-              return (
-                <a href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'} className="broadcast-item">
-                  {item.title}
-                </a>
-              );
-            })}
-          </div> */}
           <Slider
             {...{
-              infinite: false,
+              infinite: true,
               slidesToShow: 1,
               slidesToScroll: 1,
               autoplay: true,
@@ -862,30 +865,34 @@ class Home extends Component {
           <Category>
             <div className="category">
               <span className="title">{i18nTxt('Category')}:</span>
-              <HomeCategory text={i18nTxt('All')} value={null} selected={category === null} onClick={this.onChangeCategory} />
-              {categoryL1List.map(item => (
-                <HomeCategory
-                  key={item.id}
-                  text={item.name}
-                  value={item.id}
-                  selected={category === item.id}
-                  onClick={this.onChangeCategory}
-                />
-              ))}
-            </div>
-            {category !== null && (
-              <div className="category">
-                <span className="title">{i18nTxt('SubCategory')}:</span>
-                <HomeCategory text="All" value={null} selected={subCategory === null} onClick={this.onChangeSubCategory} />
-                {(categoryMap[category] || []).map(item => (
+              <span className="category-line">
+                <HomeCategory text={i18nTxt('All')} value={null} selected={category === null} onClick={this.onChangeCategory} />
+                {categoryL1List.map(item => (
                   <HomeCategory
                     key={item.id}
                     text={item.name}
                     value={item.id}
-                    selected={subCategory === item.id}
-                    onClick={this.onChangeSubCategory}
+                    selected={category === item.id}
+                    onClick={this.onChangeCategory}
                   />
                 ))}
+              </span>
+            </div>
+            {category !== null && (
+              <div className="category">
+                <span className="title">{i18nTxt('SubCategory')}:</span>
+                <span className="category-line">
+                  <HomeCategory text="All" value={null} selected={subCategory === null} onClick={this.onChangeSubCategory} />
+                  {(categoryMap[category] || []).map(item => (
+                    <HomeCategory
+                      key={item.id}
+                      text={item.name}
+                      value={item.id}
+                      selected={subCategory === item.id}
+                      onClick={this.onChangeSubCategory}
+                    />
+                  ))}
+                </span>
               </div>
             )}
           </Category>
@@ -925,49 +932,6 @@ class Home extends Component {
               </button>
             </div>
 
-            <Picker
-              optionGroups={{
-                sortType: [
-                  {
-                    value: 'fansCoin',
-                    label: getSortType('fansCoin'),
-                  },
-                  {
-                    value: 'time',
-                    label: getSortType('time'),
-                  },
-                  {
-                    value: 'account',
-                    label: getSortType('account'),
-                  },
-                ],
-              }}
-              valueGroups={{
-                sortType: {
-                  value: curSortType,
-                },
-              }}
-              onChange={(name, val) => {
-                this.setState({
-                  sortOrder: false,
-                  curSortType: val.value,
-                });
-              }}
-              height={160}
-              onCancel={() => {
-                this.setState({
-                  sortPickerShow: false,
-                });
-              }}
-              onConfirm={() => {
-                this.onChangeSort(curSortType);
-                this.setState({
-                  sortPickerShow: false,
-                });
-              }}
-              show={sortPickerShow}
-            ></Picker>
-
             <div className="bounty-list-content">
               {tag === 'open' && <HomeBounty type="create" title="" user="" fansCoin={0} onClick={this.onCreateBounty} />}
               {bountyList.map(item => (
@@ -995,6 +959,48 @@ class Home extends Component {
           )}
         </div>
         <DailyCheckin />
+        <Picker
+          optionGroups={{
+            sortType: [
+              {
+                value: 'fansCoin',
+                label: getSortType('fansCoin'),
+              },
+              {
+                value: 'time',
+                label: getSortType('time'),
+              },
+              {
+                value: 'account',
+                label: getSortType('account'),
+              },
+            ],
+          }}
+          valueGroups={{
+            sortType: {
+              value: curSortType,
+            },
+          }}
+          onChange={(name, val) => {
+            this.setState({
+              sortOrder: false,
+              curSortType: val.value,
+            });
+          }}
+          height={160}
+          onCancel={() => {
+            this.setState({
+              sortPickerShow: false,
+            });
+          }}
+          onConfirm={() => {
+            this.onChangeSort(curSortType);
+            this.setState({
+              sortPickerShow: false,
+            });
+          }}
+          show={sortPickerShow}
+        ></Picker>
       </Container>
     );
   }

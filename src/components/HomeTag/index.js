@@ -27,9 +27,11 @@ const Container = styled.div`
  display: flex;
  align-items: initial;
  justify-content: initial;
- box-shadow: 0px ${unitParser(4)} ${unitParser(12)} rgba(0, 0, 0, 0.08);
+ box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+ margin-bottom: 15px;
  border-radius: initial;
  z-index: initial;
+ padding: 0;
  .selected {
   background: initial;
   color: initial;
