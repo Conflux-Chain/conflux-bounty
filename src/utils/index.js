@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import superagent from 'superagent';
 import { matchPath } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -6,6 +7,8 @@ import decode from 'jwt-decode';
 import qs from 'querystring';
 import moment from 'moment';
 import M from 'materialize-css';
+import viewer from 'react-mobile-image-viewer';
+import 'react-mobile-image-viewer/lib/index.css';
 import React from 'react';
 import BMF from './bmf';
 
@@ -15,6 +18,7 @@ import { ALI_OSS_KEYS, UPDATE_HEAD, UPDATE_UNREAD_MESSAGE_COUNT } from '../const
 // eslint-disable-next-line import/no-cycle
 import { reqAccountQuery, reqMessageCount } from './api';
 import { i18nTxt, i18nTxtAsync } from './i18n';
+import unitParser from './device';
 
 export { compose } from 'redux';
 export { i18nTxt, i18nTxtAsync };
@@ -138,6 +142,7 @@ export const sendRequest = config => {
       }
     })
     .catch(error => {
+      // eslint-disable-next-line no-console
       console.log(error);
       $toast.error({
         content: i18nTxt('Please reload page'),
@@ -300,6 +305,7 @@ export const uploadFileOss = (key, file) => {
 
   reqFile
     .catch(e => {
+      // eslint-disable-next-line no-console
       console.log(e);
       notice.show({
         type: 'message-error-light',
@@ -508,6 +514,7 @@ export function copyToClipboard(text) {
     try {
       return document.execCommand('copy'); // Security exception may be thrown by some browsers.
     } catch (ex) {
+      // eslint-disable-next-line no-console
       console.warn('Copy to clipboard failed.', ex);
       return false;
     } finally {
@@ -656,6 +663,80 @@ export function downLink(url, title) {
     <a href={url} download target={target}>
       {title}
     </a>
+  );
+}
+
+export function showLink(url, title, list) {
+  let currentItem;
+  const urlList = list.filter(v => url && isImgLike(v.url)).map(v => v.url);
+  if (url && isImgLike(url)) {
+    const showViewer = (urls, i) => {
+      viewer({
+        urls,
+        index: i,
+        onClose: () => {
+          currentItem.blur();
+        },
+      });
+    };
+    const index = urlList.findIndex(l => l === url);
+    return (
+      <span
+        role="button"
+        tabIndex="0"
+        ref={ref => {
+          currentItem = ref;
+        }}
+        onClick={() => showViewer(urlList, index)}
+        onKeyDown={() => showViewer(urlList, index)}
+      >
+        <img
+          alt={title}
+          src={url}
+          style={{
+            width: '100%',
+          }}
+        />
+        <br />
+        <span
+          style={{
+            textDecoration: 'underline',
+            fontSize: `${unitParser(16)}`,
+          }}
+        >
+          {title}
+        </span>
+      </span>
+    );
+  }
+  return (
+    <span>
+      <i
+        className="icon-attachment-file-icon"
+        style={{
+          display: 'inline-block',
+          width: `${unitParser(46)}`,
+          height: `${unitParser(46)}`,
+          backgroundColor: '#22B2D6',
+          borderRadius: '4px',
+          textAlign: 'center',
+          lineHeight: `${unitParser(46)}`,
+          color: '#fff',
+          fontSize: `${unitParser(24)}`,
+          verticalAlign: 'middle',
+          marginRight: '8px',
+        }}
+      ></i>
+      <a
+        href={url}
+        style={{
+          verticalAlign: 'middle',
+          fontSize: `${unitParser(16)}`,
+        }}
+      >
+        {title}
+      </a>
+    </span>
   );
 }
 

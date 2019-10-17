@@ -19,7 +19,7 @@
       "modules": true
     }
   },
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "prettier", "react-hooks"],
   "rules": {
     "react/jsx-filename-extension": 0,
     "jsx-a11y/label-has-for": [

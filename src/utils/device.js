@@ -1,3 +1,6 @@
+import { useMedia } from 'react-use';
+import variable from '../globalStyles/variable';
+
 function allowMiniPixel() {
   let allow = false;
   if (window.devicePixelRatio && devicePixelRatio >= 2) {
@@ -12,17 +15,31 @@ function allowMiniPixel() {
 function getType(unit) {
   return typeof unit;
 }
-export function isMobile() {
-  return window.screen.width <= 600;
+
+const isMobileQuery = `(orientation: portrait) and (max-width: ${variable.breakpoint.mobile}px)`;
+export const isMobile = () => {
+  return window.matchMedia(isMobileQuery).matches;
+};
+
+export const useMobile = () => {
+  return useMedia(isMobileQuery);
+};
+
+function getw() {
+  return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 }
 
 export default function unitParser(unit) {
   let myUnit = unit;
   const type = undefined === myUnit ? 'undefined' : getType(myUnit);
   if (type === 'number') {
-    myUnit += 'dp';
+    if (unit < 0) {
+      myUnit = `${Math.abs(unit)}dp`;
+    } else {
+      myUnit += 'dp';
+    }
   }
-  const regExp = /^([\d.]+)(px|dp)?$/g;
+  const regExp = /^-?([\d.]+)(px|dp)?$/g;
   return myUnit.replace(regExp, (chars, count, suffix) => {
     let myCount = Number(count);
     switch (suffix) {
@@ -33,12 +50,12 @@ export default function unitParser(unit) {
       default:
         // 注意这里375,设计稿是按照375进行设计的。
         // deviceWidth为屏幕的宽度,iphone 5/SE为320 iphone 6/7/8为375
-        myCount = (myCount / 375) * window.screen.width;
+        myCount = (myCount / 375) * getw();
     }
 
     if (!allowMiniPixel() && myCount < 1) {
       myCount = 1;
     }
-    return `${myCount}px`;
+    return `${chars.startsWith('-') ? '-' : ''}${myCount}px`;
   });
 }

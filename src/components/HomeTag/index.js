@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 const Container = styled.div`
   width: 440px;
@@ -17,6 +19,22 @@ const Container = styled.div`
     background: linear-gradient(116.19deg, #69c4db -4.77%, #5499dd 101.18%);
     color: #fff;
   }
+
+  ${media.mobile`
+ background-color: #fffff;
+ width: 100%;
+ height: initial;
+ display: flex;
+ align-items: initial;
+ justify-content: initial;
+ box-shadow: 0px ${unitParser(4)} ${unitParser(12)} rgba(0, 0, 0, 0.08);
+ border-radius: initial;
+ z-index: initial;
+ .selected {
+  background: initial;
+  color: initial;
+}
+`}
 `;
 
 const TagItem = styled.div`
@@ -31,6 +49,27 @@ const TagItem = styled.div`
   color: #8e9394;
   font-size: 16px;
   letter-spacing: 0.05em;
+
+  ${media.mobile`
+background: none;
+display: block;
+align-items: initial;
+justify-content: initial;
+border-radius: initial;
+height: initial;
+cursor: initial;
+color: #8E9394;
+line-height: 60px
+font-size: ${unitParser(16)};
+text-align: center;
+margin-left: ${unitParser(20)};
+margin-right: ${unitParser(20)};
+flex: 1;
+font-weight: bold;
+&.selected {
+  border-bottom: ${unitParser(3)} solid #22B2D6;
+}
+`}
 `;
 
 function HomeTag(props) {

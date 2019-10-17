@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import media from '../../globalStyles/media';
 
 const Overlay = styled.div`
@@ -11,6 +11,28 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+`;
+
+const slideInMiddle = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 100px));
+  }
+   to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+`;
+
+const sliceInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+   to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
 `;
 
 const ModalWrapper = styled.div`
@@ -25,7 +47,19 @@ const ModalWrapper = styled.div`
   max-height: 90vh;
   max-width: 90vw;
   transform: translate(-50%, -50%) !important;
+
   ${media.tablet`
+    animation: ${slideInMiddle} 0.2s ease-in-out;
+  `}
+
+  &.mobile-modal {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: none !important;
+    max-width: 100%;
+    ${media.tablet`
     top: auto;
     bottom: 0;
     left: 0;
@@ -33,7 +67,9 @@ const ModalWrapper = styled.div`
     transform: none!important;
     max-width: 100%;
     z-index: 100000;
+    animation: ${sliceInUp} 0.2s ease-in-out;
   `}
+  }
 `;
 
 class ModalComp extends PureComponent {
@@ -53,14 +89,14 @@ class ModalComp extends PureComponent {
   }
 
   render() {
-    const { children, show, showOverlay, onEsc } = this.props;
+    const { children, show, showOverlay, onEsc, mobilePosBottom, overlayStyle } = this.props;
     if (show) {
       return (
         <React.Fragment>
-          <ModalWrapper>
+          <ModalWrapper className={mobilePosBottom ? 'mobile-modal' : ''}>
             <React.Fragment>{children}</React.Fragment>
           </ModalWrapper>
-          {showOverlay && <Overlay onClick={onEsc} />}
+          {showOverlay && <Overlay onClick={onEsc} style={overlayStyle} />}
         </React.Fragment>
       );
     }
@@ -74,11 +110,16 @@ ModalComp.propTypes = {
   show: PropTypes.bool.isRequired,
   showOverlay: PropTypes.bool,
   onEsc: PropTypes.func,
+  mobilePosBottom: PropTypes.bool,
+  /* eslint react/forbid-prop-types: 0 */
+  overlayStyle: PropTypes.object,
 };
 
 ModalComp.defaultProps = {
   showOverlay: true,
   onEsc: () => {},
+  mobilePosBottom: false,
+  overlayStyle: {},
 };
 
 export default ModalComp;

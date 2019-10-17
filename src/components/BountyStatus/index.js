@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import classnames from 'classnames';
 import { i18nTxt } from '../../utils';
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
 
 const Container = styled.div`
   display: flex;
@@ -34,6 +36,9 @@ const Container = styled.div`
       }
       .status-line {
         width: 70px;
+        ${media.mobile`
+           width: ${unitParser(70)};
+  `}
         height: 0px;
         &.open {
           border: 1px solid #171d1f;
@@ -44,18 +49,25 @@ const Container = styled.div`
   }
   .status-text {
     display: flex;
-    width: 300px;
+    width: 335px;
     height: 20px;
     position: relative;
     align-items: center;
+    justify-content: space-between;
+
+    ${media.mobile`
+      width: ${unitParser(335)};
+      height: ${unitParser(20)};
+    `}
+
     .text-item {
-      position: absolute;
-      text-align: left;
       font-size: 12px;
       line-height: 12px;
-      transform: translateX(-50%);
-      top: 4px;
       white-space: nowrap;
+      ${media.mobile`
+        font-size: ${unitParser(12)};
+        line-height: ${unitParser(12)};
+      `}
       &.bold {
         font-weight: 700;
       }
@@ -86,12 +98,8 @@ function BountyStatus(props) {
         })}
       </div>
       <div className="status-text">
-        {statusItems.map((item, index) => {
-          return (
-            <div className={classnames('text-item', { bold: status === item })} style={{ left: `${0 + index * 74}px` }}>
-              {i18nTxt(item)}
-            </div>
-          );
+        {statusItems.map(item => {
+          return <div className={classnames('text-item', { bold: status === item })}>{i18nTxt(item)}</div>;
         })}
       </div>
     </Container>

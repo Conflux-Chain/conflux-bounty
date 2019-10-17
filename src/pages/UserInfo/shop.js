@@ -274,7 +274,7 @@ const Confirm = styled.div`
     margin: 0 0 20px 0;
   }
   > div {
-    min-width: 400px;
+    min-width: 350px;
     background: #fff;
     border-radius: 12px;
     padding: 20px;
@@ -326,6 +326,12 @@ const Wrapper = styled(StyledWrapper)`
       font-size: ${unitParser(24)};
       line-height: ${unitParser(24)};
     `}
+  }
+  .total {
+    text-align: center;
+    button {
+      width: 100%;
+    }
   }
   .products-list {
     display: flex;

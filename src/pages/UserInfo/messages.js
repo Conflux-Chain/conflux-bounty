@@ -2,17 +2,21 @@
  * @fileOverview user messages
  * @name messages.js
  */
-
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useAsync } from 'react-use';
+import LinesEllipsis from 'react-lines-ellipsis';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import { timeSince, commonPropTypes, i18nTxt, notice } from '../../utils';
 import { reqMessageList, reqMessageCount, reqMessageReadAll } from '../../utils/api';
 import { UPDATE_UNREAD_MESSAGE_COUNT } from '../../constants';
+import media from '../../globalStyles/media';
+import unitParser, { useMobile } from '../../utils/device';
+import NoResult from '../../components/NoResult';
 
 const PAGE_SIZE = 5;
 export const MESSAGE_TEMPLATE = {
@@ -115,137 +119,115 @@ export function getMessageTemplate(message, lang) {
   return title;
 }
 
-class Messages extends Component {
-  state = {
-    messages: [],
-    total: 0,
-  };
+function Messages({ dispatch, lang, history }) {
+  const [messages, setMessages] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [nextPage, setNextPage] = useState(1);
 
-  componentDidMount() {
-    const { lang } = this.props;
-    this.getNextPage(lang);
-  }
-
-  markAllRead = () => {
-    const { dispatch } = this.props;
-
-    reqMessageReadAll().then(() => {
-      notice.show({
-        type: 'message-success',
-        content: i18nTxt('update success'),
-        timeout: 3 * 1000,
-      });
-      const { lang } = this.props;
-      this.getNextPage(lang, true);
-      reqMessageCount({ isRead: false }).then(body => {
-        dispatch({
-          type: UPDATE_UNREAD_MESSAGE_COUNT,
-          payload: {
-            messageCount: body.result.total,
-          },
-        });
-      });
-    });
-  };
-
-  getNextPage = async lang => {
+  useAsync(async () => {
     if (!lang) return;
-    if (!this.nextPage) this.nextPage = 1;
-    const { messages } = this.state;
     const query = {
       limit: PAGE_SIZE,
       language: lang === 'en' ? 'english' : 'chinese',
     };
 
-    query.page = this.nextPage;
+    query.page = nextPage;
 
     const {
-      result: { list, total },
+      result: { list, total: newTotal },
     } = await reqMessageList(query);
-    this.setState({
-      total,
-      messages: messages.concat(list),
-    });
-    this.nextPage += 1;
-  };
+    setMessages(messages.concat(list));
+    setTotal(newTotal);
+  }, [nextPage]);
 
-  /* eslint camelcase: 0 */
-  UNSAFE_componentWillReceiveProps({ lang }) {
-    this.getNextPage(lang);
-  }
+  const isMobile = useMobile();
 
-  render() {
-    const { messages, total } = this.state;
-    const { history, lang } = this.props;
+  return (
+    <React.Fragment>
+      <BackHeadDiv onClick={() => history.push('/user-info')}>{i18nTxt('My Account')}</BackHeadDiv>
+      <Wrapper>
+        <h1>
+          <Head>
+            <span>{i18nTxt('Messages')}</span>
+            <button
+              onClick={() => {
+                reqMessageReadAll().then(() => {
+                  notice.show({
+                    type: 'message-success',
+                    content: i18nTxt('update success'),
+                    timeout: 3 * 1000,
+                  });
+                  reqMessageCount({ isRead: false }).then(body => {
+                    setMessages(
+                      messages.map(message => {
+                        return { ...message, isRead: true };
+                      })
+                    );
+                    dispatch({
+                      type: UPDATE_UNREAD_MESSAGE_COUNT,
+                      payload: {
+                        messageCount: body.result.total,
+                      },
+                    });
+                  });
+                });
+              }}
+              className="btn waves-effect waves-light default"
+              type="button"
+              disabled={!messages.length}
+            >
+              {i18nTxt('MARK ALL AS READ')}
+            </button>
+          </Head>
+        </h1>
+        <div className="table-wrap">
+          <table>
+            <tbody>
+              {messages.map(message => {
+                const { id, createdAt, isRead } = message;
+                const { bountyTitle } = message.info;
+                const template = getMessageTemplate(message, lang);
+                const firstPartStr = template.substring(0, template.indexOf('{{')) + bountyTitle;
+                const lastPartStr = template.substring(template.indexOf('}}') + 2, template.length - 1);
 
-    return (
-      <React.Fragment>
-        <BackHeadDiv onClick={() => history.push('/user-info')}>{i18nTxt('My Account')}</BackHeadDiv>
-        <Wrapper>
-          <h1>
-            <Head>
-              <span>{i18nTxt('Messages')}</span>
-              <button onClick={this.markAllRead} className="btn waves-effect waves-light default" type="button" disabled={!messages.length}>
-                {i18nTxt('MARK ALL AS READ')}
-              </button>
-            </Head>
-          </h1>
-          <div className="table-wrap">
-            <table>
-              <tbody>
-                {messages.map((message, idx) => {
-                  const { id, createdAt, isRead } = message;
-                  const { bountyTitle } = message.info;
-                  const template = getMessageTemplate(message, lang);
-                  const firstPartStr = template.substring(0, template.indexOf('{{')) + bountyTitle;
-                  const lastPartStr = template.substring(template.indexOf('}}') + 2, template.length - 1);
-
-                  const Wrapper = styled.div`
-                    display: flex;
-                    #firstPart-${idx} {
-                      text-overflow: ellipsis;
-                      padding-right: 1ch;
-                    }
-                    #lastPart-${idx} {
-                      flex-shrink: 0;
-                      direction: rtl;
-                    }
-                  `;
-                  const title = (
-                    <Wrapper>
-                      <span id={`firstPart-${idx}`} className="firstPart">
-                        {firstPartStr}
-                      </span>
-                      <span id={`lastPart-${idx}`} className="lastPart">
-                        {lastPartStr}
-                      </span>
-                    </Wrapper>
-                  );
-                  return (
-                    <tr>
-                      <td className="title">
-                        <Link className={isRead ? '' : 'unread'} to={`/message/${id}`}>
-                          {title}
-                        </Link>
-                      </td>
-                      <td className="time">
-                        <span className="time align-right">{timeSince(createdAt)}</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            <div className="show-more" style={{ display: total > messages.length ? 'block' : 'none' }}>
-              <button onClick={this.getNextPage} className="btn waves-effect waves-light default" type="button">
-                {i18nTxt('SHOW MORE')}
-              </button>
-            </div>
+                return (
+                  <tr>
+                    <td className="title">
+                      <Link className={isRead ? '' : 'unread'} to={`/message/${id}`}>
+                        <LinesEllipsis
+                          className="message-title"
+                          style={{ whiteSpace: 'pre-wrap' }} // https://github.com/xiaody/react-lines-ellipsis/issues/59
+                          text={`${firstPartStr}${lastPartStr}`}
+                          maxLine={isMobile ? '2' : '1'}
+                          trimRight
+                          ellipsis={`... ${lastPartStr}`}
+                        />
+                      </Link>
+                    </td>
+                    <td className="time">
+                      <span className="time align-right">{timeSince(createdAt)}</span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {total === 0 && <NoResult />}
+          <div className="show-more" style={{ display: total > messages.length ? 'block' : 'none' }}>
+            <button
+              onClick={() => {
+                setNextPage(page => page + 1);
+              }}
+              className="btn waves-effect waves-light default"
+              type="button"
+            >
+              {i18nTxt('SHOW MORE')}
+            </button>
           </div>
-        </Wrapper>
-      </React.Fragment>
-    );
-  }
+        </div>
+      </Wrapper>
+    </React.Fragment>
+  );
 }
 
 Messages.propTypes = {
@@ -276,6 +258,11 @@ const Wrapper = styled(StyledWrapper)`
     margin: 0;
     margin-bottom: 40px;
     font-weight: 500;
+    ${media.mobile`
+font-size: ${unitParser(24)};
+line-height: ${unitParser(24)};
+margin-bottom: ${unitParser(20)};
+`}
   }
   .table-wrap {
     > table {
@@ -295,25 +282,37 @@ const Wrapper = styled(StyledWrapper)`
       line-height: 16px;
       color: #8e9394;
       white-space: no-wrap;
-      overflow: hidden;
-      .firstPart,
-      .lastPart {
-        display: inline-block;
-        vertical-align: bottom;
-        white-space: nowrap;
-        overflow: hidden;
-      }
     }
     .time {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 14px;
       text-align: right;
+      color: #8e9394;
       width: 100px;
+      ${media.mobile`
+font-size: ${unitParser(12)};
+line-height: ${unitParser(12)};
+`}
     }
     td {
       padding: 19px 0 18px 0;
+      overflow: unset;
+      .message-title {
+        line-height: 16px;
+        font-size: 16px;
+        ${media.mobile`
+font-size: ${unitParser(14)};
+`}
+      }
       a {
         color: #8e9394;
         cursor: pointer;
       }
+      ${media.mobile`
+padding: ${unitParser(20)} 0;
+`}
     }
     th {
       font-weight: normal;
@@ -328,17 +327,9 @@ const Wrapper = styled(StyledWrapper)`
     .unread:before {
       content: '•';
       position: absolute;
-      left: -14px;
+      left: -10px;
       font-weight: bold;
       color: #f0453a;
-    }
-    .time {
-      font-style: normal;
-      font-weight: normal;
-      font-size: 14px;
-      line-height: 14px;
-      text-align: right;
-      color: #8e9394;
     }
   }
 `;
