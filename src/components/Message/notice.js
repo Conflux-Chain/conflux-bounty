@@ -5,6 +5,7 @@ import media from '../../globalStyles/media';
 
 const Wrap = styled.div`
   position: fixed;
+  display: table;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);

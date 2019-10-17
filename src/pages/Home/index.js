@@ -325,6 +325,10 @@ const Category = styled.div`
       margin-bottom: 12px;
     }
   }
+  .category-line > div {
+    display: inline-block;
+    border-radius: 4px;
+  }
 
   ${media.tablet`
 width: 100%;
