@@ -270,7 +270,7 @@ class AccountHistory extends Component {
                           <a
                             rel="noopener noreferrer"
                             target="_blank"
-                            href={`https://confluxscan.io/${withdraw.txHash}`}
+                            href={`https://confluxscan.io/transactionsdetail/${withdraw.txHash}`}
                             className="arrow-link"
                           >
                             <span>{i18nTxt('VIEW MORE')}</span>
