@@ -11,7 +11,7 @@ import * as s from './commonStyle';
 import ConfirmComp from '../../components/Modal/confirm';
 import { getCategory } from '../../utils/api';
 import { i18nTxt, auth, commonPropTypes, getStatus, downLink, i18nTxtAsync } from '../../utils/index';
-import { BOUNTY_STATUS_ENUM } from '../../constants';
+import { BOUNTY_STATUS_ENUM, fileAcceptStr } from '../../constants';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -215,6 +215,19 @@ class EditBounty extends Component {
         {editState.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editState.descriptionErrMsg)}></span>}
 
         <div className="clearfix">
+          <div style={{ float: 'right' }}>
+            <s.ExampleDiv
+              role="button"
+              onClick={() => {
+                updateEdit({
+                  descExampleShow: true,
+                });
+              }}
+            >
+              <i className="example" />
+              <span>{i18nTxt('Bounty Example')}</span>
+            </s.ExampleDiv>
+          </div>
           <div style={{ float: 'left', marginBottom: 20 }}>
             <s.AttachmentDiv>
               {editState.attachmentList.map(v => {
@@ -238,23 +251,9 @@ class EditBounty extends Component {
               <label className="add-attachment" htmlFor="bounty-add-attachment">
                 <i className="material-icons">add</i>
                 <span>{i18nTxt('Attachments')}</span>
-                <input id="bounty-add-attachment" type="file" onChange={uploadFile} />
+                <input accept={fileAcceptStr} id="bounty-add-attachment" type="file" onChange={uploadFile} multiple />
               </label>
             </s.AttachmentDiv>
-          </div>
-
-          <div style={{ float: 'right' }}>
-            <s.ExampleDiv
-              role="button"
-              onClick={() => {
-                updateEdit({
-                  descExampleShow: true,
-                });
-              }}
-            >
-              <i className="example" />
-              <span>{i18nTxt('Bounty Example')}</span>
-            </s.ExampleDiv>
           </div>
         </div>
 

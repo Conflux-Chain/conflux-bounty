@@ -68,6 +68,7 @@ const Wrapper = styled(StyledWrapper)`
       font-weight: 500;
     }
     .arrow-link {
+      white-space: nowrap;
       > span,
       > i {
         vertical-align: middle;
