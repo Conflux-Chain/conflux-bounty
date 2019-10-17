@@ -79,4 +79,8 @@ fileAccept.forEach((v, i) => {
   }
 });
 
+if (typeof window.orientation !== 'undefined') {
+  fileAccepts = '';
+}
+
 export const fileAcceptStr = fileAccepts;
