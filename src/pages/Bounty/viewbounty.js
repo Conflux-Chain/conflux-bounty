@@ -23,7 +23,7 @@ import {
   renderAny,
 } from '../../utils';
 import { getCategory } from '../../utils/api';
-import { updateShare } from '../../components/Share/action';
+import { updateShare as updateShareAction } from '../../components/Share/action';
 import Picker from '../../components/Picker';
 import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
@@ -544,8 +544,7 @@ class ViewBounty extends Component {
   };
 
   render() {
-    const { props } = this;
-    const { viewBounty, sendLike, updateView, sendComment, getCommentList, getSolutionList, user, history } = this.props;
+    const { viewBounty, sendLike, updateView, sendComment, getCommentList, getSolutionList, user, history, updateShare } = this.props;
     const { sortType, showSortType } = this.state;
 
     const sortOptions = [
@@ -835,7 +834,7 @@ class ViewBounty extends Component {
                 type="button"
                 className="share-qr"
                 onClick={() => {
-                  props.updateShare({
+                  updateShare({
                     show: true,
                     qrTxt: window.location.href,
                   });
@@ -992,6 +991,6 @@ export default connect(
   {
     ...actions,
     getCategory,
-    updateShare,
+    updateShare: updateShareAction,
   }
 )(ViewBounty);
