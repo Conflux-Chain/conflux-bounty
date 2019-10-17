@@ -7,7 +7,6 @@ import { StyledWrapper } from '../../globalStyles/common';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Message from '../../components/Message';
-import Picker from '../../components/Picker';
 import * as s from './commonStyle';
 import ConfirmComp from '../../components/Modal/confirm';
 import { getCategory } from '../../utils/api';
@@ -202,77 +201,44 @@ class EditBounty extends Component {
             }}
           />
         </div>
-        {!isMobile() ? (
-          <div className="category-wrap">
-            <div className="category-wrap-select">
-              <Select
-                {...{
-                  label: i18nTxt('* Category'),
-                  onSelect: v => {
-                    updateEdit({
-                      categoryL1Id: v.value,
-                      l1ErrMsg: '',
-                    });
-                  },
-                  options: categoryL1List.map(fmtLabel),
-                  selected: {
-                    value: editState.categoryL1Id,
-                  },
-                  errMsg: i18nTxt(editState.l1ErrMsg),
-                }}
-              />
-            </div>
-            <div className="category-wrap-select">
-              <Select
-                {...{
-                  label: i18nTxt('* Subcategory'),
-                  onSelect: v => {
-                    updateEdit({
-                      categoryL2Id: v.value,
-                      l2ErrMsg: '',
-                    });
-                  },
-                  options: (categoryMap[editState.categoryL1Id] || []).map(fmtLabel),
-                  selected: {
-                    value: editState.categoryL2Id,
-                  },
-                  errMsg: i18nTxt(editState.l2ErrMsg),
-                }}
-              />
-            </div>
+        <div className="category-wrap">
+          <div className="category-wrap-select">
+            <Select
+              {...{
+                label: i18nTxt('* Category'),
+                onSelect: v => {
+                  updateEdit({
+                    categoryL1Id: v.value,
+                    l1ErrMsg: '',
+                  });
+                },
+                options: categoryL1List.map(fmtLabel),
+                selected: {
+                  value: editState.categoryL1Id,
+                },
+                errMsg: i18nTxt(editState.l1ErrMsg),
+              }}
+            />
           </div>
-        ) : (
-          <div className="category-wrap">
-            <Picker
-              label={i18nTxt('* Category')}
-              selected={{
-                value: editState.categoryL1Id,
+          <div className="category-wrap-select">
+            <Select
+              {...{
+                label: i18nTxt('* Subcategory'),
+                onSelect: v => {
+                  updateEdit({
+                    categoryL2Id: v.value,
+                    l2ErrMsg: '',
+                  });
+                },
+                options: (categoryMap[editState.categoryL1Id] || []).map(fmtLabel),
+                selected: {
+                  value: editState.categoryL2Id,
+                },
+                errMsg: i18nTxt(editState.l2ErrMsg),
               }}
-              data={categoryL1List.map(fmtLabel)}
-              errMsg={i18nTxt(editState.l1ErrMsg)}
-              onSelect={v => {
-                updateEdit({
-                  categoryL1Id: v.value,
-                  l1ErrMsg: '',
-                });
-              }}
-            ></Picker>
-            <Picker
-              label={i18nTxt('* Subcategory')}
-              selected={{
-                value: editState.categoryL2Id,
-              }}
-              data={(categoryMap[editState.categoryL1Id] || []).map(fmtLabel)}
-              errMsg={i18nTxt(editState.l2ErrMsg)}
-              onSelect={v => {
-                updateEdit({
-                  categoryL2Id: v.value,
-                  l2ErrMsg: '',
-                });
-              }}
-            ></Picker>
+            />
           </div>
-        )}
+        </div>
 
         <textarea
           value={editState.description}
@@ -390,7 +356,7 @@ class EditBounty extends Component {
           content={i18nTxtAsync('bounty.faq')}
           title={i18nTxt('Bounty Example')}
           wrapStyle={{
-            width: isMobile() ? '400px' : '100%',
+            width: isMobile() ? '100%' : '400px',
           }}
         />
         <ConfirmComp
@@ -420,7 +386,7 @@ class EditBounty extends Component {
           }
           title={i18nTxt('Private Message Example')}
           wrapStyle={{
-            width: isMobile() ? '400px' : '100%',
+            width: isMobile() ? '100%' : '400px',
           }}
         />
       </Wrapper>
