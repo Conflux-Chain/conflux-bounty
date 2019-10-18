@@ -367,6 +367,9 @@ const Category = styled.div`
         margin-top: 20px;
         margin-bottom: 20px;
         font-weight: 500;
+        &.category-title-first {
+          margin-top: 0;
+        }
       }
     }
   `}
@@ -405,6 +408,7 @@ const BountyList = styled.div`
 
     > button {
       color: #8E9394;
+      padding-right: 0;
     }
 
     .arrow-down {
@@ -847,7 +851,7 @@ class Home extends Component {
           />
           <Category>
             <div className="category">
-              <span className="title">{i18nTxt('Category')}:</span>
+              <span className="title category-title-first">{i18nTxt('Category')}:</span>
               <span className="category-line">
                 <HomeCategory text={i18nTxt('All')} value={null} selected={category === null} onClick={this.onChangeCategory} />
                 {categoryL1List.map(item => (
