@@ -27,7 +27,7 @@ const Container = styled.div`
     align-items: initial;
     justify-content: initial;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
-    margin-bottom: 0;
+    margin-bottom: ${unitParser(20)};
     border-radius: initial;
     z-index: initial;
     padding: 0;
@@ -65,6 +65,7 @@ const TagItem = styled.div`
     text-align: center;
     margin-left: ${unitParser(20)};
     margin-right: ${unitParser(20)};
+
     flex: 1;
     font-weight: bold;
     &.selected {
