@@ -13,7 +13,6 @@ const Container = styled.div`
   justify-content: center;
   font-size: 14px;
   line-height: 14px;
-  font-family: SF Pro Display;
   color: #595f61;
   margin-right: 8px;
   cursor: pointer;

@@ -12,11 +12,13 @@ import ConfirmComp from '../../components/Modal/confirm';
 import * as s from '../Bounty/commonStyle';
 import * as s1 from './commonStyle';
 import BackHeadDiv from '../../components/BackHeadDiv';
-import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, renderAny } from '../../utils';
+import { i18nTxt, commonPropTypes, getQuery, auth, getStatus, downLink, showLink, renderAny } from '../../utils';
 import { SOLUTION_STATUS_ENUM, fileAcceptStr } from '../../constants';
 
+import unitParser, { isMobile } from '../../utils/device';
+import media from '../../globalStyles/media';
+
 const Wrapper = styled(StyledWrapper)`
-  padding: 40px;
   padding: 40px;
   h1 {
     font-size: 32px;
@@ -39,9 +41,11 @@ const Wrapper = styled(StyledWrapper)`
   }
   .materialize-textarea {
     height: 100px;
+    display: block;
   }
   .bounty-title {
     background: #f7f9fa;
+    color: #8e9394;
     border-radius: 4px;
     height: 44px;
     padding-left: 16px;
@@ -63,9 +67,43 @@ const Wrapper = styled(StyledWrapper)`
     cursor: pointer;
     margin-bottom: 20px;
   }
+  .attachment {
+    line-height: unset;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr max-content;
+  }
   .status-tips {
     margin-bottom: 40px;
   }
+  ${media.mobile`
+    padding: ${unitParser(20)} ${unitParser(12)};
+    h1 {
+      margin-bottom: 0;
+      font-weight: bold;
+      font-size: ${unitParser(24)}
+    }
+    .subject {
+      margin-top: ${unitParser(40)};
+      font-size: ${unitParser(16)};
+      text-indent: ${unitParser(4)};
+    }
+    .bounty-title {
+      font-size: ${unitParser(14)};
+
+    }
+    textarea {
+      padding: ${unitParser('15dp')} ${unitParser('8dp')};
+      font-size: ${unitParser('14dp')};
+      margin-bottom: 0;
+    }
+    .add-step .btn {
+      font-size: ${unitParser(16)};
+    }
+    .remove-step {
+      font-size: ${unitParser(14)};
+    }
+  `}
 `;
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -168,7 +206,19 @@ class EditSolution extends Component {
           {editSolution.descriptionErrMsg && <span className="helper-text" data-error={i18nTxt(editSolution.descriptionErrMsg)}></span>}
 
           <div className="clearfix">
-            <div style={{ float: 'left' }}>
+            <div style={{ float: 'right' }}>
+              <s.ExampleDiv
+                onClick={() => {
+                  updateEdit({
+                    showExample: true,
+                  });
+                }}
+              >
+                <i className="example" />
+                <span>{i18nTxt('EXAMPLE')}</span>
+              </s.ExampleDiv>
+            </div>
+            <div style={{ float: 'left', marginBottom: 20 }}>
               <s.AttachmentDiv>
                 {editSolution.attachmentList.map(v => {
                   const removeFile = () => {
@@ -181,7 +231,7 @@ class EditSolution extends Component {
                   };
                   return (
                     <div className="attachment-line">
-                      {downLink(v.url, v.title)}
+                      {isMobile() ? showLink(v.url, v.title, editSolution.attachmentList) : downLink(v.url, v.title)}
                       <button className="material-icons dp48" onClick={removeFile} type="button">
                         cancel
                       </button>
@@ -194,19 +244,6 @@ class EditSolution extends Component {
                   <input id="bounty-add-attachment" type="file" multiple accept={fileAcceptStr} onChange={uploadFile} />
                 </label>
               </s.AttachmentDiv>
-            </div>
-
-            <div style={{ float: 'right' }}>
-              <s.ExampleDiv
-                onClick={() => {
-                  updateEdit({
-                    showExample: true,
-                  });
-                }}
-              >
-                <i className="example" />
-                <span>{i18nTxt('EXAMPLE')}</span>
-              </s.ExampleDiv>
             </div>
           </div>
 
@@ -386,7 +423,7 @@ class EditSolution extends Component {
           content={i18nTxt('submission.example')}
           title={i18nTxt('Submission Example')}
           wrapStyle={{
-            width: '400px',
+            width: isMobile() ? '100%' : '400px',
           }}
         />
       </React.Fragment>

@@ -8,6 +8,9 @@ import { StyledWrapper } from '../../globalStyles/common';
 // import * as s from './commonStyle';
 import { i18nTxt } from '../../utils';
 
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
+
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
@@ -45,6 +48,38 @@ const Wrapper = styled(StyledWrapper)`
       margin-right: 20px;
     }
   }
+  ${media.mobile`
+    padding: ${unitParser(40)} ${unitParser(30)};
+    .success-icon{
+      font-size: ${unitParser(60)};
+      height: ${unitParser(60)};
+      line-height: ${unitParser(60)};
+      margin-bottom: ${unitParser(20)};
+    }
+    h1 {
+      width: 100%;
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(28)}; 
+      font-weight: bold;       
+    }
+    >p{
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(18)}; 
+    }
+    .btns{
+      padding: 0 4px;
+      .btn{
+        height: ${unitParser(32)};
+        line-height: ${unitParser(32)};
+        font-size: ${unitParser(14)};
+        font-weight: 600;
+      }
+      .btn:nth-child(1) {
+        margin-right: ${unitParser(12)};
+
+      }
+    }
+  `}
 `;
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -74,7 +109,7 @@ class BountySuccess extends Component {
         </h1>
 
         <p>
-          {i18nTxt('We are reviewing your submission.')}.
+          {i18nTxt('We are reviewing your submission.')}
           <br />
           {i18nTxt('Approved bounty will be displayed on the home page.')}
         </p>

@@ -104,6 +104,8 @@ const initViewSolution = {
   milestoneList: [],
   reward: {},
   user: { nickname: '', email: '', invitationCode: '', photoUrl: null },
+  noteList: [],
+  noteListTranslated: [],
   showEditNoteMsg: false,
 };
 

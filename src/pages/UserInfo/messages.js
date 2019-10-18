@@ -8,11 +8,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useAsync } from 'react-use';
+import LinesEllipsis from 'react-lines-ellipsis';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import { timeSince, commonPropTypes, i18nTxt, notice } from '../../utils';
 import { reqMessageList, reqMessageCount, reqMessageReadAll } from '../../utils/api';
 import { UPDATE_UNREAD_MESSAGE_COUNT } from '../../constants';
+import media from '../../globalStyles/media';
+import unitParser, { useMobile } from '../../utils/device';
+import NoResult from '../../components/NoResult';
 
 const PAGE_SIZE = 5;
 export const MESSAGE_TEMPLATE = {
@@ -136,6 +140,8 @@ function Messages({ dispatch, lang, history }) {
     setTotal(newTotal);
   }, [nextPage]);
 
+  const isMobile = useMobile();
+
   return (
     <React.Fragment>
       <BackHeadDiv onClick={() => history.push('/user-info')}>{i18nTxt('My Account')}</BackHeadDiv>
@@ -177,39 +183,31 @@ function Messages({ dispatch, lang, history }) {
         <div className="table-wrap">
           <table>
             <tbody>
-              {messages.map((message, idx) => {
+              {messages.map(message => {
                 const { id, createdAt, isRead } = message;
                 const { bountyTitle } = message.info;
                 const template = getMessageTemplate(message, lang);
-                const firstPartStr = template.substring(0, template.indexOf('{{')) + bountyTitle;
-                const lastPartStr = template.substring(template.indexOf('}}') + 2, template.length - 1);
+                let firstPartStr;
+                let lastPartStr = '';
+                if (message.info.withdrawalId) {
+                  firstPartStr = template;
+                } else {
+                  firstPartStr = template.substring(0, template.indexOf('{{')) + bountyTitle || template;
+                  lastPartStr = template.substring(template.indexOf('}}') + 2, template.length - 1) || '';
+                }
 
-                const Wrapper = styled.div`
-                  display: flex;
-                  #firstPart-${idx} {
-                    text-overflow: ellipsis;
-                    padding-right: 1ch;
-                  }
-                  #lastPart-${idx} {
-                    flex-shrink: 0;
-                    direction: rtl;
-                  }
-                `;
-                const title = (
-                  <Wrapper>
-                    <span id={`firstPart-${idx}`} className="firstPart">
-                      {firstPartStr}
-                    </span>
-                    <span id={`lastPart-${idx}`} className="lastPart">
-                      {lastPartStr}
-                    </span>
-                  </Wrapper>
-                );
                 return (
                   <tr>
                     <td className="title">
                       <Link className={isRead ? '' : 'unread'} to={`/message/${id}`}>
-                        {title}
+                        <LinesEllipsis
+                          className="message-title"
+                          style={{ whiteSpace: 'pre-wrap' }} // https://github.com/xiaody/react-lines-ellipsis/issues/59
+                          text={`${firstPartStr}${lastPartStr}`}
+                          maxLine={isMobile ? '2' : '1'}
+                          trimRight
+                          ellipsis={`... ${lastPartStr}`}
+                        />
                       </Link>
                     </td>
                     <td className="time">
@@ -220,6 +218,7 @@ function Messages({ dispatch, lang, history }) {
               })}
             </tbody>
           </table>
+          {total === 0 && <NoResult />}
           <div className="show-more" style={{ display: total > messages.length ? 'block' : 'none' }}>
             <button
               onClick={() => {
@@ -265,6 +264,11 @@ const Wrapper = styled(StyledWrapper)`
     margin: 0;
     margin-bottom: 40px;
     font-weight: 500;
+    ${media.mobile`
+font-size: ${unitParser(24)};
+line-height: ${unitParser(24)};
+margin-bottom: ${unitParser(20)};
+`}
   }
   .table-wrap {
     > table {
@@ -284,14 +288,6 @@ const Wrapper = styled(StyledWrapper)`
       line-height: 16px;
       color: #8e9394;
       white-space: no-wrap;
-      overflow: hidden;
-      .firstPart,
-      .lastPart {
-        display: inline-block;
-        vertical-align: bottom;
-        white-space: nowrap;
-        overflow: hidden;
-      }
     }
     .time {
       font-style: normal;
@@ -301,13 +297,28 @@ const Wrapper = styled(StyledWrapper)`
       text-align: right;
       color: #8e9394;
       width: 100px;
+      ${media.mobile`
+font-size: ${unitParser(12)};
+line-height: ${unitParser(12)};
+`}
     }
     td {
       padding: 19px 0 18px 0;
+      overflow: unset;
+      .message-title {
+        line-height: 16px;
+        font-size: 16px;
+        ${media.mobile`
+font-size: ${unitParser(14)};
+`}
+      }
       a {
         color: #8e9394;
         cursor: pointer;
       }
+      ${media.mobile`
+padding: ${unitParser(20)} 0;
+`}
     }
     th {
       font-weight: normal;
@@ -322,7 +333,7 @@ const Wrapper = styled(StyledWrapper)`
     .unread:before {
       content: '•';
       position: absolute;
-      left: -14px;
+      left: -10px;
       font-weight: bold;
       color: #f0453a;
     }

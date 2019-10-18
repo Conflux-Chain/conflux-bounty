@@ -11,6 +11,8 @@ import Input from '../Input';
 import { REGEX } from '../../constants';
 import { reqSendVerificationEmail } from '../../utils/api';
 import { i18nTxt } from '../../utils';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 class EmailCode extends Component {
   state = {
@@ -138,7 +140,7 @@ function mapStateToProps(state) {
 
 const Wrapper = styled.div`
   > div {
-    margin: 0 0 4px 0;
+    margin: 0 0 12px 0;
   }
   .email-code-wrap {
     display: flex;
@@ -151,6 +153,10 @@ const Wrapper = styled.div`
       text-transform: uppercase;
     }
     .email-code-btn {
+      ${media.mobile`
+height: ${unitParser(44)};
+font-size: ${unitParser(14)};
+`}
       flex-grow: 0;
       height: 56px;
       min-width: 74px;

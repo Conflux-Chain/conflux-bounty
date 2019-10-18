@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import imgRejectBack from '../../assets/iconfont/reject-back.svg';
+import imgRejectBackMobile from '../../assets/iconfont/reject-back-mobile.svg';
 import { StyledWrapper } from '../../globalStyles/common';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 export const HeadDiv = styled.div`
   font-size: 20px;
@@ -19,6 +22,12 @@ export const HeadDiv = styled.div`
       text-decoration: none;
     }
   }
+
+  ${media.mobile`
+    font-size: ${unitParser(20)};
+    line-height: ${unitParser(20)};
+    padding: ${unitParser(20)} ${unitParser(40)};
+  `}
 `;
 
 export const H2 = styled.div`
@@ -27,11 +36,24 @@ export const H2 = styled.div`
   line-height: 16px;
   color: #171d1f;
   font-weight: bold;
+  ${media.mobile`
+    font-size: ${unitParser(16)};
+    line-height: ${unitParser(16)};
+  `}
 `;
 
 export const AttachmentDiv = styled.div`
   .attachment-line {
     color: #595f61;
+    ${media.mobile`
+      &:nth-child(1){
+        margin-top: ${unitParser(15)};
+      }
+      margin-bottom: ${unitParser(20)};
+      &:nth-last-of-type(1){
+        margin-bottom: ${unitParser(10)};
+      }
+    `}
   }
   .attachment-line a {
     cursor: pointer;
@@ -54,10 +76,7 @@ export const AttachmentDiv = styled.div`
   .add-attachment {
     color: #22b2d6;
     display: inline-block;
-    margin-top: 6px;
-    margin-right: 10px;
     height: 20px;
-
     font-size: 14px;
     cursor: pointer;
     position: relative;
@@ -68,7 +87,8 @@ export const AttachmentDiv = styled.div`
       border-bottom: 1px solid;
     }
     > span {
-      line-height: 20px;
+      /* line-height: 20px; */
+      display: inline-block;
       vertical-align: middle;
     }
     > i {
@@ -80,6 +100,21 @@ export const AttachmentDiv = styled.div`
     input[type='file'] {
       display: none;
     }
+
+    ${media.mobile`
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: ${unitParser(16)};
+      width: calc(100vw -  ${unitParser(24)});
+      height: ${unitParser(44)};
+      border: ${unitParser(1)} solid #ccc;
+      border-radius: 4px;
+      margin-top: 10px;
+      :hover{
+        border-bottom: ${unitParser(1)} solid #ccc;
+      }
+    `}
   }
 `;
 
@@ -87,9 +122,15 @@ export const ExampleDiv = styled.div`
   color: #595f61;
   cursor: pointer;
   > i {
-    vertical-align: middle;
     margin-right: 5px;
   }
+  > span {
+    vertical-align: middle;
+  }
+  ${media.mobile`
+    margin-top: 10px;
+    font-size: ${unitParser(14)};
+  `}
 `;
 
 export const SubmitDiv = styled.div`
@@ -103,6 +144,15 @@ export const SubmitDiv = styled.div`
   > label {
     margin-top: 9px;
   }
+  ${media.mobile`
+    margin-top: ${unitParser(40)};
+    .btn {
+      width: 100%;
+      height: ${unitParser(44)};
+      line-height: ${unitParser(44)};
+      font-size: ${unitParser(16)};
+    }
+  `}
 `;
 
 export const ImgDiv = styled.div`
@@ -146,18 +196,31 @@ export const LikeAndShare = styled.div`
     .material-icons {
       font-size: 20px;
     }
+    ${media.mobile`
+margin-right: 0;
+font-size: ${unitParser(14)};
+line-height: ${unitParser(14)};
+`}
   }
 `;
 
 export const MyBounSolunDiv = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
+  ${media.mobile`
+padding: ${unitParser(20)} ${unitParser(12)}
+`}
   h1 {
     font-size: 32px;
     line-height: 32px;
     margin: 0;
     margin-bottom: 40px;
     font-weight: 500;
+    ${media.mobile`
+line-height: ${unitParser('24')};
+font-size: ${unitParser('24')};
+margin-bottom: ${unitParser('20')};
+`}
   }
 
   .item-link {
@@ -169,6 +232,11 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
     a > span {
       vertical-align: middle;
     }
+    ${media.mobile`
+position: unset;
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
   }
   .item-link.disabled {
     cursor: default;
@@ -177,6 +245,9 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
   .item-head {
     display: flex;
     justify-content: space-between;
+    ${media.mobile`
+align-items: center;
+`}
   }
   .item-content {
     padding-right: 100px;
@@ -195,33 +266,66 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
       margin-bottom: 4px;
       color: #171d1f;
       font-weight: 500;
+      ${media.mobile`
+font-size: ${unitParser(14)}
+line-height: ${unitParser(14)}
+`}
     }
     .item-status {
       color: #595f61;
       font-size: 14px;
+      ${media.mobile`
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
     }
     .item-gray {
       color: #8e9394;
       font-size: 14px;
       margin-right: 12px;
+      ${media.mobile`
+font-size: ${unitParser(12)}
+line-height: ${unitParser(12)}
+`}
     }
     .reject-tips {
       margin-top: 8px;
       width: 520px;
       height: 50px;
+      // FIXME: don't use svg, here
       background-image: url(${imgRejectBack});
+      ${media.mobile`
+font-size: ${unitParser(14)};
+line-height: ${unitParser(14)};
+width: 351px;
+height: 73px;
+background-image: url(${imgRejectBackMobile});
+flex-direction: column;
+padding: ${unitParser(20)} ${unitParser(16)} ${unitParser(12)} ${unitParser(16)};
+`}
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding: 20px 16px;
       padding-top: 26px;
       color: #e76a25;
 
-      > i {
-        font-size: 20px;
-        color: #e76a25;
-        margin-right: 8px;
+      > span {
+        display: flex;
+        justify-content: center;
+        ${media.mobile`
+align-self: flex-start;
+`}
+        > i {
+          font-size: 20px;
+          color: #e76a25;
+          margin-right: 8px;
+        }
       }
       > a {
+        ${media.mobile`
+align-self: flex-end;
+`}
         font-size: 14px;
         cursor: pointer;
         color: #595f61;
@@ -229,10 +333,23 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
         > span {
           vertical-align: middle;
         }
+        ${media.mobile`
+  > i {
+    margin-right: ${unitParser(-12)};
+  }
+`}
       }
     }
     .reject-content {
       flex: 1;
+    }
+  }
+  .my-bounty-item:nth-child(1) {
+    border-top: none;
+  }
+  .my-submission-list {
+    .my-bounty-item {
+      border-top: 1px solid #ebeded;
     }
   }
   .my-bounty-item:last-of-type {
@@ -241,5 +358,6 @@ export const MyBounSolunDiv = styled(StyledWrapper)`
   .show-more {
     text-align: center;
     margin-top: 40px;
+    ${media.mobile`margin-top: ${unitParser(20)};`}
   }
 `;

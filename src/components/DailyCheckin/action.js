@@ -51,6 +51,7 @@ export const submitCheckIn = recaptchaVal => dispatch => {
       checkinStatus: body.result.status,
       checkinRemainingTime: body.result.remainingTime,
       checkinFansCoin: body.result.fansCoin,
+      showCheckInMini: false,
     };
 
     if (body.result.status === checkinEnum.pass) {

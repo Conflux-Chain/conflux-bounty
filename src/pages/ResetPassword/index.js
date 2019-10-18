@@ -15,6 +15,8 @@ import EmailCode from '../../components/EmailCode';
 import Password from '../../components/Password';
 import SignInVia from '../../components/SignInVia';
 import { i18nTxt } from '../../utils';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 class ResetPassword extends Component {
   state = { email: '', password: '', emailCode: '' };
@@ -64,7 +66,7 @@ class ResetPassword extends Component {
         <Wrapper>
           <div className="signup">
             <form className="form-wrap">
-              <span className="title"> {i18nTxt('RESET PASSWORD')}</span>
+              <span className="title"> {i18nTxt('Reset Password')}</span>
               <div className="inputs-wrap">
                 <Email
                   checkIsRegistered
@@ -119,17 +121,27 @@ export default ResetPassword;
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
+  ${media.mobile`
+    padding: ${unitParser(20)} ${unitParser(12)};
+  `}
   .title {
     font-size: 32px;
     line-height: 32px;
+    font-weight: 600;
+    ${media.mobile`
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
+    `}
   }
   .form-wrap {
     text-align: center;
     margin: 0 80px;
+    ${media.mobile`
+      margin: 0;
+      text-align: left;
+    `}
   }
   .signup-input {
-    height: 56px;
-    margin: 12px 0 0;
     color: #8e9394;
   }
   .inputs-wrap {
@@ -152,12 +164,8 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 16px;
     text-transform: uppercase;
     margin-top: 20px;
-  }
-  .signup-link {
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 16px;
-    text-transform: uppercase;
+    ${media.mobile`
+      text-align: center;
+    `}
   }
 `;
