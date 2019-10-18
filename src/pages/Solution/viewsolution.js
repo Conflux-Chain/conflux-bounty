@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
 import get from 'lodash/get';
 import * as actions from './action';
-import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink, showLink } from '../../utils';
+import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink, showLink, copyToClipboard, notice } from '../../utils';
 import { StyledWrapper } from '../../globalStyles/common';
 import media from '../../globalStyles/media';
 // import Input from '../../components/Input';
@@ -568,6 +568,12 @@ function ViewSolution({
               <button
                 type="button"
                 onClick={() => {
+                  if (isMobile) {
+                    copyToClipboard(window.location.href);
+                    notice.show({ content: i18nTxt('Copied'), type: 'message-success', timeout: 3000 });
+                    return;
+                  }
+
                   updateShare({
                     show: true,
                     qrTxt: window.location.href,
