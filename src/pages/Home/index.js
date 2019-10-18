@@ -296,6 +296,9 @@ const BountyWall = styled.div`
     letter-spacing: 0.1em;
     color: #fff;
     margin-bottom: 16px;
+    ${media.mobile`
+      display: none;
+    `}
   }
 `;
 const Category = styled.div`
@@ -815,28 +818,30 @@ class Home extends Component {
           </Broadcast>
         )}
 
-        <BroadcastMobile>
-          <Slider
-            {...{
-              infinite: true,
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              autoplay: true,
-              speed: 1000,
-              autoplaySpeed: 5000,
-              variableWidth: true,
-              arrows: false,
-            }}
-          >
-            {broadcastList.map(item => {
-              return (
-                <a href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'} className="broadcast-item">
-                  {item.title}
-                </a>
-              );
-            })}
-          </Slider>
-        </BroadcastMobile>
+        {broadcastList.length > 0 && (
+          <BroadcastMobile>
+            <Slider
+              {...{
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                speed: 1000,
+                autoplaySpeed: 5000,
+                variableWidth: true,
+                arrows: false,
+              }}
+            >
+              {broadcastList.map(item => {
+                return (
+                  <a href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'} className="broadcast-item">
+                    {item.title}
+                  </a>
+                );
+              })}
+            </Slider>
+          </BroadcastMobile>
+        )}
 
         <BountyWall>
           {broadcastList.length === 0 && <span className="bounty-wall-title">{i18nTxt('BOUNTY WALL')}</span>}
