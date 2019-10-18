@@ -99,7 +99,7 @@ const HoTBounty = styled.div`
     `}
 
     ${media.mobile`
-    min-height: ${unitParser(230)};
+      min-height: ${unitParser(230)};
     `}
 
     .slick-track {
@@ -317,6 +317,9 @@ const Category = styled.div`
     &:last-of-type {
       margin-bottom: 0;
     }
+    .category-line {
+      display: flex;
+    }
     .title {
       display: block;
       width: 100px;
@@ -324,9 +327,6 @@ const Category = styled.div`
       color: #3b3d3d;
       margin-bottom: 12px;
     }
-  }
-  .category-line > div {
-    display: inline-block;
   }
 
   ${media.tablet`
@@ -349,31 +349,27 @@ const Category = styled.div`
       &:last-of-type {
         margin-bottom: initial;
       }
-
       padding-bottom: 20px;
-      border-bottom: 1px solid #EBEDED;
+      border-bottom: 1px solid #ebeded;
       overflow: auto;
-      .category-line > div {
-        display: inline-block;
-        border-radius: 4px;
-      }
       .category-line {
         padding-left: ${unitParser(12)};
         padding-bottom: ${unitParser(12)};
-        display: block;
-        clear: both;
+        display: flex;
         overflow: auto;
-        white-space: nowrap;k
+        white-space: nowrap;
+        > div {
+          border-radius: 4px;
+        }
       }
     }
     .title {
       width: initial;
       line-height: initial;
       padding-left: ${unitParser(12)};
-
       display: block;
       font-size: 14px;
-      color: #3B3D3D;
+      color: #3b3d3d;
       margin-top: 5px;
       margin-bottom: 12px;
       font-weight: 500;
