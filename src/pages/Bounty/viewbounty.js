@@ -29,10 +29,10 @@ import PhotoImg from '../../components/PhotoImg';
 import UserBack from '../../assets/iconfont/user-back.svg';
 import { BOUNTY_STATUS_ENUM, REGEX } from '../../constants';
 import ViewSolution from '../Solution/viewsolution';
-import sortImg from '../../assets/iconfont/sort.svg';
 import Tooltip from '../../components/Tooltip';
 import media from '../../globalStyles/media';
 import unitParser, { isMobile } from '../../utils/device';
+import SortIndicator from '../../components/SortIndicator';
 
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
@@ -103,7 +103,15 @@ const Wrapper = styled(StyledWrapper)`
     margin-bottom: 20px;
     margin-top: 20px;
     margin-left: -5px;
+    display: flex;
   }
+  .sort-pc {
+    display: flex;
+    ${media.mobile`
+      display: none;
+    `}
+  }
+
   .submission-sort-item {
     color: #8e9394;
     cursor: pointer;
@@ -329,6 +337,7 @@ const Wrapper = styled(StyledWrapper)`
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 100%;
 
         > button {
           font-size: ${unitParser(14)};
@@ -509,7 +518,7 @@ class ViewBounty extends Component {
     const query = getQuery();
     this.query = query;
     this.state = {
-      sortType: 'time_asc',
+      sortType: 'time_desc',
       showSortType: false,
     };
     this.setSortType = this.setSortType.bind(this);
@@ -704,32 +713,32 @@ class ViewBounty extends Component {
 
           <div className="solution-list">
             <div className="submission-sort-wrap">
-              <button
-                onClick={() => {
-                  updateView({
-                    sortType: '',
-                  });
-                  getSolutionList(1);
-                }}
-                type="button"
-                className="submission-sort-item"
-              >
-                <span>{i18nTxt('Sort by Time')}</span>
-                <img src={sortImg} className="sorticon" alt="sorticon" />
-              </button>
-              <button
-                onClick={() => {
-                  updateView({
-                    sortType: 'like_desc',
-                  });
-                  getSolutionList(1);
-                }}
-                type="button"
-                className="submission-sort-item"
-              >
-                <span>{i18nTxt('Sort by Likes')}</span>
-                <img src={sortImg} className="sorticon" alt="sorticon" />
-              </button>
+              <div className="sort-pc">
+                <SortIndicator
+                  highlight={viewBounty.sortType === 'time_desc' || viewBounty.sortType === 'time_asc'}
+                  order={viewBounty.sortType === 'time_desc' ? 'desc' : 'asc'}
+                  onClick={() => {
+                    updateView({
+                      sortType: viewBounty.sortType === 'time_desc' ? 'time_asc' : 'time_desc',
+                    });
+                    getSolutionList(1);
+                  }}
+                >
+                  {i18nTxt('Sort by Time')}
+                </SortIndicator>
+                <SortIndicator
+                  highlight={viewBounty.sortType === 'like_desc' || viewBounty.sortType === 'like_asc'}
+                  order={viewBounty.sortType === 'like_desc' ? 'desc' : 'asc'}
+                  onClick={() => {
+                    updateView({
+                      sortType: viewBounty.sortType === 'like_desc' ? 'like_asc' : 'like_desc',
+                    });
+                    getSolutionList(1);
+                  }}
+                >
+                  {i18nTxt('Sort by Likes')}
+                </SortIndicator>
+              </div>
               <div className="submission-sort-mobile-wrapper">
                 <span>{i18nTxt('Sort by')}</span>
 

@@ -102,6 +102,7 @@ const initViewBounty = {
   commentTotal: 0,
   commentPage: 1,
   commentLimit: 10,
+  sortType: 'time_desc',
 };
 function viewBounty(state = initViewBounty, action) {
   if (action.type === UPDATE_VIEW) {

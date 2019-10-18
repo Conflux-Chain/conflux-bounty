@@ -8,10 +8,13 @@ import ReCAPTCHA from '../ReCAPTCHA';
 import * as actions from './action';
 import { compose, commonPropTypes, i18nTxt, auth } from '../../utils';
 import CheckIn from '../../assets/iconfont/checkIn.svg';
+import CheckedIn from '../../assets/iconfont/checked-in.svg';
+import CheckedInUnavail from '../../assets/iconfont/checked-in-unavail.svg';
+import CheckInRightArrow from '../../assets/iconfont/checkin-rightarrow.svg';
 import media from '../../globalStyles/media';
 import Modal from '../Modal';
 import { recaptchaKey } from '../../constants';
-import unitParser from '../../utils/device';
+import unitParser, { isMobile } from '../../utils/device';
 
 const DailyCheckinWrap = styled.div`
   .pos-rightbottom {
@@ -55,16 +58,17 @@ const DailyCheckinWrap = styled.div`
   }
 
   .btn-checkedin {
+    display: flex;
     width: 100px;
     height: 116px;
-    background: linear-gradient(98.42deg, #69c4db -4.86%, #5499dd 103.1%);
+    background: linear-gradient(96.93deg, #ffffff 0%, #ededed 100%);
     box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.2);
     border-bottom-left-radius: 12px;
     border-top-left-radius: 12px;
     right: 0px;
 
     ${media.mobile`
-    width: ${unitParser(100)};
+    width: ${unitParser(110)};
     height: ${unitParser(116)};
     border-bottom-left-radius:  ${unitParser(12)};
     border-top-left-radius:  ${unitParser(12)};
@@ -96,23 +100,45 @@ const DailyCheckinWrap = styled.div`
       text-align: center;
       font-size: 14px;
       line-height: 14px;
-      color: #fff;
+      color: #59bf9c;
       font-weight: 500;
+      &.unavail {
+        color: #595f61;
+      }
       ${media.mobile`
       margin-top: ${unitParser(9)};
       margin-bottom: ${unitParser(5)};
-      font-size: ${unitParser(14)};
-      line-height: ${unitParser(14)};`}
+      font-size: ${unitParser(12)};
+      line-height: ${unitParser(12)};`}
     }
     .checked-line4,
     .checked-line5 {
-      color: #ffffff;
+      color: #595f61;
       text-align: center;
       font-size: 14px;
       line-height: 1.3;
       ${media.mobile`
-      font-size: ${unitParser(14)};`}
+      font-size: ${unitParser(12)};`}
     }
+  }
+  .btn-collapse {
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-checkedin-collapse {
+    background: linear-gradient(99.69deg, #ffffff 0%, #ededed 100%);
+    box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+    right: 0px;
+    width: ${unitParser(63)};
+    height: ${unitParser(52)};
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .checkin-success {
@@ -156,16 +182,6 @@ const DailyCheckinWrap = styled.div`
     }
   }
 `;
-const svgOrange = (
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="2" y="3" width="9" height="6" fill="#fff"></rect>
-    <path
-      d="M6 0C2.6922 0 0 2.6919 0 6C0 9.3081 2.6922 12 6 12C9.3087 12 12 9.3081 12 6C12 2.6919 9.3087 0 6 0ZM8.6454 5.3625L6.0768 7.9317C5.898 8.1102 5.6637 8.1996 5.4294 8.1996C5.1957 8.1996 4.9611 8.1102 4.7826 7.9317L3.3552 6.5043C2.9979 6.147 2.9979 5.5671 3.3552 5.2104C3.7125 4.8528 4.2915 4.8528 4.6494 5.2104L5.4294 5.9904L7.3518 4.0683C7.7082 3.7116 8.2887 3.7116 8.6454 4.0683C9.003 4.4256 9.003 5.0052 8.6454 5.3625Z"
-      fill="#F09C3A"
-    />
-  </svg>
-);
-
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 /* eslint jsx-a11y/alt-text: 0 */
@@ -194,9 +210,28 @@ class DailyCheckin extends Component {
   }
 
   render() {
-    const { common, submitCheckIn, showAlreadyTips } = this.props;
+    const { common, submitCheckIn, showAlreadyTips, update } = this.props;
     const { checkinStatus, checkinFansCoin } = common;
     const { showRecaptcha } = this.state;
+    const ismob = isMobile();
+
+    let btnCollapse;
+    if (ismob) {
+      btnCollapse = (
+        <button
+          className="btn-collapse"
+          type="button"
+          onClick={e => {
+            e.stopPropagation();
+            update({
+              showCheckInMini: true,
+            });
+          }}
+        >
+          <img src={CheckInRightArrow}></img>
+        </button>
+      );
+    }
 
     let checkInButton;
     if (checkinStatus === actions.checkinEnum.pass) {
@@ -220,18 +255,71 @@ class DailyCheckin extends Component {
 
       checkInButton = (
         <div className="btn-checkedin pos-rightbottom" onClick={showAlreadyTips}>
-          <img src={CheckIn} className="checked-line1" />
-          <div className="checked-line2">{svgOrange}</div>
-          <div className="checked-line3">{i18nTxt('Checked in')}</div>
-          <div className="checked-line4">{i18nTxt('Updates in')}</div>
-          <div className="checked-line5">
-            {i18nTxt('<%= hour %>h:<%= minute %>m', {
-              hour: parseInt(duration.asHours(), 10),
-              minute: duration.minutes(),
-            })}
+          {btnCollapse}
+          <div style={{ flex: 1 }}>
+            <img src={CheckedIn} className="checked-line1" />
+            {/* <div className="checked-line2">{svgOrange}</div> */}
+            <div className="checked-line3">{i18nTxt('Checked in')}</div>
+            <div className="checked-line4">{i18nTxt('Updates in')}</div>
+            <div className="checked-line5">
+              {i18nTxt('<%= hour %>h:<%= minute %>m', {
+                hour: parseInt(duration.asHours(), 10),
+                minute: duration.minutes(),
+              })}
+            </div>
           </div>
         </div>
       );
+      if (ismob && common.showCheckInMini) {
+        checkInButton = (
+          <div
+            className="btn-checkedin-collapse pos-rightbottom"
+            onClick={() => {
+              update({
+                showCheckInMini: false,
+              });
+            }}
+          >
+            <img src={CheckedIn} className="checked-line1" />
+          </div>
+        );
+      }
+    } else if (checkinStatus === actions.checkinEnum.overMaxNum) {
+      const duration = moment.duration({
+        seconds: common.checkinRemainingTime,
+      });
+
+      checkInButton = (
+        <div className="btn-checkedin pos-rightbottom">
+          {btnCollapse}
+          <div style={{ flex: 1 }}>
+            <img src={CheckedInUnavail} className="checked-line1" />
+            <div className="checked-line3 unavail">{i18nTxt('checkin.Unavailable')}</div>
+            <div className="checked-line4">{i18nTxt('Updates in')}</div>
+            <div className="checked-line5">
+              {i18nTxt('<%= hour %>h:<%= minute %>m', {
+                hour: parseInt(duration.asHours(), 10),
+                minute: duration.minutes(),
+              })}
+            </div>
+          </div>
+        </div>
+      );
+
+      if (ismob && common.showCheckInMini) {
+        checkInButton = (
+          <div
+            className="btn-checkedin-collapse pos-rightbottom"
+            onClick={() => {
+              update({
+                showCheckInMini: false,
+              });
+            }}
+          >
+            <img src={CheckedInUnavail} className="checked-line1" />
+          </div>
+        );
+      }
     } else {
       checkInButton = null;
     }
@@ -253,7 +341,7 @@ class DailyCheckin extends Component {
     );
 
     const recaptchaModal = (
-      <Modal showOverlay show={showRecaptcha}>
+      <Modal showOverlay show={showRecaptcha} customStyle={{ width: 'auto' }}>
         <div>
           <ReCAPTCHA
             sitekey={recaptchaKey}
@@ -287,6 +375,7 @@ DailyCheckin.propTypes = {
   getCheckInInfo: PropTypes.func.isRequired,
   submitCheckIn: PropTypes.func.isRequired,
   showAlreadyTips: PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
 };
 DailyCheckin.defaultProps = {};
 
