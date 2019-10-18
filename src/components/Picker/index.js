@@ -100,25 +100,28 @@ const PickerWrap = styled.div`
   box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.12);
 
   ${media.mobile`
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    border-top-left-radius: ${unitParser(12)};
+    border-top-right-radius: ${unitParser(12)};
     width: 100%;
   `}
 `;
 const PickerHead = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 12px;
+  padding: ${unitParser(20)};
   button {
-    width: 74px;
-    line-height: 32px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: ${unitParser(14)};
+    line-height: ${unitParser(14)};
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0;
     &:nth-child(1) {
       color: #8e9394;
+      width: ${unitParser(60)};
     }
     &:nth-child(2) {
       color: #22b2d6;
+      width: ${unitParser(70)};
     }
   }
 `;
