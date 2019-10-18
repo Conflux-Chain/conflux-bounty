@@ -267,8 +267,13 @@ align-items: center;
       color: #171d1f;
       font-weight: 500;
       ${media.mobile`
+margin-right: ${unitParser(15)};
 font-size: ${unitParser(14)}
 line-height: ${unitParser(14)}
+flex: 1;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 `}
     }
     .item-status {
