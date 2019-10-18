@@ -442,4 +442,5 @@ export default {
   'Your added content is not approved. Here is the reason:': '很抱歉, 你的补充信息没有被采纳, 原因如下:',
   Close: '关闭',
   'Please select a product': '请先选择至少一个商品.',
+  'checkin.Unavailable': '签到人数已满',
 };

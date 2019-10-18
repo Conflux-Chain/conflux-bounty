@@ -13,6 +13,7 @@ const initState = {
   checkinRemainingTime: null,
   checkinFansCoin: null,
   showCheckSuccess: false,
+  showCheckInMini: true,
 };
 
 export default (state = initState, action) => {
