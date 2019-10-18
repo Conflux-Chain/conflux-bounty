@@ -256,8 +256,9 @@ const Wrapper = styled(StyledWrapper)`
     .head-right {
       font-size: ${unitParser(14)};
       line-height: ${unitParser(14)};
-      button {
+      button:first-child {
         margin-right: ${unitParser(20)};
+        padding: 0;
       }
     }
   .trans-line {
@@ -287,23 +288,23 @@ const AddNoticeDiv = styled.div`
     margin-right: 20px;
   }
   ${media.mobile`
-position: fixed;
-z-index: 999;
-bottom: 0;
-height: ${unitParser(84)};
-margin: 0;
-padding: ${unitParser(20)}
-  > span {
-    flex: 1;
-    font-size: ${unitParser(16)}
-    line-height: ${unitParser(20)}
-  }
-  > button {
-    font-size: ${unitParser(16)}
-    width: ${unitParser(65)};
-    box-sizing: border-box;
-    padding: 0;
-  }
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    height: ${unitParser(84)};
+    margin: 0;
+    padding: ${unitParser(20)}
+    > span {
+      flex: 1;
+      font-size: ${unitParser(16)}
+      line-height: ${unitParser(20)}
+    }
+    > button {
+      font-size: ${unitParser(16)}
+      width: ${unitParser(65)};
+      box-sizing: border-box;
+      padding: 0;
+    }
 `}
 `;
 
@@ -341,20 +342,20 @@ const EditNotePanel = styled.div`
     outline: none;
   }
   ${media.mobile`
-width: 100%;
-padding: 0;
-box-shadow: unset;
-position: relative;
-h5 {
-  font-size: ${unitParser(24)};
-  line-height: ${unitParser(24)};
-}
-  textarea {
-    height: 100px;
-  }
-  > .close {
-    top: 4px;
-  }
+    width: 100%;
+    padding: 0;
+    box-shadow: unset;
+    position: relative;
+    h5 {
+      font-size: ${unitParser(24)};
+      line-height: ${unitParser(24)};
+    }
+    textarea {
+      height: 100px;
+    }
+    > .close {
+      top: 4px;
+    }
 `}
 `;
 
