@@ -26,6 +26,7 @@ import Select from '../../components/Select';
 import media from '../../globalStyles/media';
 import unitParser, { useMobile } from '../../utils/device';
 
+const { mobile } = media;
 const ModalHeadStyle = styled.div`
   display: flex;
   align-items: center;
@@ -316,6 +317,52 @@ PasswordModal.propTypes = {
   email: PropTypes.string.isRequired,
 };
 
+const Table = styled.div`
+  border-top: 1px solid #ebeded;
+`;
+const Row = styled.div`
+  display: flex;
+  border-bottom: 1px solid #ebeded;
+  padding: 30px 0 28px 0;
+  justify-content: space-between;
+  font-size: 16px;
+  line-height: 16px;
+  .settings-title {
+    font-style: normal;
+    font-weight: normal;
+    color: #171d1f;
+    margin-right: 20px;
+    text-align: left;
+  }
+  .settings-middle {
+    text-align: right;
+    color: #8e9394;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+  .pseudo-password {
+    font-size: 10px;
+    letter-spacing: 4px;
+  }
+  .settings-btn {
+    margin-left: 20px;
+    min-width: 66px;
+    text-align: right;
+  }
+  ${mobile`
+font-size: ${unitParser(12)};
+line-height: ${unitParser(12)};
+  .settings-middle {
+    color: #666666;
+  }
+  .pseudo-password {
+    font-size: ${unitParser(8)});
+  }
+`}
+`;
+
 // eslint-disable-next-line react/prefer-stateless-function
 class Settings extends Component {
   state = { editing: '' };
@@ -375,54 +422,36 @@ class Settings extends Component {
         <Wrapper>
           <h1>{i18nTxt('Settings')}</h1>
           <div className="table-wrap">
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <div className="settings-title">{i18nTxt('Nickname')}</div>
-                  </td>
-                  <td className="align-right settings-middle">{nickname}</td>
-                  <td className="align-right settings-btn">
-                    <a href="/" className="primary" onClick={this.editNickName}>
-                      <span>{i18nTxt('EDIT')}</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="settings-title">{i18nTxt('Email')}</div>
-                  </td>
-                  <td className="align-right settings-middle">{email}</td>
-                  <td className="align-right settings-btn">
-                    <a href="/" className="primary" onClick={this.editEmail}>
-                      <span>{i18nTxt('EDIT')}</span>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="settings-title">{i18nTxt('Password')}</div>
-                  </td>
-                  <td className="align-right settings-middle pseudo-password">●●●●●●</td>
-                  <td className="align-right settings-btn">
-                    <a href="/" className="primary" onClick={this.changePassword}>
-                      <span>{i18nTxt('CHANGE')}</span>
-                    </a>
-                  </td>
-                </tr>
-                {/* <tr> */}
-                {/*   <td> */}
-                {/*     <div className="settings-title">{i18nTxt('Language')}</div> */}
-                {/*   </td> */}
-                {/*   <td className="align-right settings-middle">{(LANGUAGES[language] && LANGUAGES[language].label) || ''}</td> */}
-                {/*   <td className="align-right settings-btn"> */}
-                {/*     <a href="/" className="primary" onClick={this.changeLanguagePreference}> */}
-                {/*       <span>{i18nTxt('CHANGE')}</span> */}
-                {/*     </a> */}
-                {/*   </td> */}
-                {/* </tr> */}
-              </tbody>
-            </table>
+            <Table>
+              <Row>
+                <div className="settings-title">{i18nTxt('Nickname')}</div>
+                <div className="settings-middle">{nickname}</div>
+                <a href="/" className="primary settings-btn" onClick={this.editNickName}>
+                  <span>{i18nTxt('EDIT')}</span>
+                </a>
+              </Row>
+              <Row>
+                <div className="settings-title">{i18nTxt('Email')}</div>
+                <div className="settings-middle">{email}</div>
+                <a href="/" className="primary settings-btn" onClick={this.editEmail}>
+                  <span>{i18nTxt('EDIT')}</span>
+                </a>
+              </Row>
+              <Row>
+                <div className="settings-title">{i18nTxt('Password')}</div>
+                <div className="settings-middle">●●●●●●●</div>
+                <a href="/" className="primary settings-btn" onClick={this.changePassword}>
+                  <span>{i18nTxt('CHANGE')}</span>
+                </a>
+              </Row>
+              <Row style={{ display: 'none' }}>
+                <div className="settings-title">{i18nTxt('Language')}</div>
+                <div className="settings-middle">{(LANGUAGES[language] && LANGUAGES[language].label) || ''}</div>
+                <a href="/" className="primary settings-btn" onClick={this.changeLanguagePreference}>
+                  <span>{i18nTxt('CHANGE')}</span>
+                </a>
+              </Row>
+            </Table>
           </div>
         </Wrapper>
       </React.Fragment>,
@@ -471,6 +500,10 @@ const Wrapper = styled(StyledWrapper)`
     margin: 0;
     margin-bottom: 40px;
     font-weight: 500;
+    ${mobile`
+font-size: ${unitParser(24)};
+line-height: ${unitParser(24)};
+`}
   }
   .table-wrap {
     margin-top: 40px;
@@ -482,26 +515,6 @@ const Wrapper = styled(StyledWrapper)`
     }
     tr:first-child {
       border-top: 1px solid #ebeded;
-    }
-    .settings-title {
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 16px;
-      color: #171d1f;
-    }
-    .settings-middle {
-      font-size: 16px;
-      line-height: 16px;
-      text-align: right;
-      color: #8e9394;
-    }
-    .pseudo-password {
-      font-size: 10px;
-      letter-spacing: 4px;
-    }
-    .settings-btn {
-      width: 104.5px;
     }
   }
 `;

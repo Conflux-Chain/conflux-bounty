@@ -16,6 +16,8 @@ import media from '../../globalStyles/media';
 import unitParser, { useMobile } from '../../utils/device';
 import NoResult from '../../components/NoResult';
 
+const { mobile } = media;
+
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
@@ -94,7 +96,8 @@ const Wrapper = styled(StyledWrapper)`
   .like-subm-from {
     color: #999;
   }
-  ${media.mobile`
+
+  ${mobile`
   h1 {
     font-size: ${unitParser(24)};
     line-height: ${unitParser(24)};
@@ -106,28 +109,48 @@ const Wrapper = styled(StyledWrapper)`
       tr:first-child {
         border-top: unset;
       }
+      td {
+        font-size: ${unitParser(12)};
+        line-height: ${unitParser(24)};
+      }
       td:first-child {
         width: 80%;
       }
       .like-title {
-        font-size: ${unitParser(16)};
-        line-height: ${unitParser(16)};
+        font-size: ${unitParser(12)};
+        line-height: ${unitParser(24)};
       }
       .like-sub {
+        margin-top: unset;
         font-size: ${unitParser(12)};
-        line-height: ${unitParser(12)};
-          .like-state {
-            color: #666666;
-          }
+        line-height: ${unitParser(24)};
+        > span {
+          font-size: ${unitParser(12)};
+          line-height: ${unitParser(24)};
+        }
+        .like-state {
+          font-size: ${unitParser(12)};
+          line-height: ${unitParser(24)};
+          color: #666666;
+        }
+        .like-subm-from {
+          font-size: ${unitParser(12)};
+          line-height: ${unitParser(24)};
+        }
       }
       .arrow-link {
         white-space: nowrap;
-          > span,
-          > i {
-            vertical-align: middle;
-          }
+        > span,
+        > i {
+          vertical-align: middle;
+        }
+        > i {
+          font-size: ${unitParser(15)};
+        }
       }
       .remove-like-btn {
+        font-size: ${unitParser(12)};
+        line-height: ${unitParser(24)};
         margin-right: ${unitParser(17)};
         color: #666666;
       }
@@ -326,7 +349,7 @@ function MyLikes({
                   </Link>
                 );
                 const likeInfos = [
-                  <div className="like-title">{bounty.title}</div>,
+                  <span className="like-title">{bounty.title}</span>,
                   <div className="like-sub">
                     <span>{fmtToDay(bounty.createdAt)}</span>
                     <span className="like-state">{getStatus(bounty.status)}</span>
@@ -338,10 +361,8 @@ function MyLikes({
                   <tr>
                     <td>{likeInfos}</td>
                     <td className="align-right">
-                      <div>
-                        {removeBtn}
-                        {viewMoreLink}
-                      </div>
+                      {removeBtn}
+                      {viewMoreLink}
                     </td>
                   </tr>
                 ) : (
