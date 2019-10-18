@@ -110,7 +110,7 @@ const Container = styled.div`
       ${media.mobile`
         font-size: ${unitParser(22)};
         line-height: ${unitParser(30)};
-        max-width: ${unitParser(341)};
+        width: 100%;
         height: ${unitParser(56)};
         margin-bottom: ${unitParser(20)};
       `}
