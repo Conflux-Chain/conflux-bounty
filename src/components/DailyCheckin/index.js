@@ -341,7 +341,7 @@ class DailyCheckin extends Component {
     );
 
     const recaptchaModal = (
-      <Modal showOverlay show={showRecaptcha}>
+      <Modal showOverlay show={showRecaptcha} customStyle={{ width: 'auto' }}>
         <div>
           <ReCAPTCHA
             sitekey={recaptchaKey}
