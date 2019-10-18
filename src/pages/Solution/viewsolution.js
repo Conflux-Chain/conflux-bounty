@@ -34,12 +34,23 @@ const Wrapper = styled(StyledWrapper)`
   .head {
     display: flex;
     align-items: center;
-    h1 {
+    > h1 {
       flex: 1;
       font-size: 32px;
       color: #171d1f;
       margin: 0;
       padding: 0;
+    }
+    .head-right {
+      font-size: 14px;
+      line-height: 14px;
+      button {
+        padding: 0;
+        margin-right: 0;
+        &:first-child {
+          margin-right: 20px;
+        }
+      }
     }
   }
   .solution-head-list {
@@ -150,7 +161,7 @@ const Wrapper = styled(StyledWrapper)`
     padding-left: 12px;
     padding-right: 12px;
     font-weight: bold;
-    align-item: center;
+    align-items: center;
   }
 
   .trans-line {
@@ -209,10 +220,23 @@ const Wrapper = styled(StyledWrapper)`
       font-size: ${unitParser(14)};
       line-height: ${unitParser(20)};
     }
-    .head > h1 {
-      font-size: ${unitParser(24)};
-      line-height: ${unitParser(24)};
-      font-weight: 600;
+    .head {
+      > h1 {
+        font-size: ${unitParser(24)};
+        line-height: ${unitParser(24)};
+        font-weight: 600;
+      }
+      .head-right {
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+        button {
+          padding: 0;
+          margin-right: 0;
+          &:first-child {
+            margin-right: ${unitParser(20)};
+          }
+        }
+      }
     }
     .subject {
       font-size: ${unitParser(16)};
@@ -253,24 +277,16 @@ const Wrapper = styled(StyledWrapper)`
     .solution-dots {
       margin-top: ${unitParser(45)};
     }
-    .head-right {
-      font-size: ${unitParser(14)};
-      line-height: ${unitParser(14)};
-      button:first-child {
-        margin-right: ${unitParser(20)};
-        padding: 0;
+    .trans-line {
+      margin-top: ${unitParser(40)};
+      margin-bottom: ${unitParser(20)};
+    }
+    .notemsg-detail {
+      > p {
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(20)};
       }
     }
-  .trans-line {
-    margin-top: ${unitParser(40)};
-    margin-bottom: ${unitParser(20)};
-  }
-  .notemsg-detail {
-    > p {
-      font-size: ${unitParser(14)};
-      line-height: ${unitParser(20)};
-    }
-  }
   `}
 `;
 
