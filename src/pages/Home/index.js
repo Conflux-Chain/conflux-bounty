@@ -523,17 +523,20 @@ function getStatus(status) {
 function getSortType(type) {
   let result;
   switch (type) {
-    case 'fansCoin':
-      result = i18nTxt('home.Bounty Rewards');
+    case 'fansCoin_desc':
+      result = i18nTxt('Rewards (More to Less)');
       break;
-    case 'time':
-      result = i18nTxt('home.Date');
+    case 'time_desc':
+      result = i18nTxt('Time (Newly Listed)');
       break;
-    case 'account':
-      result = i18nTxt('home.Participants');
+    case 'time_asc':
+      result = i18nTxt('Time (Early Listed)');
+      break;
+    case 'account_desc':
+      result = i18nTxt('Participants (More to Less)');
       break;
     default:
-      result = i18nTxt('home.Bounty Rewards');
+      result = i18nTxt('Rewards (More to Less)');
   }
   return result;
 }
@@ -545,6 +548,7 @@ class Home extends Component {
       sortType: 'time',
       sortOrder: false,
       sortPickerShow: false,
+      curSortType: 'time_desc',
     };
     this.onChangeTag = this.onChangeTag.bind(this);
     this.onChangeCategory = this.onChangeCategory.bind(this);
@@ -907,11 +911,11 @@ class Home extends Component {
                 onClick={() => {
                   this.setState({
                     sortPickerShow: true,
-                    curSortType: sortType,
+                    curSortType: sortType + (sortOrder ? '_asc' : '_desc'),
                   });
                 }}
               >
-                <span>{getSortType(sortType)}</span>
+                <span>{getSortType(sortType + (sortOrder ? '_asc' : '_desc'))}</span>
                 <span className="arrow-down"></span>
               </button>
             </div>
@@ -947,16 +951,20 @@ class Home extends Component {
           optionGroups={{
             sortType: [
               {
-                value: 'fansCoin',
-                label: getSortType('fansCoin'),
+                value: 'time_desc',
+                label: i18nTxt('Time (Newly Listed)'),
               },
               {
-                value: 'time',
-                label: getSortType('time'),
+                value: 'time_asc',
+                label: i18nTxt('Time (Early Listed)'),
               },
               {
-                value: 'account',
-                label: getSortType('account'),
+                value: 'fansCoin_desc',
+                label: i18nTxt('Rewards (More to Less)'),
+              },
+              {
+                value: 'account_desc',
+                label: i18nTxt('Participants (More to Less)'),
               },
             ],
           }}
@@ -967,7 +975,6 @@ class Home extends Component {
           }}
           onChange={(name, val) => {
             this.setState({
-              sortOrder: false,
               curSortType: val.value,
             });
           }}
@@ -978,9 +985,16 @@ class Home extends Component {
             });
           }}
           onConfirm={() => {
-            this.onChangeSort(curSortType);
+            const { getBountyList } = this.props;
+            const [sortTypeNew, sortOrderStr] = curSortType.split('_');
+            const sortOrderNew = sortOrderStr !== 'desc';
             this.setState({
+              sortOrder: sortOrderNew,
+              sortType: sortTypeNew,
               sortPickerShow: false,
+            });
+            getBountyList({
+              sort: curSortType,
             });
           }}
           show={sortPickerShow}

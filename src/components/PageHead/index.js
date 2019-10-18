@@ -193,8 +193,7 @@ const WrapMobile = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    > i {
-      background: url("${mAdd}");
+    > img {
       width: 12px;
       height: 12px;
     }
@@ -536,7 +535,7 @@ class PageHead extends Component {
 
           <div className="right-info">
             <button type="button" className="add-bounty" onClick={this.createBounty}>
-              <i></i>
+              <img src={mAdd} alt="add bounty"></img>
             </button>
             <button
               type="button"
@@ -644,10 +643,10 @@ class PageHead extends Component {
                   updateCommon({
                     lang: this.state.modelSiteLang,
                   });
+                  history.push('/');
                 }
                 if (this.state.modalLanguage !== head.user.language) {
                   selectLang(this.state.modalLanguage);
-                  history.push('/');
                 }
                 this.setState({
                   showChangelangModal: false,

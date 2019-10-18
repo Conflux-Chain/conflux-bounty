@@ -570,7 +570,7 @@ function ViewSolution({
                 onClick={() => {
                   if (isMobile) {
                     copyToClipboard(window.location.href);
-                    notice.show({ content: i18nTxt('Copied'), type: 'message-success', timeout: 3000 });
+                    notice.show({ content: i18nTxt('Link Copied'), type: 'message-success', timeout: 3000 });
                     return;
                   }
 
