@@ -3,6 +3,8 @@ import React, { Fragment } from 'react';
 import { flexCenterMiddle } from '../../globalStyles/common';
 import { MILESTONE_STATUS_ENUM } from '../../constants';
 import { i18nTxt } from '../../utils';
+import unitParser from '../../utils/device';
+import media from '../../globalStyles/media';
 
 export const MileStoneDiv = styled.div`
   display: flex;
@@ -15,6 +17,7 @@ export const MileStoneDiv = styled.div`
     }
   }
   .milestone-step {
+    flex-shrink: 0;
     margin-right: 8px;
     position: relative;
   }
@@ -26,12 +29,18 @@ export const MileStoneDiv = styled.div`
     box-sizing: border-box;
     border-radius: 4px;
     color: #595f61;
+    position: relative;
+    z-index: 10;
     ${flexCenterMiddle}
     &.approved {
       border-color: #22b2d6;
       background: #22b2d6;
       color: #fff;
     }
+    ${media.mobile`
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
+    `}
   }
   .milestone-right {
     flex: 1;
@@ -92,6 +101,21 @@ export const MileStoneProgress = styled(MileStoneDiv)`
   &:last-child .milestone-right {
     padding-bottom: 0;
   }
+
+  ${media.mobile`
+  .duration {
+    font-size: ${unitParser(12)};
+    line-height: ${unitParser(12)};
+  }
+  .milestone-right > h5 {
+    font-size: ${unitParser(16)};
+    line-height: ${unitParser(16)};
+  }
+  .milestone-right > p {
+    font-size: ${unitParser(12)};
+    line-height: ${unitParser(16)};
+  }
+`}
 `;
 
 export const StatusTagDiv = styled.div`
@@ -133,6 +157,7 @@ export const StatusTagDiv = styled.div`
 export function stepBoxLine(status, index, total) {
   const hideLast = {
     visibility: total - 1 === index ? 'hidden' : 'visible',
+    display: total - 1 === index ? 'none' : 'inherit',
   };
 
   let boxLine = null;

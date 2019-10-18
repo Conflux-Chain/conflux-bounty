@@ -8,6 +8,8 @@ import team from '../../assets/iconfont/bounty-team.svg';
 import teamOpen from '../../assets/iconfont/bounty-team-open.svg';
 import BountyStatus from '../BountyStatus';
 import { toThousands, i18nTxt } from '../../utils';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 const Container = styled.div`
   width: 373px;
@@ -20,6 +22,13 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 40px;
+  ${media.mobile`
+    width: ${unitParser(373)};
+    height: ${unitParser(200)};
+    margin: 0 ${unitParser(20)};
+    padding: ${unitParser(16)};
+    margin-bottom: ${unitParser(12)};
+  `}
   cursor: pointer;
   &.wrap-open {
     background: linear-gradient(118.2deg, #ffe501 0%, #fac801 100%);
@@ -98,11 +107,22 @@ const Container = styled.div`
       max-width: 341px;
       height: 56px;
       margin-bottom: 20px;
+      ${media.mobile`
+        font-size: ${unitParser(22)};
+        line-height: ${unitParser(30)};
+        width: 100%;
+        height: ${unitParser(56)};
+        margin-bottom: ${unitParser(20)};
+      `}
     }
     .bounty-creator {
       font-size: 16px;
       line-height: 16px;
       opacity: 0.8;
+      ${media.mobile`
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
+      `}
     }
     .bounty-detail {
       display: flex;
@@ -110,24 +130,34 @@ const Container = styled.div`
       justify-content: space-between;
       align-items: baseline;
       margin: 16px 0;
+      ${media.mobile`
+        margin-top: ${unitParser(8)};
+      `}
       .bounty-coin {
         display: flex;
         align-items: center;
       }
       .bounty-coin-num {
-        font-size: 24px;
         line-height: 24px;
         font-weight: 800;
         font-size: 24px;
-        line-height: 24px;
         &.open {
           color: #f0453a;
         }
+        ${media.mobile`
+          font-size: ${unitParser(24)};
+          line-height: ${unitParser(24)};
+        `}
       }
       .bounty-upto {
         font-size: 16px;
         line-height: 16px;
         margin-right: 4px;
+        ${media.mobile`
+          font-size: ${unitParser(16)};
+          line-height: ${unitParser(16)};
+          margin-right: ${unitParser(4)};
+        `}
       }
       .bounty-user {
         font-size: 16px;
@@ -141,6 +171,18 @@ const Container = styled.div`
           font-size: 16px;
           line-height: 16px;
         }
+
+        ${media.mobile`
+          font-size: ${unitParser(14)};
+          line-height: ${unitParser(14)};
+          > img {
+            margin-right: ${unitParser(4)};
+          }
+          > span {
+            font-size: ${unitParser(14)};
+            line-height: ${unitParser(14)};
+          }
+        `}
       }
     }
   }

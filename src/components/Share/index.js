@@ -14,6 +14,7 @@ const Canvas = styled.canvas`
   height: 200px;
 `;
 const Wrap = styled.div`
+  /* stylelint-disable font-family-no-missing-generic-family-keyword */
   background-color: rgba(51, 51, 51, 0.9);
   border-radius: 12px;
   width: 300px;
@@ -86,7 +87,7 @@ class Share extends Component {
     const { show } = this.props;
 
     return (
-      <Modal show={show} showOverlay={false}>
+      <Modal show={show} showOverlay={false} customStyle={{ width: 'auto' }}>
         <Wrap>
           <i className="close" tabIndex="-1" onClick={this.onClose} onKeyDown={() => {}} role="button">
             &times;

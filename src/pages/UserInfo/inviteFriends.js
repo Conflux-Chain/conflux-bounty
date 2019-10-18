@@ -14,6 +14,8 @@ import BackHeadDiv from '../../components/BackHeadDiv';
 import { i18nTxt, copyToClipboard, commonPropTypes } from '../../utils';
 import { reqInvitationCode, reqInvitationLimit, reqGoodsList } from '../../utils/api';
 import Tooltip from '../../components/Tooltip';
+import media from '../../globalStyles/media';
+import unitParser from '../../utils/device';
 
 // eslint-disable-next-line react/prefer-stateless-function
 /* eslint jsx-a11y/label-has-for: 0 */
@@ -141,6 +143,7 @@ class InviteFriends extends PureComponent {
           <div className="title">
             <h1>{i18nTxt('Invite Friends')}</h1>
             <div
+              className="purchase-wrap"
               onMouseEnter={() => {
                 if (purchaseDisabled) this.setState({ buyCodeToolTipVisible: true });
               }}
@@ -217,6 +220,9 @@ export default connect(mapStateToProps)(InviteFriends);
 const Wrapper = styled(StyledWrapper)`
   padding: 40px;
   color: #171d1f;
+  ${media.mobile`
+    padding: ${unitParser(20)} ${unitParser(12)};
+  `}
   .level2-title {
     font-style: normal;
     font-weight: bold;
@@ -229,18 +235,74 @@ const Wrapper = styled(StyledWrapper)`
     justify-content: space-between;
     margin-bottom: 34px;
     align-items: center;
+    ${media.mobile`
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: ${unitParser(12)};
+    `}
     h1 {
       margin: 0;
       font-size: 32px;
       line-height: 32px;
       font-weight: 500;
+      ${media.mobile`
+        margin-bottom: ${unitParser(40)};
+        font-size: ${unitParser(24)};
+        line-height: ${unitParser(24)};
+      `}
     }
+  }
+  .purchase-wrap {
+    ${media.mobile`
+      width: 100%;
+      > button {
+        width: 100%;
+      }
+    `}
   }
   .tooltip-content {
     text-transform: none;
     font-size: 14px;
     line-height: 20px;
     text-align: left;
+  }
+  .faq-wrap {
+    margin-top: 28px;
+    > span {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 16px;
+      color: #171d1f;
+    }
+    .faq-list {
+      margin: 18px 0 15px 8px;
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+      a {
+        color: #595f61;
+        cursor: pointer;
+      }
+    }
+    .arrow-link {
+      > span,
+      > i {
+        vertical-align: middle;
+      }
+    }
+  }
+  .generate {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    > div {
+      margin-top: 20px;
+      font-size: 16px;
+      .primary {
+        color: #22b2d6;
+      }
+    }
   }
   .infos {
     display: flex;
@@ -250,8 +312,11 @@ const Wrapper = styled(StyledWrapper)`
       display: flex;
       justify-content: space-between;
       margin-bottom: 12px;
+      ${media.mobile`
+        flex-direction: column;
+      `}
       label {
-        width: 100.5px;
+        min-width: 105px;
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -260,7 +325,12 @@ const Wrapper = styled(StyledWrapper)`
         font-weight: normal;
         font-size: 14px;
         line-height: 14px;
-        margin-right: 20px;
+        margin-right: 15px;
+        ${media.mobile`
+          font-weight: bold;
+          margin-bottom: ${unitParser(8)};
+          color: #171d1f;
+        `}
       }
       div {
         flex-grow: 1;
@@ -295,6 +365,9 @@ const Wrapper = styled(StyledWrapper)`
       display: flex;
       flex-direction: column;
       font-size: 14px;
+      ${media.mobile`
+        margin-left: 0;
+      `}
       a {
         color: #595f61;
         cursor: pointer;
