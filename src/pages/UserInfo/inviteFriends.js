@@ -316,7 +316,7 @@ const Wrapper = styled(StyledWrapper)`
         flex-direction: column;
       `}
       label {
-        width: 100.5px;
+        min-width: 105px;
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -325,7 +325,7 @@ const Wrapper = styled(StyledWrapper)`
         font-weight: normal;
         font-size: 14px;
         line-height: 14px;
-        margin-right: 20px;
+        margin-right: 15px;
         ${media.mobile`
           font-weight: bold;
           margin-bottom: ${unitParser(8)};
