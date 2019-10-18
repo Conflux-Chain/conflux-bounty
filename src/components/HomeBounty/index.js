@@ -108,11 +108,11 @@ const Container = styled.div`
       height: 56px;
       margin-bottom: 20px;
       ${media.mobile`
-      font-size: ${unitParser(22)};
-      line-height: ${unitParser(22)};
-      max-width: ${unitParser(341)};
-      height: ${unitParser(56)};
-      margin-bottom: ${unitParser(20)};
+        font-size: ${unitParser(22)};
+        line-height: ${unitParser(30)};
+        max-width: ${unitParser(341)};
+        height: ${unitParser(56)};
+        margin-bottom: ${unitParser(20)};
       `}
     }
     .bounty-creator {
@@ -120,8 +120,8 @@ const Container = styled.div`
       line-height: 16px;
       opacity: 0.8;
       ${media.mobile`
-      font-size: ${unitParser(14)};
-      line-height: ${unitParser(14)};
+        font-size: ${unitParser(14)};
+        line-height: ${unitParser(14)};
       `}
     }
     .bounty-detail {
@@ -140,24 +140,24 @@ const Container = styled.div`
       .bounty-coin-num {
         line-height: 24px;
         font-weight: 800;
-        ${media.mobile`
-        font-size: ${unitParser(24)};
-        line-height: ${unitParser(24)};
-      `}
         font-size: 24px;
         &.open {
           color: #f0453a;
         }
+        ${media.mobile`
+          font-size: ${unitParser(24)};
+          line-height: ${unitParser(24)};
+        `}
       }
       .bounty-upto {
         font-size: 16px;
         line-height: 16px;
         margin-right: 4px;
         ${media.mobile`
-        font-size: ${unitParser(16)};
-        line-height: ${unitParser(16)};
-        margin-right: ${unitParser(4)};
-      `}
+          font-size: ${unitParser(16)};
+          line-height: ${unitParser(16)};
+          margin-right: ${unitParser(4)};
+        `}
       }
       .bounty-user {
         font-size: 16px;
@@ -173,16 +173,16 @@ const Container = styled.div`
         }
 
         ${media.mobile`
-        font-size: ${unitParser(14)};
-        line-height: ${unitParser(14)};
-        > img {
-          margin-right: ${unitParser(4)};
-        }
-        > span {
           font-size: ${unitParser(14)};
           line-height: ${unitParser(14)};
-        }
-      `}
+          > img {
+            margin-right: ${unitParser(4)};
+          }
+          > span {
+            font-size: ${unitParser(14)};
+            line-height: ${unitParser(14)};
+          }
+        `}
       }
     }
   }
