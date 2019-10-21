@@ -240,6 +240,7 @@ class SignUp extends Component {
                   ref={ref => {
                     this.emailRef = ref;
                   }}
+                  disabled={!!userId}
                   onChange={e => {
                     this.setState({ email: e.target.value });
                   }}
