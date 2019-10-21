@@ -33,7 +33,7 @@ export default class Nickname extends Component {
 
     const {
       result: { isDuplicate, isInvalid },
-    } = await reqValidateNickname({ nickname: e.target.value });
+    } = await reqValidateNickname({ nickname: e.target.value.replace(/ /g, '_') });
 
     if (isDuplicate) {
       this.setState({
@@ -49,7 +49,7 @@ export default class Nickname extends Component {
   };
 
   onNicknameChange = async e => {
-    this.setState({ nickname: e.target.value, changed: true });
+    this.setState({ nickname: e.target.value.replace(/ /g, '_'), changed: true });
     const { onChange } = this.props;
     onChange(e);
   };
@@ -76,7 +76,7 @@ export default class Nickname extends Component {
       <Wrapper>
         <Input
           label={i18nTxt('Nickname')}
-          value={changed ? nickname : defaultNickname}
+          value={changed ? nickname : defaultNickname.replace(/ /g, '_')}
           type="text"
           autocomplete="name"
           onChange={this.onNicknameChange}

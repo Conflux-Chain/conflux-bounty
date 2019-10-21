@@ -71,12 +71,13 @@ export default class Email extends Component {
 
   render() {
     const { email, emailErrMsg, changed } = this.state;
-    const { email: defaultEmail, label } = this.props;
+    const { email: defaultEmail, label, disabled } = this.props;
     return (
       <Wrapper>
         <Input
           label={label || i18nTxt('Email')}
           type="email"
+          disabled={disabled}
           autocomplete="email username"
           value={changed ? email : defaultEmail}
           onChange={this.onEmailChange}
@@ -94,6 +95,7 @@ Email.defaultProps = {
   label: '',
   checkIsRegistered: false,
   checkIsOwner: false,
+  disabled: false,
 };
 
 Email.propTypes = {
@@ -103,6 +105,7 @@ Email.propTypes = {
   userId: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 const Wrapper = styled.div`
