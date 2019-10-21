@@ -210,7 +210,7 @@ class DailyCheckin extends Component {
   }
 
   render() {
-    const { common, submitCheckIn, showAlreadyTips, update } = this.props;
+    const { common, submitCheckIn, showAlreadyTips, update, history } = this.props;
     const { checkinStatus, checkinFansCoin } = common;
     const { showRecaptcha } = this.state;
     const ismob = isMobile();
@@ -248,7 +248,7 @@ class DailyCheckin extends Component {
           <div>{i18nTxt('CHECK IN')}</div>
         </div>
       );
-    } else if (checkinStatus === actions.checkinEnum.alreadyChecked) {
+    } else if (checkinStatus === actions.checkinEnum.alreadyChecked || checkinStatus === actions.checkinEnum.overMaxNumAndAlreadyCheckin) {
       const duration = moment.duration({
         seconds: common.checkinRemainingTime,
       });
@@ -284,7 +284,7 @@ class DailyCheckin extends Component {
           </div>
         );
       }
-    } else if (checkinStatus === actions.checkinEnum.overMaxNum) {
+    } else if (checkinStatus === actions.checkinEnum.overMaxNumAndNotCheckin) {
       const duration = moment.duration({
         seconds: common.checkinRemainingTime,
       });
@@ -320,6 +320,18 @@ class DailyCheckin extends Component {
           </div>
         );
       }
+    } else if (auth.loggedIn() === false) {
+      checkInButton = (
+        <div
+          onClick={() => {
+            history.push('/signin');
+          }}
+          className="btn-checkin pos-rightbottom"
+        >
+          <img src={CheckIn} />
+          <div>{i18nTxt('CHECK IN')}</div>
+        </div>
+      );
     } else {
       checkInButton = null;
     }
