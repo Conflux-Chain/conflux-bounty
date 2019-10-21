@@ -461,7 +461,6 @@ const Wrapper = styled(StyledWrapper)`
       }
       .comment-msg {
         font-size: ${unitParser(14)};
-        line-height: ${unitParser(14)};
         padding: ${unitParser(15)};
         .comment-time {
           font-size: ${unitParser(12)};
