@@ -25,4 +25,5 @@ export default {
   'submission.note.DELETED': 'REJECTED',
   'submission.note.APPROVED': ' ',
   PermissionError: 'You do not have permission to access the page, please login again',
+  'checkin.Unavailable': 'Unavailable',
 };
