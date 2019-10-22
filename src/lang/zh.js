@@ -323,7 +323,7 @@ export default {
   'login expired, please sign in again': '登录信息已过期，请重新登录',
   'Duration should not > 90': '完成时间不能大于90',
   'Content length shoule not > 200': '文字长度不能超过200',
-  'Please request next invitation code 30 seconds later': '请求邀请码太频繁, 请30秒后重试',
+  'Please request next invitation code 5 seconds later': '请求邀请码太频繁, 请5秒后重试',
   'You run out of invites': '你没有更多的邀请名额了',
   'GENERATE ONE TIME INVITATION CODE': '获取一次性邀请码',
   'You can invite': '你还可以邀请',
