@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReCAPTCHA from '../ReCAPTCHA';
@@ -15,6 +15,15 @@ import media from '../../globalStyles/media';
 import Modal from '../Modal';
 import { recaptchaKey } from '../../constants';
 import unitParser, { isMobile } from '../../utils/device';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+   to {
+    opacity: 1;
+  }
+`;
 
 const DailyCheckinWrap = styled.div`
   .pos-rightbottom {
@@ -158,8 +167,8 @@ const DailyCheckinWrap = styled.div`
     border-radius: 12px;
     text-align: center;
     transition: all 0.4s ease;
-    opacity: 0;
     pointer-events: none;
+    animation: ${fadeIn} 0.2s ease-in-out;
     z-index: -1;
 
     > .checkin-success-line1 {
@@ -336,21 +345,21 @@ class DailyCheckin extends Component {
       checkInButton = null;
     }
 
-    let succesStyle = {};
+    let successPanel = null;
     if (common.showCheckSuccess) {
-      succesStyle = {
-        opacity: 1,
-        zIndex: 100,
-      };
+      successPanel = (
+        <div
+          className="checkin-success"
+          style={{
+            zIndex: 100,
+          }}
+        >
+          <img src={CheckIn} className="checkin-success-line1" />
+          <div className="checkin-success-line2">+ {checkinFansCoin} FC</div>
+          <div className="checkin-success-line3">{i18nTxt('You have checked in successfully.')}</div>
+        </div>
+      );
     }
-
-    const successPanel = (
-      <div className="checkin-success" style={succesStyle}>
-        <img src={CheckIn} className="checkin-success-line1" />
-        <div className="checkin-success-line2">+ {checkinFansCoin} FC</div>
-        <div className="checkin-success-line3">{i18nTxt('You have checked in successfully.')}</div>
-      </div>
-    );
 
     const recaptchaModal = (
       <Modal showOverlay show={showRecaptcha} customStyle={{ width: 'auto' }}>
