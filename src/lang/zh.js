@@ -424,7 +424,7 @@ export default {
   'Permanent invitation code': '永久邀请码',
   'Allocate rewards right after the submission’s been finished.': '在方案完成时立即分配奖金',
   'Submission have Milestones.': '方案有里程碑',
-  'Up to <%=restrictNumber%> submission per participant. ': '单用户最多提交<%=restrictNumber%>个方案:',
+  'Up to <%=restrictNumber%> submission per participant. ': '单用户最多提交<%=restrictNumber%>个方案',
   yes: '是',
   no: '否',
   'Choose Country/Region': '选择国家站',
