@@ -281,7 +281,7 @@ const BroadcastMobile = styled.div`
 const BountyWall = styled.div`
   display: flex;
   flex-direction: column;
-  z-index: 10;
+  z-index: 5;
   align-items: center;
   margin-top: 28px;
   ${media.mobile`margin-top: 0; background: #fff;`}

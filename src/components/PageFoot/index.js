@@ -13,7 +13,7 @@ import twitter from '../../assets/iconfont/twitter.svg';
 import wechat from '../../assets/iconfont/wechat.svg';
 import weibo from '../../assets/iconfont/weibo.svg';
 import github from '../../assets/iconfont/github.svg';
-import code from '../../assets/images/code.png';
+import code from '../../assets/images/code.jpg';
 import media from '../../globalStyles/media';
 
 const Wrap = styled.div`
@@ -69,6 +69,7 @@ const Wrap = styled.div`
         position: absolute;
         bottom: 72px;
         left: -45px;
+        max-width: 114px;
       }
       &:hover {
         .wechat-code {
@@ -127,6 +128,7 @@ const WrapMobile = styled.div`
         display: none;
         position: fixed;
         min-width: 70vw;
+        max-width: 80vw;
         top: 30%;
         left: 50%;
         transform: translateX(-50%);
