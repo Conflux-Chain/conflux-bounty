@@ -204,7 +204,6 @@ const Broadcast = styled.div`
   .broadcast {
     width: 100%;
     max-width: 1400px;
-    min-height: 230px;
     padding: 0;
     .slick-slide {
       visibility: hidden;
@@ -677,7 +676,6 @@ class Home extends Component {
     if (popBountyList.length > 3) {
       infinite = true;
     }
-    infinite = false;
 
     const settings = {
       dots: true,
@@ -716,7 +714,7 @@ class Home extends Component {
     const broadSettings = {
       dots: false,
       infinite: true,
-      // fade: true,
+      fade: true,
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
