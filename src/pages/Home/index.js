@@ -682,7 +682,7 @@ class Home extends Component {
       infinite,
       slidesToShow: 3,
       slidesToScroll: 3,
-      autoplay: false,
+      autoplay: true,
       speed: 1000,
       autoplaySpeed: 3000,
       pauseOnHover: true,
@@ -699,6 +699,7 @@ class Home extends Component {
         {
           breakpoint: 820,
           settings: {
+            autoplay: false,
             dots: false,
             variableWidth: true,
             slidesToShow: 1,
