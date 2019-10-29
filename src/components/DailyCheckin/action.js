@@ -12,7 +12,8 @@ export function update(a) {
 export const checkinEnum = {
   pass: 0,
   disabled: 1,
-  overMaxNum: 2,
+  overMaxNumAndAlreadyCheckin: 2,
+  overMaxNumAndNotCheckin: 5,
   alreadyChecked: 3,
   recaptchaErr: 4,
 };

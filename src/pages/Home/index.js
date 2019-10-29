@@ -204,7 +204,6 @@ const Broadcast = styled.div`
   .broadcast {
     width: 100%;
     max-width: 1400px;
-    min-height: 230px;
     padding: 0;
     .slick-slide {
       visibility: hidden;
@@ -281,7 +280,7 @@ const BroadcastMobile = styled.div`
 const BountyWall = styled.div`
   display: flex;
   flex-direction: column;
-  z-index: 10;
+  z-index: 5;
   align-items: center;
   margin-top: 28px;
   ${media.mobile`margin-top: 0; background: #fff;`}
@@ -296,6 +295,9 @@ const BountyWall = styled.div`
     letter-spacing: 0.1em;
     color: #fff;
     margin-bottom: 16px;
+    ${media.mobile`
+      display: none;
+    `}
   }
 `;
 const Category = styled.div`
@@ -367,6 +369,9 @@ const Category = styled.div`
         margin-top: 20px;
         margin-bottom: 20px;
         font-weight: 500;
+        &.category-title-first {
+          margin-top: 0;
+        }
       }
     }
   `}
@@ -405,6 +410,7 @@ const BountyList = styled.div`
 
     > button {
       color: #8E9394;
+      padding-right: 0;
     }
 
     .arrow-down {
@@ -670,14 +676,13 @@ class Home extends Component {
     if (popBountyList.length > 3) {
       infinite = true;
     }
-    infinite = false;
 
     const settings = {
       dots: true,
       infinite,
       slidesToShow: 3,
       slidesToScroll: 3,
-      autoplay: false,
+      autoplay: true,
       speed: 1000,
       autoplaySpeed: 3000,
       pauseOnHover: true,
@@ -694,6 +699,7 @@ class Home extends Component {
         {
           breakpoint: 820,
           settings: {
+            autoplay: false,
             dots: false,
             variableWidth: true,
             slidesToShow: 1,
@@ -709,7 +715,7 @@ class Home extends Component {
     const broadSettings = {
       dots: false,
       infinite: true,
-      // fade: true,
+      fade: true,
       slidesToShow: 1,
       slidesToScroll: 1,
       autoplay: true,
@@ -811,28 +817,30 @@ class Home extends Component {
           </Broadcast>
         )}
 
-        <BroadcastMobile>
-          <Slider
-            {...{
-              infinite: true,
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              autoplay: true,
-              speed: 1000,
-              autoplaySpeed: 5000,
-              variableWidth: true,
-              arrows: false,
-            }}
-          >
-            {broadcastList.map(item => {
-              return (
-                <a href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'} className="broadcast-item">
-                  {item.title}
-                </a>
-              );
-            })}
-          </Slider>
-        </BroadcastMobile>
+        {broadcastList.length > 0 && (
+          <BroadcastMobile>
+            <Slider
+              {...{
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                speed: 1000,
+                autoplaySpeed: 5000,
+                variableWidth: true,
+                arrows: false,
+              }}
+            >
+              {broadcastList.map(item => {
+                return (
+                  <a href={item.url ? item.url : 'Javascript: void(0)'} target={item.url ? '_blank' : '_self'} className="broadcast-item">
+                    {item.title}
+                  </a>
+                );
+              })}
+            </Slider>
+          </BroadcastMobile>
+        )}
 
         <BountyWall>
           {broadcastList.length === 0 && <span className="bounty-wall-title">{i18nTxt('BOUNTY WALL')}</span>}
@@ -847,7 +855,7 @@ class Home extends Component {
           />
           <Category>
             <div className="category">
-              <span className="title">{i18nTxt('Category')}:</span>
+              <span className="title category-title-first">{i18nTxt('Category')}:</span>
               <span className="category-line">
                 <HomeCategory text={i18nTxt('All')} value={null} selected={category === null} onClick={this.onChangeCategory} />
                 {categoryL1List.map(item => (

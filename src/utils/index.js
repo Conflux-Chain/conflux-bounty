@@ -38,7 +38,7 @@ const USER_ERROR = {
   11: 'Invalid email address',
   12: 'Send email too often , please wait',
   13: 'Invalid invitation code',
-  14: 'Please request next invitation code 30 seconds later',
+  14: 'Please request next invitation code 5 seconds later',
   15: 'You run out of invites',
   16: 'Nickname contains sensitive words, please re-enter',
   17: 'Nickname should only contain letters, digits and underscores',

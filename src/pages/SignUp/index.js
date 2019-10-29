@@ -90,12 +90,12 @@ class SignUp extends Component {
     if (this.anyInputsHasError() || !termsCheckboxChecked) return;
     const { lang, history } = this.props;
     if (userId) {
+      // third party signup
       const {
         code,
         result: { accessToken, recaptcha },
       } = await reqUserSignup({
         email,
-        emailVerificationCode: emailCode,
         nickname,
         password,
         invitationCode,
@@ -105,6 +105,7 @@ class SignUp extends Component {
         language: lang,
         recaptchaVal,
       });
+
       if (code !== 0) {
         if (recaptcha && recaptcha.success !== true) {
           notice.show({
@@ -115,6 +116,7 @@ class SignUp extends Component {
         }
         return;
       }
+
       if (accessToken) {
         auth.setToken(accessToken);
       }
@@ -131,6 +133,7 @@ class SignUp extends Component {
         language: lang,
         recaptchaVal,
       });
+
       if (code !== 0) {
         if (recaptcha && recaptcha.success !== true) {
           notice.show({
@@ -151,28 +154,27 @@ class SignUp extends Component {
   };
 
   anyInputsHasError() {
-    const { termsCheckboxChecked, recaptchaVal } = this.state;
-    const validateRecaptcha = () => {
+    const { userId, termsCheckboxChecked, recaptchaVal } = this.state;
+    const recaptchaHasError = () => {
       if (!recaptchaVal) {
         this.setState({
           recaptchaErr: 'Captcha code is empty',
         });
-        return false;
+        return true;
       }
       this.setState({
         recaptchaErr: '',
       });
-      return true;
+      return false;
     };
 
     if (
       !this.nicknameRef ||
       this.nicknameRef.hasError() ||
-      !validateRecaptcha() ||
+      recaptchaHasError() ||
       !this.emailRef ||
       this.emailRef.hasError() ||
-      !this.emailCodeRef ||
-      this.emailCodeRef.hasError() ||
+      (!userId && (!this.emailCodeRef || this.emailCodeRef.hasError())) ||
       !this.passwordRef ||
       this.passwordRef.hasError() ||
       !this.invitationCodeRef ||
@@ -238,20 +240,23 @@ class SignUp extends Component {
                   ref={ref => {
                     this.emailRef = ref;
                   }}
+                  disabled={!!userId}
                   onChange={e => {
                     this.setState({ email: e.target.value });
                   }}
                 />
-                <EmailCode
-                  className="singup-input"
-                  email={email}
-                  onChange={e => {
-                    this.setState({ emailCode: e.target.value });
-                  }}
-                  ref={ref => {
-                    this.emailCodeRef = ref;
-                  }}
-                />
+                {!userId && (
+                  <EmailCode
+                    className="singup-input"
+                    email={email}
+                    onChange={e => {
+                      this.setState({ emailCode: e.target.value });
+                    }}
+                    ref={ref => {
+                      this.emailCodeRef = ref;
+                    }}
+                  />
+                )}
                 <Password
                   hasRepeat
                   ref={ref => {

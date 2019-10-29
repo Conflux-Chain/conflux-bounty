@@ -61,17 +61,12 @@ const fileAccept = [
   'arj',
   'z',
   'bmp',
-  'gif',
-  'jpg',
-  'jpeg',
-  'pic',
-  'png',
   'tif',
   'psd',
   'raw',
 ];
 
-let fileAccepts = '';
+let fileAccepts = 'image/*,';
 fileAccept.forEach((v, i) => {
   fileAccepts += `.${v},.${v.toUpperCase()}`;
   if (i !== fileAccept.length - 1) {

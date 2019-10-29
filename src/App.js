@@ -33,6 +33,7 @@ const PageWrapper = styled.div`
   right: 0px;
   bottom: 0px;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   .page-holder {
     min-width: auto;
     min-height: 100%;

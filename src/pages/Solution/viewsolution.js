@@ -7,7 +7,17 @@ import { Link } from 'react-router-dom';
 import { useEffectOnce } from 'react-use';
 import get from 'lodash/get';
 import * as actions from './action';
-import { commonPropTypes, renderAny, getStatusMileStone, i18nTxt, downLink, showLink, copyToClipboard, notice } from '../../utils';
+import {
+  commonPropTypes,
+  renderAny,
+  getStatusMileStone,
+  i18nTxt,
+  downLink,
+  showLink,
+  copyToClipboard,
+  notice,
+  getQuery,
+} from '../../utils';
 import { StyledWrapper } from '../../globalStyles/common';
 import media from '../../globalStyles/media';
 // import Input from '../../components/Input';
@@ -403,8 +413,15 @@ function ViewSolution({
       descriptionTranslated: '',
       milestoneListTraqnslated: [],
     });
-    getSolutionView(submissionId);
-    getLike(submissionId);
+
+    let subId;
+    if (insideBounty) {
+      subId = submissionId;
+    } else {
+      subId = getQuery().submissionId;
+    }
+    getSolutionView(subId);
+    getLike(subId);
   };
 
   const renderAddNote = () => {
@@ -523,12 +540,12 @@ function ViewSolution({
     let beforeIndex = curIndex - 1;
     let afterIndex = curIndex + 1;
     while (looping) {
-      if (beforeIndex > 0) {
+      if (beforeIndex >= 0) {
         listNew.unshift(listDiv[beforeIndex]);
         beforeIndex -= 1;
       }
 
-      if (afterIndex < viewSolution.solutionList.length - 1) {
+      if (afterIndex < viewSolution.solutionList.length) {
         listNew.push(listDiv[afterIndex]);
         afterIndex += 1;
       }
@@ -541,7 +558,7 @@ function ViewSolution({
     if (beforeIndex > 0) {
       listNew.unshift(<i className="more-icon material-icons dp48">more_horiz</i>);
     }
-    if (afterIndex < viewSolution.solutionList.length - 1) {
+    if (afterIndex < viewSolution.solutionList.length) {
       listNew.push(<i className="more-icon material-icons dp48">more_horiz</i>);
     }
     listDiv = listNew;
