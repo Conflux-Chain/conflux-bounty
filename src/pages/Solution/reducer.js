@@ -107,6 +107,7 @@ const initViewSolution = {
   noteList: [],
   noteListTranslated: [],
   showEditNoteMsg: false,
+  totalSubmission: 0,
 };
 
 function viewSolution(state = initViewSolution, action) {
