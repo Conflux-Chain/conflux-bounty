@@ -10,8 +10,8 @@ import {
   reqSendLike,
   reqCheckLike,
   reqUpdateMileStone,
-  reqSolutionList,
   reqCreateNote,
+  reqNearBySolution,
 } from '../../utils/api';
 
 export const UPDATE_EDIT = 'solution-edit/UPDATE';
@@ -349,31 +349,6 @@ export function resetView(d) {
     payload: d,
   };
 }
-export const getSolutionList = bountyId => (dispatch, getState) => {
-  const { solutionListCache } = getState().common;
-  const doUpdate = list => {
-    dispatch(
-      updateView({
-        solutionList: list,
-      })
-    );
-  };
-
-  if (solutionListCache[bountyId]) {
-    doUpdate(solutionListCache[bountyId]);
-  } else {
-    dispatch(
-      reqSolutionList({
-        bountyId,
-        page: 1,
-        limit: 100,
-        cacheRecord: true,
-      })
-    ).then(body => {
-      doUpdate(body.result.list);
-    });
-  }
-};
 
 export const getSolutionView = submissionId => (dispatch, getState) => {
   if (!submissionId) {
@@ -424,7 +399,21 @@ export const getSolutionView = submissionId => (dispatch, getState) => {
         document.title = `${utils.i18nTxt(`Submission`)}${user.nickname}: ${bounty.title} `;
       }
     });
-    dispatch(getSolutionList(bountyId));
+
+    dispatch(
+      reqNearBySolution({
+        submissionId,
+        bountyId,
+        count: 21,
+      })
+    ).then(body1 => {
+      dispatch(
+        updateView({
+          totalSubmission: body1.result.total,
+          solutionList: body1.result.list || [],
+        })
+      );
+    });
   });
 };
 

@@ -134,6 +134,19 @@ export const reqSolutionList = param => dispatch => {
   });
 };
 
+export const reqNearBySolution = param => () => {
+  return sendRequest({
+    url: '/submission/list/nearby',
+    body: {
+      bountyId: param.bountyId,
+      submissionId: param.submissionId,
+      count: param.count,
+    },
+  }).then(res => {
+    return res.body;
+  });
+};
+
 export const reqSolutionQuery = param => {
   return sendRequest({
     url: '/submission/query',
