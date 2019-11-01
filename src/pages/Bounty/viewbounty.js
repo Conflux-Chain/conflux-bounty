@@ -184,7 +184,7 @@ const Wrapper = styled(StyledWrapper)`
   }
   .solution-item-descwrap {
     flex: 1;
-    max-width: 300px;
+    max-width: 283px;
     margin-left: 10px;
     line-height: 20px;
     padding-top: 3px;
