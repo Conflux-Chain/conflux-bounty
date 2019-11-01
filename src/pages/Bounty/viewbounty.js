@@ -184,7 +184,7 @@ const Wrapper = styled(StyledWrapper)`
   }
   .solution-item-descwrap {
     flex: 1;
-    max-width: 300px;
+    max-width: 283px;
     margin-left: 10px;
     line-height: 20px;
     padding-top: 3px;
@@ -521,22 +521,20 @@ class ViewBounty extends Component {
       showSortType: false,
     };
     this.setSortType = this.setSortType.bind(this);
-  }
 
-  componentDidMount() {
-    const { viewBounty, getBountyView, getLike, getCommentList, resetView, getSolutionList, history } = this.props;
+    const { getBountyView, getLike, getCommentList, getSolutionList } = this.props;
     const getdata = () => {
       getBountyView();
       getLike();
       getCommentList(1);
       getSolutionList(1);
     };
-    if (history.action === 'PUSH') {
-      resetView();
-      getdata();
-    } else if (!viewBounty.description) {
-      getdata();
-    }
+    getdata();
+  }
+
+  componentWillUnmount() {
+    const { resetView } = this.props;
+    resetView();
   }
 
   setSortType = sort => {
@@ -612,39 +610,29 @@ class ViewBounty extends Component {
 
         {renderAny(() => {
           if (viewBounty.status === BOUNTY_STATUS_ENUM.FINISHED) {
-            const { rewardSubmissionList } = viewBounty;
-            if (rewardSubmissionList && rewardSubmissionList.length > 0) {
-              let maxFcSubmission = rewardSubmissionList[0];
-              rewardSubmissionList.forEach(v => {
-                if (v.reward) {
-                  if (v.reward.fansCoin > maxFcSubmission.reward.fansCoin) {
-                    maxFcSubmission = v;
-                  }
-                }
-              });
-              if (maxFcSubmission.reward) {
-                const renderReward = () => {
-                  return (
-                    <RewardDiv>
-                      <div className="line1">{i18nTxt('Total Allocated Bounty Reward')}</div>
-                      <div className="line2">
-                        <span className="fcBig">{viewBounty.totalRewardFansCoin}</span>
-                        <span>FC</span>
-                      </div>
-                    </RewardDiv>
-                  );
-                };
-
+            const { submissionIdMaxReward } = viewBounty;
+            if (submissionIdMaxReward) {
+              const renderReward = () => {
                 return (
-                  <ViewSolution
-                    renderReward={renderReward}
-                    headDiv={<Fragment></Fragment>}
-                    history={history}
-                    submissionId={maxFcSubmission.id}
-                    insideBounty
-                  />
+                  <RewardDiv>
+                    <div className="line1">{i18nTxt('Total Allocated Bounty Reward')}</div>
+                    <div className="line2">
+                      <span className="fcBig">{viewBounty.totalRewardFansCoin}</span>
+                      <span>FC</span>
+                    </div>
+                  </RewardDiv>
                 );
-              }
+              };
+
+              return (
+                <ViewSolution
+                  renderReward={renderReward}
+                  headDiv={<Fragment></Fragment>}
+                  history={history}
+                  submissionId={submissionIdMaxReward}
+                  insideBounty
+                />
+              );
             }
           }
           return null;

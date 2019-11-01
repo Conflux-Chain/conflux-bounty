@@ -534,7 +534,7 @@ function ViewSolution({
   }
 
   const maxShow = 22;
-  if (viewSolution.solutionList.length > maxShow && curIndex !== -1) {
+  if (viewSolution.totalSubmission > maxShow && curIndex !== -1) {
     const listNew = [<i className="solution-dot solution-dot-active"></i>];
     let looping = true;
     let beforeIndex = curIndex - 1;
