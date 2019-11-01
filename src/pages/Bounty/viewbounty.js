@@ -612,39 +612,29 @@ class ViewBounty extends Component {
 
         {renderAny(() => {
           if (viewBounty.status === BOUNTY_STATUS_ENUM.FINISHED) {
-            const { rewardSubmissionList } = viewBounty;
-            if (rewardSubmissionList && rewardSubmissionList.length > 0) {
-              let maxFcSubmission = rewardSubmissionList[0];
-              rewardSubmissionList.forEach(v => {
-                if (v.reward) {
-                  if (v.reward.fansCoin > maxFcSubmission.reward.fansCoin) {
-                    maxFcSubmission = v;
-                  }
-                }
-              });
-              if (maxFcSubmission.reward) {
-                const renderReward = () => {
-                  return (
-                    <RewardDiv>
-                      <div className="line1">{i18nTxt('Total Allocated Bounty Reward')}</div>
-                      <div className="line2">
-                        <span className="fcBig">{viewBounty.totalRewardFansCoin}</span>
-                        <span>FC</span>
-                      </div>
-                    </RewardDiv>
-                  );
-                };
-
+            const { submissionIdMaxReward } = viewBounty;
+            if (submissionIdMaxReward) {
+              const renderReward = () => {
                 return (
-                  <ViewSolution
-                    renderReward={renderReward}
-                    headDiv={<Fragment></Fragment>}
-                    history={history}
-                    submissionId={maxFcSubmission.id}
-                    insideBounty
-                  />
+                  <RewardDiv>
+                    <div className="line1">{i18nTxt('Total Allocated Bounty Reward')}</div>
+                    <div className="line2">
+                      <span className="fcBig">{viewBounty.totalRewardFansCoin}</span>
+                      <span>FC</span>
+                    </div>
+                  </RewardDiv>
                 );
-              }
+              };
+
+              return (
+                <ViewSolution
+                  renderReward={renderReward}
+                  headDiv={<Fragment></Fragment>}
+                  history={history}
+                  submissionId={submissionIdMaxReward}
+                  insideBounty
+                />
+              );
             }
           }
           return null;
