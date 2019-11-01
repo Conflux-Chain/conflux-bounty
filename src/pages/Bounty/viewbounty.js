@@ -521,9 +521,7 @@ class ViewBounty extends Component {
       showSortType: false,
     };
     this.setSortType = this.setSortType.bind(this);
-  }
 
-  componentDidMount() {
     const { viewBounty, getBountyView, getLike, getCommentList, resetView, getSolutionList, history } = this.props;
     const getdata = () => {
       getBountyView();
