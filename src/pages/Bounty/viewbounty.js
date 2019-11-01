@@ -522,19 +522,19 @@ class ViewBounty extends Component {
     };
     this.setSortType = this.setSortType.bind(this);
 
-    const { viewBounty, getBountyView, getLike, getCommentList, resetView, getSolutionList, history } = this.props;
+    const { getBountyView, getLike, getCommentList, getSolutionList } = this.props;
     const getdata = () => {
       getBountyView();
       getLike();
       getCommentList(1);
       getSolutionList(1);
     };
-    if (history.action === 'PUSH') {
-      resetView();
-      getdata();
-    } else if (!viewBounty.description) {
-      getdata();
-    }
+    getdata();
+  }
+
+  componentWillUnmount() {
+    const { resetView } = this.props;
+    resetView();
   }
 
   setSortType = sort => {
