@@ -1,6 +1,7 @@
 import { reqGetCheckInInfo, reqSubmitCheckIn } from '../../utils/api';
 import { UPDATE_COMMON } from '../../constants';
 import * as utils from '../../utils';
+import { getAccount } from '../PageHead/action';
 
 export function update(a) {
   return {
@@ -63,6 +64,7 @@ export const submitCheckIn = recaptchaVal => dispatch => {
             showCheckSuccess: false,
           })
         );
+        dispatch(getAccount());
       }, 3000);
       dispatch(getCheckInInfo());
     } else if (body.result.status === checkinEnum.disabled) {
