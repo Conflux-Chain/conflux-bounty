@@ -712,6 +712,14 @@ class Home extends Component {
         },
       ],
     };
+
+    if (popBountyList.length === 1) {
+      settings.slidesToShow = 1;
+      settings.slidesToScroll = 1;
+      settings.responsive[0].settings.slidesToShow = 1;
+      settings.responsive[0].settings.slidesToScroll = 1;
+    }
+
     const broadSettings = {
       dots: false,
       infinite: true,
