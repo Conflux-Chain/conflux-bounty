@@ -13,7 +13,6 @@ export const MileStoneDiv = styled.div`
     margin-bottom: 5px;
     .helper-text {
       margin-bottom: 10px;
-      margin-top: -5px;
     }
   }
   .milestone-step {

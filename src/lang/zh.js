@@ -174,8 +174,8 @@ export default {
   'Bounty Example': '任务举例',
 
   'Invalid message': '格式不正确',
-  'Message shoule be positive number': '必须输入大于0',
-  'Message should not be blank': '不能为空',
+  'Amount must be greater than 0': '输入金额必须大于0',
+  'Input box cannot be left blank': '输入框不能为空',
   'Please check agreement': '协议必须勾选',
 
   'bounty is': '赏金任务状态是',
@@ -321,8 +321,8 @@ export default {
   'Just now': '刚刚',
   'file shold not larger than 50M': '文件大小不能超过 50M',
   'login expired, please sign in again': '登录信息已过期，请重新登录',
-  'Duration should not > 90': '完成时间不能大于90',
-  'Content length shoule not > 200': '文字长度不能超过200',
+  'Duration should not exceed 90 days': '完成时间不能超过90天',
+  'Maximum amount of characters: 200': '文字长度不能超过200',
   'Please request next invitation code 5 seconds later': '请求邀请码太频繁, 请5秒后重试',
   'You run out of invites': '你没有更多的邀请名额了',
   'GENERATE ONE TIME INVITATION CODE': '获取一次性邀请码',
