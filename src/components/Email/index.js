@@ -37,9 +37,17 @@ export default class Email extends Component {
     } else {
       const { result } = await reqCheckDupEmail({ email: e.target.value, userId });
       if (result.isDuplicate && !checkIsRegistered) {
-        this.setState({
-          emailErrMsg: i18nTxt('Already registered , try another one'),
-        });
+        if (result.googleAccountUnregisterd) {
+          this.setState({
+            emailErrMsg: i18nTxt(
+              "We detect that you signed up with Google last time and didn't finish the sign up process. Please sign in with Google again."
+            ),
+          });
+        } else {
+          this.setState({
+            emailErrMsg: i18nTxt('Already registered , try another one'),
+          });
+        }
       } else if (!result.isDuplicate && checkIsRegistered) {
         this.setState({
           emailErrMsg: i18nTxt("This email isn't registered"),
