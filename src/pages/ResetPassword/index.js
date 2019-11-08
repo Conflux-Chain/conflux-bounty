@@ -46,14 +46,7 @@ class ResetPassword extends Component {
       emailVerificationCode: emailCode.toUpperCase(),
     });
 
-    if (code !== 0) {
-      // notice.show({
-      //   content: 'Validation failed. Please check your email code',
-      //   type: 'message-error',
-      //   timeout: 3000,
-      // });
-      return;
-    }
+    if (code !== 0) return;
 
     const { history } = this.props;
     history.push('/signin', { passwordReset: true });
