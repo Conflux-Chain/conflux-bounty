@@ -110,7 +110,7 @@ export const doWithdraw = () => (dispatch, getState) => {
     errs.withDrawAmountErr = utils.i18nTxt('You have insufficient balance in your account');
   } else if (userAccount.withDrawAmount < 50) {
     valid = false;
-    errs.withDrawAmountErr = utils.i18nTxt('Minimum withdraw amount 50 FC');
+    errs.withDrawAmountErr = `${utils.i18nTxt('Minimum withdraw amount')} 50 FC`;
   }
 
   if (valid === false) {

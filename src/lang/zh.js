@@ -445,5 +445,4 @@ export default {
   'Link Copied': '链接已复制',
   'Please select a product.': '请先选择至少一个商品.',
   'You have insufficient balance in your account': '您的账户没有足够余额',
-  'Minimum withdraw amount 50 FC': '最小提现金额 50 FC',
 };
