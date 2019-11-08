@@ -97,7 +97,7 @@ const Wrapper = styled(StyledWrapper)`
     line-height: 20px;
     color: #595f61;
     white-space: pre-wrap;
-    word-break: break-all;
+    word-break: break-word;
   }
   .submission-sort-wrap {
     margin-bottom: 20px;

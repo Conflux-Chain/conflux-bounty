@@ -129,6 +129,7 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           id: 'withdraw-amount',
           errMsg: userAccount.withDrawAmountErr,
           value: userAccount.withDrawAmount,
+          placeHolder: `${i18nTxt('Minimum withdraw amount')} 50 FC`,
           label: i18nTxt('Amount'),
           onChange: e => {
             updateUserAccount({
@@ -138,7 +139,6 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           },
         }}
       />
-      <div className="withdraw-tips">{i18nTxt('Minimum withdraw amount')} 50 FC</div>
 
       <Input
         {...{

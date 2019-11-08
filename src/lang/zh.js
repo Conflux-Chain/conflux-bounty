@@ -444,4 +444,5 @@ export default {
   'checkin.Unavailable': '签到人数已满',
   'Link Copied': '链接已复制',
   'Please select a product.': '请先选择至少一个商品.',
+  'You have insufficient balance in your account': '您的账户没有足够余额',
 };
