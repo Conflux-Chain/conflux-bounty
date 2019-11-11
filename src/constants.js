@@ -6,12 +6,12 @@ export const UPDATE_SOLUTION_LIST_CACHE = 'UPDATE_SOLUTION_LIST_CACHE';
 export const UPDATE_UNREAD_MESSAGE_COUNT = 'UPDATE_UNREAD_MESSAGE_COUNT';
 
 export const ERR_MSG = {
-  INVALID: 'Invalid message',
-  POSITIVE_NUMBER: 'Message shoule be positive number',
-  NOT_BLANK: 'Message should not be blank',
+  INVALID: 'Invalid format',
+  POSITIVE_NUMBER: 'Amount must be greater than 0',
+  NOT_BLANK: 'Input box cannot be left blank',
   AGREE_LICENCE: 'Please check agreement',
-  NO_LARGE_THAN_90: 'Duration should not > 90',
-  NO_LARGE_THAN_200: 'Content length shoule not > 200',
+  NO_LARGE_THAN_90: 'Duration should not exceed 90 days',
+  NO_LARGE_THAN_200: 'Maximum amount of characters: 200',
 };
 
 export const REGEX = {

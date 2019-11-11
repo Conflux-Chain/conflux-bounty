@@ -44,6 +44,12 @@ export default class Email extends Component {
         this.setState({
           emailErrMsg: i18nTxt("This email isn't registered"),
         });
+      } else if (result.isDuplicate && checkIsRegistered && result.googleAccountUnregisterd) {
+        this.setState({
+          emailErrMsg: i18nTxt(
+            "We detect that you signed up with Google last time and didn't finish the sign up process. Please sign in with Google again."
+          ),
+        });
       }
     }
   };

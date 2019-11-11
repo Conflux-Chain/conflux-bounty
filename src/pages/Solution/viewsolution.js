@@ -131,7 +131,7 @@ const Wrapper = styled(StyledWrapper)`
     margin-bottom: 40px;
     overflow: auto;
     > pre {
-      word-break: break-all;
+      word-break: break-word;
       white-space: pre-wrap;
     }
   }
