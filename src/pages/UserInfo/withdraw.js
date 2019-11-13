@@ -145,8 +145,8 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           id: 'wallet-address',
           errMsg: i18nTxt(userAccount.walletAddressErr),
           value: userAccount.walletAddress,
+          placeHolder: `${i18nTxt('Enter a combination of letters or numbers')} `,
           label: i18nTxt('To Address'),
-          placeHolder: '请输入数字和字母的组合',
           onChange: e => {
             if (!/^[0-9a-zA-Z]*$/.test(e.target.value)) {
               return;
