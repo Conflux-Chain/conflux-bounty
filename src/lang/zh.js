@@ -273,6 +273,7 @@ export default {
 
   'Withdraw FC': '提现FC',
   'available to withdraw': '可提现余额',
+  'Enter a combination of letters or numbers': '输入字母和数字的组合',
   'Minimum withdraw amount': '最小提现金额',
   'To Address': '接收地址',
   Withdraw: '提现',
