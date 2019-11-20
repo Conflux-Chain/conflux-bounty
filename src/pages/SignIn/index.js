@@ -134,15 +134,6 @@ class SignIn extends Component {
             <form className="form-wrap">
               <span className="title">{i18nTxt('Sign in')}</span>
               <div className="inputs-wrap">
-                {/* <Input
-                  id="signup-email"
-                  label={i18nTxt('Email')}
-                  type="email"
-                  autocomplete="email username"
-                  className="signup-input"
-                  value={email}
-                  onChange={this.onEmailChange}
-                /> */}
                 <Email
                   id="signup-email"
                   label={i18nTxt('Email')}
