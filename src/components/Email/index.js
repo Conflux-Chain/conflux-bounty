@@ -21,7 +21,7 @@ export default class Email extends Component {
     if (e.target.value === '') return;
     const { userId } = this.props;
     if (!REGEX.EMAIL.test(e.target.value)) {
-      this.setState({ emailErrMsg: i18nTxt('Invalid email address') });
+      this.setState({ emailErrMsg: i18nTxt('Invalide email address') });
       return;
     }
 
