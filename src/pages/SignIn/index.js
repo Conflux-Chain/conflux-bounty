@@ -17,6 +17,7 @@ import { getAccount } from '../../components/PageHead/action';
 import SignInVia from '../../components/SignInVia';
 import media from '../../globalStyles/media';
 import unitParser from '../../utils/device';
+import Email from '../../components/Email';
 // import { recaptchaKey } from '../../constants';
 
 class SignIn extends Component {
@@ -133,7 +134,7 @@ class SignIn extends Component {
             <form className="form-wrap">
               <span className="title">{i18nTxt('Sign in')}</span>
               <div className="inputs-wrap">
-                <Input
+                <Email
                   id="signup-email"
                   label={i18nTxt('Email')}
                   type="email"
