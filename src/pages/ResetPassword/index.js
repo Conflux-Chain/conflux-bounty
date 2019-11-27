@@ -62,7 +62,8 @@ class ResetPassword extends Component {
               <span className="title"> {i18nTxt('Reset Password')}</span>
               <div className="inputs-wrap">
                 <Email
-                  checkIsRegistered
+                  errorIfNotRegistered
+                  errorIfHalfWayThirdPartyRegisterd
                   onChange={this.onEmailChange}
                   ref={ref => {
                     this.emailRef = ref;
@@ -77,6 +78,7 @@ class ResetPassword extends Component {
                   }}
                 />
                 <EmailCode
+                  beforeSend={{ validator: this.emailRef && (() => !this.emailRef.hasError()) }}
                   email={email}
                   onChange={this.onEmailCodeChange}
                   ref={ref => {

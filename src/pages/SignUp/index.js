@@ -235,6 +235,7 @@ class SignUp extends Component {
                   </div>
                 )}
                 <Email
+                  errorIfRegistered
                   email={email}
                   userId={userId}
                   ref={ref => {
@@ -249,6 +250,7 @@ class SignUp extends Component {
                   <EmailCode
                     className="singup-input"
                     email={email}
+                    beforeSend={{ validator: this.emailRef && (() => !this.emailRef.hasError()) }}
                     onChange={e => {
                       this.setState({ emailCode: e.target.value });
                     }}

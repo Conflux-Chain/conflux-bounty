@@ -5,7 +5,7 @@
 
 /* eslint react/no-multi-comp:0 */
 /* eslint no-return-assign:0 */
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -150,11 +150,11 @@ function EmailModal({ onCancel, onOk }) {
   let newVerificationCode;
   let currentVerificationCode;
   let password;
-  let newEmailRef;
-  let currentEmailRef;
-  let newVerificationCodeRef;
-  let currentVerificationCodeRef;
-  let passwordRef;
+  const newEmailRef = useRef();
+  const currentEmailRef = useRef();
+  const newVerificationCodeRef = useRef();
+  const currentVerificationCodeRef = useRef();
+  const passwordRef = useRef();
   const [newEmail, setNewEmail] = useState('');
   const [currentEmail, setCurrentEmail] = useState('');
   const isMobile = useMobile();
@@ -169,20 +169,21 @@ function EmailModal({ onCancel, onOk }) {
         )}
       </ModalHeadStyle>
       <div className="inputs-wrap">
-        <Email label={i18nTxt('New Email')} onChange={e => setNewEmail(e.target.value)} ref={ref => (newEmailRef = ref)} />
-        <EmailCode email={newEmail} onChange={e => (newVerificationCode = e.target.value)} ref={ref => (newVerificationCodeRef = ref)} />
-        <Email
-          label={i18nTxt('Current Email')}
-          checkIsOwner
-          onChange={e => setCurrentEmail(e.target.value)}
-          ref={ref => (currentEmailRef = ref)}
+        <Email errorIfRegistered label={i18nTxt('New Email')} onChange={e => setNewEmail(e.target.value)} ref={newEmailRef} />
+        <EmailCode
+          email={newEmail}
+          onChange={e => (newVerificationCode = e.target.value)}
+          ref={newVerificationCodeRef}
+          beforeSend={{ validator: newEmailRef && (() => !newEmailRef.current.hasError()) }}
         />
+        <Email errorIfIsNotOwner label={i18nTxt('Current Email')} onChange={e => setCurrentEmail(e.target.value)} ref={currentEmailRef} />
         <EmailCode
           email={currentEmail}
           onChange={e => (currentVerificationCode = e.target.value)}
-          ref={ref => (currentVerificationCodeRef = ref)}
+          ref={currentVerificationCodeRef}
+          beforeSend={{ validator: currentEmailRef && (() => !currentEmailRef.current.hasError()) }}
         />
-        <Password onChange={e => (password = e.target.value)} ref={ref => (passwordRef = ref)} />
+        <Password onChange={e => (password = e.target.value)} ref={passwordRef} />
       </div>
       <div className="confirm-actions">
         {!isMobile && (
@@ -195,11 +196,11 @@ function EmailModal({ onCancel, onOk }) {
           type="button"
           onClick={async () => {
             if (
-              newEmailRef.hasError() ||
-              currentEmailRef.hasError() ||
-              newVerificationCodeRef.hasError() ||
-              currentVerificationCodeRef.hasError() ||
-              passwordRef.hasError()
+              newEmailRef.current.hasError() ||
+              currentEmailRef.current.hasError() ||
+              newVerificationCodeRef.current.hasError() ||
+              currentVerificationCodeRef.current.hasError() ||
+              passwordRef.current.hasError()
             ) {
               return;
             }
