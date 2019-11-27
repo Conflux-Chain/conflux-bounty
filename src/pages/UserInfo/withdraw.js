@@ -43,7 +43,7 @@ const WithdrawContent = styled.div`
     }
     > button {
       height: 56px;
-      margin-top: 4px;
+      margin-top: 12px;
       margin-left: 10px;
     }
   }
@@ -66,6 +66,7 @@ const WithdrawContent = styled.div`
     align-items:baseline;
       > button {
         height: ${unitParser(44)};
+        margin-top: ${unitParser(12)};
       }
   }
 `}
