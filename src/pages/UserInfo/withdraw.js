@@ -145,12 +145,9 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           id: 'wallet-address',
           errMsg: i18nTxt(userAccount.walletAddressErr),
           value: userAccount.walletAddress,
-          placeHolder: `${i18nTxt('Enter a combination of letters or numbers')} `,
           label: i18nTxt('To Address'),
+          placeHolder: '',
           onChange: e => {
-            if (!/^[0-9a-zA-Z]*$/.test(e.target.value)) {
-              return;
-            }
             updateUserAccount({
               walletAddressErr: '',
               walletAddress: e.target.value,
