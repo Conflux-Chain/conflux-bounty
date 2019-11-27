@@ -29,12 +29,17 @@ class EmailCode extends Component {
   }
 
   onSendClick = async () => {
-    const { email, verificationCodeType } = this.props;
+    const { email, verificationCodeType, beforeSend, lang } = this.props;
     if (!email || email === '' || !REGEX.EMAIL.test(email)) {
       notice.show({ content: i18nTxt('Invalid email address'), type: 'message-error', timeout: 3000 });
       return;
     }
-    const { lang } = this.props;
+
+    if (beforeSend && typeof beforeSend.validator === 'function' && !beforeSend.validator()) {
+      notice.show({ content: beforeSend.errorMessage || i18nTxt('Invalid email address'), type: 'message-error', timeout: 3000 });
+      return;
+    }
+
     const {
       code,
       result: { waitSecondsTillNextSend },
@@ -122,9 +127,11 @@ class EmailCode extends Component {
 EmailCode.defaultProps = {
   verificationCodeType: undefined,
   email: undefined,
+  beforeSend: undefined,
 };
 
 EmailCode.propTypes = {
+  beforeSend: PropTypes.objectOf({ validator: PropTypes.func.isRequired, errorMessage: PropTypes.string }),
   onChange: PropTypes.func.isRequired,
   email: PropTypes.string,
   lang: PropTypes.string.isRequired,

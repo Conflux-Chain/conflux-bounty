@@ -26,31 +26,38 @@ export default class Email extends Component {
     }
 
     this.setState({ emailErrMsg: '' });
-    const { checkIsOwner, checkIsRegistered } = this.props;
-    if (checkIsOwner) {
+    const { errorIfIsNotOwner, errorIfRegistered, errorIfNotRegistered, errorIfHalfWayThirdPartyRegisterd } = this.props;
+    if (errorIfIsNotOwner) {
       const { result } = await reqCheckUserEmail({ email: e.target.value, userId });
       if (!result.isValid) {
         this.setState({
           emailErrMsg: i18nTxt('Please enter your current email address here'),
         });
+        return;
       }
-    } else {
-      const { result } = await reqCheckDupEmail({ email: e.target.value, userId });
-      if (result.isDuplicate && !checkIsRegistered) {
-        this.setState({
-          emailErrMsg: i18nTxt('Already registered , try another one'),
-        });
-      } else if (!result.isDuplicate && checkIsRegistered) {
-        this.setState({
-          emailErrMsg: i18nTxt("This email isn't registered"),
-        });
-      } else if (result.isDuplicate && checkIsRegistered && result.googleAccountUnregisterd) {
-        this.setState({
-          emailErrMsg: i18nTxt(
-            "We detect that you signed up with Google last time and didn't finish the sign up process. Please sign in with Google again."
-          ),
-        });
-      }
+    }
+
+    const { result } = await reqCheckDupEmail({ email: e.target.value, userId });
+    if (errorIfHalfWayThirdPartyRegisterd && result.googleAccountUnregisterd) {
+      this.setState({
+        emailErrMsg: i18nTxt(
+          "We detect that you signed up with Google last time and didn't finish the sign up process. Please sign in with Google again."
+        ),
+      });
+      return;
+    }
+
+    if (errorIfRegistered && result.isDuplicate) {
+      this.setState({
+        emailErrMsg: i18nTxt('Already registered , try another one'),
+      });
+      return;
+    }
+
+    if (errorIfNotRegistered && !result.isDuplicate) {
+      this.setState({
+        emailErrMsg: i18nTxt("This email isn't registered"),
+      });
     }
   };
 
@@ -99,14 +106,18 @@ Email.defaultProps = {
   email: '',
   userId: '',
   label: '',
-  checkIsRegistered: false,
-  checkIsOwner: false,
   disabled: false,
+  errorIfRegistered: false,
+  errorIfIsNotOwner: false,
+  errorIfNotRegistered: false,
+  errorIfHalfWayThirdPartyRegisterd: false,
 };
 
 Email.propTypes = {
-  checkIsOwner: PropTypes.bool,
-  checkIsRegistered: PropTypes.bool,
+  errorIfHalfWayThirdPartyRegisterd: PropTypes.bool,
+  errorIfNotRegistered: PropTypes.bool,
+  errorIfIsNotOwner: PropTypes.bool,
+  errorIfRegistered: PropTypes.bool,
   email: PropTypes.string,
   userId: PropTypes.string,
   label: PropTypes.string,
