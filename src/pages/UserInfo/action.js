@@ -89,7 +89,7 @@ export const doWithdraw = () => (dispatch, getState) => {
 
   const pairs = {
     withDrawAmount: 'withDrawAmountErr',
-    walletAddress: 'walletAddressErr',
+    // walletAddress: 'walletAddressErr',
     walletPassWord: 'walletPassWordErr',
     emailCode: 'emailCodeErr',
   };
@@ -111,6 +111,15 @@ export const doWithdraw = () => (dispatch, getState) => {
   } else if (userAccount.withDrawAmount < 50) {
     valid = false;
     errs.withDrawAmountErr = `${utils.i18nTxt('Minimum withdraw amount')} 50 FC`;
+  }
+
+  // wallet check ox...
+  if (isEmpty(userAccount.walletAddress)) {
+    valid = false;
+    errs.walletAddressErr = ERR_MSG.NOT_BLANK;
+  } else if (REGEX.WALLET_ADDRESS.test(userAccount.walletAddress) === false) {
+    valid = false;
+    errs.walletAddressErr = utils.i18nTxt('Enter a combination of letters or numbers');
   }
 
   if (valid === false) {
