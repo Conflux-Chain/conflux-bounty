@@ -119,7 +119,7 @@ export const doWithdraw = () => (dispatch, getState) => {
     errs.walletAddressErr = ERR_MSG.NOT_BLANK;
   } else if (REGEX.WALLET_ADDRESS.test(userAccount.walletAddress) === false) {
     valid = false;
-    errs.walletAddressErr = utils.i18nTxt(ERR_MSG.INVALID);
+    errs.walletAddressErr = utils.i18nTxt('Enter a combination of letters or numbers');
   }
 
   if (valid === false) {
