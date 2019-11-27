@@ -132,9 +132,10 @@ export const doWithdraw = () => (dispatch, getState) => {
     reqDoWithdraw({
       fansCoin: Number(userAccount.withDrawAmount),
       walletAddress: userAccount.walletAddress,
-      walletPassWord: userAccount.walletPassWord,
+      password: userAccount.walletPassWord,
       emailCode: userAccount.emailCode,
-    }).then(() => {
+    }).then(({ code }) => {
+      if (code !== 0) return;
       utils.notice.show({
         type: 'message-success',
         content: utils.i18nTxt('Withdrawal Submitted'),
