@@ -448,4 +448,5 @@ export default {
   'You have insufficient balance in your account': '您的账户没有足够余额',
   "We detect that you signed up with Google last time and didn't finish the sign up process. Please sign in with Google again.":
     '检测到您上次使用谷歌登录且未完成注册流程, 请重新使用谷歌登录并完成注册.',
+  'Invalid format': '格式不正确',
 };
