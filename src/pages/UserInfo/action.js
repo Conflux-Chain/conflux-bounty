@@ -89,7 +89,7 @@ export const doWithdraw = () => (dispatch, getState) => {
 
   const pairs = {
     withDrawAmount: 'withDrawAmountErr',
-    walletAddress: 'walletAddressErr',
+    // walletAddress: 'walletAddressErr',
     walletPassWord: 'walletPassWordErr',
     emailCode: 'emailCodeErr',
   };
@@ -113,6 +113,15 @@ export const doWithdraw = () => (dispatch, getState) => {
     errs.withDrawAmountErr = `${utils.i18nTxt('Minimum withdraw amount')} 50 FC`;
   }
 
+  // wallet check ox...
+  if (isEmpty(userAccount.walletAddress)) {
+    valid = false;
+    errs.walletAddressErr = ERR_MSG.NOT_BLANK;
+  } else if (REGEX.WALLET_ADDRESS.test(userAccount.walletAddress) === false) {
+    valid = false;
+    errs.walletAddressErr = utils.i18nTxt('Enter a combination of letters or numbers');
+  }
+
   if (valid === false) {
     dispatch(
       updateUserAccount({
@@ -123,9 +132,10 @@ export const doWithdraw = () => (dispatch, getState) => {
     reqDoWithdraw({
       fansCoin: Number(userAccount.withDrawAmount),
       walletAddress: userAccount.walletAddress,
-      walletPassWord: userAccount.walletPassWord,
+      password: userAccount.walletPassWord,
       emailCode: userAccount.emailCode,
-    }).then(() => {
+    }).then(({ code }) => {
+      if (code !== 0) return;
       utils.notice.show({
         type: 'message-success',
         content: utils.i18nTxt('Withdrawal Submitted'),
