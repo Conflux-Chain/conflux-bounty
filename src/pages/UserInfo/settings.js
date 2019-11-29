@@ -14,7 +14,7 @@ import cx from 'classnames';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import Modal from '../../components/Modal';
-// import { notice } from '../../components/Message/notice';
+import { notice } from '../../components/Message/notice';
 import { reqUserUpdate } from '../../utils/api';
 import { auth, commonPropTypes, i18nTxt } from '../../utils';
 import * as actions from '../../components/PageHead/action';
@@ -286,14 +286,33 @@ function PasswordModal({ onOk, onCancel, email }) {
               return;
             }
 
-            const { code } = await reqUserUpdate({
-              currentPassword,
-              newPassword,
-              emailVerificationCode: verificationCode,
-            });
+            const {
+              code,
+              result: { errorCode },
+            } = await reqUserUpdate(
+              {
+                currentPassword,
+                newPassword,
+                emailVerificationCode: verificationCode,
+              },
+              { manualNotice: true }
+            );
 
             if (code !== 0) {
-              // notice.show({ content: body.message, type: 'message-error', timeout: 5000 });
+              if (errorCode === 7) {
+                // eslint-disable-next-line no-undef
+                notice.show({ content: i18nTxt('Incorrect current password'), type: 'message-error', timeout: 5000 });
+                return;
+              }
+              if (errorCode === 5) {
+                // eslint-disable-next-line no-undef
+                notice.show({
+                  content: i18nTxt('Validation failed. Please check your email verification code'),
+                  type: 'message-error',
+                  timeout: 5000,
+                });
+                return;
+              }
               return;
             }
             onOk();

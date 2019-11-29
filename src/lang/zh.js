@@ -131,6 +131,7 @@ export default {
   'Seems this nickname is occupied. Try another one': '用户昵称不允许重复，请重新输入',
   'Nickname is empty': '用户名不能为空',
   'Validation failed. Please check your email verification code': '邮箱验证码有误',
+  'Incorrect current password': '旧密码错误',
   'Nickname already exists, please re-enter': '用户昵称已存在，请重新输入',
   'Duplicate email': '邮箱已被占用',
   Unauthorized: '登录凭证失效',
