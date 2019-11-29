@@ -131,6 +131,7 @@ export default {
   'Seems this nickname is occupied. Try another one': '用户昵称不允许重复，请重新输入',
   'Nickname is empty': '用户名不能为空',
   'Validation failed. Please check your email verification code': '邮箱验证码有误',
+  'Incorrect current password': '旧密码错误',
   'Nickname already exists, please re-enter': '用户昵称已存在，请重新输入',
   'Duplicate email': '邮箱已被占用',
   Unauthorized: '登录凭证失效',
@@ -273,7 +274,6 @@ export default {
 
   'Withdraw FC': '提现FC',
   'available to withdraw': '可提现余额',
-  'Enter a combination of letters or numbers': '输入字母和数字的组合',
   'Minimum withdraw amount': '最小提现金额',
   'To Address': '接收地址',
   Withdraw: '提现',

@@ -5,7 +5,7 @@
 
 /* eslint react/no-multi-comp:0 */
 /* eslint no-return-assign:0 */
-import React, { Component, useState, useRef } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -14,7 +14,7 @@ import cx from 'classnames';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import Modal from '../../components/Modal';
-// import { notice } from '../../components/Message/notice';
+import { notice } from '../../components/Message/notice';
 import { reqUserUpdate } from '../../utils/api';
 import { auth, commonPropTypes, i18nTxt } from '../../utils';
 import * as actions from '../../components/PageHead/action';
@@ -150,11 +150,11 @@ function EmailModal({ onCancel, onOk }) {
   let newVerificationCode;
   let currentVerificationCode;
   let password;
-  const newEmailRef = useRef();
-  const currentEmailRef = useRef();
-  const newVerificationCodeRef = useRef();
-  const currentVerificationCodeRef = useRef();
-  const passwordRef = useRef();
+  let newEmailRef;
+  let currentEmailRef;
+  let newVerificationCodeRef;
+  let currentVerificationCodeRef;
+  let passwordRef;
   const [newEmail, setNewEmail] = useState('');
   const [currentEmail, setCurrentEmail] = useState('');
   const isMobile = useMobile();
@@ -169,21 +169,20 @@ function EmailModal({ onCancel, onOk }) {
         )}
       </ModalHeadStyle>
       <div className="inputs-wrap">
-        <Email errorIfRegistered label={i18nTxt('New Email')} onChange={e => setNewEmail(e.target.value)} ref={newEmailRef} />
-        <EmailCode
-          email={newEmail}
-          onChange={e => (newVerificationCode = e.target.value)}
-          ref={newVerificationCodeRef}
-          beforeSend={{ validator: newEmailRef && (() => !newEmailRef.current.hasError()) }}
+        <Email label={i18nTxt('New Email')} onChange={e => setNewEmail(e.target.value)} ref={ref => (newEmailRef = ref)} />
+        <EmailCode email={newEmail} onChange={e => (newVerificationCode = e.target.value)} ref={ref => (newVerificationCodeRef = ref)} />
+        <Email
+          label={i18nTxt('Current Email')}
+          checkIsOwner
+          onChange={e => setCurrentEmail(e.target.value)}
+          ref={ref => (currentEmailRef = ref)}
         />
-        <Email errorIfIsNotOwner label={i18nTxt('Current Email')} onChange={e => setCurrentEmail(e.target.value)} ref={currentEmailRef} />
         <EmailCode
           email={currentEmail}
           onChange={e => (currentVerificationCode = e.target.value)}
-          ref={currentVerificationCodeRef}
-          beforeSend={{ validator: currentEmailRef && (() => !currentEmailRef.current.hasError()) }}
+          ref={ref => (currentVerificationCodeRef = ref)}
         />
-        <Password onChange={e => (password = e.target.value)} ref={passwordRef} />
+        <Password onChange={e => (password = e.target.value)} ref={ref => (passwordRef = ref)} />
       </div>
       <div className="confirm-actions">
         {!isMobile && (
@@ -196,11 +195,11 @@ function EmailModal({ onCancel, onOk }) {
           type="button"
           onClick={async () => {
             if (
-              newEmailRef.current.hasError() ||
-              currentEmailRef.current.hasError() ||
-              newVerificationCodeRef.current.hasError() ||
-              currentVerificationCodeRef.current.hasError() ||
-              passwordRef.current.hasError()
+              newEmailRef.hasError() ||
+              currentEmailRef.hasError() ||
+              newVerificationCodeRef.hasError() ||
+              currentVerificationCodeRef.hasError() ||
+              passwordRef.hasError()
             ) {
               return;
             }
@@ -286,14 +285,31 @@ function PasswordModal({ onOk, onCancel, email }) {
               return;
             }
 
-            const { code } = await reqUserUpdate({
-              currentPassword,
-              newPassword,
-              emailVerificationCode: verificationCode,
-            });
+            const {
+              code,
+              result: { errorCode },
+            } = await reqUserUpdate(
+              {
+                currentPassword,
+                newPassword,
+                emailVerificationCode: verificationCode,
+              },
+              { manualNotice: true }
+            );
 
             if (code !== 0) {
-              // notice.show({ content: body.message, type: 'message-error', timeout: 5000 });
+              if (errorCode === 7) {
+                notice.show({ content: i18nTxt('Incorrect current password'), type: 'message-error', timeout: 5000 });
+                return;
+              }
+              if (errorCode === 5) {
+                notice.show({
+                  content: i18nTxt('Validation failed. Please check your email verification code'),
+                  type: 'message-error',
+                  timeout: 5000,
+                });
+                return;
+              }
               return;
             }
             onOk();
