@@ -229,10 +229,11 @@ export const reqUserQuery = param => {
   }).then(res => res.body);
 };
 
-export const reqUserUpdate = param => {
+export const reqUserUpdate = (param, config = {}) => {
   return sendRequest({
     url: '/user/update',
     body: param,
+    ...config,
   }).then(res => res.body);
 };
 
