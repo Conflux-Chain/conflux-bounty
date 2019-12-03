@@ -248,6 +248,8 @@ class AccountHistory extends Component {
                     );
                   } else if (reward.belongType === 'Checkin') {
                     bountyInfo = <span>{i18nTxt('CHECK IN')}</span>;
+                  } else if (reward.belongType === 'Activity') {
+                    bountyInfo = <span>{i18nTxt('Activity Reward')}</span>;
                   }
 
                   return (
