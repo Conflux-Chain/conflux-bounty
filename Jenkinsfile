@@ -30,6 +30,7 @@ pipeline {
       parallel {
         stage('ci env') {
           when {
+            beforeAgent true
             anyOf {
               branch 'dev'
               branch 'jenkins-pipeline'
@@ -55,6 +56,7 @@ sudo cp -r dist /www/bounty/web/
 
         stage('staging env') {
           when {
+            beforeAgent true
             allOf {
               environment name: 'CHANGE_TARGET', value: 'master'
             }
@@ -79,6 +81,7 @@ sudo cp -r dist /www/bounty/web/staging/
 
         stage('prod env') {
           when {
+            beforeAgent true
             allOf {
               branch 'master'
             }
