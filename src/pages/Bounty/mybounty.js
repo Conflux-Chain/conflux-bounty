@@ -25,12 +25,16 @@ function MyBounty({ getMyBounty, getMyJoinedBounty, myBounty, history, resetMy, 
     const getdata = async () => {
       await getMyBounty(1);
       await getMyJoinedBounty(1);
+      updateMy({
+        initFetched: true,
+      });
     };
 
+    const { initFetched } = myBounty;
     if (history.action === 'PUSH') {
       resetMy();
       getdata();
-    } else if (myBounty.total === 0) {
+    } else if (!initFetched) {
       getdata();
     }
     document.title = i18nTxt('My Bounties');
