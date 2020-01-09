@@ -59,6 +59,7 @@ const initMyBounty = {
   joinedTotal: 0,
   joinedPage: 1,
   joinedLimit: 10,
+  initFetched: false,
   // filterBy: 'user_create',
 };
 
