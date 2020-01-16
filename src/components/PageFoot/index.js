@@ -40,6 +40,7 @@ const Wrap = styled.div`
   }
   .foot-portal {
     display: flex;
+    justify-content: center;
     margin-top: 25px;
     a {
       color: #fff;
