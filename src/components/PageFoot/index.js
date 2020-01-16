@@ -40,7 +40,7 @@ const Wrap = styled.div`
   }
   .foot-portal {
     display: flex;
-    margin-top: 48px;
+    margin-top: 25px;
     a {
       color: #fff;
       opacity: 0.8;
@@ -169,19 +169,31 @@ class PageFooter extends Component {
             <Link to="/">
               <img src={footImg} alt="logo" />
             </Link>
-            <div className="foot-portal">
-              <a href="/faq" target="_blank">
-                FAQs
-              </a>
-              <a href="http://www.conflux-chain.org/" rel="noopener noreferrer" target="_blank">
-                Conflux
-              </a>
-              <a href="http://www.confluxscan.io/" rel="noopener noreferrer" target="_blank">
-                Explorer
-              </a>
-              <a href="https://wallet.confluxscan.io/" rel="noopener noreferrer" target="_blank">
-                Wallet
-              </a>
+            <div>
+              <div className="foot-copyright">
+                Copyright © 2019 Conflux. All Rights Reserved.{' '}
+                <Link to="/terms" target="_blank">
+                  Terms Privacy
+                </Link>{' '}
+                |{' '}
+                <Link to="/policy" target="_blank">
+                  Policy
+                </Link>
+              </div>
+              <div className="foot-portal">
+                <a href="/faq" target="_blank">
+                  FAQs
+                </a>
+                <a href="http://www.conflux-chain.org/" rel="noopener noreferrer" target="_blank">
+                  Conflux
+                </a>
+                <a href="http://www.confluxscan.io/" rel="noopener noreferrer" target="_blank">
+                  Explorer
+                </a>
+                <a href="https://wallet.confluxscan.io/" rel="noopener noreferrer" target="_blank">
+                  Wallet
+                </a>
+              </div>
             </div>
             <div className="foot-icon">
               <a href="https://twitter.com/ConfluxChain" rel="noopener noreferrer" target="_blank">
@@ -207,16 +219,6 @@ class PageFooter extends Component {
                 <img src={code} className="wechat-code" alt="code" />
               </div>
             </div>
-          </div>
-          <div className="foot-copyright">
-            Copyright © 2019 Conflux. All Rights Reserved.{' '}
-            <Link to="/terms" target="_blank">
-              Terms Privacy
-            </Link>{' '}
-            |{' '}
-            <Link to="/policy" target="_blank">
-              Policy
-            </Link>
           </div>
         </Wrap>
 
