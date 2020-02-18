@@ -215,7 +215,6 @@ export default {
   Likes: '喜欢',
   Share: '分享',
   'Send my Submission': '提交方案',
-  'Confirm Send my Submission?': '确认提交方案吗',
   Comments: '评论',
   'viewbounty.COMMENT': '发送',
   'Leave comments …': '发表评论…',
