@@ -215,6 +215,7 @@ export default {
   Likes: '喜欢',
   Share: '分享',
   'Send my Submission': '提交方案',
+  'Confirm Send my Submission?': '确认提交方案吗',
   Comments: '评论',
   'viewbounty.COMMENT': '发送',
   'Leave comments …': '发表评论…',
@@ -451,4 +452,5 @@ export default {
     '检测到您上次使用谷歌登录且未完成注册流程, 请重新使用谷歌登录并完成注册.',
   'Activity Reward': '活动奖励',
   'Community Reward': '社区奖励',
+  'Confirm to submit the submission？': '确认提交方案吗？',
 };

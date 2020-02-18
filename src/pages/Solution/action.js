@@ -142,10 +142,8 @@ const isEmpty = val => {
   return false;
 };
 
-let lockSubmit = false;
-export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
+export const preSubmit = () => (dispatch, getState) => {
   const { editSolution } = getState().solution;
-  const query = utils.getQuery();
   const errs = {
     descriptionErrMsg: '',
     contactMessageErr: '',
@@ -195,83 +193,95 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
   if (valid === false) {
     utils.scrollToErr();
   } else {
-    if (!editSolution.bountyTitle) {
+    dispatch(
+      updateEdit({
+        confirmSubmitShow: true,
+      })
+    );
+  }
+};
+
+let lockSubmit = false;
+export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
+  const { editSolution } = getState().solution;
+  const query = utils.getQuery();
+  const { milestoneList } = editSolution;
+  if (!editSolution.bountyTitle) {
+    utils.notice.show({
+      type: 'message-notice',
+      content: 'no bounty title, please reload',
+      timeout: 3000,
+    });
+    return;
+  }
+
+  const baseParam = {
+    title: editSolution.bountyTitle,
+    bountyId: query.bountyId,
+    description: editSolution.description,
+    privateMessage: editSolution.privateMessage,
+    milestoneList: milestoneList.map(v => {
+      return {
+        ...v,
+        duration: parseInt(v.duration, 10),
+      };
+    }),
+  };
+  if (pageType === 'create') {
+    if (lockSubmit) {
+      return;
+    }
+    lockSubmit = true;
+
+    const param = {
+      ...baseParam,
+      attachmentList: editSolution.attachmentList,
+    };
+    reqSolutionCreate(param).then(
+      body => {
+        utils.notice.show({
+          type: 'message-success',
+          content: utils.i18nTxt('create success'),
+          timeout: 3000,
+        });
+        lockSubmit = false;
+        setTimeout(() => {
+          history.push(`/create-submission-success?bountyId=${query.bountyId}&submissionId=${body.result.id}`);
+        }, 600);
+      },
+      () => {
+        lockSubmit = false;
+      }
+    );
+  } else if (pageType === 'edit') {
+    if (editSolution.status === SOLUTION_STATUS_ENUM.REVIEWING) {
+      // todo other status
       utils.notice.show({
-        type: 'message-notice',
-        content: 'no bounty title, please reload',
+        type: 'message-error-light',
+        content: utils.i18nTxt('submission is already reviewing'),
         timeout: 3000,
       });
       return;
     }
-
-    const baseParam = {
-      title: editSolution.bountyTitle,
-      bountyId: query.bountyId,
-      description: editSolution.description,
-      privateMessage: editSolution.privateMessage,
-      milestoneList: milestoneList.map(v => {
-        return {
-          ...v,
-          duration: parseInt(v.duration, 10),
-        };
-      }),
+    const param = {
+      ...baseParam,
+      bountyId: editSolution.bountyId,
+      submissionId: query.submissionId,
+      attachmentList: editSolution.attachmentList.slice(),
     };
-    if (pageType === 'create') {
-      if (lockSubmit) {
-        return;
-      }
-      lockSubmit = true;
 
-      const param = {
-        ...baseParam,
-        attachmentList: editSolution.attachmentList,
-      };
-      reqSolutionCreate(param).then(
-        body => {
-          utils.notice.show({
-            type: 'message-success',
-            content: utils.i18nTxt('create success'),
-            timeout: 3000,
-          });
-          lockSubmit = false;
-          setTimeout(() => {
-            history.push(`/create-submission-success?bountyId=${query.bountyId}&submissionId=${body.result.id}`);
-          }, 600);
-        },
-        () => {
-          lockSubmit = false;
-        }
-      );
-    } else if (pageType === 'edit') {
-      if (editSolution.status === SOLUTION_STATUS_ENUM.REVIEWING) {
-        // todo other status
-        utils.notice.show({
-          type: 'message-error-light',
-          content: utils.i18nTxt('submission is already reviewing'),
-          timeout: 3000,
-        });
-        return;
-      }
-      const param = {
-        ...baseParam,
-        bountyId: editSolution.bountyId,
-        submissionId: query.submissionId,
-        attachmentList: editSolution.attachmentList.slice(),
-      };
+    utils.addDelAttachment(param.attachmentList, editSolution.attachmentListOrigin);
 
-      utils.addDelAttachment(param.attachmentList, editSolution.attachmentListOrigin);
-
-      reqSolutionUpdate(param).then(body => {
-        utils.notice.show({
-          type: 'message-success',
-          content: utils.i18nTxt('edit success'),
-          timeout: 3000,
-        });
-        setTimeout(() => {
-          history.push(`/edit-submission-success?submissionId=${body.result.id}`);
-        }, 600);
+    reqSolutionUpdate(param).then(body => {
+      utils.notice.show({
+        type: 'message-success',
+        content: utils.i18nTxt('edit success'),
+        timeout: 3000,
       });
-    }
+      setTimeout(() => {
+        history.push(`/edit-submission-success?submissionId=${body.result.id}`);
+      }, 600);
+    });
   }
 };
 

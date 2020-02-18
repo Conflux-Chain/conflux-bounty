@@ -131,7 +131,7 @@ class EditSolution extends Component {
   }
 
   render() {
-    const { updateEdit, editSolution, updateEditMileStone, uploadFile, pageType, history, doSubmit } = this.props;
+    const { updateEdit, editSolution, updateEditMileStone, uploadFile, pageType, history, doSubmit, preSubmit } = this.props;
 
     const stxt = i18nTxt('Submission is');
     let statusDiv;
@@ -395,7 +395,7 @@ class EditSolution extends Component {
           <s.SubmitDiv>
             <button
               onClick={() => {
-                doSubmit({ pageType, history });
+                preSubmit();
               }}
               className="btn waves-effect waves-light primary"
               type="button"
@@ -426,6 +426,37 @@ class EditSolution extends Component {
             width: isMobile() ? '100%' : '400px',
           }}
         />
+        <ConfirmComp
+          confirmBtns={
+            <Fragment>
+              <button
+                type="button"
+                onClick={() => {
+                  updateEdit({
+                    confirmSubmitShow: false,
+                  });
+                }}
+              >
+                {i18nTxt('NO')}
+              </button>
+              <button
+                className="agree"
+                type="button"
+                onClick={() => {
+                  doSubmit({ pageType, history });
+                }}
+              >
+                {i18nTxt('YES')}
+              </button>
+            </Fragment>
+          }
+          show={editSolution.confirmSubmitShow}
+          content={<div>{i18nTxt('Confirm to submit the submission？')}</div>}
+          title={i18nTxt('')}
+          wrapStyle={{
+            width: isMobile() ? '100%' : '400px',
+          }}
+        />
       </React.Fragment>
     );
   }
@@ -446,6 +477,7 @@ EditSolution.propTypes = {
   doSubmit: PropTypes.func.isRequired,
   clearEdit: PropTypes.func.isRequired,
   getSolution: PropTypes.func.isRequired,
+  preSubmit: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
