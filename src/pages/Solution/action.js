@@ -206,6 +206,11 @@ export const doSubmit = ({ pageType, history }) => (dispatch, getState) => {
   const { editSolution } = getState().solution;
   const query = utils.getQuery();
   const { milestoneList } = editSolution;
+  dispatch(
+    updateEdit({
+      confirmSubmitShow: false,
+    })
+  );
   if (!editSolution.bountyTitle) {
     utils.notice.show({
       type: 'message-notice',
