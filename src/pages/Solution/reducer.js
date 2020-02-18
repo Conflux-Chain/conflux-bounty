@@ -42,6 +42,7 @@ const initEditState = {
   addTranslate: false,
 
   milestoneLimit: null,
+  confirmSubmitShow: false,
 };
 
 function editSolution(state = initEditState, action) {
