@@ -451,10 +451,10 @@ class EditSolution extends Component {
             </Fragment>
           }
           show={editSolution.confirmSubmitShow}
-          content={<div>{i18nTxt('Confirm to submit the submission？')}</div>}
-          title={i18nTxt('')}
+          content=""
+          title={i18nTxt('Confirm to submit the submission？')}
           wrapStyle={{
-            width: isMobile() ? '100%' : '400px',
+            width: isMobile() ? '100%' : '360px',
           }}
         />
       </React.Fragment>

@@ -72,17 +72,6 @@ class InviteFriends extends PureComponent {
       headAccount: { user },
     } = this.props;
     const { buyCodeToolTipVisible, invitationCode, invitationLimit, purchaseDisabled, goodsList } = this.state;
-    const faqs = [
-      { title: i18nTxt('what is bounty?'), link: '/faq#what-is-bounty' },
-      { title: i18nTxt('how to create a bounty?'), link: '/faq#how-to-create-a-bounty' },
-      { title: i18nTxt('How to participate a bounty?'), link: '/faq#How-to-participate-in-a-bounty' },
-      { title: i18nTxt('How to complete bounty task?'), link: '/faq#How-to-complete-bounty-task' },
-      { title: i18nTxt('How to get bounty reward?'), link: '/faq#How-to-get-bounty-reward' },
-    ].map(faq => (
-      <Link to={faq.link} target="_blank">
-        {faq.title}
-      </Link>
-    ));
 
     const infos = [
       { label: `${i18nTxt('Invitation code')}:`, text: invitationCode },
@@ -185,14 +174,6 @@ class InviteFriends extends PureComponent {
           <section className="infos" style={{ display: invitationCode === '' ? 'none' : 'block' }}>
             {infos}
           </section>
-          <section className="faq-wrap">
-            <span>{i18nTxt('FAQs')}:</span>
-            <div className="faq-list">{faqs}</div>
-            <Link to="/faq" className="arrow-link" target="_blank">
-              <span>{i18nTxt('VIEW MORE')}</span>
-              <i className="material-icons dp48">chevron_right</i>
-            </Link>
-          </section>
         </Wrapper>
       </React.Fragment>
     );
@@ -291,7 +272,7 @@ const Wrapper = styled(StyledWrapper)`
         vertical-align: middle;
       }
     }
-  }
+  } 
   .generate {
     display: flex;
     flex-direction: column;
@@ -351,34 +332,7 @@ const Wrapper = styled(StyledWrapper)`
       }
     }
   }
-  .faq-wrap {
-    margin-top: 28px;
-    > span {
-      font-style: normal;
-      font-weight: bold;
-      font-size: 16px;
-      line-height: 16px;
-      color: #171d1f;
-    }
-    .faq-list {
-      margin: 18px 0 15px 8px;
-      display: flex;
-      flex-direction: column;
-      font-size: 14px;
-      ${media.mobile`
-        margin-left: 0;
-      `}
-      a {
-        color: #595f61;
-        cursor: pointer;
-      }
-    }
-    .arrow-link {
-      > span,
-      > i {
-        vertical-align: middle;
-      }
-    }
+ 
   }
   .generate {
     display: flex;
