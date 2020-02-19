@@ -30,7 +30,8 @@ const Message = lazy(() => import('../pages/UserInfo/message'));
 const MyLikes = lazy(() => import('../pages/UserInfo/my-likes'));
 const MyBounty = lazy(() => import('../pages/Bounty/mybounty'));
 const MySolution = lazy(() => import('../pages/Solution/mysolution'));
-const Faq = lazy(() => import('../pages/Faq'));
+const FaqMore = lazy(() => import('../pages/Faq'));
+const Faqs = lazy(() => import('../pages/UserInfo/faqs'));
 
 function Router() {
   return (
@@ -98,7 +99,9 @@ function Router() {
         <Route path="/signup" exact component={SignUp} />
         <Route path="/third-party-signup/:userId" exact component={SignUp} />
         <Route path="/invitation/:invitationCode" exact component={SignUp} />
-        <Route path="/faq" exact component={Faq} />
+        <Route path="/faq-more" exact component={FaqMore} />
+        <Route path="/faqs" exact component={Faqs} />
+
         <PrivateRoute
           path="/create-submission"
           exact
