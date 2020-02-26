@@ -18,6 +18,7 @@ import imgMyLikes from '../../assets/iconfont/my-likes.svg';
 import imgInviteFriends from '../../assets/iconfont/invite-friends.svg';
 import imgSettings from '../../assets/iconfont/settings.svg';
 import imgDefaultAvatar from '../../assets/iconfont/default-avatar.svg';
+import imgCommonQuestions from '../../assets/iconfont/common-questions.svg';
 import ConfirmComp from '../../components/Modal/confirm';
 
 import { i18nTxt, auth, commonPropTypes, encodeImgKey, genImgUrlFromName, getMd5, uploadFileOss } from '../../utils';
@@ -523,6 +524,10 @@ function Settings() {
       <Link className="settings-item" to="/invite-friends">
         <img src={imgInviteFriends} alt="Invite Friends" />
         <span>{i18nTxt('Invite Friends')}</span>
+      </Link>
+      <Link className="settings-item" to="/faqs">
+        <img src={imgCommonQuestions} alt="FAQs" style={{ height: '46px' }} />
+        <span>{i18nTxt('FAQs')}</span>
       </Link>
       <Link className="settings-item" to="/settings">
         <img src={imgSettings} alt="Settings" />

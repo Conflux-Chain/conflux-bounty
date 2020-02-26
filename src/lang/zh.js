@@ -451,4 +451,6 @@ export default {
     '检测到您上次使用谷歌登录且未完成注册流程, 请重新使用谷歌登录并完成注册.',
   'Activity Reward': '活动奖励',
   'Community Reward': '社区奖励',
+  'Confirm to submit the submission？': '确认提交方案？',
+  'Common Questions': '常见问题',
 };

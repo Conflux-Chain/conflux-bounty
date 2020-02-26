@@ -229,6 +229,7 @@ class SignUp extends Component {
                       textAlign: 'left',
                       fontSize: '12px',
                       marginTop: 9,
+                      marginBottom: 10,
                     }}
                   >
                     {i18nTxt(recaptchaErr)}
