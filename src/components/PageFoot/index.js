@@ -182,7 +182,7 @@ class PageFooter extends Component {
                 </Link>
               </div>
               <div className="foot-portal">
-                <a href="/faq" target="_blank">
+                <a href="/faqs" target="_blank">
                   FAQs
                 </a>
                 <a href="http://www.conflux-chain.org/" rel="noopener noreferrer" target="_blank">
@@ -227,7 +227,7 @@ class PageFooter extends Component {
           <div className="bottom-line1">
             <img src={footImg} alt="logo" />
             <div className="bottom-line1-right">
-              <a href="/faq" target="_blank">
+              <a href="/faqs" target="_blank">
                 FAQs
               </a>
               <a href="http://www.conflux-chain.org/" rel="noopener noreferrer" target="_blank">
