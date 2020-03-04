@@ -26,4 +26,9 @@ export default {
   'submission.note.APPROVED': ' ',
   PermissionError: 'You do not have permission to access the page, please login again',
   'checkin.Unavailable': 'Unavailable',
+  'bindacc.BACK': 'BACK',
+  'bindacc.DONE': 'DONE',
+  'bindacc.None': 'NONE',
+  'bindacc.BIND': 'BIND',
+  'bindacc.UNBIND': 'UNBIND',
 };
