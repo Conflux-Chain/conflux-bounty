@@ -42,10 +42,10 @@ class SignUp extends Component {
     const query = getQuery();
 
     this.state = {
-      source: query.source,
-      accessToken: query.accessToken,
-      userId: query.userId,
-      nickname: '',
+      source: query.source || '',
+      accessToken: query.accessToken || '',
+      userId: query.userId || '',
+      nickname: query.nickname || '',
       email: '',
       password: '',
       emailCode: '',
