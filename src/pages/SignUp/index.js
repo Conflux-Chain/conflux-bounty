@@ -88,12 +88,14 @@ class SignUp extends Component {
     } = this.state;
     if (this.anyInputsHasError() || !termsCheckboxChecked) return;
     const { lang, history } = this.props;
+    const query = getQuery();
     if (source === 'google' || source === 'wechat') {
       // third party signup
       const {
         code,
         result: { accessToken: loginAccessToken, recaptcha },
       } = await reqUserSignup({
+        ...query,
         email,
         nickname,
         password,
