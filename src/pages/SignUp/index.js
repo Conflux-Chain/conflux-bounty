@@ -105,6 +105,7 @@ class SignUp extends Component {
         source,
         language: lang,
         recaptchaVal,
+        emailVerificationCode: emailCode,
       });
 
       if (code !== 0) {
