@@ -43,7 +43,12 @@ export const { MILESTONE_STATUS_ENUM } = bountyEnum;
 export const { REWARD_STATUS_ENUM } = bountyEnum;
 export const { WITHDRAWAL_STATUS_ENUM } = bountyEnum;
 
-export const recaptchaKey = '6LcGDroUAAAAAIDuTI9RpZNIuCi-QpSEKCdq_I4i';
+let rekey = '6LdMz98UAAAAAEVjuK6hHf3iASHDd2Q4d4u2tmx3';
+if (process.env.NODE_ENV === 'production') {
+  rekey = '6LcGDroUAAAAAIDuTI9RpZNIuCi-QpSEKCdq_I4i';
+}
+
+export const recaptchaKey = rekey;
 
 const fileAccept = [
   'txt',
