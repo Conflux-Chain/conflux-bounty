@@ -26,4 +26,6 @@ export default {
   'submission.note.APPROVED': ' ',
   PermissionError: 'You do not have permission to access the page, please login again',
   'checkin.Unavailable': 'Unavailable',
+  'withdraw.limit':
+    "The current stage is the DEX gray-scale test stage. In order to ensure the safety of users' assets and avoid the loss caused by the sudden restart or repair of DEX problems, the maximum weekly withdrawal limit for each person is 5000fc",
 };

@@ -453,4 +453,6 @@ export default {
   'Community Reward': '社区奖励',
   'Confirm to submit the submission？': '确认提交方案？',
   'Common Questions': '常见问题',
+  'withdraw.limit':
+    '现阶段为DEX灰度测试阶段，为了保障用户资产安全，避免因DEX出现问题突发重启或修复造成损失，每人每周最高提币限额：5000FC。',
 };
