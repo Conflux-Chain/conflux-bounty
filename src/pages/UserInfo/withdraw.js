@@ -8,6 +8,7 @@ import Modal from '../../components/Modal';
 import { i18nTxt } from '../../utils';
 import unitParser, { useMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
+import Tooltip from '../../components/Tooltip';
 
 const WithdrawContent = styled.div`
   background: #fff;
@@ -51,6 +52,18 @@ const WithdrawContent = styled.div`
     width: 100%;
     margin-top: 10px;
   }
+  .question {
+    margin-left: 5px;
+  }
+  .tooltip-panel {
+    line-height: 20px;
+    background: #484848;
+    color: #fff;
+    svg path {
+      fill: #484848;
+    }
+  }
+
   ${media.mobile`
   width: 100%;
   border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
@@ -123,6 +136,9 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
       <p>
         <strong>{head.fansCoin} FC </strong>
         <span>{i18nTxt('available to withdraw')}</span>
+        <Tooltip direction="up" tipSpan={<i className="question"></i>}>
+          <div>{i18nTxt('withdraw.limit')}</div>
+        </Tooltip>
       </p>
 
       <Input
