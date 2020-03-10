@@ -584,7 +584,7 @@ class Settings extends Component {
   render() {
     const {
       headAccount: {
-        user: { nickname, email, language, googleProfile = {}, wechatProfile },
+        user: { nickname, email, language, googleProfile, wechatProfile },
       },
     } = this.props;
 

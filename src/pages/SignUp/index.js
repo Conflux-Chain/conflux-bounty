@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import qs from 'querystring';
 import ReCAPTCHA from '../../components/ReCAPTCHA';
 import { StyledWrapper } from '../../globalStyles/common';
 import { reqUserSignup, reqUserQuery } from '../../utils/api';
@@ -190,6 +191,7 @@ class SignUp extends Component {
 
   render() {
     const { accessToken, source, userId, email, nickname, invitationCode, showHalfExtend, recaptchaErr } = this.state;
+    const query = getQuery();
 
     return (
       <Fragment>
@@ -316,7 +318,14 @@ class SignUp extends Component {
               {source && (
                 <div className="to-bind">
                   {i18nTxt('Already have an account?')}&nbsp;
-                  <Link to={`/bind-account?source=${source}&accessToken=${accessToken}&userId=${userId}`}>
+                  <Link
+                    to={`/bind-account?${qs.stringify({
+                      ...query,
+                      source,
+                      accessToken,
+                      userId,
+                    })}`}
+                  >
                     {i18nTxt('Bind your account here.')}
                   </Link>
                 </div>

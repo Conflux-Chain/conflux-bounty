@@ -146,6 +146,7 @@ function BindAccount({ history }) {
                 reqLoginBind({
                   email,
                   password,
+                  ...query,
                   source: query.source,
                   accessToken: query.accessToken,
                   userId: query.userId,
