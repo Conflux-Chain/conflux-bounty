@@ -407,3 +407,10 @@ export const reqLoginBind = param => {
     body: param,
   }).then(res => res.body);
 };
+
+export const reqAcccountUnBind = param => {
+  return sendRequest({
+    url: '/account/unbind',
+    body: param,
+  }).then(res => res.body);
+};

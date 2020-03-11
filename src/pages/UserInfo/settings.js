@@ -15,7 +15,7 @@ import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import Modal from '../../components/Modal';
 import { notice } from '../../components/Message/notice';
-import { reqUserUpdate } from '../../utils/api';
+import { reqUserUpdate, reqAcccountUnBind } from '../../utils/api';
 import { auth, commonPropTypes, i18nTxt } from '../../utils';
 import * as actions from '../../components/PageHead/action';
 import Nickname from '../../components/Nickname';
@@ -267,7 +267,11 @@ function GoogleAccountModal({ onOk, onCancel }) {
             className="agree"
             type="button"
             onClick={e => {
-              onOk(e);
+              reqAcccountUnBind({
+                type: 'google',
+              }).then(() => {
+                onOk(e);
+              });
             }}
           >
             {i18nTxt('CONFIRM')}
@@ -356,7 +360,11 @@ function UnBindWechat({ onOk, onCancel }) {
             className="agree"
             type="button"
             onClick={e => {
-              onOk(e);
+              reqAcccountUnBind({
+                type: 'wechat',
+              }).then(() => {
+                onOk(e);
+              });
             }}
           >
             {i18nTxt('CONFIRM')}
