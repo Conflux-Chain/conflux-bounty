@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
+import qs from 'querystring';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import Modal from '../../components/Modal';
@@ -632,7 +633,10 @@ class Settings extends Component {
                     if (googleProfile) {
                       this.openUnbindGoogle();
                     } else {
-                      window.location.href = `/api/user/google-auth?returnUrl=${encodeURIComponent(window.location.href)}`;
+                      window.location.href = `/api/user/google-auth?${qs.stringify({
+                        accessToken: auth.getToken(),
+                        returnUrl: window.location.href,
+                      })}`;
                     }
                   }}
                 >
@@ -651,9 +655,10 @@ class Settings extends Component {
                         editing: 'unbindWechat',
                       });
                     } else {
-                      this.setState({
-                        editing: 'bindWechat',
-                      });
+                      window.location.href = `/api/user/wechat/bindAuth?${qs.stringify({
+                        accessToken: auth.getToken(),
+                        returnUrl: window.location.href,
+                      })}`;
                     }
                   }}
                 >

@@ -45,9 +45,9 @@ export default function SignInVia() {
           {!isMobile && (
             <Fragment>
               <div className="seperator" />
-              <div>
+              <a href="/api/user/wechat/auth">
                 <img className="wechat-logo" src={imgWechat} alt={i18nTxt('Sign in With WeChat')} />
-              </div>
+              </a>
             </Fragment>
           )}
         </div>
