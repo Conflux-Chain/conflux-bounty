@@ -152,6 +152,7 @@ function BindAccount({ history }) {
                   userId: query.userId,
                 }).then(body => {
                   auth.setToken(body.result.accessToken);
+                  history.push('/');
                   notice.show({ content: i18nTxt('Bind Success'), type: 'message-success', timeout: 3000 });
                 });
               }}
