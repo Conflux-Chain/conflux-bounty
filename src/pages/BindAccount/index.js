@@ -65,10 +65,8 @@ const Wrapper = styled(StyledWrapper)`
 `;
 
 function BindAccount({ history }) {
-  let query = {};
   useEffectOnce(() => {
     document.title = i18nTxt('FAQs');
-    query = getQuery();
   });
 
   const [emailErr, updateEmailErr] = useState('');
@@ -143,6 +141,7 @@ function BindAccount({ history }) {
                 if (!isValid) {
                   return;
                 }
+                const query = getQuery();
 
                 reqLoginBind({
                   email,
