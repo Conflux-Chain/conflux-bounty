@@ -66,7 +66,7 @@ const Wrapper = styled(StyledWrapper)`
 
 function BindAccount({ history }) {
   useEffectOnce(() => {
-    document.title = i18nTxt('FAQs');
+    document.title = i18nTxt('Bind your account');
   });
 
   const [emailErr, updateEmailErr] = useState('');
