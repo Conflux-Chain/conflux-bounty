@@ -102,6 +102,7 @@ function BindAccount({ history }) {
           <Input
             {...{
               label: i18nTxt('Password'),
+              type: 'password',
               placeHolder: '',
               value: password,
               errMsg: i18nTxt(passwordErr),
