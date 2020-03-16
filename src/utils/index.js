@@ -133,7 +133,7 @@ export const sendRequest = config => {
           const errMsg = i18nTxt(USER_ERROR[result.body.result.errorCode]);
           $notice.show({ content: errMsg, type: 'message-error', timeout: 3000 });
         } else if (config.manualNotice !== true) {
-          let errContent = 'internal server error';
+          let errContent = result.body.message || 'internal server error';
           if (result.body.code === 499) {
             errContent = i18nTxt('PermissionError');
           }
