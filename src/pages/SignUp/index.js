@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import qs from 'querystring';
 import ReCAPTCHA from '../../components/ReCAPTCHA';
 import { StyledWrapper } from '../../globalStyles/common';
-import { reqUserSignup, reqUserQuery } from '../../utils/api';
+import { reqUserSignup } from '../../utils/api';
 import { auth, commonPropTypes, i18nTxt, getRecaptchaErr, getQuery } from '../../utils';
 import EmailCode from '../../components/EmailCode';
 import Email from '../../components/Email';
@@ -47,7 +47,7 @@ class SignUp extends Component {
       accessToken: query.accessToken || '',
       userId: query.userId || '',
       nickname: query.nickname || '',
-      email: '',
+      email: query.googleEmail || '',
       password: '',
       emailCode: '',
       invitationCode: match.params.invitationCode || '',
@@ -60,14 +60,14 @@ class SignUp extends Component {
 
   async componentDidMount() {
     document.title = i18nTxt('Sign Up');
-    const { userId, source, accessToken } = this.state;
-    if (source === 'google') {
-      const { result } = await reqUserQuery({ source, userId, accessToken });
+    // const { userId, source, accessToken } = this.state;
+    // if (source === 'google') {
+    //   const { result } = await reqUserQuery({ source, userId, accessToken });
 
-      const email = result.user.email || '';
-      const nickname = result.user.nickname || '';
-      this.setState({ email, nickname });
-    }
+    //   const email = result.user.email || '';
+    //   const nickname = result.user.nickname || '';
+    //   this.setState({ email, nickname });
+    // }
   }
 
   termsCheckboxOnChange = e => {
