@@ -42,11 +42,14 @@ class SignUp extends Component {
 
     const query = getQuery();
 
+    let nickname = query.displayName || '';
+    nickname = nickname.replace(/ /g, '_');
+
     this.state = {
       source: query.source || '',
       accessToken: query.accessToken || '',
       userId: query.userId || '',
-      nickname: query.nickname || '',
+      nickname,
       email: query.googleEmail || '',
       password: '',
       emailCode: '',
