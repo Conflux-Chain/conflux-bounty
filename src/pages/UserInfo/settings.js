@@ -631,7 +631,7 @@ class Settings extends Component {
                     if (googleProfile) {
                       this.openUnbindGoogle();
                     } else {
-                      window.location.href = `/api/user/google-auth?${qs.stringify({
+                      window.location.href = `/api/user/google/bindAuth?${qs.stringify({
                         accessToken: auth.getToken(),
                         returnUrl: window.location.href,
                       })}`;
