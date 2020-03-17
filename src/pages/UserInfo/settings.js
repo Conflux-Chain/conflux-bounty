@@ -509,8 +509,6 @@ const Row = styled.div`
     text-align: right;
     color: #8e9394;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     flex: 1;
   }
   .pseudo-password {
