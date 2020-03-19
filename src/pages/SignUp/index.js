@@ -8,10 +8,11 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import qs from 'querystring';
 import ReCAPTCHA from '../../components/ReCAPTCHA';
 import { StyledWrapper } from '../../globalStyles/common';
-import { reqUserSignup, reqUserQuery } from '../../utils/api';
-import { auth, commonPropTypes, i18nTxt, getRecaptchaErr } from '../../utils';
+import { reqUserSignup } from '../../utils/api';
+import { auth, commonPropTypes, i18nTxt, getRecaptchaErr, getQuery } from '../../utils';
 import EmailCode from '../../components/EmailCode';
 import Email from '../../components/Email';
 import Nickname from '../../components/Nickname';
@@ -39,16 +40,17 @@ class SignUp extends Component {
       notice.show({ content: i18nTxt('Already logged in'), type: 'message-success', timeout: 3000 });
     }
 
-    const { search } = history.location;
-    const googleAccessToken = search.includes('?googleAccessToken=') ? search.slice('?googleAccessToken='.length) : null;
-    const wechatAccessToken = search.includes('?wechatAccessToken=') ? search.slice('?wechatAccessToken='.length) : null;
+    const query = getQuery();
+
+    let nickname = query.displayName || '';
+    nickname = nickname.replace(/ /g, '_');
 
     this.state = {
-      googleAccessToken,
-      wechatAccessToken,
-      userId: match.params.userId,
-      nickname: '',
-      email: '',
+      source: query.source || '',
+      accessToken: query.accessToken || '',
+      userId: query.userId || '',
+      nickname,
+      email: query.googleEmail || '',
       password: '',
       emailCode: '',
       invitationCode: match.params.invitationCode || '',
@@ -60,14 +62,15 @@ class SignUp extends Component {
   }
 
   async componentDidMount() {
-    document.title = 'Sign Up';
-    const { userId, googleAccessToken, wechatAccessToken } = this.state;
-    if (userId) {
-      const { result } = await reqUserQuery({ userId, googleAccessToken, wechatAccessToken });
-      const email = result.user.email || '';
-      const nickname = result.user.nickname || '';
-      this.setState({ email, nickname });
-    }
+    document.title = i18nTxt('Sign Up');
+    // const { userId, source, accessToken } = this.state;
+    // if (source === 'google') {
+    //   const { result } = await reqUserQuery({ source, userId, accessToken });
+
+    //   const email = result.user.email || '';
+    //   const nickname = result.user.nickname || '';
+    //   this.setState({ email, nickname });
+    // }
   }
 
   termsCheckboxOnChange = e => {
@@ -76,8 +79,8 @@ class SignUp extends Component {
 
   onSignupClick = async () => {
     const {
-      googleAccessToken,
-      wechatAccessToken,
+      accessToken,
+      source,
       userId,
       email,
       emailCode,
@@ -89,21 +92,24 @@ class SignUp extends Component {
     } = this.state;
     if (this.anyInputsHasError() || !termsCheckboxChecked) return;
     const { lang, history } = this.props;
-    if (userId) {
+    const query = getQuery();
+    if (source === 'google' || source === 'wechat') {
       // third party signup
       const {
         code,
-        result: { accessToken, recaptcha },
+        result: { accessToken: loginAccessToken, recaptcha },
       } = await reqUserSignup({
+        ...query,
         email,
         nickname,
         password,
         invitationCode,
         userId,
-        googleAccessToken,
-        wechatAccessToken,
+        accessToken,
+        source,
         language: lang,
         recaptchaVal,
+        emailVerificationCode: emailCode,
       });
 
       if (code !== 0) {
@@ -117,13 +123,13 @@ class SignUp extends Component {
         return;
       }
 
-      if (accessToken) {
-        auth.setToken(accessToken);
+      if (loginAccessToken) {
+        auth.setToken(loginAccessToken);
       }
     } else {
       const {
         code,
-        result: { accessToken, recaptcha },
+        result: { accessToken: loginAccessToken, recaptcha },
       } = await reqUserSignup({
         email,
         emailVerificationCode: emailCode,
@@ -145,8 +151,8 @@ class SignUp extends Component {
         return;
       }
 
-      if (accessToken) {
-        auth.setToken(accessToken);
+      if (loginAccessToken) {
+        auth.setToken(loginAccessToken);
       }
     }
 
@@ -187,17 +193,18 @@ class SignUp extends Component {
   }
 
   render() {
-    const { userId, email, nickname, invitationCode, showHalfExtend, recaptchaErr } = this.state;
+    const { accessToken, source, userId, email, nickname, invitationCode, showHalfExtend, recaptchaErr } = this.state;
+    const query = getQuery();
 
     return (
       <Fragment>
         <Wrapper>
           <div className="signup">
             <form className="form-wrap">
-              <span className="title">{userId ? i18nTxt('Setup Email and Password') : i18nTxt('Create an account')}</span>
+              <span className="title">{source ? i18nTxt('Setup Email and Password') : i18nTxt('Create an account')}</span>
               <div className="inputs-wrap">
                 <Nickname
-                  className={`${userId ? ' hidden' : ''}`}
+                  className={`${source === 'google' ? ' hidden' : ''}`}
                   nickname={nickname}
                   onChange={e => {
                     this.setState({ nickname: e.target.value });
@@ -288,7 +295,7 @@ class SignUp extends Component {
                   </span>
                 </label>
               </div>
-              <div className={userId ? 'btn-wrap-signup-hidden' : 'btn-wrap-signup'}>
+              <div className={source ? 'btn-wrap-signup-hidden' : 'btn-wrap-signup'}>
                 <button className="btn waves-effect waves-light primary" type="button" onClick={this.onSignupClick}>
                   {i18nTxt('CREATE ACCOUNT')}
                 </button>
@@ -297,7 +304,7 @@ class SignUp extends Component {
                 </Link>
                 <SignInVia />
               </div>
-              <div className={userId ? 'btn-wrap-third-party-signup' : 'btn-wrap-third-party-signup-hidden'}>
+              <div className={source ? 'btn-wrap-third-party-signup' : 'btn-wrap-third-party-signup-hidden'}>
                 <button
                   className="btn waves-effect waves-light default signout-btn"
                   type="button"
@@ -311,6 +318,21 @@ class SignUp extends Component {
                   {i18nTxt('DONE')}
                 </button>
               </div>
+              {source && (
+                <div className="to-bind">
+                  {i18nTxt('Already have an account?')}&nbsp;
+                  <Link
+                    to={`/bind-account?${qs.stringify({
+                      ...query,
+                      source,
+                      accessToken,
+                      userId,
+                    })}`}
+                  >
+                    {i18nTxt('Bind your account here.')}
+                  </Link>
+                </div>
+              )}
             </form>
           </div>
         </Wrapper>
@@ -398,5 +420,12 @@ const Wrapper = styled(StyledWrapper)`
   }
   .third-party-done-btn {
     flex: 1;
+  }
+  .to-bind {
+    text-align: left;
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 14px;
+    color: #595f61;
   }
 `;

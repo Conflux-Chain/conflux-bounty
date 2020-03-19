@@ -453,4 +453,20 @@ export default {
   'Community Reward': '社区奖励',
   'Confirm to submit the submission？': '确认提交方案？',
   'Common Questions': '常见问题',
+  'Sign Up': '注册',
+  'Bind your account': '绑定已有账号',
+  'Forget password?': '忘记密码？',
+  'Already have an account?': ' ',
+  'Bind your account here.': '绑定已有账号',
+  'Sign in With WeChat': '使用微信账号登录',
+  'bindacc.BACK': '返回',
+  'bindacc.DONE': '已完成',
+  'bindacc.None': '未绑定',
+  'bindacc.BIND': '绑定',
+  'bindacc.UNBIND': '解绑',
+  "You'll not be able to use this Gmail address to log in to the current account after unbinding. Confirm to unbind?":
+    '解绑后将不能使用该Google邮箱登录当前账号，确认解绑？',
+  WeChat: '微信',
+  "You'll not be able to use this Wechat ID to log in to the current account after unbinding. Confirm to unbind?":
+    '解绑后将不能使用该微信登录当前账号，确认解绑？',
 };

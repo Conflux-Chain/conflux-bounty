@@ -104,6 +104,8 @@ class Input extends Component {
       this.setState({
         isActive: false,
       });
+      const { onBlur } = this.props;
+      onBlur();
     };
 
     const { onChangeDebounced } = this.props;
@@ -197,6 +199,7 @@ Input.propTypes = {
   errMsg: PropTypes.string,
   onKeyPress: PropTypes.func,
   disabled: PropTypes.bool,
+  onBlur: PropTypes.func,
 };
 Input.defaultProps = {
   // this won't work for chrome
@@ -210,6 +213,7 @@ Input.defaultProps = {
   onKeyPress: () => {},
   errMsg: '',
   disabled: false,
+  onBlur: () => {},
 };
 
 export default Input;

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import imgGoogle from '../../assets/iconfont/google-logo.svg';
 import { i18nTxt } from '../../utils';
 import media from '../../globalStyles/media';
-// import imgWechat from '../../assets/iconfont/wechat-logo.svg';
+import imgWechat from '../../assets/iconfont/wechat-logo.svg';
+import { useMobile } from '../../utils/device';
 
 const Wrapper = styled.div`
   .signin-via-wrap {
@@ -29,6 +30,8 @@ const Wrapper = styled.div`
 `;
 
 export default function SignInVia() {
+  const isMobile = useMobile();
+
   return (
     <Wrapper>
       <div className="signin-via-wrap">
@@ -39,10 +42,14 @@ export default function SignInVia() {
               <img className="google-logo" src={imgGoogle} alt={i18nTxt('Sign in With Google')} />
             </a>
           </div>
-          {/* <div className="seperator" /> */}
-          {/* <div> */}
-          {/*   <img className="wechat-logo" src={imgWechat} alt="Sign in With WeChat" /> */}
-          {/* </div> */}
+          {!isMobile && (
+            <Fragment>
+              <div className="seperator" />
+              <a href="/api/user/wechat/auth">
+                <img className="wechat-logo" src={imgWechat} alt={i18nTxt('Sign in With WeChat')} />
+              </a>
+            </Fragment>
+          )}
         </div>
       </div>
     </Wrapper>

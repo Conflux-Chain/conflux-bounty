@@ -5,17 +5,18 @@
 
 /* eslint react/no-multi-comp:0 */
 /* eslint no-return-assign:0 */
-import React, { Component, useState, useRef } from 'react';
+import React, { Component, useState, useRef, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
+import qs from 'querystring';
 import { StyledWrapper } from '../../globalStyles/common';
 import BackHeadDiv from '../../components/BackHeadDiv';
 import Modal from '../../components/Modal';
 import { notice } from '../../components/Message/notice';
-import { reqUserUpdate } from '../../utils/api';
+import { reqUserUpdate, reqAcccountUnBind } from '../../utils/api';
 import { auth, commonPropTypes, i18nTxt } from '../../utils';
 import * as actions from '../../components/PageHead/action';
 import Nickname from '../../components/Nickname';
@@ -25,6 +26,7 @@ import Email from '../../components/Email';
 import Select from '../../components/Select';
 import media from '../../globalStyles/media';
 import unitParser, { useMobile } from '../../utils/device';
+import ConfirmComp from '../../components/Modal/confirm';
 
 const { mobile } = media;
 const ModalHeadStyle = styled.div`
@@ -239,6 +241,155 @@ EmailModal.propTypes = {
   onOk: PropTypes.func.isRequired,
 };
 
+const UnbindTxt = styled.div`
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
+  color: #171d1f;
+  margin-top: -10px;
+`;
+
+function GoogleAccountModal({ onOk, onCancel }) {
+  const isMobile = useMobile();
+
+  return (
+    <ConfirmComp
+      confirmBtns={
+        <Fragment>
+          <button
+            type="button"
+            onClick={e => {
+              onCancel(e);
+            }}
+          >
+            {i18nTxt('CANCEL')}
+          </button>
+          <button
+            className="agree"
+            type="button"
+            onClick={e => {
+              reqAcccountUnBind({
+                type: 'google',
+              }).then(() => {
+                onOk(e);
+              });
+            }}
+          >
+            {i18nTxt('CONFIRM')}
+          </button>
+        </Fragment>
+      }
+      show
+      title=""
+      content={
+        <UnbindTxt>
+          {i18nTxt("You'll not be able to use this Gmail address to log in to the current account after unbinding. Confirm to unbind?")}
+        </UnbindTxt>
+      }
+      wrapStyle={{
+        width: isMobile ? '100%' : '480px',
+      }}
+    />
+  );
+}
+
+GoogleAccountModal.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
+};
+
+const WechatWrapper = styled.div`
+  width: 400px;
+  height: 400px;
+  position: relative;
+  ${media.mobile`
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+  `}
+  background: #333333;
+  box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  .close {
+    position: absolute;
+    color: #fff;
+    top: 10px;
+    right: 10px;
+  }
+  #wx-login {
+    width: 100%;
+    height: 100%;
+    padding-top: 40px;
+  }
+`;
+
+function BindWechatModal({ onCancel }) {
+  return (
+    <Modal show showOverlay onEsc={onCancel}>
+      <WechatWrapper>
+        <button onClick={onCancel} className="material-icons close" type="button">
+          close
+        </button>
+        <div id="wx-login"></div>
+      </WechatWrapper>
+    </Modal>
+  );
+}
+
+BindWechatModal.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+};
+
+function UnBindWechat({ onOk, onCancel }) {
+  const isMobile = useMobile();
+
+  return (
+    <ConfirmComp
+      confirmBtns={
+        <Fragment>
+          <button
+            type="button"
+            onClick={e => {
+              onCancel(e);
+            }}
+          >
+            {i18nTxt('CANCEL')}
+          </button>
+          <button
+            className="agree"
+            type="button"
+            onClick={e => {
+              reqAcccountUnBind({
+                type: 'wechat',
+              }).then(() => {
+                onOk(e);
+              });
+            }}
+          >
+            {i18nTxt('CONFIRM')}
+          </button>
+        </Fragment>
+      }
+      show
+      title=""
+      content={
+        <UnbindTxt>
+          {i18nTxt("You'll not be able to use this Wechat ID to log in to the current account after unbinding. Confirm to unbind?")}
+        </UnbindTxt>
+      }
+      wrapStyle={{
+        width: isMobile ? '100%' : '480px',
+      }}
+    />
+  );
+}
+UnBindWechat.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
+};
+
 function PasswordModal({ onOk, onCancel, email }) {
   let currentPassword;
   let newPassword;
@@ -358,8 +509,6 @@ const Row = styled.div`
     text-align: right;
     color: #8e9394;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     flex: 1;
   }
   .pseudo-password {
@@ -370,6 +519,15 @@ const Row = styled.div`
     margin-left: 20px;
     min-width: 66px;
     text-align: right;
+    padding: 0;
+    color: #22b2d6;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    &.unbind {
+      color: #d43429;
+    }
   }
   ${mobile`
 font-size: ${unitParser(12)};
@@ -407,6 +565,12 @@ class Settings extends Component {
     this.setState({ editing: 'language' });
   };
 
+  openUnbindGoogle = () => {
+    this.setState({
+      editing: 'unbindGoogle',
+    });
+  };
+
   updateAccount = async () => {
     const { getAccount } = this.props;
     getAccount();
@@ -427,7 +591,7 @@ class Settings extends Component {
   render() {
     const {
       headAccount: {
-        user: { nickname, email, language },
+        user: { nickname, email, language, googleProfile, wechatProfile },
       },
     } = this.props;
 
@@ -458,6 +622,48 @@ class Settings extends Component {
                 </a>
               </Row>
               <Row>
+                <div className="settings-title">{i18nTxt('Gmail')}</div>
+                <div className="settings-middle">{googleProfile ? googleProfile.email : i18nTxt('bindacc.None')}</div>
+                <button
+                  type="button"
+                  className={`primary settings-btn ${googleProfile ? 'unbind' : ''}`}
+                  onClick={() => {
+                    if (googleProfile) {
+                      this.openUnbindGoogle();
+                    } else {
+                      window.location.href = `/api/user/google/bindAuth?${qs.stringify({
+                        accessToken: auth.getToken(),
+                        returnUrl: window.location.href,
+                      })}`;
+                    }
+                  }}
+                >
+                  <span>{googleProfile ? i18nTxt('bindacc.UNBIND') : i18nTxt('bindacc.BIND')}</span>
+                </button>
+              </Row>
+              <Row>
+                <div className="settings-title">{i18nTxt('WeChat')}</div>
+                <div className="settings-middle">{wechatProfile ? wechatProfile.nickname : i18nTxt('bindacc.None')}</div>
+                <button
+                  type="button"
+                  className={`primary settings-btn ${wechatProfile ? 'unbind' : ''}`}
+                  onClick={() => {
+                    if (wechatProfile) {
+                      this.setState({
+                        editing: 'unbindWechat',
+                      });
+                    } else {
+                      window.location.href = `/api/user/wechat/bindAuth?${qs.stringify({
+                        accessToken: auth.getToken(),
+                        returnUrl: window.location.href,
+                      })}`;
+                    }
+                  }}
+                >
+                  <span>{wechatProfile ? i18nTxt('bindacc.UNBIND') : i18nTxt('bindacc.BIND')}</span>
+                </button>
+              </Row>
+              <Row>
                 <div className="settings-title">{i18nTxt('Password')}</div>
                 <div className="settings-middle">●●●●●●●</div>
                 <a href="/" className="primary settings-btn" onClick={this.changePassword}>
@@ -483,6 +689,9 @@ class Settings extends Component {
           email: <EmailModal onOk={this.reLogin} onCancel={this.onCancel} />,
           password: <PasswordModal onOk={this.reLogin} onCancel={this.onCancel} email={email} />,
           language: <LanguageModal onOk={this.updateAccount} onCancel={this.onCancel} defaultLanguageCode={language} />,
+          unbindGoogle: <GoogleAccountModal onOk={this.updateAccount} onCancel={this.onCancel} />,
+          unbindWechat: <UnBindWechat onOk={this.updateAccount} onCancel={this.onCancel} />,
+          bindWechat: <BindWechatModal onCancel={this.onCancel} />,
         }[editing]
       );
     }
