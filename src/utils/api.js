@@ -244,10 +244,11 @@ export const reqSendVerificationEmail = param => {
   }).then(res => res.body);
 };
 
-export const reqUserSignup = param => {
+export const reqUserSignup = (param, { getErrMsg }) => {
   return sendRequest({
     url: '/user/signup',
     body: param,
+    getErrMsg,
   }).then(res => res.body);
 };
 
