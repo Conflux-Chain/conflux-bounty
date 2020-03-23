@@ -32,6 +32,7 @@ const MyBounty = lazy(() => import('../pages/Bounty/mybounty'));
 const MySolution = lazy(() => import('../pages/Solution/mysolution'));
 const FaqMore = lazy(() => import('../pages/Faq'));
 const Faqs = lazy(() => import('../pages/UserInfo/faqs'));
+const BindAccount = lazy(() => import('../pages/BindAccount'));
 
 function Router() {
   return (
@@ -98,9 +99,12 @@ function Router() {
         <Route path="/signin/success" exact component={SignInSuccess} />
         <Route path="/signup" exact component={SignUp} />
         <Route path="/third-party-signup/:userId" exact component={SignUp} />
+        <Route path="/third-party-signup" exact component={SignUp} />
+
         <Route path="/invitation/:invitationCode" exact component={SignUp} />
         <Route path="/faq-more" exact component={FaqMore} />
         <Route path="/faqs" exact component={Faqs} />
+        <Route path="/bind-account" exact component={BindAccount} />
 
         <PrivateRoute
           path="/create-submission"

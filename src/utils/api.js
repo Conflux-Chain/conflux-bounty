@@ -400,3 +400,17 @@ export const reqSubmitCheckIn = param => {
   }).then(res => res.body);
 };
 // 'api/account/checkin/info'
+
+export const reqLoginBind = param => {
+  return sendRequest({
+    url: '/account/login/bind',
+    body: param,
+  }).then(res => res.body);
+};
+
+export const reqAcccountUnBind = param => {
+  return sendRequest({
+    url: '/account/unbind',
+    body: param,
+  }).then(res => res.body);
+};
