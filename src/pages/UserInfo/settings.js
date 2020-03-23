@@ -245,7 +245,6 @@ EmailModal.propTypes = {
 const UnbindTxt = styled.div`
   font-size: 20px;
   line-height: 24px;
-  font-weight: 600;
   color: #171d1f;
   margin-top: -10px;
 `;
