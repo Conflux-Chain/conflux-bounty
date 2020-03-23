@@ -154,7 +154,7 @@ function BindAccount({ history }) {
                   if (body.code === 0) {
                     auth.setToken(body.result.accessToken);
                     history.push('/');
-                    notice.show({ content: i18nTxt('Bind Success'), type: 'message-success', timeout: 3000 });
+                    notice.show({ content: i18nTxt('Binded Successfully'), type: 'message-success', timeout: 3000 });
                   }
                 });
               }}
