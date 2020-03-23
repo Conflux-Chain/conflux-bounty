@@ -25,7 +25,7 @@ import EmailCode from '../../components/EmailCode';
 import Email from '../../components/Email';
 import Select from '../../components/Select';
 import media from '../../globalStyles/media';
-import unitParser, { useMobile } from '../../utils/device';
+import unitParser, { useMobile, isMobile as isMob } from '../../utils/device';
 import ConfirmComp from '../../components/Modal/confirm';
 
 const { mobile } = media;
@@ -149,9 +149,10 @@ NicknameModal.propTypes = {
 };
 
 function EmailModal({ onCancel, onOk }) {
-  let newVerificationCode;
-  let currentVerificationCode;
-  let password;
+  const [newVerificationCode, setNewVerificationCode] = useState('');
+  const [currentVerificationCode, setCurrentVerificationCode] = useState('');
+  const [password, setPassword] = useState('');
+
   const newEmailRef = useRef();
   const currentEmailRef = useRef();
   const newVerificationCodeRef = useRef();
@@ -174,18 +175,18 @@ function EmailModal({ onCancel, onOk }) {
         <Email errorIfRegistered label={i18nTxt('New Email')} onChange={e => setNewEmail(e.target.value)} ref={newEmailRef} />
         <EmailCode
           email={newEmail}
-          onChange={e => (newVerificationCode = e.target.value)}
+          onChange={e => setNewVerificationCode(e.target.value)}
           ref={newVerificationCodeRef}
           beforeSend={{ validator: newEmailRef && (() => !newEmailRef.current.hasError()) }}
         />
         <Email errorIfIsNotOwner label={i18nTxt('Current Email')} onChange={e => setCurrentEmail(e.target.value)} ref={currentEmailRef} />
         <EmailCode
           email={currentEmail}
-          onChange={e => (currentVerificationCode = e.target.value)}
+          onChange={e => setCurrentVerificationCode(e.target.value)}
           ref={currentVerificationCodeRef}
           beforeSend={{ validator: currentEmailRef && (() => !currentEmailRef.current.hasError()) }}
         />
-        <Password onChange={e => (password = e.target.value)} ref={passwordRef} />
+        <Password onChange={e => setPassword(e.target.value)} ref={passwordRef} />
       </div>
       <div className="confirm-actions">
         {!isMobile && (
@@ -598,6 +599,8 @@ class Settings extends Component {
     const { editing } = this.state;
     const { history } = this.props;
 
+    const isMobile = isMob();
+
     const dom = [
       <React.Fragment>
         <BackHeadDiv onClick={() => history.push('/user-info')}>
@@ -622,7 +625,7 @@ class Settings extends Component {
                 </a>
               </Row>
               <Row>
-                <div className="settings-title">{i18nTxt('Gmail')}</div>
+                <div className="settings-title">{i18nTxt('Google')}</div>
                 <div className="settings-middle">{googleProfile ? googleProfile.email : i18nTxt('bindacc.None')}</div>
                 <button
                   type="button"
@@ -641,7 +644,7 @@ class Settings extends Component {
                   <span>{googleProfile ? i18nTxt('bindacc.UNBIND') : i18nTxt('bindacc.BIND')}</span>
                 </button>
               </Row>
-              <Row>
+              <Row style={{ display: isMobile ? 'none' : 'flex' }}>
                 <div className="settings-title">{i18nTxt('WeChat')}</div>
                 <div className="settings-middle">{wechatProfile ? wechatProfile.nickname : i18nTxt('bindacc.None')}</div>
                 <button
