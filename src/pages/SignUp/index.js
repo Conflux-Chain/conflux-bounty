@@ -93,33 +93,40 @@ class SignUp extends Component {
     if (this.anyInputsHasError() || !termsCheckboxChecked) return;
     const { lang, history } = this.props;
     const query = getQuery();
+
+    const getErrMsg = body => {
+      const {
+        message,
+        result: { recaptcha },
+      } = body;
+      if (recaptcha && recaptcha.success !== true) {
+        return getRecaptchaErr(recaptcha['error-codes']);
+      }
+      return message;
+    };
+
     if (source === 'google' || source === 'wechat') {
       // third party signup
       const {
         code,
-        result: { accessToken: loginAccessToken, recaptcha },
-      } = await reqUserSignup({
-        ...query,
-        email,
-        nickname,
-        password,
-        invitationCode,
-        userId,
-        accessToken,
-        source,
-        language: lang,
-        recaptchaVal,
-        emailVerificationCode: emailCode,
-      });
-
+        result: { accessToken: loginAccessToken },
+      } = await reqUserSignup(
+        {
+          ...query,
+          email,
+          nickname,
+          password,
+          invitationCode,
+          userId,
+          accessToken,
+          source,
+          language: lang,
+          recaptchaVal,
+          emailVerificationCode: emailCode,
+        },
+        { getErrMsg }
+      );
       if (code !== 0) {
-        if (recaptcha && recaptcha.success !== true) {
-          notice.show({
-            content: getRecaptchaErr(recaptcha['error-codes']),
-            type: 'message-error',
-            timeout: 3000,
-          });
-        }
         return;
       }
 
@@ -129,25 +136,20 @@ class SignUp extends Component {
     } else {
       const {
         code,
-        result: { accessToken: loginAccessToken, recaptcha },
-      } = await reqUserSignup({
-        email,
-        emailVerificationCode: emailCode,
-        nickname,
-        password,
-        invitationCode,
-        language: lang,
-        recaptchaVal,
-      });
-
+        result: { accessToken: loginAccessToken },
+      } = await reqUserSignup(
+        {
+          email,
+          emailVerificationCode: emailCode,
+          nickname,
+          password,
+          invitationCode,
+          language: lang,
+          recaptchaVal,
+        },
+        { getErrMsg }
+      );
       if (code !== 0) {
-        if (recaptcha && recaptcha.success !== true) {
-          notice.show({
-            content: getRecaptchaErr(recaptcha['error-codes']),
-            type: 'message-error',
-            timeout: 3000,
-          });
-        }
         return;
       }
 
