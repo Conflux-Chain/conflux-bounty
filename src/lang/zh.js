@@ -473,5 +473,5 @@ export default {
   'withdraw.limit':
     '现阶段为 DEX 灰度测试阶段，为了保障用户资产安全，避免因 DEX 出现问题突发重启或修复造成损失，每人每周最高提币限额：5000 FC',
   'Available Wallets:': '支持钱包:',
-  'Enter the addresses updated after April 9, 2020': '务必使用2020.4.9后更新的钱包地址',
+  'withdraw.address': '务必使用2020.4.9后更新的钱包地址',
 };

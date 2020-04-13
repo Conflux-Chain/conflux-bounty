@@ -176,7 +176,7 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           errMsg: i18nTxt(userAccount.walletAddressErr),
           value: userAccount.walletAddress,
           label: i18nTxt('To Address'),
-          placeHolder: i18nTxt('Enter the addresses updated after April 9, 2020'),
+          placeHolder: i18nTxt('withdraw.address'),
           onChange: e => {
             updateUserAccount({
               walletAddressErr: '',
