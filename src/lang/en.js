@@ -32,5 +32,6 @@ export default {
   'bindacc.BIND': 'BIND',
   'bindacc.UNBIND': 'UNBIND',
   'withdraw.limit':
-    "The current stage is the DEX gray-scale test stage. In order to ensure the safety of users' assets and avoid the loss caused by the sudden restart or repair of DEX problems, the maximum weekly withdrawal limit for each person is 5000 FC.",
+    "The current stage is the DEX gray-scale test stage. In order to ensure the safety of users' assets and avoid the loss caused by the sudden restart or repair of DEX problems, the maximum weekly withdrawal limit for each person is 5000 FC",
+  'withdraw.address': 'Enter the address updated after April 9, 2020',
 };
