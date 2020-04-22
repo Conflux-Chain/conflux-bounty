@@ -137,6 +137,9 @@ export const sendRequest = config => {
           if (result.body.code === 499) {
             errContent = i18nTxt('PermissionError');
           }
+          if (config.getErrMsg) {
+            errContent = config.getErrMsg(result.body);
+          }
           $notice.show({ content: errContent, type: 'message-error', timeout: 3000 });
         }
       }
@@ -803,6 +806,8 @@ export const getRecaptchaErr = (errCodes = []) => {
     noticeMsg = i18nTxt('recaptcha check timeout, please reload page');
   } else if (reContains('bad-request')) {
     noticeMsg = i18nTxt('invalid recaptcha request');
+  } else {
+    noticeMsg = errCodes.join(',');
   }
   return noticeMsg;
 };

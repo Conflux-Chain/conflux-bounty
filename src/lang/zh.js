@@ -465,9 +465,13 @@ export default {
   'bindacc.BIND': '绑定',
   'bindacc.UNBIND': '解绑',
   "You'll not be able to use this Gmail address to log in to the current account after unbinding. Confirm to unbind?":
-    '解绑后将不能使用该Google邮箱登录当前账号，确认解绑？',
+    '解绑后将不能使用该 Google 邮箱登录当前账号，确认解绑？',
   WeChat: '微信',
   "You'll not be able to use this Wechat ID to log in to the current account after unbinding. Confirm to unbind?":
     '解绑后将不能使用该微信登录当前账号，确认解绑？',
   'Binded Successfully': '绑定成功',
+  'withdraw.limit':
+    '现阶段为 DEX 灰度测试阶段，为了保障用户资产安全，避免因 DEX 出现问题突发重启或修复造成损失，每人每周最高提币限额：5000 FC',
+  'Available Wallets:': '支持钱包:',
+  'withdraw.address': '务必使用2020.4.9后更新的钱包地址',
 };

@@ -31,4 +31,7 @@ export default {
   'bindacc.None': 'NONE',
   'bindacc.BIND': 'BIND',
   'bindacc.UNBIND': 'UNBIND',
+  'withdraw.limit':
+    "The DEX solution is on its beta version. In order to ensure the safety of the users' assets and avoid any loss caused by sudden restarts or troubleshooting of the DEX, the upper weekly withdrwal limit for each user is 5000 FC",
+  'withdraw.address': 'Enter the address updated after April 9, 2020',
 };

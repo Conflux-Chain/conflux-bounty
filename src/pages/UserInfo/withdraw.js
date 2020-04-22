@@ -8,6 +8,7 @@ import Modal from '../../components/Modal';
 import { i18nTxt } from '../../utils';
 import unitParser, { useMobile } from '../../utils/device';
 import media from '../../globalStyles/media';
+import Tooltip from '../../components/Tooltip';
 
 const WithdrawContent = styled.div`
   background: #fff;
@@ -51,25 +52,50 @@ const WithdrawContent = styled.div`
     width: 100%;
     margin-top: 10px;
   }
+  .question {
+    margin-left: 5px;
+  }
+  .tooltip-panel {
+    line-height: 20px;
+    background: #484848;
+    color: #fff;
+    svg path {
+      fill: #484848;
+    }
+  }
+  .wallet-link {
+    display: flex;
+    margin-top: 8px;
+    > span {
+      color: #8e9394;
+      display: inline-block;
+      margin-right: 7px;
+    }
+    a {
+      text-decoration: underline;
+      margin-right: 6px;
+    }
+  }
+
   ${media.mobile`
-  width: 100%;
-  border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
-  padding-top: ${unitParser(26)};
-  > p {
-    font-size: ${unitParser(14)};
-    line-height: ${unitParser(14)};
-  }
-  .withdraw-tips {
-    font-size: ${unitParser(14)};
-  }
-  .withdraw-emailcode {
-    align-items:baseline;
+    width: 100%;
+    border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
+    padding-top: ${unitParser(26)};
+    > p {
+      font-size: ${unitParser(14)};
+      line-height: ${unitParser(14)};
+    }
+    .withdraw-tips {
+      font-size: ${unitParser(14)};
+    }
+    .withdraw-emailcode {
+      align-items:baseline;
       > button {
         height: ${unitParser(44)};
         margin-top: ${unitParser(12)};
       }
-  }
-`}
+    }
+  `}
 `;
 
 const HeadStyle = styled.div`
@@ -123,6 +149,9 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
       <p>
         <strong>{head.fansCoin} FC </strong>
         <span>{i18nTxt('available to withdraw')}</span>
+        <Tooltip direction="up" tipSpan={<i className="question"></i>}>
+          <div>{i18nTxt('withdraw.limit')}</div>
+        </Tooltip>
       </p>
 
       <Input
@@ -147,7 +176,7 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           errMsg: i18nTxt(userAccount.walletAddressErr),
           value: userAccount.walletAddress,
           label: i18nTxt('To Address'),
-          placeHolder: '',
+          placeHolder: i18nTxt('withdraw.address'),
           onChange: e => {
             updateUserAccount({
               walletAddressErr: '',
@@ -156,6 +185,21 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           },
         }}
       />
+
+      <div className="wallet-link">
+        <span>{i18nTxt('Available Wallets:')}</span>
+        <div>
+          <a href="https://portal.conflux-chain.org" rel="noopener noreferrer" target="_blank">
+            ConfluxPortal
+          </a>
+          <a href="https://wallet.confluxscan.io" rel="noopener noreferrer" target="_blank">
+            Web Wallet
+          </a>
+          <a href="https://store.dappbirds.com/download" rel="noopener noreferrer" target="_blank">
+            Dappbirds
+          </a>
+        </div>
+      </div>
 
       <Input
         {...{

@@ -59,6 +59,19 @@ const ToolTips = {
       transform: translateY(-100%);
     }
   `,
+  up: styled(Basic)`
+    .arrow {
+      top: -11px;
+      transform: translateX(-50%) rotate(90deg);
+      left: 50%;
+    }
+    .tooltip-panel {
+      top: 25px;
+      z-index: 999;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  `,
   topRight: styled(Basic)`
     .arrow {
       bottom: 8px;
