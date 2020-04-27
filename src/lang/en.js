@@ -4,7 +4,7 @@ export default {
   'home.from': 'from',
   'mysolution.Approved': 'Approved',
   'mylikes.Bounties': 'Bounties',
-  'userinfo.rewardsExplain': 'FansCoin (FC) is a smart contract designed and used on the Conflux network.',
+  'userinfo.rewardsExplain': 'FansCoin (FC) is a smart contract designed and used on the Conflux network',
   'userInfo.viewMore': 'View More',
   get 'faq.index'() {
     return import('./faq_en.md');
