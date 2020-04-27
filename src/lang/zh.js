@@ -330,8 +330,7 @@ export default {
   'GENERATE ONE TIME INVITATION CODE': '获取一次性邀请码',
   'You can invite': '你还可以邀请',
   people: '人',
-  'userinfo.rewardsExplain':
-    ' Fans Coin，简称 FC，由 Conflux 基金会主导设计，与社区成员合作研发，并基于 Conflux 测试网运营的社区贡献智能合约。',
+  'userinfo.rewardsExplain': 'FansCoin（简称 FC），是由 Conflux 基金会主导，社区成员基于 Conflux 网络共同协作研发的通证',
   'userInfo.viewMore': '了解更多',
   get 'faq.index'() {
     return import('./faq_zh.md');
