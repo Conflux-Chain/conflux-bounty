@@ -283,7 +283,12 @@ export const uploadFileOss = (key, file) => {
     payload: {},
   });
 
-  const reqFile = reqOssKey({}).then(body => {
+  let dirType = 'bounty';
+  if (key.match(/^img/)) {
+    dirType = 'img';
+  }
+
+  const reqFile = reqOssKey({ dirType }).then(body => {
     const formData = new FormData();
     const ossKeys = body.result;
     formData.append('key', key);
