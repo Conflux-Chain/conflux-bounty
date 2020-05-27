@@ -1,4 +1,5 @@
 // console.log('Loading function ...');
+// eslint-disable-next-line
 const OSS = require('ali-oss');
 const config = require('./config');
 
