@@ -16,7 +16,7 @@ import { toast as $toast } from '../components/Toast';
 import { notice as $notice } from '../components/Message/notice';
 import { ALI_OSS_KEYS, UPDATE_HEAD, UPDATE_UNREAD_MESSAGE_COUNT } from '../constants';
 // eslint-disable-next-line import/no-cycle
-import { reqAccountQuery, reqMessageCount } from './api';
+import { reqAccountQuery, reqMessageCount, reqOssKey } from './api';
 import { i18nTxt, i18nTxtAsync } from './i18n';
 import unitParser from './device';
 
@@ -277,33 +277,33 @@ export function genImgUrlFromName(name, md5hex) {
   return `${ALI_OSS_KEYS.attachmentGetHost}/img/${md5hex}/${encodeURIComponent(name)}`;
 }
 
-let ossClient;
-const getOssClient = () => {
-  if (ossClient) {
-    return Promise.resolve(ossClient);
-  }
-  return import('ali-oss').then(mod => {
-    const Oss = mod.default;
-    ossClient = new Oss({
-      region: ALI_OSS_KEYS.region,
-      accessKeyId: ALI_OSS_KEYS.AccessKeyId,
-      accessKeySecret: ALI_OSS_KEYS.AccessKeySecret,
-      bucket: ALI_OSS_KEYS.bucket,
-    });
-    return ossClient;
-  });
-};
-
 export const uploadFileOss = (key, file) => {
   dispatch({
     type: 'PAGE_LOADING+',
     payload: {},
   });
 
-  const reqFile = getOssClient().then(client => {
-    return client.put(key, file).then(result => {
-      return result;
-    });
+  let dirType = 'bounty';
+  if (key.match(/^img/)) {
+    dirType = 'img';
+  }
+
+  const reqFile = reqOssKey({ dirType }).then(body => {
+    const formData = new FormData();
+    const ossKeys = body.result;
+    formData.append('key', key);
+    formData.append('host', ossKeys.host);
+    formData.append('policy', ossKeys.policy);
+    formData.append('Signature', ossKeys.signature);
+    formData.append('OSSAccessKeyId', ossKeys.OSSAccessKeyId);
+    formData.append('success_action_status', ossKeys.success_action_status);
+    formData.append('file', file);
+    return superagent
+      .post(ossKeys.host)
+      .send(formData)
+      .then(result => {
+        return result;
+      });
   });
 
   reqFile

@@ -415,3 +415,10 @@ export const reqAcccountUnBind = param => {
     body: param,
   }).then(res => res.body);
 };
+
+export const reqOssKey = param => {
+  return sendRequest({
+    url: '/file/getKey',
+    body: param,
+  }).then(res => res.body);
+};
