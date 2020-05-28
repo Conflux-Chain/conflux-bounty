@@ -26,8 +26,6 @@ export const REGEX = {
 };
 
 export const ALI_OSS_KEYS = {
-  AccessKeyId: 'LTAIf1is0L1Eil4F',
-  AccessKeySecret: 'Ac7mB405j33q2JaNotxbe6Kbra76r1',
   bucket: 'conflux-bucket-test',
   region: 'oss-cn-beijing',
   downBucket: 'conflux-bounty-readonly-test',
