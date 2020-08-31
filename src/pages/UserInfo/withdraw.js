@@ -64,7 +64,7 @@ const WithdrawContent = styled.div`
     }
   }
   .wallet-link {
-    display: flex;
+    display: block;
     margin-top: 8px;
     > span {
       color: #8e9394;
@@ -73,7 +73,7 @@ const WithdrawContent = styled.div`
     }
     a {
       text-decoration: underline;
-      margin-right: 6px;
+      margin-right: 5px;
     }
   }
 
@@ -197,6 +197,9 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           </a>
           <a href="https://store.dappbirds.com/download" rel="noopener noreferrer" target="_blank">
             Dappbirds
+          </a>
+          <a href="https://cobo.com" rel="noopener noreferrer" target="_blank">
+            Cobo
           </a>
         </div>
       </div>
