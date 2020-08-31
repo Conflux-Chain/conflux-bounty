@@ -69,11 +69,11 @@ const WithdrawContent = styled.div`
     > span {
       color: #8e9394;
       display: inline-block;
-      margin-right: 7px;
+      margin-right: 5px;
     }
     a {
       text-decoration: underline;
-      margin-right: 6px;
+      margin-right: 3px;
     }
   }
 
