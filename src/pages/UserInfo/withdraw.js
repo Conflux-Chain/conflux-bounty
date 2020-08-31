@@ -64,16 +64,16 @@ const WithdrawContent = styled.div`
     }
   }
   .wallet-link {
-    display: flex;
+    display: block;
     margin-top: 8px;
     > span {
       color: #8e9394;
       display: inline-block;
-      margin-right: 5px;
+      margin-right: 7px;
     }
     a {
       text-decoration: underline;
-      margin-right: 3px;
+      margin-right: 5px;
     }
   }
 
