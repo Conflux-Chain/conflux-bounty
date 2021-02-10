@@ -77,6 +77,19 @@ const WithdrawContent = styled.div`
     }
   }
 
+  .wallet-address {
+    display: block;
+    margin-top: 8px;
+    > span {
+      color: #8e9394;
+      margin-right: 7px;
+    }
+    a {
+      text-decoration: underline;
+      margin-right: 5px;
+    }
+  }
+
   ${media.mobile`
     width: 100%;
     border-radius: ${unitParser(12)} ${unitParser(12)} 0 0;
@@ -185,6 +198,15 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           },
         }}
       />
+
+      <div className="wallet-address">
+        <span>{i18nTxt('Address Conversion Tip')}</span>
+        <span>
+          <a href="https://confluxscan.io/address-converter" rel="noopener noreferrer" target="_blank">
+            {i18nTxt('Address Conversion')}
+          </a>
+        </span>
+      </div>
 
       <div className="wallet-link">
         <span>{i18nTxt('Available Wallets:')}</span>
