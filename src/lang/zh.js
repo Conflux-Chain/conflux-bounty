@@ -274,7 +274,7 @@ export default {
 
   'Withdraw FC': '提现FC',
   'available to withdraw': '可提现余额',
-  'Enter a combination of letters or numbers': '输入字母和数字的组合',
+  'Invalid address format': '地址格式错误',
   'Minimum withdraw amount': '最小提现金额',
   'To Address': '接收地址',
   Withdraw: '提现',
@@ -472,5 +472,7 @@ export default {
   'withdraw.limit':
     '现阶段为 DEX 灰度测试阶段，为了保障用户资产安全，避免因 DEX 出现问题突发重启或修复造成损失，每人每周最高提币限额：5000 FC',
   'Available Wallets:': '支持钱包:',
-  'withdraw.address': '务必使用2020.4.9后更新的钱包地址',
+  'withdraw.address': '请输入以 0x 开头的 Conflux 地址',
+  'Address Conversion Tip': '查看更多信息请访问',
+  'Address Conversion': '地址格式转换',
 };
