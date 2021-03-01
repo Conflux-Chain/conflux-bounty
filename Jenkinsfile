@@ -92,7 +92,7 @@ sudo cp -r dist /www/bounty/web/staging/
               branch 'master'
             }
           }
-          agent {label 'bounty frontend production node'}
+          agent {label 'bounty-frontend-production-node'}
           steps {
             nodejs(nodeJSInstallationName: 'nodejs15') {
               script {
