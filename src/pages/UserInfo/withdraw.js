@@ -214,8 +214,8 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           <a href="https://portal.conflux-chain.org" rel="noopener noreferrer" target="_blank">
             ConfluxPortal
           </a>
-          <a href="https://wallet.confluxscan.io" rel="noopener noreferrer" target="_blank">
-            Web Wallet
+          <a href="https://moonswap.fi/app" rel="noopener noreferrer" target="_blank">
+            Moonswap
           </a>
           <a href="https://store.dappbirds.com/download" rel="noopener noreferrer" target="_blank">
             Dappbirds
