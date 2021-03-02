@@ -17,11 +17,13 @@ pipeline {
     stage('test') {
       agent {label 'bounty-backend-test-machine'}
       steps {
-        script {
-          sh (label: 'pre-build', script: "yarn")
-        }
-        script {
-          sh (label: 'lint', script: "yarn lint")
+        nodejs(nodeJSInstallationName: 'nodejs15') {
+          script {
+            sh (label: 'pre-build', script: "yarn")
+          }
+          script {
+            sh (label: 'lint', script: "yarn lint")
+          }
         }
       }
     }
@@ -38,15 +40,17 @@ pipeline {
           }
           agent {label 'bounty-backend-test-machine'}
           steps {
-            script {
-              sh (label: 'pre-build', script: "yarn")
-            }
-            script {
-              sh (label: 'build', script: "yarn build")
+            nodejs(nodeJSInstallationName: 'nodejs15') {
+              script {
+                sh (label: 'pre-build', script: "yarn")
+              }
+              script {
+                sh (label: 'build', script: "yarn build")
+              }
             }
             script {
               sh (label: 'move to nginx www', script: """
-sudo rm -rf /www/bounty/web
+sudo rm -rf /www/bounty/web || true
 sudo mkdir -p /www/bounty/web
 sudo cp -r dist /www/bounty/web/
 """)
@@ -63,15 +67,17 @@ sudo cp -r dist /www/bounty/web/
           }
           agent {label 'bounty-backend-staging-machine'}
           steps {
-            script {
-              sh (label: 'pre-build', script: "yarn")
-            }
-            withCredentials([file(credentialsId: 'ali-oss-prod-key', variable: 'ALI_OSS_PROD_KEY')]) {
-              sh (label: 'build', script: 'JENKINS_ALI_OSS_KEYS=$(cat $ALI_OSS_PROD_KEY) yarn build')
+            nodejs(nodeJSInstallationName: 'nodejs15') {
+              script {
+                sh (label: 'pre-build', script: "yarn")
+              }
+              withCredentials([file(credentialsId: 'ali-oss-prod-key', variable: 'ALI_OSS_PROD_KEY')]) {
+                sh (label: 'build', script: 'JENKINS_ALI_OSS_KEYS=$(cat $ALI_OSS_PROD_KEY) yarn build')
+              }
             }
             script {
               sh (label: 'move to nginx www', script: """
-sudo rm -rf /www/bounty/web/staging
+sudo rm -rf /www/bounty/web/staging || true
 sudo mkdir -p /www/bounty/web/staging
 sudo cp -r dist /www/bounty/web/staging/
 """)
@@ -86,18 +92,20 @@ sudo cp -r dist /www/bounty/web/staging/
               branch 'master'
             }
           }
-          agent {label 'bounty-frontend-production-machine'}
+          agent {label 'bounty-frontend-production-node'}
           steps {
-            script {
-              sh (label: 'pre-build', script: "yarn")
-            }
-            withCredentials([file(credentialsId: 'ali-oss-prod-key', variable: 'ALI_OSS_PROD_KEY')]) {
-              sh (label: 'build', script: 'JENKINS_ALI_OSS_KEYS=$(cat $ALI_OSS_PROD_KEY) yarn build')
+            nodejs(nodeJSInstallationName: 'nodejs15') {
+              script {
+                sh (label: 'pre-build', script: "yarn")
+              }
+              withCredentials([file(credentialsId: 'ali-oss-prod-key', variable: 'ALI_OSS_PROD_KEY')]) {
+                sh (label: 'build', script: 'JENKINS_ALI_OSS_KEYS=$(cat $ALI_OSS_PROD_KEY) yarn build')
+              }
             }
             script {
               sh (label: 'move to nginx www', script: """
 sudo mkdir -p /www/bounty/web
-sudo rm -rf /www/bounty/web/dist
+sudo rm -rf /www/bounty/web/dist || true
 sudo cp -r dist /www/bounty/web/
 """)
             }
