@@ -172,7 +172,7 @@ class PageFooter extends Component {
             </Link>
             <div>
               <div className="foot-copyright">
-                Copyright © 2020 Conflux. All Rights Reserved.{' '}
+                © 2021 Conflux. All Rights Reserved.{' '}
                 <Link to="/terms" target="_blank">
                   Terms Privacy
                 </Link>{' '}
