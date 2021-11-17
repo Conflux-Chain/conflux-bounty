@@ -172,7 +172,7 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
           id: 'withdraw-amount',
           errMsg: userAccount.withDrawAmountErr,
           value: userAccount.withDrawAmount,
-          placeHolder: `${i18nTxt('Minimum withdraw amount')} 50 FC`,
+          placeHolder: `${i18nTxt('Minimum withdraw amount')} ${head.fansCoin < 50 ? head.fansCoin : 50} FC`,
           label: i18nTxt('Amount'),
           onChange: e => {
             updateUserAccount({
