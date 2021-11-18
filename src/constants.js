@@ -41,9 +41,9 @@ export const { MILESTONE_STATUS_ENUM } = bountyEnum;
 export const { REWARD_STATUS_ENUM } = bountyEnum;
 export const { WITHDRAWAL_STATUS_ENUM } = bountyEnum;
 
-let rekey = '6LdMz98UAAAAAEVjuK6hHf3iASHDd2Q4d4u2tmx3';
+let rekey = '6LeNXI4bAAAAAOATo-eyFxTUiHwT3K-zMjNrX6iR';
 if (process.env.NODE_ENV === 'production') {
-  rekey = '6LcGDroUAAAAAIDuTI9RpZNIuCi-QpSEKCdq_I4i';
+  rekey = '6Lf9UI4bAAAAAB2XpY3RJhKlL_HS237L6IR3227P';
 }
 
 export const recaptchaKey = rekey;
