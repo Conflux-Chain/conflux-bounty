@@ -43,7 +43,7 @@ export const { WITHDRAWAL_STATUS_ENUM } = bountyEnum;
 
 let rekey = '6Le7ImcdAAAAADnNHOKQikkO2Gxr3Jg0vCMUEt0R';
 if (process.env.NODE_ENV === 'production') {
-  rekey = '6Lf9UI4bAAAAAB2XpY3RJhKlL_HS237L6IR3227P';
+  rekey = '6Le7ImcdAAAAADnNHOKQikkO2Gxr3Jg0vCMUEt0R';
 }
 
 export const recaptchaKey = rekey;
