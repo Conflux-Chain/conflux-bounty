@@ -41,7 +41,7 @@ export const { MILESTONE_STATUS_ENUM } = bountyEnum;
 export const { REWARD_STATUS_ENUM } = bountyEnum;
 export const { WITHDRAWAL_STATUS_ENUM } = bountyEnum;
 
-let rekey = '6LeNXI4bAAAAAOATo-eyFxTUiHwT3K-zMjNrX6iR';
+let rekey = '6Le7ImcdAAAAADnNHOKQikkO2Gxr3Jg0vCMUEt0R';
 if (process.env.NODE_ENV === 'production') {
   rekey = '6Lf9UI4bAAAAAB2XpY3RJhKlL_HS237L6IR3227P';
 }
