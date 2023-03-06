@@ -8,6 +8,7 @@ import * as actions from './action';
 import headImg from '../../assets/iconfont/conflux-head-logo.svg';
 import homeImg from '../../assets/iconfont/conflux-home-logo.svg';
 import UserBack from '../../assets/iconfont/user-back.svg';
+import BellImg from '../../assets/iconfont/bell.svg';
 import { compose, commonPropTypes, auth, isPath, i18nTxt, getDefaultLang } from '../../utils';
 import PhotoImg from '../PhotoImg';
 import Select from '../Select';
@@ -30,8 +31,9 @@ const Wrap = styled.div`
     box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.12);
     display: flex;
     padding: 20px;
+    padding-top: 100px;
     margin-bottom: 40px;
-    height: 80px;
+    height: 160px;
     position: sticky;
     top: 0;
     background: #fff;
@@ -46,10 +48,11 @@ height: 56px;
     width: 100%;
     display: flex;
     padding: 20px;
+    padding-top: 100px;
     z-index: 100;
     background: transparent;
     box-shadow: none;
-    height: 80px;
+    height: 160px;
 
     &.sticky {
       position: sticky;
@@ -156,10 +159,58 @@ height: 56px;
   }
 `;
 
+const Notice = styled.div`
+  ${media.tablet`display: none!important;`}
+  display: flex;
+  height: 80px;
+  padding: 0 16px;
+  position: absolute;
+  top: 0px;
+  z-index: 1000;
+  width: 100%;
+  background: linear-gradient(90deg, #7fb2f9 0%, #132d6b 100%);
+  align-items: center;
+  justify-content: center;
+  > span {
+    display: inline-block;
+    text-size: 16px;
+    line-height: 22px;
+    color: white;
+    font-weight: 600;
+  }
+  .bell {
+    height: 20px;
+    width: 20px;
+    margin-right: 4px;
+    display: inline-block;
+  }
+`;
+
+const NoticeMobile = styled.div`
+  display: none;
+  ${media.tablet`display: flex!important;`}
+  position: absolute;
+  top: 0px;
+  padding: 8px;
+  z-index: 1000;
+  width: 100%;
+  height: 106px;
+  background: linear-gradient(90deg, #7fb2f9 0%, #132d6b 100%);
+  align-items: center;
+  justify-content: center;
+  > span {
+    text-size: 14px;
+    line-height: 18px;
+    color: white;
+    font-weight: 600;
+  }
+`;
+
 const WrapMobile = styled.div`
   display: none;
   ${media.tablet`display: block!important;`}
   padding: 12px;
+  padding-top: 118px;
   z-index: 100;
   &.normal {
     background-color: #fff;
@@ -418,6 +469,10 @@ class PageHead extends Component {
 
     return (
       <Fragment>
+        <Notice>
+          <img src={BellImg} className="bell" alt="bell" />
+          <span>{i18nTxt('withdrawNotice')}</span>
+        </Notice>
         <Wrap className={wrapClass}>
           <Link to="/">
             <img src={wrapClass === 'home' ? homeImg : headImg} className="bountylogo" alt="bountylogo" />
@@ -528,6 +583,9 @@ class PageHead extends Component {
           </div>
         </Wrap>
 
+        <NoticeMobile>
+          <span>{i18nTxt('withdrawNotice')}</span>
+        </NoticeMobile>
         <WrapMobile className={wrapClass}>
           <Link to="/">
             <img src={wrapClass === 'home' ? homeImg : headImg} className="bountylogo" alt="bountylogo" />

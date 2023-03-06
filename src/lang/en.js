@@ -36,4 +36,6 @@ export default {
   'withdraw.address': 'Please enter a Conflux address starting with 0x',
   'Address Conversion Tip': 'For more information please visit',
   'Address Conversion': 'Address Conversion',
+  withdrawNotice:
+    'If you have any questions about Bounty withdrawal, please send detailed emails to bounty@confluxnetwork.org, we will give you priority. Due to the old system, this system will no longer be updated and will only remain accessible.',
 };
