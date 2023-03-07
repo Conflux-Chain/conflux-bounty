@@ -37,5 +37,5 @@ export default {
   'Address Conversion Tip': 'For more information please visit',
   'Address Conversion': 'Address Conversion',
   withdrawNotice:
-    'If you have any questions about Bounty withdrawal, please send detailed emails to bounty@confluxnetwork.org, we will give you priority. Due to the old system, this system will no longer be updated and will only remain accessible.',
+    'If you have any questions about Bounty withdrawal, please send detailed emails to <a rel="noopener noreferrer" target="_blank" href="mailto:bounty@confluxnetwork.org">bounty@confluxnetwork.org</a>, we will give you priority. Due to the old system, this system will no longer be updated and will only remain accessible.',
 };

@@ -476,5 +476,5 @@ export default {
   'Address Conversion Tip': '查看更多信息请访问',
   'Address Conversion': '地址格式转换',
   withdrawNotice:
-    '有关于 Bounty 提现问题请将详情邮件发送至 bounty@confluxnetwork.org，我们会为您优先处理。由于系统陈旧，本系统将不再更新，只维持可访问状态。',
+    '有关于 Bounty 提现问题请将详情邮件发送至 <a rel="noopener noreferrer" target="_blank" href="mailto:bounty@confluxnetwork.org">bounty@confluxnetwork.org</a>，我们会为您优先处理。由于系统陈旧，本系统将不再更新，只维持可访问状态。',
 };

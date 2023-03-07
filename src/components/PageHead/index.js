@@ -160,10 +160,10 @@ height: 56px;
 `;
 
 const Notice = styled.div`
-  ${media.tablet`display: none!important;`}
+  ${media.mobile`display: none!important;`}
   display: flex;
   height: 80px;
-  padding: 0 16px;
+  padding: 0px 16px;
   position: absolute;
   top: 0px;
   z-index: 1000;
@@ -171,24 +171,32 @@ const Notice = styled.div`
   background: linear-gradient(90deg, #7fb2f9 0%, #132d6b 100%);
   align-items: center;
   justify-content: center;
-  > span {
-    display: inline-block;
-    text-size: 16px;
-    line-height: 22px;
-    color: white;
-    font-weight: 600;
-  }
-  .bell {
-    height: 20px;
-    width: 20px;
-    margin-right: 4px;
-    display: inline-block;
+  .noticeWrap {
+    display: flex;
+    align-items: flex-start;
+    > span {
+      display: inline-block;
+      text-size: 16px;
+      line-height: 22px;
+      color: white;
+      font-weight: 600;
+    }
+    .bell {
+      height: 20px;
+      width: 20px;
+      margin-right: 4px;
+      display: inline-block;
+    }
+    a {
+      color: #000aff;
+      font-weight: 600;
+    }
   }
 `;
 
 const NoticeMobile = styled.div`
   display: none;
-  ${media.tablet`display: flex!important;`}
+  ${media.mobile`display: flex!important;`}
   position: absolute;
   top: 0px;
   padding: 8px;
@@ -202,7 +210,9 @@ const NoticeMobile = styled.div`
     text-size: 14px;
     line-height: 18px;
     color: white;
-    font-weight: 600;
+  }
+  a {
+    color: #000aff;
   }
 `;
 
@@ -470,8 +480,11 @@ class PageHead extends Component {
     return (
       <Fragment>
         <Notice>
-          <img src={BellImg} className="bell" alt="bell" />
-          <span>{i18nTxt('withdrawNotice')}</span>
+          <div className="noticeWrap">
+            <img src={BellImg} className="bell" alt="bell" />
+            {/* eslint-disable-next-line react/no-danger */}
+            <span dangerouslySetInnerHTML={{ __html: i18nTxt('withdrawNotice') }}></span>
+          </div>
         </Notice>
         <Wrap className={wrapClass}>
           <Link to="/">
@@ -584,7 +597,8 @@ class PageHead extends Component {
         </Wrap>
 
         <NoticeMobile>
-          <span>{i18nTxt('withdrawNotice')}</span>
+          {/* eslint-disable-next-line react/no-danger */}
+          <span dangerouslySetInnerHTML={{ __html: i18nTxt('withdrawNotice') }}></span>
         </NoticeMobile>
         <WrapMobile className={wrapClass}>
           <Link to="/">
