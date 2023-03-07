@@ -102,15 +102,16 @@ export const doWithdraw = () => (dispatch, getState) => {
     }
   });
   const { fansCoin } = getState().head;
+  const minimalWithdrawVal = fansCoin < 50 ? fansCoin : 50;
   if (!REGEX.CHECK_FLOAT.test(userAccount.withDrawAmount)) {
     valid = false;
     errs.withDrawAmountErr = ERR_MSG.POSITIVE_NUMBER;
   } else if (userAccount.withDrawAmount > fansCoin) {
     valid = false;
     errs.withDrawAmountErr = utils.i18nTxt('You have insufficient balance in your account');
-  } else if (userAccount.withDrawAmount < 50) {
+  } else if (userAccount.withDrawAmount < minimalWithdrawVal) {
     valid = false;
-    errs.withDrawAmountErr = `${utils.i18nTxt('Minimum withdraw amount')} 50 FC`;
+    errs.withDrawAmountErr = `${utils.i18nTxt('Minimum withdraw amount')} ${minimalWithdrawVal} FC`;
   }
 
   // wallet check ox...
