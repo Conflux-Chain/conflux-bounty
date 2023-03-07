@@ -68,7 +68,7 @@
     "lodash": "^4.17",
     "markdown-loader": "^5.0.0",
     "materialize-css": "^1.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
     "px2rem-loader": "^0.1.9",
