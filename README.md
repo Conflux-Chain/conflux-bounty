@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/yqrashawn/conflux-bounty.svg?branch=dev)](https://travis-ci.org/yqrashawn/conflux-bounty)
 
-Source code of [Conflux Bounty Site](https://bounty.conflux-chain.org)   
+Source code of [Conflux Bounty Site](https://bounty.confluxnetwork.org)   
 
 Conflux bounty is the site for community members to contribute to the conflux chain ecosystem, where valuable bits are exchanged and validated.
 
 ## What can I do?
 
-- Find bugs and submit issues. You can also submit them onto [bounty](https://bounty.conflux-chain.org) to get rewards.
+- Find bugs and submit issues. You can also submit them onto [bounty](https://bounty.confluxnetwork.org) to get rewards.
 
 - Help bounty devs solve existing issues. There are bounties for adding new features and solving existing issues. Go hunt them.
 

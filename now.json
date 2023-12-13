@@ -11,7 +11,7 @@
   "routes": [
     {
       "src": "/api/(?<req>.*)",
-      "dest": "http://bountytest.conflux-chain.org/api/$req"
+      "dest": "http://bountytest.confluxnetwork.org/api/$req"
     }
   ],
   "github": {

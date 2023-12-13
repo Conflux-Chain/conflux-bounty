@@ -42,7 +42,7 @@ const Policy = () => (
     <p>At Conflux, we respect your privacy and are committed to protecting it through our compliance with this policy.</p>
     <p>
       This policy describes the types of information we may collect from you or that you may provide when you visit the website,
-      bounty.conflux-chain.org (the “Website”) and our practices for collecting, using, maintaining, protecting, and disclosing that
+      bounty.confluxnetwork.org (the “Website”) and our practices for collecting, using, maintaining, protecting, and disclosing that
       information.
     </p>
     <p>This policy applies to information we collect:</p>
@@ -73,7 +73,7 @@ const Policy = () => (
     <ul>
       <li>
         This policy describes the types of information we may collect from you or that you may provide when you visit the website,
-        bounty.conflux-chain.org (the “Website”) and our practices for collecting, using, maintaining, protecting, and disclosing that
+        bounty.confluxnetwork.org (the “Website”) and our practices for collecting, using, maintaining, protecting, and disclosing that
         information.
       </li>
       <li>That is about you but individually does not identify you, such as your internet protocol address.</li>
@@ -227,7 +227,7 @@ const Policy = () => (
     <h3>ACCESS TO INFORMATION</h3>
     <p>
       You can also request access, updating, and corrections of inaccuracies in other Personal Information we have by emailing or writing to
-      us at privacy@conflux-chain.org. We may ask you for certain information in order to verify your identity.
+      us at privacy@confluxnetwork.org. We may ask you for certain information in order to verify your identity.
     </p>
     <p>
       We limit access to Personal Information we collect to only those employees who require such information to handle matters relating to

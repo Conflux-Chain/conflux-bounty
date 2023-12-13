@@ -13,7 +13,7 @@ window.recaptchaOptions = {
   useRecaptchaNet: true,
 };
 
-Sentry.init({ dsn: 'https://4a7a1b128ac54d538b87a5f3e9730822@sentry.conflux-chain.org/5' });
+Sentry.init({ dsn: 'https://4a7a1b128ac54d538b87a5f3e9730822@sentry.confluxnetwork.org/5' });
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
