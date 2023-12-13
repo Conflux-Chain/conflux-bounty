@@ -21,8 +21,8 @@ notifications:
   email:
     # try use the default recipients
     # recipients:
-    #   - yuqi@conflux-chain.org
-    #   - wenzhe@conflux-chain.org
-    #   - yuxiao@conflux-chain.org
+    #   - yuqi@confluxnetwork.org
+    #   - wenzhe@confluxnetwork.org
+    #   - yuxiao@confluxnetwork.org
     on_success: change
     on_failure: always

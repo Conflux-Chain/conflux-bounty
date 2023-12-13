@@ -211,7 +211,7 @@ function Withdraw({ userAccount, updateUserAccount, head, getCode, doWithdraw })
       <div className="wallet-link">
         <span>{i18nTxt('Available Wallets:')}</span>
         <div>
-          <a href="https://portal.conflux-chain.org" rel="noopener noreferrer" target="_blank">
+          <a href="https://portal.confluxnetwork.org" rel="noopener noreferrer" target="_blank">
             ConfluxPortal
           </a>
           <a href="https://moonswap.fi/app" rel="noopener noreferrer" target="_blank">

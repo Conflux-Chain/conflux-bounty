@@ -185,7 +185,7 @@ class PageFooter extends Component {
                 <a href="/faqs" target="_blank">
                   FAQs
                 </a>
-                <a href="http://www.conflux-chain.org/" rel="noopener noreferrer" target="_blank">
+                <a href="http://www.confluxnetwork.org/" rel="noopener noreferrer" target="_blank">
                   Conflux
                 </a>
                 <a href="http://www.confluxscan.io/" rel="noopener noreferrer" target="_blank">
@@ -200,7 +200,7 @@ class PageFooter extends Component {
               <a href="https://twitter.com/ConfluxChain" rel="noopener noreferrer" target="_blank">
                 <img src={twitter} alt="twitter" />
               </a>
-              <a href="https://github.com/conflux-chain" rel="noopener noreferrer" target="_blank">
+              <a href="https://github.com/confluxnetwork" rel="noopener noreferrer" target="_blank">
                 <img src={github} alt="github" />
               </a>
               <a href="https://www.reddit.com/user/ConfluxChain" rel="noopener noreferrer" target="_blank">
@@ -230,7 +230,7 @@ class PageFooter extends Component {
               <a href="/faqs" target="_blank">
                 FAQs
               </a>
-              <a href="http://www.conflux-chain.org/" rel="noopener noreferrer" target="_blank">
+              <a href="http://www.confluxnetwork.org/" rel="noopener noreferrer" target="_blank">
                 Conflux Official Site
               </a>
               <a href="http://www.confluxscan.io/" rel="noopener noreferrer" target="_blank">
@@ -245,7 +245,7 @@ class PageFooter extends Component {
             <a href="https://twitter.com/ConfluxChain" rel="noopener noreferrer" target="_blank">
               <img src={twitter} alt="twitter" />
             </a>
-            <a href="https://github.com/conflux-chain" rel="noopener noreferrer" target="_blank">
+            <a href="https://github.com/confluxnetwork" rel="noopener noreferrer" target="_blank">
               <img src={github} alt="github" />
             </a>
             <a href="https://www.reddit.com/user/ConfluxChain" rel="noopener noreferrer" target="_blank">

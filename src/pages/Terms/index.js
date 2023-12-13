@@ -45,7 +45,7 @@ const Terms = () => (
       </p>
       <p>
         These Terms of Use (“Terms”) apply to your access to, and use of, the websites of Conflux Foundation Ltd. (“Conflux” “we” or “us”)
-        located at bounty.conflux-chain.org (collectively, the “Conflux Bounty Platform” or the “Site”). These Terms do not apply to the
+        located at bounty.confluxnetwork.org (collectively, the “Conflux Bounty Platform” or the “Site”). These Terms do not apply to the
         Conflux open source client software or the Conflux distributed open source global network accessed through that software, including
         but not limited to main-net and test-nets(s) (collectively, “Conflux Protocol”), which may be accessed via Conflux Bounty Platform.
       </p>
@@ -163,7 +163,7 @@ const Terms = () => (
         responsible for your use of the Site and the Interactive Areas and use them at your own risk.
       </p>
       <p>
-        If you become aware of User Content that you believe violates these Terms, you may report it by emailing terms@conflux-chain.org.
+        If you become aware of User Content that you believe violates these Terms, you may report it by emailing terms@confluxnetwork.org.
         Enforcement of the Terms, however, is solely in our discretion and the absence of enforcement of these Terms in some instances does
         not constitute a waiver of our right to enforce the Terms in other instances. In addition, these Terms do not create any private
         right of action on the part of any third party or any reasonable expectation or promise that the Site will not contain any content
@@ -206,7 +206,7 @@ const Terms = () => (
         If you believe anything on the Site infringes upon any copyright which you own or control, you may file a notification of such
         infringement with our Designated Agent as set forth below.
       </p>
-      <p>E-Mail Address of Designated Agent: terms@conflux-chain.org.</p>
+      <p>E-Mail Address of Designated Agent: terms@confluxnetwork.org.</p>
       <p>
         If you think any copyright of your material has been infringed, you may send a valid take-down notice in accordance with the Act.
         You should note that if you knowingly misrepresent in your notice that the material or activity is infringing, you will be liable
@@ -371,7 +371,7 @@ const Terms = () => (
     </section>
     <section>
       <h3>21. QUESTIONS ＆ CONTACT INFORMATION</h3>
-      <p>Questions or comments about the Site or these Terms may be directed to Conflux by emailing terms@conflux-chain.org.</p>
+      <p>Questions or comments about the Site or these Terms may be directed to Conflux by emailing terms@confluxnetwork.org.</p>
     </section>
   </Wrapper>
 );
